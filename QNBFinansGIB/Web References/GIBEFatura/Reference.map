@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Results>
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="https://connectortest.efinans.com.tr/connector/ws/connectorService?wsdl=1" filename="connectorService.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="https://connectortest.efinans.com.tr/connector/ws/connectorService?wsdl" filename="connectorService0.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="https://connectortest.efinans.com.tr/connector/ws/connectorService?xsd=1" filename="connectorService.xsd" />
-  </Results>
-</DiscoveryClientResultsFile>
