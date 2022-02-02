@@ -2,7 +2,7 @@
 {
     public static class Enums
     {
-        public enum SekerSatisTur
+        public enum SatisTur
         {
             Vadeli = 1,
             Hesaben = 2,

@@ -13,9 +13,9 @@ namespace QNBFinansGIB.DTO
         public string GidenFaturaId;
 
         /// <summary>
-        /// Kod Şeker Satış Türü Kod Bilgisi
+        /// Kod Satış Türü Kod Bilgisi
         /// </summary>
-        public int? KodSekerSatisTuruKod;
+        public int? KodSatisTuruKod;
 
         #region Gerçek Kişi Bilgileri
 
