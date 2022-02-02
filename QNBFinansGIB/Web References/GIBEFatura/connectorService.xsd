@@ -1,0 +1,1622 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://service.connector.uut.cs.com.tr/" targetNamespace="http://service.connector.uut.cs.com.tr/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Exception" type="tns:Exception" />
+  <xs:element name="belgeGonder" type="tns:belgeGonder" />
+  <xs:element name="belgeGonderExt" type="tns:belgeGonderExt" />
+  <xs:element name="belgeGonderExtResponse" type="tns:belgeGonderExtResponse" />
+  <xs:element name="belgeGonderExtWithValidate" type="tns:belgeGonderExtWithValidate" />
+  <xs:element name="belgeGonderExtWithValidateResponse" type="tns:belgeGonderExtWithValidateResponse" />
+  <xs:element name="belgeGonderResponse" type="tns:belgeGonderResponse" />
+  <xs:element name="belgeGonderWithValidate" type="tns:belgeGonderWithValidate" />
+  <xs:element name="belgeGonderWithValidateResponse" type="tns:belgeGonderWithValidateResponse" />
+  <xs:element name="belgelerAlindi" type="tns:belgelerAlindi" />
+  <xs:element name="belgelerAlindiEntegrasyonSiparisNoGuncelle" type="tns:belgelerAlindiEntegrasyonSiparisNoGuncelle" />
+  <xs:element name="belgelerAlindiEntegrasyonSiparisNoGuncelleResponse" type="tns:belgelerAlindiEntegrasyonSiparisNoGuncelleResponse" />
+  <xs:element name="belgelerAlindiResponse" type="tns:belgelerAlindiResponse" />
+  <xs:element name="belgeleriTekrarGonder" type="tns:belgeleriTekrarGonder" />
+  <xs:element name="belgeleriTekrarGonderBelgeOid" type="tns:belgeleriTekrarGonderBelgeOid" />
+  <xs:element name="belgeleriTekrarGonderBelgeOidResponse" type="tns:belgeleriTekrarGonderBelgeOidResponse" />
+  <xs:element name="belgeleriTekrarGonderResponse" type="tns:belgeleriTekrarGonderResponse" />
+  <xs:element name="belgeleriTekrarGonderYerelBelgeNo" type="tns:belgeleriTekrarGonderYerelBelgeNo" />
+  <xs:element name="belgeleriTekrarGonderYerelBelgeNoResponse" type="tns:belgeleriTekrarGonderYerelBelgeNoResponse" />
+  <xs:element name="checkDateValidControl" type="tns:checkDateValidControl" />
+  <xs:element name="checkDateValidControlResponse" type="tns:checkDateValidControlResponse" />
+  <xs:element name="cokluGidenBelgeDurumSorgula" type="tns:cokluGidenBelgeDurumSorgula" />
+  <xs:element name="cokluGidenBelgeDurumSorgulaResponse" type="tns:cokluGidenBelgeDurumSorgulaResponse" />
+  <xs:element name="csXmlOnizleme" type="tns:csXmlOnizleme" />
+  <xs:element name="csXmlOnizlemeResponse" type="tns:csXmlOnizlemeResponse" />
+  <xs:element name="csXmlToUbl" type="tns:csXmlToUbl" />
+  <xs:element name="csXmlToUblResponse" type="tns:csXmlToUblResponse" />
+  <xs:element name="eFaturaKayitliKullaniciListele" type="tns:eFaturaKayitliKullaniciListele" />
+  <xs:element name="eFaturaKayitliKullaniciListeleResponse" type="tns:eFaturaKayitliKullaniciListeleResponse" />
+  <xs:element name="eIrsaliyeKayitliKullaniciListele" type="tns:eIrsaliyeKayitliKullaniciListele" />
+  <xs:element name="eIrsaliyeKayitliKullaniciListeleResponse" type="tns:eIrsaliyeKayitliKullaniciListeleResponse" />
+  <xs:element name="eIrsaliyeKullanicisi" type="tns:eIrsaliyeKullanicisi" />
+  <xs:element name="eIrsaliyeKullanicisiResponse" type="tns:eIrsaliyeKullanicisiResponse" />
+  <xs:element name="efaturaKullaniciBilgisi" type="tns:efaturaKullaniciBilgisi" />
+  <xs:element name="efaturaKullaniciBilgisiResponse" type="tns:efaturaKullaniciBilgisiResponse" />
+  <xs:element name="efaturaKullaniciListesi" type="tns:efaturaKullaniciListesi" />
+  <xs:element name="efaturaKullaniciListesiResponse" type="tns:efaturaKullaniciListesiResponse" />
+  <xs:element name="efaturaKullanicisi" type="tns:efaturaKullanicisi" />
+  <xs:element name="efaturaKullanicisiResponse" type="tns:efaturaKullanicisiResponse" />
+  <xs:element name="erpBilgileriBelirle" type="tns:erpBilgileriBelirle" />
+  <xs:element name="erpBilgileriBelirleResponse" type="tns:erpBilgileriBelirleResponse" />
+  <xs:element name="faturaKepIleIadeEdildi" type="tns:faturaKepIleIadeEdildi" />
+  <xs:element name="faturaKepIleIadeEdildiIptal" type="tns:faturaKepIleIadeEdildiIptal" />
+  <xs:element name="faturaKepIleIadeEdildiIptalResponse" type="tns:faturaKepIleIadeEdildiIptalResponse" />
+  <xs:element name="faturaKepIleIadeEdildiResponse" type="tns:faturaKepIleIadeEdildiResponse" />
+  <xs:element name="faturaMailGonder" type="tns:faturaMailGonder" />
+  <xs:element name="faturaMailGonderResponse" type="tns:faturaMailGonderResponse" />
+  <xs:element name="faturaNoUret" type="tns:faturaNoUret" />
+  <xs:element name="faturaNoUretResponse" type="tns:faturaNoUretResponse" />
+  <xs:element name="faturaTarihcesiSorgula" type="tns:faturaTarihcesiSorgula" />
+  <xs:element name="faturaTarihcesiSorgulaResponse" type="tns:faturaTarihcesiSorgulaResponse" />
+  <xs:element name="faturayaItirazEdildi" type="tns:faturayaItirazEdildi" />
+  <xs:element name="faturayaItirazEdildiIptal" type="tns:faturayaItirazEdildiIptal" />
+  <xs:element name="faturayaItirazEdildiIptalResponse" type="tns:faturayaItirazEdildiIptalResponse" />
+  <xs:element name="faturayaItirazEdildiResponse" type="tns:faturayaItirazEdildiResponse" />
+  <xs:element name="gelenBelgeDurumSorgula" type="tns:gelenBelgeDurumSorgula" />
+  <xs:element name="gelenBelgeDurumSorgulaExt" type="tns:gelenBelgeDurumSorgulaExt" />
+  <xs:element name="gelenBelgeDurumSorgulaExtResponse" type="tns:gelenBelgeDurumSorgulaExtResponse" />
+  <xs:element name="gelenBelgeDurumSorgulaResponse" type="tns:gelenBelgeDurumSorgulaResponse" />
+  <xs:element name="gelenBelgeEkleriAl" type="tns:gelenBelgeEkleriAl" />
+  <xs:element name="gelenBelgeEkleriAlResponse" type="tns:gelenBelgeEkleriAlResponse" />
+  <xs:element name="gelenBelgeTutarBilgileriSorgula" type="tns:gelenBelgeTutarBilgileriSorgula" />
+  <xs:element name="gelenBelgeTutarBilgileriSorgulaResponse" type="tns:gelenBelgeTutarBilgileriSorgulaResponse" />
+  <xs:element name="gelenBelgeXmlleriniAl" type="tns:gelenBelgeXmlleriniAl" />
+  <xs:element name="gelenBelgeXmlleriniAlExt" type="tns:gelenBelgeXmlleriniAlExt" />
+  <xs:element name="gelenBelgeXmlleriniAlExtResponse" type="tns:gelenBelgeXmlleriniAlExtResponse" />
+  <xs:element name="gelenBelgeXmlleriniAlResponse" type="tns:gelenBelgeXmlleriniAlResponse" />
+  <xs:element name="gelenBelgeleriAl" type="tns:gelenBelgeleriAl" />
+  <xs:element name="gelenBelgeleriAlExt" type="tns:gelenBelgeleriAlExt" />
+  <xs:element name="gelenBelgeleriAlExt2" type="tns:gelenBelgeleriAlExt2" />
+  <xs:element name="gelenBelgeleriAlExt2Response" type="tns:gelenBelgeleriAlExt2Response" />
+  <xs:element name="gelenBelgeleriAlExtResponse" type="tns:gelenBelgeleriAlExtResponse" />
+  <xs:element name="gelenBelgeleriAlResponse" type="tns:gelenBelgeleriAlResponse" />
+  <xs:element name="gelenBelgeleriIndir" type="tns:gelenBelgeleriIndir" />
+  <xs:element name="gelenBelgeleriIndirExt" type="tns:gelenBelgeleriIndirExt" />
+  <xs:element name="gelenBelgeleriIndirExtResponse" type="tns:gelenBelgeleriIndirExtResponse" />
+  <xs:element name="gelenBelgeleriIndirResponse" type="tns:gelenBelgeleriIndirResponse" />
+  <xs:element name="gelenBelgeleriListele" type="tns:gelenBelgeleriListele" />
+  <xs:element name="gelenBelgeleriListeleExt" type="tns:gelenBelgeleriListeleExt" />
+  <xs:element name="gelenBelgeleriListeleExtResponse" type="tns:gelenBelgeleriListeleExtResponse" />
+  <xs:element name="gelenBelgeleriListeleResponse" type="tns:gelenBelgeleriListeleResponse" />
+  <xs:element name="gelenFaturalariArsiveKaldir" type="tns:gelenFaturalariArsiveKaldir" />
+  <xs:element name="gelenFaturalariArsiveKaldirResponse" type="tns:gelenFaturalariArsiveKaldirResponse" />
+  <xs:element name="gelenIrsaliyeleriArsiveKaldir" type="tns:gelenIrsaliyeleriArsiveKaldir" />
+  <xs:element name="gelenIrsaliyeleriArsiveKaldirResponse" type="tns:gelenIrsaliyeleriArsiveKaldirResponse" />
+  <xs:element name="gelenStandartRapolariAl" type="tns:gelenStandartRapolariAl" />
+  <xs:element name="gelenStandartRapolariAlResponse" type="tns:gelenStandartRapolariAlResponse" />
+  <xs:element name="gelenTamamlananRapolariAl" type="tns:gelenTamamlananRapolariAl" />
+  <xs:element name="gelenTamamlananRapolariAlResponse" type="tns:gelenTamamlananRapolariAlResponse" />
+  <xs:element name="gelenTasinanBelgeleriIndir" type="tns:gelenTasinanBelgeleriIndir" />
+  <xs:element name="gelenTasinanBelgeleriIndirResponse" type="tns:gelenTasinanBelgeleriIndirResponse" />
+  <xs:element name="gidenBelgeDurumSorgula" type="tns:gidenBelgeDurumSorgula" />
+  <xs:element name="gidenBelgeDurumSorgulaBelgeNo" type="tns:gidenBelgeDurumSorgulaBelgeNo" />
+  <xs:element name="gidenBelgeDurumSorgulaBelgeNoResponse" type="tns:gidenBelgeDurumSorgulaBelgeNoResponse" />
+  <xs:element name="gidenBelgeDurumSorgulaEttn" type="tns:gidenBelgeDurumSorgulaEttn" />
+  <xs:element name="gidenBelgeDurumSorgulaEttnResponse" type="tns:gidenBelgeDurumSorgulaEttnResponse" />
+  <xs:element name="gidenBelgeDurumSorgulaExt" type="tns:gidenBelgeDurumSorgulaExt" />
+  <xs:element name="gidenBelgeDurumSorgulaExtResponse" type="tns:gidenBelgeDurumSorgulaExtResponse" />
+  <xs:element name="gidenBelgeDurumSorgulaPortal" type="tns:gidenBelgeDurumSorgulaPortal" />
+  <xs:element name="gidenBelgeDurumSorgulaPortalResponse" type="tns:gidenBelgeDurumSorgulaPortalResponse" />
+  <xs:element name="gidenBelgeDurumSorgulaResponse" type="tns:gidenBelgeDurumSorgulaResponse" />
+  <xs:element name="gidenBelgeDurumSorgulaYerelBelgeNo" type="tns:gidenBelgeDurumSorgulaYerelBelgeNo" />
+  <xs:element name="gidenBelgeDurumSorgulaYerelBelgeNoResponse" type="tns:gidenBelgeDurumSorgulaYerelBelgeNoResponse" />
+  <xs:element name="gidenBelgeEkleriAl" type="tns:gidenBelgeEkleriAl" />
+  <xs:element name="gidenBelgeEkleriAlResponse" type="tns:gidenBelgeEkleriAlResponse" />
+  <xs:element name="gidenBelgeTutarBilgileriSorgula" type="tns:gidenBelgeTutarBilgileriSorgula" />
+  <xs:element name="gidenBelgeTutarBilgileriSorgulaResponse" type="tns:gidenBelgeTutarBilgileriSorgulaResponse" />
+  <xs:element name="gidenBelgeleriIndir" type="tns:gidenBelgeleriIndir" />
+  <xs:element name="gidenBelgeleriIndirEttn" type="tns:gidenBelgeleriIndirEttn" />
+  <xs:element name="gidenBelgeleriIndirEttnResponse" type="tns:gidenBelgeleriIndirEttnResponse" />
+  <xs:element name="gidenBelgeleriIndirPortal" type="tns:gidenBelgeleriIndirPortal" />
+  <xs:element name="gidenBelgeleriIndirPortalResponse" type="tns:gidenBelgeleriIndirPortalResponse" />
+  <xs:element name="gidenBelgeleriIndirResponse" type="tns:gidenBelgeleriIndirResponse" />
+  <xs:element name="gidenBelgeleriListele" type="tns:gidenBelgeleriListele" />
+  <xs:element name="gidenBelgeleriListelePortal" type="tns:gidenBelgeleriListelePortal" />
+  <xs:element name="gidenBelgeleriListelePortalResponse" type="tns:gidenBelgeleriListelePortalResponse" />
+  <xs:element name="gidenBelgeleriListeleResponse" type="tns:gidenBelgeleriListeleResponse" />
+  <xs:element name="gidenFaturalariArsiveKaldir" type="tns:gidenFaturalariArsiveKaldir" />
+  <xs:element name="gidenFaturalariArsiveKaldirResponse" type="tns:gidenFaturalariArsiveKaldirResponse" />
+  <xs:element name="gidenIrsaliyeleriArsiveKaldir" type="tns:gidenIrsaliyeleriArsiveKaldir" />
+  <xs:element name="gidenIrsaliyeleriArsiveKaldirResponse" type="tns:gidenIrsaliyeleriArsiveKaldirResponse" />
+  <xs:element name="gidenTasinanBelgeleriIndir" type="tns:gidenTasinanBelgeleriIndir" />
+  <xs:element name="gidenTasinanBelgeleriIndirResponse" type="tns:gidenTasinanBelgeleriIndirResponse" />
+  <xs:element name="irsaliyeMailGonder" type="tns:irsaliyeMailGonder" />
+  <xs:element name="irsaliyeMailGonderResponse" type="tns:irsaliyeMailGonderResponse" />
+  <xs:element name="irsaliyeTarihcesiSorgula" type="tns:irsaliyeTarihcesiSorgula" />
+  <xs:element name="irsaliyeTarihcesiSorgulaResponse" type="tns:irsaliyeTarihcesiSorgulaResponse" />
+  <xs:element name="kayitliKullaniciListeleExtended" type="tns:kayitliKullaniciListeleExtended" />
+  <xs:element name="kayitliKullaniciListeleExtendedResponse" type="tns:kayitliKullaniciListeleExtendedResponse" />
+  <xs:element name="kayitliKullaniciListeleExtendedTime" type="tns:kayitliKullaniciListeleExtendedTime" />
+  <xs:element name="kayitliKullaniciListeleExtendedTimeResponse" type="tns:kayitliKullaniciListeleExtendedTimeResponse" />
+  <xs:element name="kayitliKullaniciListeleExtendedVknTckn" type="tns:kayitliKullaniciListeleExtendedVknTckn" />
+  <xs:element name="kayitliKullaniciListeleExtendedVknTcknResponse" type="tns:kayitliKullaniciListeleExtendedVknTcknResponse" />
+  <xs:element name="kontorBilgisiGetir" type="tns:kontorBilgisiGetir" />
+  <xs:element name="kontorBilgisiGetirResponse" type="tns:kontorBilgisiGetirResponse" />
+  <xs:element name="serviceReturnType" type="tns:serviceReturnType" />
+  <xs:element name="temelKontrollerIleBelgeGonder" type="tns:temelKontrollerIleBelgeGonder" />
+  <xs:element name="temelKontrollerIleBelgeGonderResponse" type="tns:temelKontrollerIleBelgeGonderResponse" />
+  <xs:element name="toplamBelgeSayisiGetir" type="tns:toplamBelgeSayisiGetir" />
+  <xs:element name="toplamBelgeSayisiGetirResponse" type="tns:toplamBelgeSayisiGetirResponse" />
+  <xs:element name="ublOnizleme" type="tns:ublOnizleme" />
+  <xs:element name="ublOnizlemeResponse" type="tns:ublOnizlemeResponse" />
+  <xs:element name="urunSablonlariniAl" type="tns:urunSablonlariniAl" />
+  <xs:element name="urunSablonlariniAlResponse" type="tns:urunSablonlariniAlResponse" />
+  <xs:element name="wsKullanicisiKaydet" type="tns:wsKullanicisiKaydet" />
+  <xs:element name="wsKullanicisiKaydetResponse" type="tns:wsKullanicisiKaydetResponse" />
+  <xs:element name="yereleAktarilacakBelgeleriAl" type="tns:yereleAktarilacakBelgeleriAl" />
+  <xs:element name="yereleAktarilacakBelgeleriAlExt" type="tns:yereleAktarilacakBelgeleriAlExt" />
+  <xs:element name="yereleAktarilacakBelgeleriAlExtResponse" type="tns:yereleAktarilacakBelgeleriAlExtResponse" />
+  <xs:element name="yereleAktarilacakBelgeleriAlResponse" type="tns:yereleAktarilacakBelgeleriAlResponse" />
+  <xs:element name="yolcuBeraberFaturaIptalEt" type="tns:yolcuBeraberFaturaIptalEt" />
+  <xs:element name="yolcuBeraberFaturaIptalEtResponse" type="tns:yolcuBeraberFaturaIptalEtResponse" />
+  <xs:complexType name="gelenTasinanBelgeleriIndir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ettnler" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeFormati" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenTasinanBelgeleriIndirResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Exception">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeGonder">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+      <xs:element minOccurs="0" name="veri" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="belgeHash" type="xs:string" />
+      <xs:element minOccurs="0" name="mimeType" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeVersiyon" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeGonderResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="belgeOid" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeDurumSorgulaExt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gelenBelgeParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeParametreleri">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="alanEtiket" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeFormati" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeVersiyon" type="xs:string" />
+      <xs:element minOccurs="0" name="belgelerAlindiMi" type="xs:boolean" />
+      <xs:element minOccurs="0" name="donusTipiVersiyon" type="xs:string" />
+      <xs:element minOccurs="0" name="entegrasyonHedefi" type="xs:string" />
+      <xs:element minOccurs="0" name="erpKodu" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ettn" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaTarihiBaslangic" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaTarihiBitis" type="xs:string" />
+      <xs:element minOccurs="0" name="gelisTarihiBaslangic" type="xs:string" />
+      <xs:element minOccurs="0" name="gelisTarihiBitis" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="gonderenEtiket" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="onayDurum" type="xs:string" />
+      <xs:element minOccurs="0" name="sonAlinanBelgeSiraNumarasi" type="xs:string" />
+      <xs:element minOccurs="0" name="subeKodu" type="xs:string" />
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeDurumSorgulaExtResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="serviceReturnType">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="belge">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeSiraNo" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeTarihi" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeVerisi" type="xs:string" />
+          <xs:element minOccurs="0" name="ettn" type="xs:string" />
+          <xs:element minOccurs="0" name="gonderenEtiket" type="xs:string" />
+          <xs:element minOccurs="0" name="gonderenVknTckn" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="belgev2">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:belge">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="alanEtiket" type="xs:string" />
+          <xs:element minOccurs="0" name="aliciUnvan" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeVersiyon" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeXmlZipped" type="xs:base64Binary" />
+          <xs:element name="ekBilgiler">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="entry">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element minOccurs="0" name="key" type="xs:string" />
+                      <xs:element minOccurs="0" name="value" type="xs:string" />
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" name="saticiUnvan" type="xs:string" />
+          <xs:element minOccurs="0" name="subeKodu" type="xs:string" />
+          <xs:element minOccurs="0" name="zarfId" type="xs:string" />
+          <xs:element minOccurs="0" name="zarfVerisi" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="zarfXml" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="belgev3">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:belgev2">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="odenecekTutar" type="xs:string" />
+          <xs:element minOccurs="0" name="odenecekTutarDovizCinsi" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="belgev4">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:belgev3">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arsivlenmis" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeHash" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="belgev5">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:belgev4">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="faturaGelisTarihi" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="belgev6">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:belgev5">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="profileId" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="eFaturaKullanici">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="etiket" type="xs:string" />
+          <xs:element name="kamuKurulusu" type="xs:boolean" />
+          <xs:element minOccurs="0" name="kayitZamani" type="xs:string" />
+          <xs:element minOccurs="0" name="unvan" type="xs:string" />
+          <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="eFaturaKullaniciExtended">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="etiket" type="xs:string" />
+          <xs:element minOccurs="0" name="etiketOlusturulmaZamani" type="xs:string" />
+          <xs:element minOccurs="0" name="hesapTipi" type="xs:int" />
+          <xs:element minOccurs="0" name="kamuKurulusu" type="xs:boolean" />
+          <xs:element minOccurs="0" name="kayitZamani" type="xs:string" />
+          <xs:element minOccurs="0" name="tip" type="xs:int" />
+          <xs:element minOccurs="0" name="unvan" type="xs:string" />
+          <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="eFaturaKayitliKullaniciHistoryList" nillable="true" type="tns:eFaturaKayitliKullaniciHistory" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="eFaturaKayitliKullaniciHistory">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="etiket" type="xs:string" />
+      <xs:element minOccurs="0" name="etiketOlusturulmaZamani" type="xs:string" />
+      <xs:element minOccurs="0" name="silinmeZamani" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurum">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="aciklama" type="xs:string" />
+          <xs:element minOccurs="0" name="alimTarihi" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+          <xs:element name="durum" type="xs:int" />
+          <xs:element minOccurs="0" name="ettn" type="xs:string" />
+          <xs:element minOccurs="0" name="gonderimCevabiDetayi" type="xs:string" />
+          <xs:element name="gonderimCevabiKodu" type="xs:int" />
+          <xs:element name="gonderimDurumu" type="xs:int" />
+          <xs:element minOccurs="0" name="gonderimTarihi" type="xs:string" />
+          <xs:element minOccurs="0" name="olusturulmaTarihi" type="xs:string" />
+          <xs:element minOccurs="0" name="yanitDetayi" type="xs:string" />
+          <xs:element name="yanitDurumu" type="xs:int" />
+          <xs:element minOccurs="0" name="yanitTarihi" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumv2">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:gidenBelgeDurum">
+        <xs:sequence>
+          <xs:element name="ulastiMi" type="xs:boolean" />
+          <xs:element name="yenidenGonderilebilirMi" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeDurum">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="alimTarihi" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+          <xs:element minOccurs="0" name="ettn" type="xs:string" />
+          <xs:element minOccurs="0" name="yanitDetayi" type="xs:string" />
+          <xs:element name="yanitDurumu" type="xs:int" />
+          <xs:element minOccurs="0" name="yanitGonderimCevabiDetayi" type="xs:string" />
+          <xs:element name="yanitGonderimCevabiKodu" type="xs:int" />
+          <xs:element name="yanitGonderimDurumu" type="xs:int" />
+          <xs:element minOccurs="0" name="yanitGonderimTarihi" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeDurumv2">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:gelenBelgeDurum">
+        <xs:sequence>
+          <xs:element name="siraNo" type="xs:long" />
+          <xs:element name="yereleAktarimDurumu" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeDurumv3">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:gelenBelgeDurumv2">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="kepDurum" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeDurumv4">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:gelenBelgeDurumv3">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="gibIptalDurum" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeDurumv5">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:gelenBelgeDurumv4">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="yanitEttn" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumv3">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:gidenBelgeDurumv2">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="yerelBelgeOid" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumv4">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:gidenBelgeDurumv3">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="gtbFiiliIhracatTarihi" type="xs:string" />
+          <xs:element minOccurs="0" name="gtbGcbTescilNo" type="xs:string" />
+          <xs:element minOccurs="0" name="gtbRefNo" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumv5">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:gidenBelgeDurumv4">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="yanitEttn" type="xs:string" />
+          <xs:element minOccurs="0" name="yanitVerilenBelgeEttn" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumv6">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:gidenBelgeDurumv5">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="kepDurum" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriListeleData">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="alimDurumu" type="xs:string" />
+          <xs:element minOccurs="0" name="alimZamani" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeOid" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeTarihi" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+          <xs:element minOccurs="0" name="ettn" type="xs:string" />
+          <xs:element minOccurs="0" name="hataMesaji" type="xs:string" />
+          <xs:element minOccurs="0" name="islemYapanVkn" type="xs:string" />
+          <xs:element minOccurs="0" name="kaynak" type="xs:string" />
+          <xs:element minOccurs="0" name="kullaniciKodu" type="xs:string" />
+          <xs:element minOccurs="0" name="yerelBelgeNo" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="faturaTarihcesiData">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="bagliKayitId" type="xs:string" />
+          <xs:element minOccurs="0" name="faturaEttn" type="xs:string" />
+          <xs:element name="islem" type="xs:short" />
+          <xs:element minOccurs="0" name="islemAciklama" type="xs:string" />
+          <xs:element name="islemKanali" type="xs:byte" />
+          <xs:element minOccurs="0" name="islemKanaliAciklama" type="xs:string" />
+          <xs:element minOccurs="0" name="islemSonucu" type="xs:string" />
+          <xs:element minOccurs="0" name="islemZamani" type="xs:string" />
+          <xs:element minOccurs="0" name="kullanici" type="xs:string" />
+          <xs:element minOccurs="0" name="kullaniciIp" type="xs:string" />
+          <xs:element minOccurs="0" name="zarfEttn" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="kontorAzaltResp">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element name="kanalTipi" type="xs:int" />
+          <xs:element name="kontorAzaldi" type="xs:boolean" />
+          <xs:element minOccurs="0" name="kontorTipi" type="xs:string" />
+          <xs:element minOccurs="0" name="miktar" type="xs:decimal" />
+          <xs:element name="odemeTipi" type="xs:int" />
+          <xs:element name="paketTipi" type="xs:int" />
+          <xs:element minOccurs="0" name="vkn" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="irsaliyeTarihcesiData">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="bagliKayitId" type="xs:string" />
+          <xs:element minOccurs="0" name="irsaliyeEttn" type="xs:string" />
+          <xs:element name="islem" type="xs:short" />
+          <xs:element minOccurs="0" name="islemAciklama" type="xs:string" />
+          <xs:element name="islemKanali" type="xs:byte" />
+          <xs:element minOccurs="0" name="islemKanaliAciklama" type="xs:string" />
+          <xs:element minOccurs="0" name="islemSonucu" type="xs:string" />
+          <xs:element minOccurs="0" name="islemZamani" type="xs:string" />
+          <xs:element minOccurs="0" name="kullanici" type="xs:string" />
+          <xs:element minOccurs="0" name="kullaniciIp" type="xs:string" />
+          <xs:element minOccurs="0" name="zarfEttn" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeTutarBilgileri">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeTarihi" type="xs:string" />
+          <xs:element minOccurs="0" name="ettn" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv18Oran" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv18Tutar" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv1Oran" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv1Tutar" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv8Oran" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv8Tutar" type="xs:string" />
+          <xs:element minOccurs="0" name="kdvTevkifatOran" type="xs:string" />
+          <xs:element minOccurs="0" name="kdvTevkifatTutari" type="xs:string" />
+          <xs:element minOccurs="0" name="kdvToplamTutari" type="xs:string" />
+          <xs:element minOccurs="0" name="kdvToplamTutariDovizCinsi" type="xs:string" />
+          <xs:element minOccurs="0" name="malHizmetToplamTutari" type="xs:string" />
+          <xs:element minOccurs="0" name="malHizmetToplamTutariDovizCinsi" type="xs:string" />
+          <xs:element minOccurs="0" name="odenecekTutar" type="xs:string" />
+          <xs:element minOccurs="0" name="odenecekTutarDovizCinsi" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeTutarBilgileri">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeTarihi" type="xs:string" />
+          <xs:element minOccurs="0" name="ettn" type="xs:string" />
+          <xs:element minOccurs="0" name="gondericiVkn" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv18Oran" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv18Tutar" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv1Oran" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv1Tutar" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv8Oran" type="xs:string" />
+          <xs:element minOccurs="0" name="kdv8Tutar" type="xs:string" />
+          <xs:element minOccurs="0" name="kdvTevkifatOran" type="xs:string" />
+          <xs:element minOccurs="0" name="kdvTevkifatTutari" type="xs:string" />
+          <xs:element minOccurs="0" name="kdvToplamTutari" type="xs:string" />
+          <xs:element minOccurs="0" name="kdvToplamTutariDovizCinsi" type="xs:string" />
+          <xs:element minOccurs="0" name="malHizmetToplamTutari" type="xs:string" />
+          <xs:element minOccurs="0" name="malHizmetToplamTutariDovizCinsi" type="xs:string" />
+          <xs:element minOccurs="0" name="odenecekTutar" type="xs:string" />
+          <xs:element minOccurs="0" name="odenecekTutarDovizCinsi" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriListelePortalData">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="alanEtiket" type="xs:string" />
+          <xs:element minOccurs="0" name="alanSubeKodu" type="xs:string" />
+          <xs:element minOccurs="0" name="alanVergiTcKimlikNo" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeTarihi" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeTipi" type="xs:string" />
+          <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+          <xs:element minOccurs="0" name="erpKodu" type="xs:string" />
+          <xs:element minOccurs="0" name="ettn" type="xs:string" />
+          <xs:element minOccurs="0" name="gonderenEtiket" type="xs:string" />
+          <xs:element minOccurs="0" name="gonderenSubeKodu" type="xs:string" />
+          <xs:element minOccurs="0" name="gonderimZamani" type="xs:string" />
+          <xs:element minOccurs="0" name="islemYapanVkn" type="xs:string" />
+          <xs:element minOccurs="0" name="kaynak" type="xs:string" />
+          <xs:element minOccurs="0" name="kullaniciKodu" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriListelePortalDatav2">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:gidenBelgeleriListelePortalData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="yanitEttn" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="eIrsaliyeKullanici">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="etiket" type="xs:string" />
+          <xs:element name="kamuKurulusu" type="xs:boolean" />
+          <xs:element minOccurs="0" name="kayitZamani" type="xs:string" />
+          <xs:element minOccurs="0" name="unvan" type="xs:string" />
+          <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="belgeGonderResp">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:serviceReturnType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="belgeOid" type="xs:string" />
+          <xs:element minOccurs="0" name="errorMessage" type="xs:string" />
+          <xs:element minOccurs="0" name="responseStatus" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="cokluGidenBelgeDurumSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="parametreler" type="tns:gidenBelgeDurumParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumParametreleri">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="belgeNoList" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeNoTipi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="donusTipiVersiyon" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cokluGidenBelgeDurumSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="efaturaKullaniciListesi">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="vergiTcKimlikNoListesi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="efaturaKullaniciListesiResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:mukellefEFaturaKayit" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mukellefEFaturaKayit">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="efaturaKullaniciListesi" nillable="true" type="tns:eFaturaKullanici" />
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="irsaliyeMailGonder">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="inOut" type="xs:string" />
+      <xs:element minOccurs="0" name="UUID" type="xs:string" />
+      <xs:element minOccurs="0" name="irsaliyeNo" type="xs:string" />
+      <xs:element minOccurs="0" name="alicilar" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeFormati" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="irsaliyeMailGonderResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="faturaKepIleIadeEdildiIptal">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="uuid" type="xs:string" />
+      <xs:element minOccurs="0" name="gelenGiden" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturaKepIleIadeEdildiIptalResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturaTarihcesiSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ettn" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaYonu" type="xs:string" />
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturaTarihcesiSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="yereleAktarilacakBelgeleriAlExt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gelenBelgeParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="yereleAktarilacakBelgeleriAlExtResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="efaturaKullaniciBilgisi">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="efaturaKullaniciBilgisiResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:eFaturaKullanici" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenIrsaliyeleriArsiveKaldir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="despatchEttnListesi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenIrsaliyeleriArsiveKaldirResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="belgelerAlindi">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ettn" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgelerAlindiResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="yereleAktarilacakBelgeleriAl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="entegrasyonHedefi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="yereleAktarilacakBelgeleriAlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeGonderExt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gidenBelgeParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeParametreleri">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alanEtiket" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeHash" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeVersiyon" type="xs:string" />
+      <xs:element minOccurs="0" name="donusTipiVersiyon" type="xs:string" />
+      <xs:element minOccurs="0" name="erpKodu" type="xs:string" />
+      <xs:element minOccurs="0" name="gonderenEtiket" type="xs:string" />
+      <xs:element minOccurs="0" name="mimeType" type="xs:string" />
+      <xs:element minOccurs="0" name="subeKodu" type="xs:string" />
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="veri" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="xsltAdi" type="xs:string" />
+      <xs:element minOccurs="0" name="xsltVeri" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeGonderExtResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="belgeOid" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="csXmlToUbl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeVersiyon" type="xs:string" />
+      <xs:element minOccurs="0" name="veri" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="xsltAdi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="csXmlToUblResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeEkleriAl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="uuid" type="xs:string" />
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeEkleriAlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriAl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="sonAlinanBelgeSiraNumarasi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriAlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgulaExt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="parametreler" type="tns:gidenBelgeDurumParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgulaExtResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriIndirPortal">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gidenBelgeleriIndirPortalParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriIndirPortalParametreleri">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="baslangicGonderimTarihi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="belgeEttnListesi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeFormati" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="bitisGonderimTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaBaslangicTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaBitisTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="kaynak" type="xs:string" />
+      <xs:element minOccurs="0" name="pageCount" type="xs:string" />
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriIndirPortalResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="kontorBilgisiGetir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="kontorTipi" type="xs:string" />
+      <xs:element minOccurs="0" name="kontorBirimi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="kontorBilgisiGetirResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:kalanKontorBilgisi" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="kalanKontorBilgisi">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="kalan" type="xs:decimal" />
+      <xs:element minOccurs="0" name="kontorBirimi" type="tns:kontorBirimi" />
+      <xs:element minOccurs="0" name="kontorTipi" type="tns:kontorTipi" />
+      <xs:element minOccurs="0" name="limitAsimMiktari" type="xs:decimal" />
+      <xs:element minOccurs="0" name="toplamAlinan" type="xs:decimal" />
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriIndir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="belgeOidListesi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeFormati" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriIndirResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturaMailGonder">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="inOut" type="xs:string" />
+      <xs:element minOccurs="0" name="UUID" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaNo" type="xs:string" />
+      <xs:element minOccurs="0" name="alicilar" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeFormati" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturaMailGonderResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="yolcuBeraberFaturaIptalEt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="ettn" type="xs:string" />
+      <xs:element minOccurs="0" name="seriSiraNo" type="xs:string" />
+      <xs:element minOccurs="0" name="pusulaTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeOid" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="yolcuBeraberFaturaIptalEtResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeDurumSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="ettn" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeDurumSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="kayitliKullaniciListeleExtendedVknTckn">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="urun" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="kayitliKullaniciListeleExtendedVknTcknResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriAlExt2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element name="parametreler">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:string" />
+                  <xs:element minOccurs="0" name="value" type="xs:string" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriAlExt2Response">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeleriTekrarGonder">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ettn" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="alanEtiket" type="xs:string" />
+      <xs:element minOccurs="0" name="gonderenEtiket" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeleriTekrarGonderResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="erpBilgileriBelirle">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="erpBilgileri" type="tns:erpBilgileri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="erpBilgileri">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aciklama" type="xs:string" />
+      <xs:element minOccurs="0" name="kod" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="erpBilgileriBelirleResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="gelenIrsaliyeleriArsiveKaldir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="despatchEttnListesi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenIrsaliyeleriArsiveKaldirResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="belgeGonderWithValidate">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+      <xs:element minOccurs="0" name="veri" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="belgeHash" type="xs:string" />
+      <xs:element minOccurs="0" name="mimeType" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeVersiyon" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeGonderWithValidateResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:belgeGonderResp" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="efaturaKullanicisi">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="efaturaKullanicisiResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="kayitliKullaniciListeleExtended">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="urun" type="xs:string" />
+      <xs:element minOccurs="0" name="gecmisEklensin" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="kayitliKullaniciListeleExtendedResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeXmlleriniAlExt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gelenBelgeParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeXmlleriniAlExtResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgulaYerelBelgeNo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="yerelBelgeNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgulaYerelBelgeNoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:gidenBelgeDurum" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeTutarBilgileriSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="baslangicGonderimTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="bitisGonderimTarihi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeTutarBilgileriSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenTasinanBelgeleriIndir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ettnler" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeFormati" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenTasinanBelgeleriIndirResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenFaturalariArsiveKaldir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="invoiceEttnListesi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenFaturalariArsiveKaldirResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="belgelerAlindiEntegrasyonSiparisNoGuncelle">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ettn" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="entegrasyonHedefi" type="xs:string" />
+      <xs:element minOccurs="0" name="guncellenmisSiparisNumarasi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgelerAlindiEntegrasyonSiparisNoGuncelleResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="faturaNoUret">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaKodu" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturaNoUretResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgulaEttn">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="ettn" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgulaEttnResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:gidenBelgeDurum" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriListeleExt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gelenBelgeParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriListeleExtResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="temelKontrollerIleBelgeGonder">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+      <xs:element minOccurs="0" name="veri" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="belgeHash" type="xs:string" />
+      <xs:element minOccurs="0" name="mimeType" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeVersiyon" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="temelKontrollerIleBelgeGonderResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="belgeOid" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="irsaliyeTarihcesiSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ettn" type="xs:string" />
+      <xs:element minOccurs="0" name="irasliyeYonu" type="xs:string" />
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="irsaliyeTarihcesiSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgulaPortal">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gidenBelgelerDurumSorgulaPortalParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgelerDurumSorgulaPortalParametreleri">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="baslangicOlusturulmaTarihi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="belgeEttnListesi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeVersiyon" type="xs:string" />
+      <xs:element minOccurs="0" name="bitisOlusturulmaTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaBaslangicTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaBitisTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgulaPortalResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="toplamBelgeSayisiGetir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeYonu" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeBaslangicTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeBitisTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeBaslangicZamani" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeBitisZamani" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="toplamBelgeSayisiGetirResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriIndirExt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gelenBelgeParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriIndirExtResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriListele">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gidenBelgeleriListeleParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriListeleParametreleri">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="baslangicBelgeTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="baslangicGonderimTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="bitisBelgeTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="bitisGonderimTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="vkn" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriListeleResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="checkDateValidControl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="checkDateValidControlResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="gelenFaturalariArsiveKaldir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="invoiceEttnListesi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenFaturalariArsiveKaldirResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriListelePortal">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gidenBelgeleriListelePortalParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriListelePortalParametreleri">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="baslangicGonderimTarihi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="belgeEttnListesi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeVersiyon" type="xs:string" />
+      <xs:element minOccurs="0" name="bitisGonderimTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaBaslangicTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaBitisTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="kaynak" type="xs:string" />
+      <xs:element minOccurs="0" name="pageCount" type="xs:string" />
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriListelePortalResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeGonderExtWithValidate">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gidenBelgeParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeGonderExtWithValidateResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:belgeGonderResp" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeXmlleriniAl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ettnler" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeXmlleriniAlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsKullanicisiKaydet">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="urunList" type="xs:string" />
+      <xs:element minOccurs="0" name="erpKodu" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsKullanicisiKaydetResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:wsKullaniciBilgileri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsKullaniciBilgileri">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="kullaniciKodu" type="xs:string" />
+      <xs:element minOccurs="0" name="sifre" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eIrsaliyeKayitliKullaniciListele">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="kayitZamani" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eIrsaliyeKayitliKullaniciListeleResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:eIrsaliyeKullanici" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ublOnizleme">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="veri" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="belgeFormati" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ublOnizlemeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriIndir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ettnler" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeFormati" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriIndirResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgulaBelgeNo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+      <xs:element minOccurs="0" name="urun" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgulaBelgeNoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:gidenBelgeDurum" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeleriTekrarGonderBelgeOid">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="belgeOid" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="alanEtiket" type="xs:string" />
+      <xs:element minOccurs="0" name="gonderenEtiket" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeleriTekrarGonderBelgeOidResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenTamamlananRapolariAl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="gonderenVknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="aliciVknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="gelisBasTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="gelisBitTarihi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenTamamlananRapolariAlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeleriTekrarGonderYerelBelgeNo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="yerelBelgeNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="alanEtiket" type="xs:string" />
+      <xs:element minOccurs="0" name="gonderenEtiket" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeleriTekrarGonderYerelBelgeNoResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="csXmlOnizleme">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeVersiyon" type="xs:string" />
+      <xs:element minOccurs="0" name="veri" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="belgeFormati" type="xs:string" />
+      <xs:element minOccurs="0" name="xsltAdi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="csXmlOnizlemeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="urunSablonlariniAl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="urun" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="urunSablonlariniAlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturayaItirazEdildi">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ettnList" type="xs:string" />
+      <xs:element minOccurs="0" name="gelenGiden" type="xs:string" />
+      <xs:element minOccurs="0" name="iptalSenaryosu" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturayaItirazEdildiResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eFaturaKayitliKullaniciListele">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="kayitZamani" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eFaturaKayitliKullaniciListeleResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:eFaturaKullanici" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriListele">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="sonAlinanBelgeSiraNumarasi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriListeleResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eIrsaliyeKullanicisi">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eIrsaliyeKullanicisiResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeOid" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeDurumSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:gidenBelgeDurum" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeEkleriAl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="uuid" type="xs:string" />
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeEkleriAlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriIndirEttn">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="belgeEttnListesi" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeFormati" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gidenBelgeleriIndirEttnResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturaKepIleIadeEdildi">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="uuid" type="xs:string" />
+      <xs:element minOccurs="0" name="gelenGiden" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturaKepIleIadeEdildiResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="kayitliKullaniciListeleExtendedTime">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="kayitZamani" type="xs:string" />
+      <xs:element minOccurs="0" name="urun" type="xs:string" />
+      <xs:element minOccurs="0" name="gecmisEklensin" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="kayitliKullaniciListeleExtendedTimeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturayaItirazEdildiIptal">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ettnList" type="xs:string" />
+      <xs:element minOccurs="0" name="gelenGiden" type="xs:string" />
+      <xs:element minOccurs="0" name="iptalSenaryosu" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faturayaItirazEdildiIptalResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeTutarBilgileriSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vergiTcKimlikNo" type="xs:string" />
+      <xs:element minOccurs="0" name="belgeTuru" type="xs:string" />
+      <xs:element minOccurs="0" name="baslangicGelisTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="bitisGelisTarihi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeTutarBilgileriSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriAlExt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parametreler" type="tns:gelenBelgeParametreleri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenBelgeleriAlExtResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:serviceReturnType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenStandartRapolariAl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="gonderenVknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="aliciVknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="baslangicTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="bitisTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="gonderimBaslangicTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="gonderimBitisTarihi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gelenStandartRapolariAlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="kontorBirimi">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ADET" />
+      <xs:enumeration value="TL" />
+      <xs:enumeration value="MB" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="kontorTipi">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FATURA" />
+      <xs:enumeration value="DEFTER" />
+      <xs:enumeration value="KEP" />
+      <xs:enumeration value="KEPSMS" />
+      <xs:enumeration value="ARSIV" />
+      <xs:enumeration value="ARSIVSMS" />
+      <xs:enumeration value="IRSALIYE" />
+      <xs:enumeration value="SMM" />
+      <xs:enumeration value="MMK" />
+      <xs:enumeration value="PORTAL" />
+      <xs:enumeration value="OKC" />
+      <xs:enumeration value="BAYI" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

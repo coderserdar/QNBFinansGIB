@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.earsiv.uut.cs.com.tr/" targetNamespace="http://service.earsiv.uut.cs.com.tr/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="https://earsivtest.efinans.com.tr:443/earsiv/ws/EarsivWebService?xsd=1" namespace="http://service.earsiv.uut.cs.com.tr/" />
+    </xsd:schema>
+  </types>
+  <message name="faturaListeSorgulaCount">
+    <part name="parameters" element="tns:faturaListeSorgulaCount" />
+  </message>
+  <message name="faturaListeSorgulaCountResponse">
+    <part name="parameters" element="tns:faturaListeSorgulaCountResponse" />
+  </message>
+  <message name="faturaItirazEt">
+    <part name="parameters" element="tns:faturaItirazEt" />
+  </message>
+  <message name="faturaItirazEtResponse">
+    <part name="parameters" element="tns:faturaItirazEtResponse" />
+  </message>
+  <message name="faturaItirazKaldir">
+    <part name="parameters" element="tns:faturaItirazKaldir" />
+  </message>
+  <message name="faturaItirazKaldirResponse">
+    <part name="parameters" element="tns:faturaItirazKaldirResponse" />
+  </message>
+  <message name="faturaNoUret">
+    <part name="parameters" element="tns:faturaNoUret" />
+  </message>
+  <message name="faturaNoUretResponse">
+    <part name="parameters" element="tns:faturaNoUretResponse" />
+  </message>
+  <message name="servisSaglayicidanEpostaDurumSorgula">
+    <part name="parameters" element="tns:servisSaglayicidanEpostaDurumSorgula" />
+  </message>
+  <message name="servisSaglayicidanEpostaDurumSorgulaResponse">
+    <part name="parameters" element="tns:servisSaglayicidanEpostaDurumSorgulaResponse" />
+  </message>
+  <message name="raporDurumSorgula">
+    <part name="parameters" element="tns:raporDurumSorgula" />
+  </message>
+  <message name="raporDurumSorgulaResponse">
+    <part name="parameters" element="tns:raporDurumSorgulaResponse" />
+  </message>
+  <message name="raporBolumListesiSorgula">
+    <part name="parameters" element="tns:raporBolumListesiSorgula" />
+  </message>
+  <message name="raporBolumListesiSorgulaResponse">
+    <part name="parameters" element="tns:raporBolumListesiSorgulaResponse" />
+  </message>
+  <message name="raporBolumListesiSorgulaWithInput">
+    <part name="parameters" element="tns:raporBolumListesiSorgulaWithInput" />
+  </message>
+  <message name="raporBolumListesiSorgulaWithInputResponse">
+    <part name="parameters" element="tns:raporBolumListesiSorgulaWithInputResponse" />
+  </message>
+  <message name="raporBolumListesiDetayliSorgula">
+    <part name="parameters" element="tns:raporBolumListesiDetayliSorgula" />
+  </message>
+  <message name="raporBolumListesiDetayliSorgulaResponse">
+    <part name="parameters" element="tns:raporBolumListesiDetayliSorgulaResponse" />
+  </message>
+  <message name="raporGonder">
+    <part name="parameters" element="tns:raporGonder" />
+  </message>
+  <message name="raporGonderResponse">
+    <part name="parameters" element="tns:raporGonderResponse" />
+  </message>
+  <message name="raporBolumleriOlustur">
+    <part name="parameters" element="tns:raporBolumleriOlustur" />
+  </message>
+  <message name="raporBolumleriOlusturResponse">
+    <part name="parameters" element="tns:raporBolumleriOlusturResponse" />
+  </message>
+  <message name="raporBolumAl">
+    <part name="parameters" element="tns:raporBolumAl" />
+  </message>
+  <message name="raporBolumAlResponse">
+    <part name="parameters" element="tns:raporBolumAlResponse" />
+  </message>
+  <message name="raporBolumSil">
+    <part name="parameters" element="tns:raporBolumSil" />
+  </message>
+  <message name="raporBolumSilResponse">
+    <part name="parameters" element="tns:raporBolumSilResponse" />
+  </message>
+  <message name="raporBolumBilgisiAl">
+    <part name="parameters" element="tns:raporBolumBilgisiAl" />
+  </message>
+  <message name="raporBolumBilgisiAlResponse">
+    <part name="parameters" element="tns:raporBolumBilgisiAlResponse" />
+  </message>
+  <message name="topluFaturaPaketDosyaGonder">
+    <part name="parameters" element="tns:topluFaturaPaketDosyaGonder" />
+  </message>
+  <message name="topluFaturaPaketDosyaGonderResponse">
+    <part name="parameters" element="tns:topluFaturaPaketDosyaGonderResponse" />
+  </message>
+  <message name="topluFaturaPaketDosyasiSorgula">
+    <part name="parameters" element="tns:topluFaturaPaketDosyasiSorgula" />
+  </message>
+  <message name="topluFaturaPaketDosyasiSorgulaResponse">
+    <part name="parameters" element="tns:topluFaturaPaketDosyasiSorgulaResponse" />
+  </message>
+  <message name="topluFaturaPaketSorgula">
+    <part name="parameters" element="tns:topluFaturaPaketSorgula" />
+  </message>
+  <message name="topluFaturaPaketSorgulaResponse">
+    <part name="parameters" element="tns:topluFaturaPaketSorgulaResponse" />
+  </message>
+  <message name="topluFaturaPaketOnayla">
+    <part name="parameters" element="tns:topluFaturaPaketOnayla" />
+  </message>
+  <message name="topluFaturaPaketOnaylaResponse">
+    <part name="parameters" element="tns:topluFaturaPaketOnaylaResponse" />
+  </message>
+  <message name="kontorBilgisiGetir">
+    <part name="parameters" element="tns:kontorBilgisiGetir" />
+  </message>
+  <message name="kontorBilgisiGetirResponse">
+    <part name="parameters" element="tns:kontorBilgisiGetirResponse" />
+  </message>
+  <message name="faturaOnizleme">
+    <part name="parameters" element="tns:faturaOnizleme" />
+  </message>
+  <message name="faturaOnizlemeResponse">
+    <part name="parameters" element="tns:faturaOnizlemeResponse" />
+  </message>
+  <message name="efaturaKullanicisi">
+    <part name="parameters" element="tns:efaturaKullanicisi" />
+  </message>
+  <message name="efaturaKullanicisiResponse">
+    <part name="parameters" element="tns:efaturaKullanicisiResponse" />
+  </message>
+  <message name="efaturaKullanicisiKontrol">
+    <part name="parameters" element="tns:efaturaKullanicisiKontrol" />
+  </message>
+  <message name="efaturaKullanicisiKontrolResponse">
+    <part name="parameters" element="tns:efaturaKullanicisiKontrolResponse" />
+  </message>
+  <message name="eFaturaKayitliKullaniciListele">
+    <part name="parameters" element="tns:eFaturaKayitliKullaniciListele" />
+  </message>
+  <message name="eFaturaKayitliKullaniciListeleResponse">
+    <part name="parameters" element="tns:eFaturaKayitliKullaniciListeleResponse" />
+  </message>
+  <message name="faturaListeSorgula">
+    <part name="parameters" element="tns:faturaListeSorgula" />
+  </message>
+  <message name="faturaListeSorgulaResponse">
+    <part name="parameters" element="tns:faturaListeSorgulaResponse" />
+  </message>
+  <message name="faturaListeSorgulaPortal">
+    <part name="parameters" element="tns:faturaListeSorgulaPortal" />
+  </message>
+  <message name="faturaListeSorgulaPortalResponse">
+    <part name="parameters" element="tns:faturaListeSorgulaPortalResponse" />
+  </message>
+  <message name="smsDurumSorgula">
+    <part name="parameters" element="tns:smsDurumSorgula" />
+  </message>
+  <message name="smsDurumSorgulaResponse">
+    <part name="parameters" element="tns:smsDurumSorgulaResponse" />
+  </message>
+  <message name="smsGonder">
+    <part name="parameters" element="tns:smsGonder" />
+  </message>
+  <message name="smsGonderResponse">
+    <part name="parameters" element="tns:smsGonderResponse" />
+  </message>
+  <message name="raporBolumRaporNoGuncelleImzala">
+    <part name="parameters" element="tns:raporBolumRaporNoGuncelleImzala" />
+  </message>
+  <message name="raporBolumRaporNoGuncelleImzalaResponse">
+    <part name="parameters" element="tns:raporBolumRaporNoGuncelleImzalaResponse" />
+  </message>
+  <message name="rapordaFaturaSorgula">
+    <part name="parameters" element="tns:rapordaFaturaSorgula" />
+  </message>
+  <message name="rapordaFaturaSorgulaResponse">
+    <part name="parameters" element="tns:rapordaFaturaSorgulaResponse" />
+  </message>
+  <message name="yapilandirmaAyarlariAl">
+    <part name="parameters" element="tns:yapilandirmaAyarlariAl" />
+  </message>
+  <message name="yapilandirmaAyarlariAlResponse">
+    <part name="parameters" element="tns:yapilandirmaAyarlariAlResponse" />
+  </message>
+  <message name="faturaTaslakOlustur">
+    <part name="parameters" element="tns:faturaTaslakOlustur" />
+  </message>
+  <message name="faturaTaslakOlusturResponse">
+    <part name="parameters" element="tns:faturaTaslakOlusturResponse" />
+  </message>
+  <message name="faturaTaslaktanOlustur">
+    <part name="parameters" element="tns:faturaTaslaktanOlustur" />
+  </message>
+  <message name="faturaTaslaktanOlusturResponse">
+    <part name="parameters" element="tns:faturaTaslaktanOlusturResponse" />
+  </message>
+  <message name="faturaTaslakSorgula">
+    <part name="parameters" element="tns:faturaTaslakSorgula" />
+  </message>
+  <message name="faturaTaslakSorgulaResponse">
+    <part name="parameters" element="tns:faturaTaslakSorgulaResponse" />
+  </message>
+  <message name="faturaTaslakSil">
+    <part name="parameters" element="tns:faturaTaslakSil" />
+  </message>
+  <message name="faturaTaslakSilResponse">
+    <part name="parameters" element="tns:faturaTaslakSilResponse" />
+  </message>
+  <message name="faturaTaslakOnizleme">
+    <part name="parameters" element="tns:faturaTaslakOnizleme" />
+  </message>
+  <message name="faturaTaslakOnizlemeResponse">
+    <part name="parameters" element="tns:faturaTaslakOnizlemeResponse" />
+  </message>
+  <message name="okcRaporKaydet">
+    <part name="parameters" element="tns:okcRaporKaydet" />
+  </message>
+  <message name="okcRaporKaydetResponse">
+    <part name="parameters" element="tns:okcRaporKaydetResponse" />
+  </message>
+  <message name="okcRaporOlusturGonder">
+    <part name="parameters" element="tns:okcRaporOlusturGonder" />
+  </message>
+  <message name="okcRaporOlusturGonderResponse">
+    <part name="parameters" element="tns:okcRaporOlusturGonderResponse" />
+  </message>
+  <message name="okcRaporBolumAl">
+    <part name="parameters" element="tns:okcRaporBolumAl" />
+  </message>
+  <message name="okcRaporBolumAlResponse">
+    <part name="parameters" element="tns:okcRaporBolumAlResponse" />
+  </message>
+  <message name="faturaZipiAl">
+    <part name="parameters" element="tns:faturaZipiAl" />
+  </message>
+  <message name="faturaZipiAlResponse">
+    <part name="parameters" element="tns:faturaZipiAlResponse" />
+  </message>
+  <message name="faturaOlustur">
+    <part name="parameters" element="tns:faturaOlustur" />
+  </message>
+  <message name="faturaOlusturResponse">
+    <part name="parameters" element="tns:faturaOlusturResponse" />
+  </message>
+  <message name="faturaOlusturExt">
+    <part name="parameters" element="tns:faturaOlusturExt" />
+  </message>
+  <message name="faturaOlusturExtResponse">
+    <part name="parameters" element="tns:faturaOlusturExtResponse" />
+  </message>
+  <message name="faturaSorgula">
+    <part name="parameters" element="tns:faturaSorgula" />
+  </message>
+  <message name="faturaSorgulaResponse">
+    <part name="parameters" element="tns:faturaSorgulaResponse" />
+  </message>
+  <message name="faturaSorgulaExt">
+    <part name="parameters" element="tns:faturaSorgulaExt" />
+  </message>
+  <message name="faturaSorgulaExtResponse">
+    <part name="parameters" element="tns:faturaSorgulaExtResponse" />
+  </message>
+  <message name="aliciEpostaEkleSilGuncelle">
+    <part name="parameters" element="tns:aliciEpostaEkleSilGuncelle" />
+  </message>
+  <message name="aliciEpostaEkleSilGuncelleResponse">
+    <part name="parameters" element="tns:aliciEpostaEkleSilGuncelleResponse" />
+  </message>
+  <message name="ePostaGonder">
+    <part name="parameters" element="tns:ePostaGonder" />
+  </message>
+  <message name="ePostaGonderResponse">
+    <part name="parameters" element="tns:ePostaGonderResponse" />
+  </message>
+  <message name="faturaIptalEt">
+    <part name="parameters" element="tns:faturaIptalEt" />
+  </message>
+  <message name="faturaIptalEtResponse">
+    <part name="parameters" element="tns:faturaIptalEtResponse" />
+  </message>
+  <message name="faturaIptaliKaldir">
+    <part name="parameters" element="tns:faturaIptaliKaldir" />
+  </message>
+  <message name="faturaIptaliKaldirResponse">
+    <part name="parameters" element="tns:faturaIptaliKaldirResponse" />
+  </message>
+  <message name="ePostaDurumSorgula">
+    <part name="parameters" element="tns:ePostaDurumSorgula" />
+  </message>
+  <message name="ePostaDurumSorgulaResponse">
+    <part name="parameters" element="tns:ePostaDurumSorgulaResponse" />
+  </message>
+  <portType name="EarsivWebService">
+    <operation name="faturaListeSorgulaCount">
+      <input xmlns:ns1="http://www.w3.org/2007/05/addressing/metadata" ns1:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaListeSorgulaCountRequest" message="tns:faturaListeSorgulaCount" />
+      <output xmlns:ns2="http://www.w3.org/2007/05/addressing/metadata" ns2:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaListeSorgulaCountResponse" message="tns:faturaListeSorgulaCountResponse" />
+    </operation>
+    <operation name="faturaItirazEt">
+      <input xmlns:ns3="http://www.w3.org/2007/05/addressing/metadata" ns3:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaItirazEtRequest" message="tns:faturaItirazEt" />
+      <output xmlns:ns4="http://www.w3.org/2007/05/addressing/metadata" ns4:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaItirazEtResponse" message="tns:faturaItirazEtResponse" />
+    </operation>
+    <operation name="faturaItirazKaldir">
+      <input xmlns:ns5="http://www.w3.org/2007/05/addressing/metadata" ns5:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaItirazKaldirRequest" message="tns:faturaItirazKaldir" />
+      <output xmlns:ns6="http://www.w3.org/2007/05/addressing/metadata" ns6:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaItirazKaldirResponse" message="tns:faturaItirazKaldirResponse" />
+    </operation>
+    <operation name="faturaNoUret">
+      <input xmlns:ns7="http://www.w3.org/2007/05/addressing/metadata" ns7:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaNoUretRequest" message="tns:faturaNoUret" />
+      <output xmlns:ns8="http://www.w3.org/2007/05/addressing/metadata" ns8:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaNoUretResponse" message="tns:faturaNoUretResponse" />
+    </operation>
+    <operation name="servisSaglayicidanEpostaDurumSorgula">
+      <input xmlns:ns9="http://www.w3.org/2007/05/addressing/metadata" ns9:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/servisSaglayicidanEpostaDurumSorgulaRequest" message="tns:servisSaglayicidanEpostaDurumSorgula" />
+      <output xmlns:ns10="http://www.w3.org/2007/05/addressing/metadata" ns10:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/servisSaglayicidanEpostaDurumSorgulaResponse" message="tns:servisSaglayicidanEpostaDurumSorgulaResponse" />
+    </operation>
+    <operation name="raporDurumSorgula">
+      <input xmlns:ns11="http://www.w3.org/2007/05/addressing/metadata" ns11:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporDurumSorgulaRequest" message="tns:raporDurumSorgula" />
+      <output xmlns:ns12="http://www.w3.org/2007/05/addressing/metadata" ns12:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporDurumSorgulaResponse" message="tns:raporDurumSorgulaResponse" />
+    </operation>
+    <operation name="raporBolumListesiSorgula">
+      <input xmlns:ns13="http://www.w3.org/2007/05/addressing/metadata" ns13:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumListesiSorgulaRequest" message="tns:raporBolumListesiSorgula" />
+      <output xmlns:ns14="http://www.w3.org/2007/05/addressing/metadata" ns14:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumListesiSorgulaResponse" message="tns:raporBolumListesiSorgulaResponse" />
+    </operation>
+    <operation name="raporBolumListesiSorgulaWithInput">
+      <input xmlns:ns15="http://www.w3.org/2007/05/addressing/metadata" ns15:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumListesiSorgulaWithInputRequest" message="tns:raporBolumListesiSorgulaWithInput" />
+      <output xmlns:ns16="http://www.w3.org/2007/05/addressing/metadata" ns16:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumListesiSorgulaWithInputResponse" message="tns:raporBolumListesiSorgulaWithInputResponse" />
+    </operation>
+    <operation name="raporBolumListesiDetayliSorgula">
+      <input xmlns:ns17="http://www.w3.org/2007/05/addressing/metadata" ns17:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumListesiDetayliSorgulaRequest" message="tns:raporBolumListesiDetayliSorgula" />
+      <output xmlns:ns18="http://www.w3.org/2007/05/addressing/metadata" ns18:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumListesiDetayliSorgulaResponse" message="tns:raporBolumListesiDetayliSorgulaResponse" />
+    </operation>
+    <operation name="raporGonder">
+      <input xmlns:ns19="http://www.w3.org/2007/05/addressing/metadata" ns19:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporGonderRequest" message="tns:raporGonder" />
+      <output xmlns:ns20="http://www.w3.org/2007/05/addressing/metadata" ns20:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporGonderResponse" message="tns:raporGonderResponse" />
+    </operation>
+    <operation name="raporBolumleriOlustur">
+      <input xmlns:ns21="http://www.w3.org/2007/05/addressing/metadata" ns21:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumleriOlusturRequest" message="tns:raporBolumleriOlustur" />
+      <output xmlns:ns22="http://www.w3.org/2007/05/addressing/metadata" ns22:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumleriOlusturResponse" message="tns:raporBolumleriOlusturResponse" />
+    </operation>
+    <operation name="raporBolumAl">
+      <input xmlns:ns23="http://www.w3.org/2007/05/addressing/metadata" ns23:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumAlRequest" message="tns:raporBolumAl" />
+      <output xmlns:ns24="http://www.w3.org/2007/05/addressing/metadata" ns24:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumAlResponse" message="tns:raporBolumAlResponse" />
+    </operation>
+    <operation name="raporBolumSil">
+      <input xmlns:ns25="http://www.w3.org/2007/05/addressing/metadata" ns25:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumSilRequest" message="tns:raporBolumSil" />
+      <output xmlns:ns26="http://www.w3.org/2007/05/addressing/metadata" ns26:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumSilResponse" message="tns:raporBolumSilResponse" />
+    </operation>
+    <operation name="raporBolumBilgisiAl">
+      <input xmlns:ns27="http://www.w3.org/2007/05/addressing/metadata" ns27:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumBilgisiAlRequest" message="tns:raporBolumBilgisiAl" />
+      <output xmlns:ns28="http://www.w3.org/2007/05/addressing/metadata" ns28:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumBilgisiAlResponse" message="tns:raporBolumBilgisiAlResponse" />
+    </operation>
+    <operation name="topluFaturaPaketDosyaGonder">
+      <input xmlns:ns29="http://www.w3.org/2007/05/addressing/metadata" ns29:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/topluFaturaPaketDosyaGonderRequest" message="tns:topluFaturaPaketDosyaGonder" />
+      <output xmlns:ns30="http://www.w3.org/2007/05/addressing/metadata" ns30:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/topluFaturaPaketDosyaGonderResponse" message="tns:topluFaturaPaketDosyaGonderResponse" />
+    </operation>
+    <operation name="topluFaturaPaketDosyasiSorgula">
+      <input xmlns:ns31="http://www.w3.org/2007/05/addressing/metadata" ns31:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/topluFaturaPaketDosyasiSorgulaRequest" message="tns:topluFaturaPaketDosyasiSorgula" />
+      <output xmlns:ns32="http://www.w3.org/2007/05/addressing/metadata" ns32:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/topluFaturaPaketDosyasiSorgulaResponse" message="tns:topluFaturaPaketDosyasiSorgulaResponse" />
+    </operation>
+    <operation name="topluFaturaPaketSorgula">
+      <input xmlns:ns33="http://www.w3.org/2007/05/addressing/metadata" ns33:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/topluFaturaPaketSorgulaRequest" message="tns:topluFaturaPaketSorgula" />
+      <output xmlns:ns34="http://www.w3.org/2007/05/addressing/metadata" ns34:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/topluFaturaPaketSorgulaResponse" message="tns:topluFaturaPaketSorgulaResponse" />
+    </operation>
+    <operation name="topluFaturaPaketOnayla">
+      <input xmlns:ns35="http://www.w3.org/2007/05/addressing/metadata" ns35:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/topluFaturaPaketOnaylaRequest" message="tns:topluFaturaPaketOnayla" />
+      <output xmlns:ns36="http://www.w3.org/2007/05/addressing/metadata" ns36:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/topluFaturaPaketOnaylaResponse" message="tns:topluFaturaPaketOnaylaResponse" />
+    </operation>
+    <operation name="kontorBilgisiGetir">
+      <input xmlns:ns37="http://www.w3.org/2007/05/addressing/metadata" ns37:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/kontorBilgisiGetirRequest" message="tns:kontorBilgisiGetir" />
+      <output xmlns:ns38="http://www.w3.org/2007/05/addressing/metadata" ns38:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/kontorBilgisiGetirResponse" message="tns:kontorBilgisiGetirResponse" />
+    </operation>
+    <operation name="faturaOnizleme">
+      <input xmlns:ns39="http://www.w3.org/2007/05/addressing/metadata" ns39:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaOnizlemeRequest" message="tns:faturaOnizleme" />
+      <output xmlns:ns40="http://www.w3.org/2007/05/addressing/metadata" ns40:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaOnizlemeResponse" message="tns:faturaOnizlemeResponse" />
+    </operation>
+    <operation name="efaturaKullanicisi">
+      <input xmlns:ns41="http://www.w3.org/2007/05/addressing/metadata" ns41:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/efaturaKullanicisiRequest" message="tns:efaturaKullanicisi" />
+      <output xmlns:ns42="http://www.w3.org/2007/05/addressing/metadata" ns42:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/efaturaKullanicisiResponse" message="tns:efaturaKullanicisiResponse" />
+    </operation>
+    <operation name="efaturaKullanicisiKontrol">
+      <input xmlns:ns43="http://www.w3.org/2007/05/addressing/metadata" ns43:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/efaturaKullanicisiKontrolRequest" message="tns:efaturaKullanicisiKontrol" />
+      <output xmlns:ns44="http://www.w3.org/2007/05/addressing/metadata" ns44:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/efaturaKullanicisiKontrolResponse" message="tns:efaturaKullanicisiKontrolResponse" />
+    </operation>
+    <operation name="eFaturaKayitliKullaniciListele">
+      <input xmlns:ns45="http://www.w3.org/2007/05/addressing/metadata" ns45:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/eFaturaKayitliKullaniciListeleRequest" message="tns:eFaturaKayitliKullaniciListele" />
+      <output xmlns:ns46="http://www.w3.org/2007/05/addressing/metadata" ns46:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/eFaturaKayitliKullaniciListeleResponse" message="tns:eFaturaKayitliKullaniciListeleResponse" />
+    </operation>
+    <operation name="faturaListeSorgula">
+      <input xmlns:ns47="http://www.w3.org/2007/05/addressing/metadata" ns47:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaListeSorgulaRequest" message="tns:faturaListeSorgula" />
+      <output xmlns:ns48="http://www.w3.org/2007/05/addressing/metadata" ns48:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaListeSorgulaResponse" message="tns:faturaListeSorgulaResponse" />
+    </operation>
+    <operation name="faturaListeSorgulaPortal">
+      <input xmlns:ns49="http://www.w3.org/2007/05/addressing/metadata" ns49:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaListeSorgulaPortalRequest" message="tns:faturaListeSorgulaPortal" />
+      <output xmlns:ns50="http://www.w3.org/2007/05/addressing/metadata" ns50:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaListeSorgulaPortalResponse" message="tns:faturaListeSorgulaPortalResponse" />
+    </operation>
+    <operation name="smsDurumSorgula">
+      <input xmlns:ns51="http://www.w3.org/2007/05/addressing/metadata" ns51:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/smsDurumSorgulaRequest" message="tns:smsDurumSorgula" />
+      <output xmlns:ns52="http://www.w3.org/2007/05/addressing/metadata" ns52:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/smsDurumSorgulaResponse" message="tns:smsDurumSorgulaResponse" />
+    </operation>
+    <operation name="smsGonder">
+      <input xmlns:ns53="http://www.w3.org/2007/05/addressing/metadata" ns53:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/smsGonderRequest" message="tns:smsGonder" />
+      <output xmlns:ns54="http://www.w3.org/2007/05/addressing/metadata" ns54:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/smsGonderResponse" message="tns:smsGonderResponse" />
+    </operation>
+    <operation name="raporBolumRaporNoGuncelleImzala">
+      <input xmlns:ns55="http://www.w3.org/2007/05/addressing/metadata" ns55:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumRaporNoGuncelleImzalaRequest" message="tns:raporBolumRaporNoGuncelleImzala" />
+      <output xmlns:ns56="http://www.w3.org/2007/05/addressing/metadata" ns56:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/raporBolumRaporNoGuncelleImzalaResponse" message="tns:raporBolumRaporNoGuncelleImzalaResponse" />
+    </operation>
+    <operation name="rapordaFaturaSorgula">
+      <input xmlns:ns57="http://www.w3.org/2007/05/addressing/metadata" ns57:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/rapordaFaturaSorgulaRequest" message="tns:rapordaFaturaSorgula" />
+      <output xmlns:ns58="http://www.w3.org/2007/05/addressing/metadata" ns58:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/rapordaFaturaSorgulaResponse" message="tns:rapordaFaturaSorgulaResponse" />
+    </operation>
+    <operation name="yapilandirmaAyarlariAl">
+      <input xmlns:ns59="http://www.w3.org/2007/05/addressing/metadata" ns59:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/yapilandirmaAyarlariAlRequest" message="tns:yapilandirmaAyarlariAl" />
+      <output xmlns:ns60="http://www.w3.org/2007/05/addressing/metadata" ns60:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/yapilandirmaAyarlariAlResponse" message="tns:yapilandirmaAyarlariAlResponse" />
+    </operation>
+    <operation name="faturaTaslakOlustur">
+      <input xmlns:ns61="http://www.w3.org/2007/05/addressing/metadata" ns61:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaTaslakOlusturRequest" message="tns:faturaTaslakOlustur" />
+      <output xmlns:ns62="http://www.w3.org/2007/05/addressing/metadata" ns62:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaTaslakOlusturResponse" message="tns:faturaTaslakOlusturResponse" />
+    </operation>
+    <operation name="faturaTaslaktanOlustur">
+      <input xmlns:ns63="http://www.w3.org/2007/05/addressing/metadata" ns63:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaTaslaktanOlusturRequest" message="tns:faturaTaslaktanOlustur" />
+      <output xmlns:ns64="http://www.w3.org/2007/05/addressing/metadata" ns64:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaTaslaktanOlusturResponse" message="tns:faturaTaslaktanOlusturResponse" />
+    </operation>
+    <operation name="faturaTaslakSorgula">
+      <input xmlns:ns65="http://www.w3.org/2007/05/addressing/metadata" ns65:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaTaslakSorgulaRequest" message="tns:faturaTaslakSorgula" />
+      <output xmlns:ns66="http://www.w3.org/2007/05/addressing/metadata" ns66:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaTaslakSorgulaResponse" message="tns:faturaTaslakSorgulaResponse" />
+    </operation>
+    <operation name="faturaTaslakSil">
+      <input xmlns:ns67="http://www.w3.org/2007/05/addressing/metadata" ns67:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaTaslakSilRequest" message="tns:faturaTaslakSil" />
+      <output xmlns:ns68="http://www.w3.org/2007/05/addressing/metadata" ns68:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaTaslakSilResponse" message="tns:faturaTaslakSilResponse" />
+    </operation>
+    <operation name="faturaTaslakOnizleme">
+      <input xmlns:ns69="http://www.w3.org/2007/05/addressing/metadata" ns69:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaTaslakOnizlemeRequest" message="tns:faturaTaslakOnizleme" />
+      <output xmlns:ns70="http://www.w3.org/2007/05/addressing/metadata" ns70:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaTaslakOnizlemeResponse" message="tns:faturaTaslakOnizlemeResponse" />
+    </operation>
+    <operation name="okcRaporKaydet">
+      <input xmlns:ns71="http://www.w3.org/2007/05/addressing/metadata" ns71:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/okcRaporKaydetRequest" message="tns:okcRaporKaydet" />
+      <output xmlns:ns72="http://www.w3.org/2007/05/addressing/metadata" ns72:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/okcRaporKaydetResponse" message="tns:okcRaporKaydetResponse" />
+    </operation>
+    <operation name="okcRaporOlusturGonder">
+      <input xmlns:ns73="http://www.w3.org/2007/05/addressing/metadata" ns73:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/okcRaporOlusturGonderRequest" message="tns:okcRaporOlusturGonder" />
+      <output xmlns:ns74="http://www.w3.org/2007/05/addressing/metadata" ns74:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/okcRaporOlusturGonderResponse" message="tns:okcRaporOlusturGonderResponse" />
+    </operation>
+    <operation name="okcRaporBolumAl">
+      <input xmlns:ns75="http://www.w3.org/2007/05/addressing/metadata" ns75:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/okcRaporBolumAlRequest" message="tns:okcRaporBolumAl" />
+      <output xmlns:ns76="http://www.w3.org/2007/05/addressing/metadata" ns76:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/okcRaporBolumAlResponse" message="tns:okcRaporBolumAlResponse" />
+    </operation>
+    <operation name="faturaZipiAl">
+      <input xmlns:ns77="http://www.w3.org/2007/05/addressing/metadata" ns77:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaZipiAlRequest" message="tns:faturaZipiAl" />
+      <output xmlns:ns78="http://www.w3.org/2007/05/addressing/metadata" ns78:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaZipiAlResponse" message="tns:faturaZipiAlResponse" />
+    </operation>
+    <operation name="faturaOlustur">
+      <input xmlns:ns79="http://www.w3.org/2007/05/addressing/metadata" ns79:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaOlusturRequest" message="tns:faturaOlustur" />
+      <output xmlns:ns80="http://www.w3.org/2007/05/addressing/metadata" ns80:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaOlusturResponse" message="tns:faturaOlusturResponse" />
+    </operation>
+    <operation name="faturaOlusturExt">
+      <input xmlns:ns81="http://www.w3.org/2007/05/addressing/metadata" ns81:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaOlusturExtRequest" message="tns:faturaOlusturExt" />
+      <output xmlns:ns82="http://www.w3.org/2007/05/addressing/metadata" ns82:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaOlusturExtResponse" message="tns:faturaOlusturExtResponse" />
+    </operation>
+    <operation name="faturaSorgula">
+      <input xmlns:ns83="http://www.w3.org/2007/05/addressing/metadata" ns83:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaSorgulaRequest" message="tns:faturaSorgula" />
+      <output xmlns:ns84="http://www.w3.org/2007/05/addressing/metadata" ns84:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaSorgulaResponse" message="tns:faturaSorgulaResponse" />
+    </operation>
+    <operation name="faturaSorgulaExt">
+      <input xmlns:ns85="http://www.w3.org/2007/05/addressing/metadata" ns85:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaSorgulaExtRequest" message="tns:faturaSorgulaExt" />
+      <output xmlns:ns86="http://www.w3.org/2007/05/addressing/metadata" ns86:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaSorgulaExtResponse" message="tns:faturaSorgulaExtResponse" />
+    </operation>
+    <operation name="aliciEpostaEkleSilGuncelle">
+      <input xmlns:ns87="http://www.w3.org/2007/05/addressing/metadata" ns87:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/aliciEpostaEkleSilGuncelleRequest" message="tns:aliciEpostaEkleSilGuncelle" />
+      <output xmlns:ns88="http://www.w3.org/2007/05/addressing/metadata" ns88:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/aliciEpostaEkleSilGuncelleResponse" message="tns:aliciEpostaEkleSilGuncelleResponse" />
+    </operation>
+    <operation name="ePostaGonder">
+      <input xmlns:ns89="http://www.w3.org/2007/05/addressing/metadata" ns89:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/ePostaGonderRequest" message="tns:ePostaGonder" />
+      <output xmlns:ns90="http://www.w3.org/2007/05/addressing/metadata" ns90:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/ePostaGonderResponse" message="tns:ePostaGonderResponse" />
+    </operation>
+    <operation name="faturaIptalEt">
+      <input xmlns:ns91="http://www.w3.org/2007/05/addressing/metadata" ns91:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaIptalEtRequest" message="tns:faturaIptalEt" />
+      <output xmlns:ns92="http://www.w3.org/2007/05/addressing/metadata" ns92:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaIptalEtResponse" message="tns:faturaIptalEtResponse" />
+    </operation>
+    <operation name="faturaIptaliKaldir">
+      <input xmlns:ns93="http://www.w3.org/2007/05/addressing/metadata" ns93:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaIptaliKaldirRequest" message="tns:faturaIptaliKaldir" />
+      <output xmlns:ns94="http://www.w3.org/2007/05/addressing/metadata" ns94:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/faturaIptaliKaldirResponse" message="tns:faturaIptaliKaldirResponse" />
+    </operation>
+    <operation name="ePostaDurumSorgula">
+      <input xmlns:ns95="http://www.w3.org/2007/05/addressing/metadata" ns95:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/ePostaDurumSorgulaRequest" message="tns:ePostaDurumSorgula" />
+      <output xmlns:ns96="http://www.w3.org/2007/05/addressing/metadata" ns96:Action="http://service.earsiv.uut.cs.com.tr/EarsivWebService/ePostaDurumSorgulaResponse" message="tns:ePostaDurumSorgulaResponse" />
+    </operation>
+  </portType>
+</definitions>
