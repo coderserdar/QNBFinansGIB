@@ -573,7 +573,8 @@ namespace QNBFinansGIB.Utils
                 currencyCode.InnerText = "TRY";
                 payeeFinancialAccount.AppendChild(currencyCode);
                 var paymentNote = doc.CreateElement("cbc", "PaymentNote", xlmnscbc.Value);
-                paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
+                if (!string.IsNullOrEmpty(gidenFatura.BankaAd) && !string.IsNullOrEmpty(gidenFatura.BankaSube))
+                    paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
                 payeeFinancialAccount.AppendChild(paymentNote);
                 paymentMeans.AppendChild(payeeFinancialAccount);
                 root.AppendChild(paymentMeans);
@@ -681,7 +682,10 @@ namespace QNBFinansGIB.Utils
                 invoiceLineId.InnerText = i.ToString();
                 invoiceLine.AppendChild(invoiceLineId);
                 var quantity = doc.CreateAttribute("unitCode");
-                quantity.Value = item.GibKisaltma;
+                if (!string.IsNullOrEmpty(item.GibKisaltma))
+                    quantity.Value = item.GibKisaltma;
+                else
+                    quantity.Value = "KGM";
                 var invoicedQuantity = doc.CreateElement("cbc", "InvoicedQuantity", xlmnscbc.Value);
                 invoicedQuantity.RemoveAllAttributes();
                 invoicedQuantity.Attributes.Append(quantity);
@@ -792,7 +796,8 @@ namespace QNBFinansGIB.Utils
                     invoiceItem.AppendChild(description);
                 }
                 var itemName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                itemName.InnerText = item.FaturaUrunTuru;
+                if (!string.IsNullOrEmpty(item.FaturaUrunTuru))
+                    itemName.InnerText = item.FaturaUrunTuru;
                 invoiceItem.AppendChild(itemName);
                 invoiceLine.AppendChild(invoiceItem);
                 #endregion
@@ -1249,7 +1254,8 @@ namespace QNBFinansGIB.Utils
                     currencyCode.InnerText = "TRY";
                     payeeFinancialAccount.AppendChild(currencyCode);
                     var paymentNote = doc.CreateElement("cbc", "PaymentNote", xlmnscbc.Value);
-                    paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
+                    if (!string.IsNullOrEmpty(gidenFatura.BankaAd) && !string.IsNullOrEmpty(gidenFatura.BankaSube))
+                        paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
                     payeeFinancialAccount.AppendChild(paymentNote);
                     paymentMeans.AppendChild(payeeFinancialAccount);
                     root.AppendChild(paymentMeans);
@@ -1376,7 +1382,10 @@ namespace QNBFinansGIB.Utils
                     invoiceLineId.InnerText = i.ToString();
                     invoiceLine.AppendChild(invoiceLineId);
                     var quantity = doc.CreateAttribute("unitCode");
-                    quantity.Value = item.GibKisaltma;
+                    if (!string.IsNullOrEmpty(item.GibKisaltma))
+                        quantity.Value = item.GibKisaltma;
+                    else
+                        quantity.Value = "KGM";
                     var invoicedQuantity = doc.CreateElement("cbc", "InvoicedQuantity", xlmnscbc.Value);
                     invoicedQuantity.RemoveAllAttributes();
                     invoicedQuantity.Attributes.Append(quantity);
@@ -1478,7 +1487,8 @@ namespace QNBFinansGIB.Utils
                         invoiceItem.AppendChild(description);
                     }
                     var itemName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                    itemName.InnerText = item.FaturaUrunTuru;
+                    if (!string.IsNullOrEmpty(item.FaturaUrunTuru))
+                        itemName.InnerText = item.FaturaUrunTuru;
                     invoiceItem.AppendChild(itemName);
                     invoiceLine.AppendChild(invoiceItem);
                     #endregion
@@ -2053,7 +2063,8 @@ namespace QNBFinansGIB.Utils
                     currencyCode.InnerText = "TRY";
                     payeeFinancialAccount.AppendChild(currencyCode);
                     var paymentNote = doc.CreateElement("cbc", "PaymentNote", xlmnscbc.Value);
-                    paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
+                    if (!string.IsNullOrEmpty(gidenFatura.BankaAd) && !string.IsNullOrEmpty(gidenFatura.BankaSube))
+                        paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
                     payeeFinancialAccount.AppendChild(paymentNote);
                     paymentMeans.AppendChild(payeeFinancialAccount);
                     root.AppendChild(paymentMeans);
@@ -2206,7 +2217,10 @@ namespace QNBFinansGIB.Utils
                     invoiceLineId.InnerText = i.ToString();
                     invoiceLine.AppendChild(invoiceLineId);
                     var quantity = doc.CreateAttribute("unitCode");
-                    quantity.Value = item.GibKisaltma;
+                    if (!string.IsNullOrEmpty(item.GibKisaltma))
+                        quantity.Value = item.GibKisaltma;
+                    else
+                        quantity.Value = "KGM";
                     var invoicedQuantity = doc.CreateElement("cbc", "InvoicedQuantity", xlmnscbc.Value);
                     invoicedQuantity.RemoveAllAttributes();
                     invoicedQuantity.Attributes.Append(quantity);
@@ -2308,16 +2322,9 @@ namespace QNBFinansGIB.Utils
                         invoiceItem.AppendChild(description);
                     }
                     var itemName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                    itemName.InnerText = item.FaturaUrunTuru;
+                    if (!string.IsNullOrEmpty(item.FaturaUrunTuru))
+                        itemName.InnerText = item.FaturaUrunTuru;
                     invoiceItem.AppendChild(itemName);
-                    //if (!string.IsNullOrEmpty(item.MalzemeFaturaAciklamasi))
-                    //{
-                    //    var sellersItemIdentification = doc.CreateElement("cac", "SellersItemIdentification", xlmnscac.Value);
-                    //    var sellersItemIdentificationId = doc.CreateElement("cbc", "ID", xlmnscbc.Value);
-                    //    sellersItemIdentificationId.InnerText = item.MalzemeFaturaAciklamasi;
-                    //    sellersItemIdentification.AppendChild(sellersItemIdentificationId);
-                    //    invoiceItem.AppendChild(sellersItemIdentification);
-                    //}
                     invoiceLine.AppendChild(invoiceItem);
                     #endregion
 
