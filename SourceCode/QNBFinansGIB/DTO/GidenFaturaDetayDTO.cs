@@ -8,6 +8,11 @@ namespace QNBFinansGIB.DTO
     public class GidenFaturaDetayDTO
     {
         /// <summary>
+        /// Giden Fatura Id Bilgisi
+        /// </summary>
+        public string GidenFaturaId;
+
+        /// <summary>
         /// Fatura Detayındaki Ürün Türü Bilgisi
         /// </summary>
         public string FaturaUrunTuru;

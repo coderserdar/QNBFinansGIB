@@ -116,7 +116,7 @@ namespace QNBFinansGIB.Utils
             root.AppendChild(copyIndicator);
 
             var gidenFaturaId = doc.CreateElement("cbc", "UUID", xlmnscbc.Value);
-            gidenFaturaId.InnerText = gidenFatura.GidenFaturaId.ToUpper();
+            gidenFaturaId.InnerText = gidenFatura.GidenFaturaId.Length == 36 ? gidenFatura.GidenFaturaId.ToUpper() : Guid.NewGuid().ToString().ToUpper();
             root.AppendChild(gidenFaturaId);
 
             var issueDate = doc.CreateElement("cbc", "IssueDate", xlmnscbc.Value);
@@ -932,7 +932,7 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(copyIndicator);
 
                 var gidenFaturaId = doc.CreateElement("cbc", "UUID", xlmnscbc.Value);
-                gidenFaturaId.InnerText = gidenFatura.GidenFaturaId.ToUpper();
+                gidenFaturaId.InnerText = gidenFatura.GidenFaturaId.Length == 36 ? gidenFatura.GidenFaturaId.ToUpper() : Guid.NewGuid().ToString().ToUpper();
                 root.AppendChild(gidenFaturaId);
 
                 var issueDate = doc.CreateElement("cbc", "IssueDate", xlmnscbc.Value);
@@ -1609,7 +1609,7 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(copyIndicator);
 
                 var gidenFaturaId = doc.CreateElement("cbc", "UUID", xlmnscbc.Value);
-                gidenFaturaId.InnerText = gidenFatura.GidenFaturaId.ToUpper();
+                gidenFaturaId.InnerText = gidenFatura.GidenFaturaId.Length == 36 ? gidenFatura.GidenFaturaId.ToUpper() : Guid.NewGuid().ToString().ToUpper();
                 root.AppendChild(gidenFaturaId);
 
                 var issueDate = doc.CreateElement("cbc", "IssueDate", xlmnscbc.Value);

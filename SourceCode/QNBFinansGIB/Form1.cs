@@ -33,7 +33,7 @@ namespace QNBFinansGIB
             #region Giden Faturaları Ekleme
             var gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = Guid.NewGuid().ToString(),
+                GidenFaturaId = "1",
                 TuzelKisiAd = "Deneme Şirketi - 1",
                 VergiNo = "53602329864",
                 VergiDairesi = "ANKARA",
@@ -55,7 +55,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = Guid.NewGuid().ToString(),
+                GidenFaturaId = "2",
                 TuzelKisiAd = "Deneme Şirketi - 2",
                 VergiNo = "9250936109",
                 VergiDairesi = "ANKARA",
@@ -78,7 +78,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = Guid.NewGuid().ToString(),
+                GidenFaturaId = "3",
                 TuzelKisiAd = "Deneme Şirketi - 3",
                 VergiNo = "5240018140",
                 VergiDairesi = "ANKARA",
@@ -100,7 +100,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = Guid.NewGuid().ToString(),
+                GidenFaturaId = "4",
                 TuzelKisiAd = "Deneme Şirketi - 4",
                 VergiNo = "6940116151",
                 VergiDairesi = "ANKARA",
@@ -123,7 +123,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = Guid.NewGuid().ToString(),
+                GidenFaturaId = "5",
                 TuzelKisiAd = "Deneme Şirketi - 3",
                 VergiNo = "20101516422",
                 VergiDairesi = "ANKARA",
@@ -145,7 +145,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = Guid.NewGuid().ToString(),
+                GidenFaturaId = "6",
                 GercekKisiTcKimlikNo = "52270709114",
                 GercekKisiAd = "Adnan",
                 GercekKisiSoyad = "Şenses",
@@ -168,7 +168,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = Guid.NewGuid().ToString(),
+                GidenFaturaId = "7",
                 GercekKisiTcKimlikNo = "20077290692",
                 GercekKisiAd = "Mehmet Emin",
                 GercekKisiSoyad = "Akdeniz",
@@ -199,6 +199,7 @@ namespace QNBFinansGIB
 
             var gidenFaturaDetay = new GidenFaturaDetayDTO
             {
+                GidenFaturaId = "7",
                 BirimFiyat = (decimal)0.1234,
                 Miktar = 1000,
                 KdvOran = 0,
@@ -219,6 +220,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
+                GidenFaturaId = "7",
                 BirimFiyat = (decimal)0.1234,
                 Miktar = 1000,
                 KdvOran = 1,
@@ -233,6 +235,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
+                GidenFaturaId = "2",
                 BirimFiyat = (decimal)0.1234,
                 Miktar = 1000,
                 KdvOran = 1,
@@ -247,6 +250,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
+                GidenFaturaId = "3",
                 BirimFiyat = (decimal)0.124,
                 Miktar = 5000,
                 KdvOran = 8,
@@ -261,6 +265,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
+                GidenFaturaId = "1",
                 BirimFiyat = 500,
                 Miktar = 120,
                 KdvOran = 18,
@@ -275,13 +280,36 @@ namespace QNBFinansGIB
 
             #endregion
 
-            #region Giden Fatura Toplamları Hesaplama
+            #region Giden Fatura Toplamları Hesaplama ve Olmayanlara Ekleme
 
             foreach (var item in gidenFaturaListesi)
             {
-                item.KdvHaricTutar = gidenFaturaDetayListesi.Sum(j => j.KdvHaricTutar);
-                item.KdvTutari = gidenFaturaDetayListesi.Sum(j => j.KdvTutari);
-                item.FaturaTutari = item.KdvHaricTutar + item.KdvTutari;
+                if (gidenFaturaDetayListesi.Any(j => j.GidenFaturaId == item.GidenFaturaId))
+                {
+                    var gidenFaturaDetayListesiTemp = gidenFaturaDetayListesi.Where(j => j.GidenFaturaId == item.GidenFaturaId).ToList();
+                    item.KdvHaricTutar = gidenFaturaDetayListesiTemp.Sum(j => j.KdvHaricTutar);
+                    item.KdvTutari = gidenFaturaDetayListesiTemp.Sum(j => j.KdvTutari);
+                    item.FaturaTutari = item.KdvHaricTutar + item.KdvTutari;
+                }
+                else
+                {
+                    gidenFaturaDetay = new GidenFaturaDetayDTO
+                    {
+                        GidenFaturaId = item.GidenFaturaId,
+                        BirimFiyat = (decimal)1.5,
+                        Miktar = 1000,
+                        KdvOran = 1,
+                        IskontoOran = 0,
+                        KdvHaricTutar = 1500,
+                        KdvTutari = 15,
+                        GibKisaltma = "MTR",
+                        FaturaUrunTuru = "Deneme " + item.GidenFaturaId,
+                    };
+                    item.KdvHaricTutar = gidenFaturaDetay.KdvHaricTutar;
+                    item.KdvTutari = gidenFaturaDetay.KdvTutari;
+                    item.FaturaTutari = item.KdvHaricTutar + item.KdvTutari;
+                    gidenFaturaDetayListesi.Add(gidenFaturaDetay);
+                }
             }
 
             #endregion
@@ -307,6 +335,9 @@ namespace QNBFinansGIB
                     var klasorAdi = dialogKlasorSecimi.SelectedPath;
                     var index = new Random().Next(gidenFaturaListesi.Count);
                     var gidenFatura = gidenFaturaListesi[index];
+                    var gidenFaturaDetayListesiTemp = new List<GidenFaturaDetayDTO>();
+                    if (gidenFaturaDetayListesi.Any(j => j.GidenFaturaId == gidenFatura.GidenFaturaId))
+                        gidenFaturaDetayListesiTemp = gidenFaturaDetayListesi.Where(j => j.GidenFaturaId == gidenFatura.GidenFaturaId).ToList();
 
                     #region XML Oluşturma
                     var dosyaAdi = "";
@@ -315,16 +346,16 @@ namespace QNBFinansGIB
                         var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
                         if (kullaniciMi)
                         {
-                            dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi);
+                            dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi);
                         }
                         else
                         {
-                            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi, true);
+                            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, true);
                         }
                     }
                     else
                     {
-                        dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi, false);
+                        dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, false);
                     }
 
                     MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.");
@@ -353,6 +384,9 @@ namespace QNBFinansGIB
                     var klasorAdi = dialogKlasorSecimi.SelectedPath;
                     var index = new Random().Next(gidenFaturaListesi.Count);
                     var gidenFatura = gidenFaturaListesi[index];
+                    var gidenFaturaDetayListesiTemp = new List<GidenFaturaDetayDTO>();
+                    if (gidenFaturaDetayListesi.Any(j => j.GidenFaturaId == gidenFatura.GidenFaturaId))
+                        gidenFaturaDetayListesiTemp = gidenFaturaDetayListesi.Where(j => j.GidenFaturaId == gidenFatura.GidenFaturaId).ToList();
 
                     #region XML Oluşturma
                     var dosyaAdi = "";
@@ -365,20 +399,20 @@ namespace QNBFinansGIB
                         kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
                         if (kullaniciMi)
                         {
-                            dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi);
+                            dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi);
                             geriDonus = DisServisler.EFaturaOnIzleme(gidenFatura, dosyaAdi);
                             if (geriDonus != null)
                                 dosya = geriDonus.Dosya;
                         }
                         else
                         {
-                            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi, true);
+                            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, true);
                             dosya = DisServisler.EArsivOnIzleme(gidenFatura, dosyaAdi);
                         }
                     }
                     else
                     {
-                        dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi, false);
+                        dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, false);
                         dosya = DisServisler.EArsivOnIzleme(gidenFatura, dosyaAdi);
                     }
 
