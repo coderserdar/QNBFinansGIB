@@ -826,7 +826,7 @@ namespace QNBFinansGIB.Utils
 
             #region Dosya Kaydı
 
-            var fileName = aktarilacakKlasorAdi + gidenFatura.GidenFaturaId + ".xml";
+            var fileName = aktarilacakKlasorAdi + "/" + gidenFatura.GidenFaturaId + ".xml";
             doc.Save(fileName);
 
             #endregion
@@ -1512,7 +1512,7 @@ namespace QNBFinansGIB.Utils
 
                 #region Dosya Kaydı
 
-                var fileName = aktarilacakKlasorAdi + gidenFatura.GidenFaturaId + ".xml";
+                var fileName = aktarilacakKlasorAdi + "/" + gidenFatura.GidenFaturaId + ".xml";
                 doc.Save(fileName);
 
                 #endregion
@@ -2350,7 +2350,7 @@ namespace QNBFinansGIB.Utils
 
                 #region Dosya Kaydı
 
-                var fileName = aktarilacakKlasorAdi + gidenFatura.GidenFaturaId + ".xml";
+                var fileName = aktarilacakKlasorAdi + "/" + gidenFatura.GidenFaturaId + ".xml";
                 doc.Save(fileName);
 
                 #endregion
