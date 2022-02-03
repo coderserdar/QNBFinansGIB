@@ -8,14 +8,14 @@ namespace QNBFinansGIB.DTO
     public class GidenFaturaDetayDTO
     {
         /// <summary>
-        /// Kod Fatura Ürün Türü Ad Bilgisi
+        /// Fatura Detayındaki Ürün Türü Bilgisi
         /// </summary>
-        public string KodFaturaUrunTuruAd;
+        public string FaturaUrunTuru;
 
         /// <summary>
-        /// Kod İskonto Türü Oran Bilgisi
+        /// İskonto Oran Bilgisi
         /// </summary>
-        public decimal? KodIskontoTuruOran;
+        public decimal? IskontoOran;
 
         /// <summary>
         /// Plaka No Bilgisi
@@ -80,6 +80,6 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// KDV Oran Bilgisi
         /// </summary>
-        public decimal? KodKdvTuruOran;
+        public decimal? KdvOran;
     }
 }

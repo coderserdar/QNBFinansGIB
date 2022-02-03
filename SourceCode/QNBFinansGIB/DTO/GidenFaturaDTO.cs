@@ -13,9 +13,9 @@ namespace QNBFinansGIB.DTO
         public string GidenFaturaId;
 
         /// <summary>
-        /// Kod Satış Türü Kod Bilgisi
+        /// Satış Türü Kod Bilgisi
         /// </summary>
-        public int? KodSatisTuruKod;
+        public int? SatisTuruKod;
 
         #region Gerçek Kişi Bilgileri
 
@@ -62,14 +62,14 @@ namespace QNBFinansGIB.DTO
         public string VergiDairesi;
 
         /// <summary>
-        /// Kod İl Ad Bilgisi
+        /// İl Ad Bilgisi
         /// </summary>
-        public string KodIlAd;
+        public string IlAd;
 
         /// <summary>
-        /// Kod İlçe Ad Bilgisi
+        /// İlçe Ad Bilgisi
         /// </summary>
-        public string KodIlceAd;
+        public string IlceAd;
 
         /// <summary>
         /// Adres Bilgisi
@@ -97,9 +97,9 @@ namespace QNBFinansGIB.DTO
         public string IbanNo;
 
         /// <summary>
-        /// Kod Banka Ad Bilgisi
+        /// Banka Ad Bilgisi
         /// </summary>
-        public string KodBankaAd;
+        public string BankaAd;
 
         /// <summary>
         /// Banka Şube Bilgisi

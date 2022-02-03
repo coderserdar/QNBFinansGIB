@@ -51,8 +51,8 @@ namespace QNBFinansGIB.Utils
             root = doc.CreateElement("Invoice");
 
             var kodSatisTuruKod = 0;
-            if (gidenFatura.KodSatisTuruKod != null)
-                kodSatisTuruKod = gidenFatura.KodSatisTuruKod ?? 0;
+            if (gidenFatura.SatisTuruKod != null)
+                kodSatisTuruKod = gidenFatura.SatisTuruKod ?? 0;
 
             #region Standart ve Faturaya Bağlı Bilgiler
 
@@ -396,12 +396,12 @@ namespace QNBFinansGIB.Utils
             //buildingNumber.InnerText = "";
             postalAddress.AppendChild(buildingNumber);
             citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xlmnscbc.Value);
-            if (!string.IsNullOrEmpty(gidenFatura.KodIlceAd))
-                citySubdivisionName.InnerText = gidenFatura.KodIlceAd;
+            if (!string.IsNullOrEmpty(gidenFatura.IlceAd))
+                citySubdivisionName.InnerText = gidenFatura.IlceAd;
             postalAddress.AppendChild(citySubdivisionName);
             cityName = doc.CreateElement("cbc", "CityName", xlmnscbc.Value);
-            if (!string.IsNullOrEmpty(gidenFatura.KodIlAd))
-                cityName.InnerText = gidenFatura.KodIlAd;
+            if (!string.IsNullOrEmpty(gidenFatura.IlAd))
+                cityName.InnerText = gidenFatura.IlAd;
             postalAddress.AppendChild(cityName);
             postalZone = doc.CreateElement("cbc", "PostalZone", xlmnscbc.Value);
             //postalZone.InnerText = "";
@@ -498,12 +498,12 @@ namespace QNBFinansGIB.Utils
                     //buildingNumber.InnerText = "";
                     postalAddress.AppendChild(buildingNumber);
                     citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xlmnscbc.Value);
-                    if (!string.IsNullOrEmpty(gidenFatura.KodIlceAd))
-                        citySubdivisionName.InnerText = gidenFatura.KodIlceAd;
+                    if (!string.IsNullOrEmpty(gidenFatura.IlceAd))
+                        citySubdivisionName.InnerText = gidenFatura.IlceAd;
                     postalAddress.AppendChild(citySubdivisionName);
                     cityName = doc.CreateElement("cbc", "CityName", xlmnscbc.Value);
-                    if (!string.IsNullOrEmpty(gidenFatura.KodIlAd))
-                        cityName.InnerText = gidenFatura.KodIlAd;
+                    if (!string.IsNullOrEmpty(gidenFatura.IlAd))
+                        cityName.InnerText = gidenFatura.IlAd;
                     postalAddress.AppendChild(cityName);
                     postalZone = doc.CreateElement("cbc", "PostalZone", xlmnscbc.Value);
                     //postalZone.InnerText = "";
@@ -556,7 +556,7 @@ namespace QNBFinansGIB.Utils
                 }
             }
 
-            if (!string.IsNullOrEmpty(gidenFatura.KodBankaAd))
+            if (!string.IsNullOrEmpty(gidenFatura.BankaAd))
             {
                 #region PaymentMeans
 
@@ -573,7 +573,7 @@ namespace QNBFinansGIB.Utils
                 currencyCode.InnerText = "TRY";
                 payeeFinancialAccount.AppendChild(currencyCode);
                 var paymentNote = doc.CreateElement("cbc", "PaymentNote", xlmnscbc.Value);
-                paymentNote.InnerText = gidenFatura.KodBankaAd + " - " + gidenFatura.BankaSube;
+                paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
                 payeeFinancialAccount.AppendChild(paymentNote);
                 paymentMeans.AppendChild(payeeFinancialAccount);
                 root.AppendChild(paymentMeans);
@@ -704,7 +704,7 @@ namespace QNBFinansGIB.Utils
                 allowanceCharge.AppendChild(chargeIndicator);
                 decimal amount2 = 0;
                 decimal toplamTutar = (decimal)item.KdvHaricTutar;
-                decimal kodIskontoTuruOran = item.KodIskontoTuruOran ?? 0;
+                decimal kodIskontoTuruOran = item.IskontoOran ?? 0;
                 if (kodIskontoTuruOran > 0)
                 {
                     toplamTutar = Decimal.Round((decimal)item.Miktar * (decimal)item.BirimFiyat, 4, MidpointRounding.AwayFromZero);
@@ -757,8 +757,8 @@ namespace QNBFinansGIB.Utils
                 taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 taxSubTotal.AppendChild(taxAmount2);
                 var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
-                if (item.KodKdvTuruOran != null)
-                    percent.InnerText = Decimal.Round((decimal)item.KodKdvTuruOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
+                if (item.KdvOran != null)
+                    percent.InnerText = Decimal.Round((decimal)item.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
                 taxSubTotal.AppendChild(percent);
                 taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
                 if (item.KdvTutari == 0)
@@ -792,7 +792,7 @@ namespace QNBFinansGIB.Utils
                     invoiceItem.AppendChild(description);
                 }
                 var itemName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                itemName.InnerText = item.KodFaturaUrunTuruAd;
+                itemName.InnerText = item.FaturaUrunTuru;
                 invoiceItem.AppendChild(itemName);
                 invoiceLine.AppendChild(invoiceItem);
                 #endregion
@@ -858,8 +858,8 @@ namespace QNBFinansGIB.Utils
                 root = doc.CreateElement("Invoice");
 
                 var kodSatisTuruKod = 0;
-                if (gidenFatura.KodSatisTuruKod != null)
-                    kodSatisTuruKod = gidenFatura.KodSatisTuruKod ?? 0;
+                if (gidenFatura.SatisTuruKod != null)
+                    kodSatisTuruKod = gidenFatura.SatisTuruKod ?? 0;
 
                 #region Standart ve Faturaya Bağlı Bilgiler
 
@@ -1175,12 +1175,12 @@ namespace QNBFinansGIB.Utils
                 //buildingNumber.InnerText = "";
                 postalAddress.AppendChild(buildingNumber);
                 citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xlmnscbc.Value);
-                if (!string.IsNullOrEmpty(gidenFatura.KodIlceAd))
-                    citySubdivisionName.InnerText = gidenFatura.KodIlceAd;
+                if (!string.IsNullOrEmpty(gidenFatura.IlceAd))
+                    citySubdivisionName.InnerText = gidenFatura.IlceAd;
                 postalAddress.AppendChild(citySubdivisionName);
                 cityName = doc.CreateElement("cbc", "CityName", xlmnscbc.Value);
-                if (!string.IsNullOrEmpty(gidenFatura.KodIlAd))
-                    cityName.InnerText = gidenFatura.KodIlAd;
+                if (!string.IsNullOrEmpty(gidenFatura.IlAd))
+                    cityName.InnerText = gidenFatura.IlAd;
                 postalAddress.AppendChild(cityName);
                 postalZone = doc.CreateElement("cbc", "PostalZone", xlmnscbc.Value);
                 //postalZone.InnerText = "";
@@ -1232,7 +1232,7 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(accountingCustomerParty);
                 #endregion
 
-                if (!string.IsNullOrEmpty(gidenFatura.KodBankaAd))
+                if (!string.IsNullOrEmpty(gidenFatura.BankaAd))
                 {
                     #region PaymentMeans
 
@@ -1249,7 +1249,7 @@ namespace QNBFinansGIB.Utils
                     currencyCode.InnerText = "TRY";
                     payeeFinancialAccount.AppendChild(currencyCode);
                     var paymentNote = doc.CreateElement("cbc", "PaymentNote", xlmnscbc.Value);
-                    paymentNote.InnerText = gidenFatura.KodBankaAd + " - " + gidenFatura.BankaSube;
+                    paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
                     payeeFinancialAccount.AppendChild(paymentNote);
                     paymentMeans.AppendChild(payeeFinancialAccount);
                     root.AppendChild(paymentMeans);
@@ -1399,7 +1399,7 @@ namespace QNBFinansGIB.Utils
                     allowanceCharge.AppendChild(chargeIndicator);
                     decimal amount2 = 0;
                     decimal toplamTutar = (decimal)item.KdvHaricTutar;
-                    decimal kodIskontoTuruOran = item.KodIskontoTuruOran ?? 0;
+                    decimal kodIskontoTuruOran = item.IskontoOran ?? 0;
                     if (kodIskontoTuruOran > 0)
                     {
                         toplamTutar = Decimal.Round((decimal)item.Miktar * (decimal)item.BirimFiyat, 4, MidpointRounding.AwayFromZero);
@@ -1452,8 +1452,8 @@ namespace QNBFinansGIB.Utils
                     taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxSubTotal.AppendChild(taxAmount2);
                     percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
-                    if (item.KodKdvTuruOran != null)
-                        percent.InnerText = Decimal.Round((decimal)item.KodKdvTuruOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
+                    if (item.KdvOran != null)
+                        percent.InnerText = Decimal.Round((decimal)item.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
                     taxSubTotal.AppendChild(percent);
                     taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
                     taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
@@ -1478,7 +1478,7 @@ namespace QNBFinansGIB.Utils
                         invoiceItem.AppendChild(description);
                     }
                     var itemName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                    itemName.InnerText = item.KodFaturaUrunTuruAd;
+                    itemName.InnerText = item.FaturaUrunTuru;
                     invoiceItem.AppendChild(itemName);
                     invoiceLine.AppendChild(invoiceItem);
                     #endregion
@@ -1535,8 +1535,8 @@ namespace QNBFinansGIB.Utils
                 root = doc.CreateElement("Invoice");
 
                 var kodSatisTuruKod = 0;
-                if (gidenFatura.KodSatisTuruKod != null)
-                    kodSatisTuruKod = gidenFatura.KodSatisTuruKod ?? 0;
+                if (gidenFatura.SatisTuruKod != null)
+                    kodSatisTuruKod = gidenFatura.SatisTuruKod ?? 0;
 
                 #region Standart ve Faturaya Bağlı Bilgiler
 
@@ -1863,12 +1863,12 @@ namespace QNBFinansGIB.Utils
                 //buildingNumber.InnerText = "";
                 postalAddress.AppendChild(buildingNumber);
                 citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xlmnscbc.Value);
-                if (!string.IsNullOrEmpty(gidenFatura.KodIlceAd))
-                    citySubdivisionName.InnerText = gidenFatura.KodIlceAd;
+                if (!string.IsNullOrEmpty(gidenFatura.IlceAd))
+                    citySubdivisionName.InnerText = gidenFatura.IlceAd;
                 postalAddress.AppendChild(citySubdivisionName);
                 cityName = doc.CreateElement("cbc", "CityName", xlmnscbc.Value);
-                if (!string.IsNullOrEmpty(gidenFatura.KodIlAd))
-                    cityName.InnerText = gidenFatura.KodIlAd;
+                if (!string.IsNullOrEmpty(gidenFatura.IlAd))
+                    cityName.InnerText = gidenFatura.IlAd;
                 postalAddress.AppendChild(cityName);
                 postalZone = doc.CreateElement("cbc", "PostalZone", xlmnscbc.Value);
                 //postalZone.InnerText = "";
@@ -1970,12 +1970,12 @@ namespace QNBFinansGIB.Utils
                         //buildingNumber.InnerText = "";
                         postalAddress.AppendChild(buildingNumber);
                         citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xlmnscbc.Value);
-                        if (!string.IsNullOrEmpty(gidenFatura.KodIlceAd))
-                            citySubdivisionName.InnerText = gidenFatura.KodIlceAd;
+                        if (!string.IsNullOrEmpty(gidenFatura.IlceAd))
+                            citySubdivisionName.InnerText = gidenFatura.IlceAd;
                         postalAddress.AppendChild(citySubdivisionName);
                         cityName = doc.CreateElement("cbc", "CityName", xlmnscbc.Value);
-                        if (!string.IsNullOrEmpty(gidenFatura.KodIlAd))
-                            cityName.InnerText = gidenFatura.KodIlAd;
+                        if (!string.IsNullOrEmpty(gidenFatura.IlAd))
+                            cityName.InnerText = gidenFatura.IlAd;
                         postalAddress.AppendChild(cityName);
                         postalZone = doc.CreateElement("cbc", "PostalZone", xlmnscbc.Value);
                         //postalZone.InnerText = "";
@@ -2036,7 +2036,7 @@ namespace QNBFinansGIB.Utils
                     }
                 }
 
-                if (!string.IsNullOrEmpty(gidenFatura.KodBankaAd))
+                if (!string.IsNullOrEmpty(gidenFatura.BankaAd))
                 {
                     #region PaymentMeans
 
@@ -2053,7 +2053,7 @@ namespace QNBFinansGIB.Utils
                     currencyCode.InnerText = "TRY";
                     payeeFinancialAccount.AppendChild(currencyCode);
                     var paymentNote = doc.CreateElement("cbc", "PaymentNote", xlmnscbc.Value);
-                    paymentNote.InnerText = gidenFatura.KodBankaAd + " - " + gidenFatura.BankaSube;
+                    paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
                     payeeFinancialAccount.AppendChild(paymentNote);
                     paymentMeans.AppendChild(payeeFinancialAccount);
                     root.AppendChild(paymentMeans);
@@ -2229,7 +2229,7 @@ namespace QNBFinansGIB.Utils
                     allowanceCharge.AppendChild(chargeIndicator);
                     decimal amount2 = 0;
                     decimal toplamTutar = (decimal)item.KdvHaricTutar;
-                    decimal kodIskontoTuruOran = item.KodIskontoTuruOran ?? 0;
+                    decimal kodIskontoTuruOran = item.IskontoOran ?? 0;
                     if (kodIskontoTuruOran > 0)
                     {
                         toplamTutar = Decimal.Round((decimal)item.Miktar * (decimal)item.BirimFiyat, 4, MidpointRounding.AwayFromZero);
@@ -2282,8 +2282,8 @@ namespace QNBFinansGIB.Utils
                     taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxSubTotal.AppendChild(taxAmount2);
                     percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
-                    if (item.KodKdvTuruOran != null)
-                        percent.InnerText = Decimal.Round((decimal)item.KodKdvTuruOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
+                    if (item.KdvOran != null)
+                        percent.InnerText = Decimal.Round((decimal)item.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
                     taxSubTotal.AppendChild(percent);
                     taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
                     taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
@@ -2308,7 +2308,7 @@ namespace QNBFinansGIB.Utils
                         invoiceItem.AppendChild(description);
                     }
                     var itemName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                    itemName.InnerText = item.KodFaturaUrunTuruAd;
+                    itemName.InnerText = item.FaturaUrunTuru;
                     invoiceItem.AppendChild(itemName);
                     //if (!string.IsNullOrEmpty(item.MalzemeFaturaAciklamasi))
                     //{
