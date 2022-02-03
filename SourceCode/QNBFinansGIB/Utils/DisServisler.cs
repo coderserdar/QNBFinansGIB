@@ -41,7 +41,7 @@ namespace QNBFinansGIB.Utils
 
                 return kullaniciMi;
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 return false;
             }
@@ -81,7 +81,7 @@ namespace QNBFinansGIB.Utils
 
                 return gibEFaturaService.belgeGonderExt(parametreler);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 return MesajSabitler.IslemBasarisiz;
             }
@@ -142,7 +142,7 @@ namespace QNBFinansGIB.Utils
 
                 return geriDonus;
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 return null;
             }
@@ -186,7 +186,7 @@ namespace QNBFinansGIB.Utils
                 else
                     return MesajSabitler.IslemBasarili;
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 return MesajSabitler.IslemBasarisiz;
             }
@@ -236,7 +236,7 @@ namespace QNBFinansGIB.Utils
                         return null;
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 return null;
             }

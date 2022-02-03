@@ -2,6 +2,7 @@
 using QNBFinansGIB.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -16,52 +17,6 @@ namespace QNBFinansGIB
         public Form1()
         {
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// Sistemde E-Fatura ve E-Arşiv Servislerine Gönderilecek Formatta
-        /// İdeal XML dosyalarının oluşturulması için XML Oluştur Butonuna tıklandığı zaman
-        /// Yapılacak işlemlerin hazırlandığı metottur.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnXmlOlustur_Click(object sender, EventArgs e)
-        {
-            using (var dialogKlasorSecimi = new FolderBrowserDialog())
-            {
-                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
-                DialogResult result = dialogKlasorSecimi.ShowDialog();
-
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath))
-                {
-                    var klasorAdi = dialogKlasorSecimi.SelectedPath;
-                    var index = new Random().Next(gidenFaturaListesi.Count);
-                    var gidenFatura = gidenFaturaListesi[index];
-
-                    #region XML Oluşturma
-                    var dosyaAdi = "";
-                    if (!string.IsNullOrEmpty(gidenFatura.TuzelKisiAd))
-                    {
-                        var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
-                        if (kullaniciMi)
-                        {
-                            dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi);
-                        }
-                        else
-                        {
-                            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi, true);
-                        }
-                    }
-                    else
-                    {
-                        dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi, false);
-                    }
-
-                    MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.");
-
-                    #endregion
-                }
-            }
         }
 
         /// <summary>
@@ -137,7 +92,6 @@ namespace QNBFinansGIB
                 KodIlceAd = "Etimesgut",
                 KodSatisTuruKod = 2,
                 GibNumarasi = "KST2022000000070",
-                BelgeOid = "19kycsbzsp14n2",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
                 FaturaTutari = 0,
@@ -236,6 +190,11 @@ namespace QNBFinansGIB
             gidenFaturaListesi.Add(gidenFatura);
             #endregion
 
+            // burada fatura detayları kabarık olsun diye tüm fatura ana nesnelerine eklenecek bir yapı kuruldu
+            // ancak arada bir ilişki istenirse
+            // DTO sınıfında GidenFaturaDetayDTO sınıfına bir GidenFaturaId alanı eklenerek
+            // Ve üstteki regionda faturalara elle id verildikten sonra
+            // fatura detayları eklenirken buradaki ana nesne id alanları girilebilir
             #region Giden Fatura Detayları Ekleme
 
             var gidenFaturaDetay = new GidenFaturaDetayDTO
@@ -327,6 +286,122 @@ namespace QNBFinansGIB
 
             #endregion
             #endregion
+        }
+
+        /// <summary>
+        /// Sistemde E-Fatura ve E-Arşiv Servislerine Gönderilecek Formatta
+        /// İdeal XML dosyalarının oluşturulması için XML Oluştur Butonuna tıklandığı zaman
+        /// Yapılacak işlemlerin hazırlandığı metottur.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnXmlOlustur_Click(object sender, EventArgs e)
+        {
+            using (var dialogKlasorSecimi = new FolderBrowserDialog())
+            {
+                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
+                DialogResult result = dialogKlasorSecimi.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath))
+                {
+                    var klasorAdi = dialogKlasorSecimi.SelectedPath;
+                    var index = new Random().Next(gidenFaturaListesi.Count);
+                    var gidenFatura = gidenFaturaListesi[index];
+
+                    #region XML Oluşturma
+                    var dosyaAdi = "";
+                    if (!string.IsNullOrEmpty(gidenFatura.TuzelKisiAd))
+                    {
+                        var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
+                        if (kullaniciMi)
+                        {
+                            dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi);
+                        }
+                        else
+                        {
+                            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi, true);
+                        }
+                    }
+                    else
+                    {
+                        dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi, false);
+                    }
+
+                    MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.");
+
+                    #endregion
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sistemde E-Fatura veya E-Arşive yollansın yollanmasın
+        /// Hazırlanan XML dosyalarının bu sistemlerde nasıl göründüğüne dair
+        /// Önizleme alınmasını sağlayan metottur.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnGIBOnizleme_Click(object sender, EventArgs e)
+        {
+            using (var dialogKlasorSecimi = new FolderBrowserDialog())
+            {
+                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
+                DialogResult result = dialogKlasorSecimi.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath))
+                {
+                    var klasorAdi = dialogKlasorSecimi.SelectedPath;
+                    var index = new Random().Next(gidenFaturaListesi.Count);
+                    var gidenFatura = gidenFaturaListesi[index];
+
+                    #region XML Oluşturma
+                    var dosyaAdi = "";
+                    var geriDonus = new GeriDonus();
+                    geriDonus.Tip = 0;
+                    var dosya = new byte[1];
+                    var kullaniciMi = false;
+                    if (!string.IsNullOrEmpty(gidenFatura.TuzelKisiAd))
+                    {
+                        kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
+                        if (kullaniciMi)
+                        {
+                            dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi);
+                            geriDonus = DisServisler.EFaturaOnIzleme(gidenFatura, dosyaAdi);
+                            if (geriDonus != null)
+                                dosya = geriDonus.Dosya;
+                        }
+                        else
+                        {
+                            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi, true);
+                            dosya = DisServisler.EArsivOnIzleme(gidenFatura, dosyaAdi);
+                        }
+                    }
+                    else
+                    {
+                        dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesi, klasorAdi, false);
+                        dosya = DisServisler.EArsivOnIzleme(gidenFatura, dosyaAdi);
+                    }
+
+                    if (dosya != null && dosya.Length > 1)
+                    {
+                        var dosyaAdiTemp = dosyaAdi.Replace("xml", "pdf");
+                        if (kullaniciMi && !string.IsNullOrEmpty(gidenFatura.BelgeOid))
+                            dosyaAdiTemp = dosyaAdi.Replace("xml", "zip");
+                        if (geriDonus != null && geriDonus.Tip == 1)
+                            dosyaAdiTemp = dosyaAdi.Replace("xml", "zip");
+
+                        File.WriteAllBytes(dosyaAdiTemp, dosya);
+
+                        MessageBox.Show(dosyaAdiTemp + " adresinde gerekli PDF veya ZIP dosyası oluşturulmuştur.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Söz konusu faturanın önizlemesi oluşturulamamıştır");
+                    }
+
+                    #endregion
+                }
+            }
         }
     }
 }
