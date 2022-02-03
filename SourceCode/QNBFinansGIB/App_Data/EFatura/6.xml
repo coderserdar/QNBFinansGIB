@@ -8,9 +8,9 @@
   <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
   <cbc:CustomizationID>TR1.2</cbc:CustomizationID>
   <cbc:ProfileID>EARSIVFATURA</cbc:ProfileID>
-  <cbc:ID>YZG2022000000077</cbc:ID>
+  <cbc:ID>YZG2022000999999</cbc:ID>
   <cbc:CopyIndicator>false</cbc:CopyIndicator>
-  <cbc:UUID>2E7DA2F7-C50D-4424-82A7-59BF3861B325</cbc:UUID>
+  <cbc:UUID>9A92BF54-4D8E-4EC0-8499-195CDFF6AE33</cbc:UUID>
   <cbc:IssueDate>2022-02-02</cbc:IssueDate>
   <cbc:IssueTime>00:00:00</cbc:IssueTime>
   <cbc:InvoiceTypeCode>IHRACKAYITLI</cbc:InvoiceTypeCode>

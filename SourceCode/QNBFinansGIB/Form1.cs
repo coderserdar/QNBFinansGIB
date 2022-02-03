@@ -46,7 +46,7 @@ namespace QNBFinansGIB
                 IlAd = "Ankara",
                 IlceAd = "Çankaya",
                 SatisTuruKod = 1,
-                GibNumarasi = "MLT2022000000008",
+                GibNumarasi = "MLT2022000010998",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
                 FaturaTutari = 0,
@@ -68,8 +68,7 @@ namespace QNBFinansGIB
                 IlAd = "Ankara",
                 IlceAd = "Etimesgut",
                 SatisTuruKod = 2,
-                GibNumarasi = "MLT2022000000008",
-                BelgeOid = "12kyb38rq712tm",
+                GibNumarasi = "MLT2022000099999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
                 FaturaTutari = 0,
@@ -91,7 +90,7 @@ namespace QNBFinansGIB
                 IlAd = "Ankara",
                 IlceAd = "Etimesgut",
                 SatisTuruKod = 2,
-                GibNumarasi = "KST2022000000070",
+                GibNumarasi = "KST2022000009999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
                 FaturaTutari = 0,
@@ -113,8 +112,7 @@ namespace QNBFinansGIB
                 IlAd = "Ankara",
                 IlceAd = "Çubuk",
                 SatisTuruKod = 10,
-                GibNumarasi = "ILG2022000000630",
-                BelgeOid = "13kz0tj9og11fd",
+                GibNumarasi = "ILG202200009999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
                 FaturaTutari = 0,
@@ -136,7 +134,7 @@ namespace QNBFinansGIB
                 IlAd = "Ankara",
                 IlceAd = "Pursaklar",
                 SatisTuruKod = 2,
-                GibNumarasi = "SUS2022000000087",
+                GibNumarasi = "SUS2022000999999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
                 FaturaTutari = 0,
@@ -159,7 +157,7 @@ namespace QNBFinansGIB
                 IlAd = "Konya",
                 IlceAd = "Beyşehir",
                 SatisTuruKod = 10,
-                GibNumarasi = "YZG2022000000077",
+                GibNumarasi = "YZG2022000999999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
                 FaturaTutari = 0,
@@ -182,7 +180,7 @@ namespace QNBFinansGIB
                 IlAd = "Ağrı",
                 IlceAd = "Patnos",
                 SatisTuruKod = 11,
-                GibNumarasi = "AGR2022000000039",
+                GibNumarasi = "AGR2022000999999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
                 FaturaTutari = 0,
@@ -388,7 +386,7 @@ namespace QNBFinansGIB
                     if (gidenFaturaDetayListesi.Any(j => j.GidenFaturaId == gidenFatura.GidenFaturaId))
                         gidenFaturaDetayListesiTemp = gidenFaturaDetayListesi.Where(j => j.GidenFaturaId == gidenFatura.GidenFaturaId).ToList();
 
-                    #region XML Oluşturma
+                    #region XML Oluşturma ve Servis Önizlemesi
                     var dosyaAdi = "";
                     var geriDonus = new GeriDonus();
                     geriDonus.Tip = 0;
@@ -431,6 +429,71 @@ namespace QNBFinansGIB
                     else
                     {
                         MessageBox.Show("Söz konusu faturanın önizlemesi oluşturulamamıştır");
+                    }
+
+                    #endregion
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sistem tarafından hazırlanan XML dosyasının
+        /// E-Fatura veya E-Arşiv servisine gönderilmesi için hazırlanan metottur.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnServiseGonder_Click(object sender, EventArgs e)
+        {
+            using (var dialogKlasorSecimi = new FolderBrowserDialog())
+            {
+                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
+                DialogResult result = dialogKlasorSecimi.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath))
+                {
+                    var klasorAdi = dialogKlasorSecimi.SelectedPath;
+                    var index = new Random().Next(gidenFaturaListesi.Count);
+                    var gidenFatura = gidenFaturaListesi[index];
+                    var gidenFaturaDetayListesiTemp = new List<GidenFaturaDetayDTO>();
+                    if (gidenFaturaDetayListesi.Any(j => j.GidenFaturaId == gidenFatura.GidenFaturaId))
+                        gidenFaturaDetayListesiTemp = gidenFaturaDetayListesi.Where(j => j.GidenFaturaId == gidenFatura.GidenFaturaId).ToList();
+
+                    #region XML Oluşturma ve Servise Gönderme
+                    var dosyaAdi = "";
+                    var sonuc = "";
+                    var kullaniciMi = false;
+                    if (!string.IsNullOrEmpty(gidenFatura.TuzelKisiAd))
+                    {
+                        kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
+                        if (kullaniciMi)
+                        {
+                            dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi);
+                            sonuc = DisServisler.EFaturaGonder(gidenFatura, dosyaAdi);
+                            if (sonuc != MesajSabitler.IslemBasarisiz)
+                            {
+                                if (sonuc.Length <= 20)
+                                    gidenFatura.BelgeOid = sonuc;
+                            }
+                        }
+                        else
+                        {
+                            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, true);
+                            sonuc = DisServisler.EArsivGonder(gidenFatura, dosyaAdi);
+                        }
+                    }
+                    else
+                    {
+                        dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, false);
+                        sonuc = DisServisler.EArsivGonder(gidenFatura, dosyaAdi);
+                    }
+
+                    if (sonuc == MesajSabitler.IslemBasarisiz)
+                    {
+                        MessageBox.Show(dosyaAdi + " dosyasının servise gönderilmesinde bir sorun yaşanmıştır.");
+                    }
+                    else
+                    {
+                        MessageBox.Show(dosyaAdi + " dosyası başarıyla GİB servislerine gönderilmiştir.");
                     }
 
                     #endregion

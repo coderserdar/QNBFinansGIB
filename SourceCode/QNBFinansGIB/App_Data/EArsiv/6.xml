@@ -8,12 +8,12 @@
   <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
   <cbc:CustomizationID>TR1.2</cbc:CustomizationID>
   <cbc:ProfileID>EARSIVFATURA</cbc:ProfileID>
-  <cbc:ID>SUS2022000999999</cbc:ID>
+  <cbc:ID>YZG2022000999999</cbc:ID>
   <cbc:CopyIndicator>false</cbc:CopyIndicator>
-  <cbc:UUID>BB150EF0-1D6C-4AE0-BA6A-F36937EE6363</cbc:UUID>
-  <cbc:IssueDate>2022-02-01</cbc:IssueDate>
+  <cbc:UUID>87235EA2-9248-49E1-8808-08CF2DD81F75</cbc:UUID>
+  <cbc:IssueDate>2022-02-02</cbc:IssueDate>
   <cbc:IssueTime>00:00:00</cbc:IssueTime>
-  <cbc:InvoiceTypeCode>SATIS</cbc:InvoiceTypeCode>
+  <cbc:InvoiceTypeCode>IHRACKAYITLI</cbc:InvoiceTypeCode>
   <cbc:Note>Gönderim Şekli: ELEKTRONIK</cbc:Note>
   <cbc:DocumentCurrencyCode>TRY</cbc:DocumentCurrencyCode>
   <cbc:LineCountNumeric>1</cbc:LineCountNumeric>
@@ -76,15 +76,15 @@
     <cac:Party>
       <cbc:WebsiteURI />
       <cac:PartyIdentification>
-        <cbc:ID schemeID="TCKN">20101516422</cbc:ID>
+        <cbc:ID schemeID="TCKN">52270709114</cbc:ID>
       </cac:PartyIdentification>
       <cac:PostalAddress>
-        <cbc:ID>20101516422</cbc:ID>
+        <cbc:ID>52270709114</cbc:ID>
         <cbc:Room />
         <cbc:StreetName>Dost'un Önü</cbc:StreetName>
         <cbc:BuildingNumber />
-        <cbc:CitySubdivisionName>Pursaklar</cbc:CitySubdivisionName>
-        <cbc:CityName>Ankara</cbc:CityName>
+        <cbc:CitySubdivisionName>Beyşehir</cbc:CitySubdivisionName>
+        <cbc:CityName>Konya</cbc:CityName>
         <cbc:PostalZone />
         <cac:Country>
           <cbc:Name>Türkiye</cbc:Name>
@@ -92,26 +92,26 @@
       </cac:PostalAddress>
       <cac:PartyTaxScheme>
         <cac:TaxScheme>
-          <cbc:Name>ANKARA</cbc:Name>
+          <cbc:Name />
         </cac:TaxScheme>
       </cac:PartyTaxScheme>
       <cac:Contact>
-        <cbc:Telephone />
-        <cbc:Telefax>03121111113</cbc:Telefax>
-        <cbc:ElectronicMail />
+        <cbc:Telephone>05555555555</cbc:Telephone>
+        <cbc:Telefax />
+        <cbc:ElectronicMail>adnansenses@mynet.com</cbc:ElectronicMail>
       </cac:Contact>
       <cac:Person>
-        <cbc:FirstName>Deneme</cbc:FirstName>
-        <cbc:FamilyName>Şirketi</cbc:FamilyName>
+        <cbc:FirstName>Adnan</cbc:FirstName>
+        <cbc:FamilyName>Şenses</cbc:FamilyName>
       </cac:Person>
     </cac:Party>
   </cac:AccountingCustomerParty>
   <cac:PaymentMeans>
     <cbc:PaymentMeansCode>1</cbc:PaymentMeansCode>
     <cac:PayeeFinancialAccount>
-      <cbc:ID>TR630006295412435711171488</cbc:ID>
+      <cbc:ID>TR540006234114125194267726</cbc:ID>
       <cbc:CurrencyCode>TRY</cbc:CurrencyCode>
-      <cbc:PaymentNote>Enpara.Com Bankadan Güzeli - Karakusunlar Şube</cbc:PaymentNote>
+      <cbc:PaymentNote>Halkbank - Etimesgut Şube</cbc:PaymentNote>
     </cac:PayeeFinancialAccount>
   </cac:PaymentMeans>
   <cac:TaxTotal>
@@ -122,6 +122,8 @@
       <cbc:CalculationSequenceNumeric>1.0</cbc:CalculationSequenceNumeric>
       <cbc:Percent>1</cbc:Percent>
       <cac:TaxCategory>
+        <cbc:TaxExemptionReasonCode>701</cbc:TaxExemptionReasonCode>
+        <cbc:TaxExemptionReason>3065 sayılı Katma Değer Vergisi kanununun 11/1-c maddesi kapsamında ihraç edilmek şartıyla teslim edildiğinden Katma Değer Vergisi tahsil edilmemiştir.</cbc:TaxExemptionReason>
         <cac:TaxScheme>
           <cbc:Name>Katma Değer Vergisi</cbc:Name>
           <cbc:TaxTypeCode>0015</cbc:TaxTypeCode>
@@ -161,7 +163,7 @@
       </cac:TaxSubtotal>
     </cac:TaxTotal>
     <cac:Item>
-      <cbc:Name>Deneme 5</cbc:Name>
+      <cbc:Name>Deneme 6</cbc:Name>
     </cac:Item>
     <cac:Price>
       <cbc:PriceAmount currencyID="TRY">1.5</cbc:PriceAmount>

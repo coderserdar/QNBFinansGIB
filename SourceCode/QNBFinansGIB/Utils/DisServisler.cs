@@ -172,7 +172,7 @@ namespace QNBFinansGIB.Utils
 
                 var belge = new GIBEArsiv.belge();
 
-                string input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"\",\"donenBelgeFormati\":\"9\"}";
+                string input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
                 var fatura = new GIBEArsiv.belge();
                 fatura.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;

@@ -11,9 +11,9 @@
   <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
   <cbc:CustomizationID>TR1.2</cbc:CustomizationID>
   <cbc:ProfileID>TEMELFATURA</cbc:ProfileID>
-  <cbc:ID>KST2022000000070</cbc:ID>
+  <cbc:ID>KST2022000009999</cbc:ID>
   <cbc:CopyIndicator>false</cbc:CopyIndicator>
-  <cbc:UUID>3</cbc:UUID>
+  <cbc:UUID>6D23E3D8-B098-46BD-99CD-ECE950F27DA7</cbc:UUID>
   <cbc:IssueDate>2022-01-11</cbc:IssueDate>
   <cbc:IssueTime>00:00:00</cbc:IssueTime>
   <cbc:InvoiceTypeCode>SATIS</cbc:InvoiceTypeCode>
