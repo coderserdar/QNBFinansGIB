@@ -1,6 +1,6 @@
 ﻿namespace QNBFinansGIB
 {
-    partial class Form1
+    partial class frmAnaSayfa
     {
         /// <summary>
         /// Required designer variable.
@@ -37,7 +37,7 @@
             // 
             this.btnXmlOlustur.Location = new System.Drawing.Point(37, 32);
             this.btnXmlOlustur.Name = "btnXmlOlustur";
-            this.btnXmlOlustur.Size = new System.Drawing.Size(75, 23);
+            this.btnXmlOlustur.Size = new System.Drawing.Size(75, 58);
             this.btnXmlOlustur.TabIndex = 0;
             this.btnXmlOlustur.Text = "XML Oluştur";
             this.btnXmlOlustur.UseVisualStyleBackColor = true;
@@ -47,7 +47,7 @@
             // 
             this.btnGIBOnizleme.Location = new System.Drawing.Point(143, 32);
             this.btnGIBOnizleme.Name = "btnGIBOnizleme";
-            this.btnGIBOnizleme.Size = new System.Drawing.Size(165, 23);
+            this.btnGIBOnizleme.Size = new System.Drawing.Size(165, 58);
             this.btnGIBOnizleme.TabIndex = 1;
             this.btnGIBOnizleme.Text = "GIB Fatura Çıktı Önizleme";
             this.btnGIBOnizleme.UseVisualStyleBackColor = true;
@@ -57,23 +57,25 @@
             // 
             this.btnServiseGonder.Location = new System.Drawing.Point(331, 32);
             this.btnServiseGonder.Name = "btnServiseGonder";
-            this.btnServiseGonder.Size = new System.Drawing.Size(165, 23);
+            this.btnServiseGonder.Size = new System.Drawing.Size(165, 58);
             this.btnServiseGonder.TabIndex = 2;
             this.btnServiseGonder.Text = "Servise Gönder";
             this.btnServiseGonder.UseVisualStyleBackColor = true;
             this.btnServiseGonder.Click += new System.EventHandler(this.btnServiseGonder_Click);
             // 
-            // Form1
+            // frmAnaSayfa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 87);
+            this.ClientSize = new System.Drawing.Size(529, 126);
             this.Controls.Add(this.btnServiseGonder);
             this.Controls.Add(this.btnGIBOnizleme);
             this.Controls.Add(this.btnXmlOlustur);
-            this.Name = "Form1";
+            this.Name = "frmAnaSayfa";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "QNB Finans GİB Servis Uygulaması";
-            this.Shown += new System.EventHandler(this.Form1_Shown);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmAnaSayfa_FormClosed);
+            this.Shown += new System.EventHandler(this.FormAnaSayfa_Shown);
             this.ResumeLayout(false);
 
         }

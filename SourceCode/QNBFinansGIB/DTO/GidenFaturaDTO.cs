@@ -3,12 +3,13 @@
 namespace QNBFinansGIB.DTO
 {
     /// <summary>
-    /// Giden Fatura typelist'indeki alanlar üzerinden oluşturulan sınıftır
+    /// Giden Fatura Ana Nesnesinde Olması Gereken Alanlarla oluşturulan sınıftır
+    /// Burada firma, iletişim, banka , fatura toplam tutarı vb. bilgiler bulunmaktadır
     /// </summary>
     public class GidenFaturaDTO
     {
         /// <summary>
-        /// Giden Fatura Id alanı
+        /// Giden Fatura Id Bilgisi
         /// </summary>
         public string GidenFaturaId;
 

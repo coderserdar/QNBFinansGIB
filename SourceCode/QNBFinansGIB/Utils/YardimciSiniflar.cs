@@ -7,6 +7,11 @@ using static QNBFinansGIB.Utils.Enums;
 
 namespace QNBFinansGIB.Utils
 {
+    /// <summary>
+    /// Giden Fatura, O Faturaya İlişkin Detaylar, Aktarılacak Klasör gibi bilgiler kullanılarak
+    /// Faturaya ait GİB Web Servislerine gönderilecek XML dosyalarının hazırlanması ile ilgili
+    /// Metotların bulunduğu yardımcı sınıftır.
+    /// </summary>
     public static class YardimciSiniflar
     {
         /// <summary>
@@ -16,31 +21,9 @@ namespace QNBFinansGIB.Utils
         /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
         /// <param name="gidenFaturaDetayListesi">Giden Fatura Detay Listesi</param>
         /// <param name="aktarilacakKlasorAdi">Oluşturulan Dosyanın Aktarılacağı Klasör</param>
+        /// <returns>Kaydedilen Dosyanın Bilgisayardaki Adresi</returns>
         public static string EFaturaXMLOlustur(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesi, string aktarilacakKlasorAdi)
         {
-            #region Açıklama Satırı
-            //var doc = new InvoiceType();
-            //doc.Xmlns = new System.Xml.Serialization.XmlSerializerNamespaces(new[]
-            //{
-            //    new XmlQualifiedName("n4", "http://www.altova.com/samplexml/other-namespace"),
-            //    new XmlQualifiedName("xsi", "http://www.w3.org/2001/XMLSchema-instance"),
-            //    new XmlQualifiedName("cac", "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"),
-            //    new XmlQualifiedName("cbc", "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"),
-            //    new XmlQualifiedName("ext", "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"),
-            //});
-            ////doc.Xmlns.Add("xsi:schemaLocation", "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 ../xsdrt/maindoc/UBL-Invoice-2.1.xsd");
-            //#region Dosya Kaydı
-            //var fileName = gidenFatura.GidenFaturaId + ".xml";
-            //doc.Save(Server.MapPath("~/Raporlar/MaasBordro/Ebildirge.xml"));
-
-            //this.Response.Clear();
-            //this.Response.ContentType = "text/xml";
-            //this.Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
-            //this.Response.Write(System.IO.File.ReadAllText(Server.MapPath("~/Raporlar/MaasBordro/Ebildirge.xml")));
-            //this.Response.End();
-            //#endregion
-            #endregion
-
             XmlDocument doc = new XmlDocument();
             XmlDeclaration declaration;
             declaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
@@ -56,6 +39,8 @@ namespace QNBFinansGIB.Utils
 
             #region Standart ve Faturaya Bağlı Bilgiler
 
+            // Faturanın türü, düzenleme tarihi, UBL Versiyon Numarası, GİB Numarası gibi bilgiler
+            // yer almaktadır
             #region Standart Bilgiler
             root.RemoveAllAttributes();
             string locationAttribute = "xsi:schemaLocation";
@@ -222,6 +207,7 @@ namespace QNBFinansGIB.Utils
 
             #endregion
 
+            // Faturaya ilişkin imza, adres vb. bilgiler yer almaktadır
             #region Signature
             var signature = doc.CreateElement("cac", "Signature", xlmnscac.Value);
             XmlAttribute signatureIdAttr = doc.CreateAttribute("schemeID");
@@ -278,6 +264,9 @@ namespace QNBFinansGIB.Utils
             root.AppendChild(signature);
             #endregion
 
+            // Burada sabit değerler verilmekte olup, Faturayı kesen kuruma veya firmaya ait bilgiler
+            // yer almaktadır. Bu kısımda örnek olarak TÜRKŞEKER Fabrikaları Genel Müdürlüğü bilgileri
+            // kullanılmıştır. Ancak değiştirip test edilebilir.
             #region AccountingSupplierParty
 
             var accountingSupplierParty = doc.CreateElement("cac", "AccountingSupplierParty", xlmnscac.Value);
@@ -355,6 +344,7 @@ namespace QNBFinansGIB.Utils
             root.AppendChild(accountingSupplierParty);
             #endregion
 
+            // Bu kısımda fatura kesilen firma bilgileri yer almaktadır
             #region AccountingCustomerParty
 
             var accountingCustomerParty = doc.CreateElement("cac", "AccountingCustomerParty", xlmnscac.Value);
@@ -459,6 +449,7 @@ namespace QNBFinansGIB.Utils
             {
                 if (gidenFatura.VergiNo.Length == 10)
                 {
+                    // Bu kısımda fatura kesilen firma bilgileri yer almaktadır (Eğer sadece Tüzel Kişilikse, şahıs şirketleri için bu yapılmamaktadır)
                     #region BuyerCustomerParty
 
                     var buyerCustomerParty = doc.CreateElement("cac", "BuyerCustomerParty", xlmnscac.Value);
@@ -558,6 +549,7 @@ namespace QNBFinansGIB.Utils
 
             if (!string.IsNullOrEmpty(gidenFatura.BankaAd))
             {
+                // Eğer Banka bilgileri mevcutsa burada banka bilgileri yer almaktadır
                 #region PaymentMeans
 
                 var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xlmnscac.Value);
@@ -582,6 +574,7 @@ namespace QNBFinansGIB.Utils
                 #endregion
             }
 
+            // Burada vergi bilgileri yer almaktadır
             #region TaxTotal
 
             var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
@@ -637,6 +630,7 @@ namespace QNBFinansGIB.Utils
 
             #endregion
 
+            // KDV, KDV Hariç Tutar ve Toplam Tutar bilgileri yer almaktadır
             #region LegalMonetaryTotal
 
             var legalMonetaryTotal = doc.CreateElement("cac", "LegalMonetaryTotal", xlmnscac.Value);
@@ -671,15 +665,17 @@ namespace QNBFinansGIB.Utils
             root.AppendChild(legalMonetaryTotal);
             #endregion
 
-            var i = 1;
+            var sayac = 1;
+            // Her bir fatura edtayı için hazırlanan bölümdür
             foreach (var item in gidenFaturaDetayListesi)
             {
                 #region InvoiceLine
 
+                // Ölçü Birimi, KDV Hariç Tutar, Para Birimi gibi bilgiler yer almaktadır
                 #region MetaData
                 var invoiceLine = doc.CreateElement("cac", "InvoiceLine", xlmnscac.Value);
                 var invoiceLineId = doc.CreateElement("cbc", "ID", xlmnscbc.Value);
-                invoiceLineId.InnerText = i.ToString();
+                invoiceLineId.InnerText = sayac.ToString();
                 invoiceLine.AppendChild(invoiceLineId);
                 var quantity = doc.CreateAttribute("unitCode");
                 if (!string.IsNullOrEmpty(item.GibKisaltma))
@@ -700,6 +696,7 @@ namespace QNBFinansGIB.Utils
                 invoiceLine.AppendChild(lineExtensionAmountDetail);
                 #endregion
 
+                // Varsa iskonto bilgileri yer almaktadır
                 #region AllowanceCharge
 
                 var allowanceCharge = doc.CreateElement("cac", "AllowanceCharge", xlmnscac.Value);
@@ -736,6 +733,7 @@ namespace QNBFinansGIB.Utils
 
                 #endregion
 
+                // Vergi bilgileri yer almaktadır
                 #region TaxTotal
                 taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
                 currencyId = doc.CreateAttribute("currencyID");
@@ -787,6 +785,7 @@ namespace QNBFinansGIB.Utils
                 invoiceLine.AppendChild(taxTotal);
                 #endregion
 
+                // Fatura kesilen ürün detayı ve açıklama bilgileri yer almaktadır
                 #region Item
                 var invoiceItem = doc.CreateElement("cac", "Item", xlmnscac.Value);
                 if (!string.IsNullOrEmpty(item.MalzemeFaturaAciklamasi))
@@ -802,6 +801,7 @@ namespace QNBFinansGIB.Utils
                 invoiceLine.AppendChild(invoiceItem);
                 #endregion
 
+                // Birim fiyat bilgileri yer almaktadır
                 #region Price
 
                 var price = doc.CreateElement("cac", "Price", xlmnscac.Value);
@@ -822,7 +822,7 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(invoiceLine);
                 #endregion
 
-                i++;
+                sayac++;
             }
 
             #endregion
@@ -847,6 +847,7 @@ namespace QNBFinansGIB.Utils
         /// <param name="gidenFaturaDetayListesi">Giden Fatura Detay Listesi</param>
         /// <param name="aktarilacakKlasorAdi">Oluşturulan Dosyanın Aktarılacağı Klasör</param>
         /// <param name="tuzelKisiMi">Tüzel Kişi Mi Bilgisi</param>
+        /// <returns>Kaydedilen Dosyanın Bilgisayardaki Adresi</returns>
         public static string EArsivXMLOlustur(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesi, string aktarilacakKlasorAdi, bool tuzelKisiMi)
         {
             if (!tuzelKisiMi)
@@ -868,6 +869,8 @@ namespace QNBFinansGIB.Utils
 
                 #region Standart ve Faturaya Bağlı Bilgiler
 
+                // Faturanın türü, düzenleme tarihi, UBL Versiyon Numarası, GİB Numarası gibi bilgiler
+                // yer almaktadır
                 #region Standart Bilgiler
                 root.RemoveAllAttributes();
 
@@ -1017,6 +1020,7 @@ namespace QNBFinansGIB.Utils
 
                 #endregion
 
+                // Faturaya ilişkin imza, adres vb. bilgiler yer almaktadır
                 #region Signature
                 var signature = doc.CreateElement("cac", "Signature", xlmnscac.Value);
                 XmlAttribute signatureIdAttr = doc.CreateAttribute("schemeID");
@@ -1073,6 +1077,9 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(signature);
                 #endregion
 
+                // Burada sabit değerler verilmekte olup, Faturayı kesen kuruma veya firmaya ait bilgiler
+                // yer almaktadır. Bu kısımda örnek olarak TÜRKŞEKER Fabrikaları Genel Müdürlüğü bilgileri
+                // kullanılmıştır. Ancak değiştirip test edilebilir.
                 #region AccountingSupplierParty
 
                 var accountingSupplierParty = doc.CreateElement("cac", "AccountingSupplierParty", xlmnscac.Value);
@@ -1150,6 +1157,7 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(accountingSupplierParty);
                 #endregion
 
+                // Bu kısımda fatura kesilen firma bilgileri yer almaktadır
                 #region AccountingCustomerParty
 
                 var accountingCustomerParty = doc.CreateElement("cac", "AccountingCustomerParty", xlmnscac.Value);
@@ -1239,6 +1247,7 @@ namespace QNBFinansGIB.Utils
 
                 if (!string.IsNullOrEmpty(gidenFatura.BankaAd))
                 {
+                    // Eğer Banka bilgileri mevcutsa burada banka bilgileri yer almaktadır
                     #region PaymentMeans
 
                     var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xlmnscac.Value);
@@ -1263,6 +1272,7 @@ namespace QNBFinansGIB.Utils
                     #endregion
                 }
 
+                // Burada vergi bilgileri yer almaktadır
                 #region TaxTotal
 
                 var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
@@ -1330,6 +1340,7 @@ namespace QNBFinansGIB.Utils
 
                 #endregion
 
+                // KDV, KDV Hariç Tutar ve Toplam Tutar bilgileri yer almaktadır
                 #region LegalMonetaryTotal
 
                 var legalMonetaryTotal = doc.CreateElement("cac", "LegalMonetaryTotal", xlmnscac.Value);
@@ -1371,15 +1382,17 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(legalMonetaryTotal);
                 #endregion
 
-                var i = 1;
+                var sayac = 1;
+                // Her bir fatura edtayı için hazırlanan bölümdür
                 foreach (var item in gidenFaturaDetayListesi)
                 {
                     #region InvoiceLine
 
+                    // Ölçü Birimi, KDV Hariç Tutar, Para Birimi gibi bilgiler yer almaktadır
                     #region MetaData
                     var invoiceLine = doc.CreateElement("cac", "InvoiceLine", xlmnscac.Value);
                     var invoiceLineId = doc.CreateElement("cbc", "ID", xlmnscbc.Value);
-                    invoiceLineId.InnerText = i.ToString();
+                    invoiceLineId.InnerText = sayac.ToString();
                     invoiceLine.AppendChild(invoiceLineId);
                     var quantity = doc.CreateAttribute("unitCode");
                     if (!string.IsNullOrEmpty(item.GibKisaltma))
@@ -1400,6 +1413,7 @@ namespace QNBFinansGIB.Utils
                     invoiceLine.AppendChild(lineExtensionAmountDetail);
                     #endregion
 
+                    // Varsa iskonto bilgileri yer almaktadır
                     #region AllowanceCharge
 
                     var allowanceCharge = doc.CreateElement("cac", "AllowanceCharge", xlmnscac.Value);
@@ -1436,6 +1450,7 @@ namespace QNBFinansGIB.Utils
 
                     #endregion
 
+                    // Vergi bilgileri yer almaktadır
                     #region TaxTotal
                     taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
                     currencyId = doc.CreateAttribute("currencyID");
@@ -1478,6 +1493,7 @@ namespace QNBFinansGIB.Utils
                     invoiceLine.AppendChild(taxTotal);
                     #endregion
 
+                    // Fatura kesilen ürün detayı ve açıklama bilgileri yer almaktadır
                     #region Item
                     var invoiceItem = doc.CreateElement("cac", "Item", xlmnscac.Value);
                     if (!string.IsNullOrEmpty(item.MalzemeFaturaAciklamasi))
@@ -1493,6 +1509,7 @@ namespace QNBFinansGIB.Utils
                     invoiceLine.AppendChild(invoiceItem);
                     #endregion
 
+                    // Birim fiyat bilgileri yer almaktadır
                     #region Price
 
                     var price = doc.CreateElement("cac", "Price", xlmnscac.Value);
@@ -1513,7 +1530,7 @@ namespace QNBFinansGIB.Utils
                     root.AppendChild(invoiceLine);
                     #endregion
 
-                    i++;
+                    sayac++;
                 }
 
                 #endregion
@@ -1550,6 +1567,8 @@ namespace QNBFinansGIB.Utils
 
                 #region Standart ve Faturaya Bağlı Bilgiler
 
+                // Faturanın türü, düzenleme tarihi, UBL Versiyon Numarası, GİB Numarası gibi bilgiler
+                // yer almaktadır
                 #region Standart Bilgiler
                 root.RemoveAllAttributes();
 
@@ -1699,6 +1718,7 @@ namespace QNBFinansGIB.Utils
 
                 #endregion
 
+                // Faturaya ilişkin imza, adres vb. bilgiler yer almaktadır
                 #region Signature
                 var signature = doc.CreateElement("cac", "Signature", xlmnscac.Value);
                 XmlAttribute signatureIdAttr = doc.CreateAttribute("schemeID");
@@ -1755,6 +1775,9 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(signature);
                 #endregion
 
+                // Burada sabit değerler verilmekte olup, Faturayı kesen kuruma veya firmaya ait bilgiler
+                // yer almaktadır. Bu kısımda örnek olarak TÜRKŞEKER Fabrikaları Genel Müdürlüğü bilgileri
+                // kullanılmıştır. Ancak değiştirip test edilebilir.
                 #region AccountingSupplierParty
 
                 var accountingSupplierParty = doc.CreateElement("cac", "AccountingSupplierParty", xlmnscac.Value);
@@ -1832,6 +1855,7 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(accountingSupplierParty);
                 #endregion
 
+                // Bu kısımda fatura kesilen firma bilgileri yer almaktadır
                 #region AccountingCustomerParty
 
                 var accountingCustomerParty = doc.CreateElement("cac", "AccountingCustomerParty", xlmnscac.Value);
@@ -1941,6 +1965,7 @@ namespace QNBFinansGIB.Utils
                 {
                     if (gidenFatura.VergiNo.Length == 10)
                     {
+                        // Bu kısımda fatura kesilen firma bilgileri yer almaktadır (Eğer sadece Tüzel Kişilikse, şahıs şirketleri için bu yapılmamaktadır)
                         #region BuyerCustomerParty
 
                         var buyerCustomerParty = doc.CreateElement("cac", "BuyerCustomerParty", xlmnscac.Value);
@@ -2048,6 +2073,7 @@ namespace QNBFinansGIB.Utils
 
                 if (!string.IsNullOrEmpty(gidenFatura.BankaAd))
                 {
+                    // Eğer Banka bilgileri mevcutsa burada banka bilgileri yer almaktadır
                     #region PaymentMeans
 
                     var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xlmnscac.Value);
@@ -2072,32 +2098,7 @@ namespace QNBFinansGIB.Utils
                     #endregion
                 }
 
-                #region Açıklama Satırı PaymentMeans
-                //var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xlmnscac.Value);
-                //var paymentMeansCode = doc.CreateElement("cbc", "PaymentMeansCode", xlmnscbc.Value);
-                //paymentMeans.AppendChild(paymentMeansCode);
-                //var payeeFinancialAccount = doc.CreateElement("cac", "PayeeFinancialAccount", xlmnscac.Value);
-                //var payeeId = doc.CreateElement("cbc", "ID", xlmnscbc.Value);
-                //var payeeCurrencyCode = doc.CreateElement("cbc", "CurrencyCode", xlmnscbc.Value);
-                //var paymentNote = doc.CreateElement("cbc", "PaymentNote", xlmnscbc.Value);
-                //payeeFinancialAccount.AppendChild(payeeId);
-                //payeeFinancialAccount.AppendChild(payeeCurrencyCode);
-                //payeeFinancialAccount.AppendChild(paymentNote);
-                //paymentMeans.AppendChild(payeeFinancialAccount);
-                //root.AppendChild(paymentMeans);
-                #endregion
-
-                #region PaymentTerms
-
-                //var paymentTerms = doc.CreateElement("cac", "PaymentTerms", xlmnscac.Value);
-                //var note = doc.CreateElement("cbc", "Note", xlmnscbc.Value);
-                //var paymentDueDate = doc.CreateElement("cbc", "PaymentDueDate", xlmnscbc.Value);
-                //paymentTerms.AppendChild(note);
-                //paymentTerms.AppendChild(paymentDueDate);
-                //root.AppendChild(paymentTerms);
-
-                #endregion
-
+                // Burada vergi bilgileri yer almaktadır
                 #region TaxTotal
 
                 var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
@@ -2165,6 +2166,7 @@ namespace QNBFinansGIB.Utils
 
                 #endregion
 
+                // KDV, KDV Hariç Tutar ve Toplam Tutar bilgileri yer almaktadır
                 #region LegalMonetaryTotal
 
                 var legalMonetaryTotal = doc.CreateElement("cac", "LegalMonetaryTotal", xlmnscac.Value);
@@ -2206,15 +2208,17 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(legalMonetaryTotal);
                 #endregion
 
-                var i = 1;
+                var sayac = 1;
+                // Her bir fatura edtayı için hazırlanan bölümdür
                 foreach (var item in gidenFaturaDetayListesi)
                 {
                     #region InvoiceLine
 
+                    // Ölçü Birimi, KDV Hariç Tutar, Para Birimi gibi bilgiler yer almaktadır
                     #region MetaData
                     var invoiceLine = doc.CreateElement("cac", "InvoiceLine", xlmnscac.Value);
                     var invoiceLineId = doc.CreateElement("cbc", "ID", xlmnscbc.Value);
-                    invoiceLineId.InnerText = i.ToString();
+                    invoiceLineId.InnerText = sayac.ToString();
                     invoiceLine.AppendChild(invoiceLineId);
                     var quantity = doc.CreateAttribute("unitCode");
                     if (!string.IsNullOrEmpty(item.GibKisaltma))
@@ -2235,6 +2239,7 @@ namespace QNBFinansGIB.Utils
                     invoiceLine.AppendChild(lineExtensionAmountDetail);
                     #endregion
 
+                    // Varsa iskonto bilgileri yer almaktadır
                     #region AllowanceCharge
 
                     var allowanceCharge = doc.CreateElement("cac", "AllowanceCharge", xlmnscac.Value);
@@ -2271,6 +2276,7 @@ namespace QNBFinansGIB.Utils
 
                     #endregion
 
+                    // Vergi bilgileri yer almaktadır
                     #region TaxTotal
                     taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
                     currencyId = doc.CreateAttribute("currencyID");
@@ -2313,6 +2319,7 @@ namespace QNBFinansGIB.Utils
                     invoiceLine.AppendChild(taxTotal);
                     #endregion
 
+                    // Fatura kesilen ürün detayı ve açıklama bilgileri yer almaktadır
                     #region Item
                     var invoiceItem = doc.CreateElement("cac", "Item", xlmnscac.Value);
                     if (!string.IsNullOrEmpty(item.MalzemeFaturaAciklamasi))
@@ -2328,6 +2335,7 @@ namespace QNBFinansGIB.Utils
                     invoiceLine.AppendChild(invoiceItem);
                     #endregion
 
+                    // Birim fiyat bilgileri yer almaktadır
                     #region Price
 
                     var price = doc.CreateElement("cac", "Price", xlmnscac.Value);
@@ -2348,7 +2356,7 @@ namespace QNBFinansGIB.Utils
                     root.AppendChild(invoiceLine);
                     #endregion
 
-                    i++;
+                    sayac++;
                 }
 
                 #endregion

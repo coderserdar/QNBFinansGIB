@@ -8,13 +8,22 @@ using System.Windows.Forms;
 
 namespace QNBFinansGIB
 {
-    public partial class Form1 : Form
+    /// <summary>
+    /// QNB Finans GİB Servisi için veri hazırlanan ve servisin test edildiği metotlar içeren
+    /// Form sınıfıdır
+    /// </summary>
+    public partial class frmAnaSayfa : Form
     {
-        // Burada genel olarak hazır bilgiler üzerine tanımlama yapılıyor
+        /// <summary>
+        /// Giden Fatura Listesi
+        /// </summary>
         public List<GidenFaturaDTO> gidenFaturaListesi = new List<GidenFaturaDTO>();
+        /// <summary>
+        /// Giden Fatura Detay Listesi
+        /// </summary>
         public List<GidenFaturaDetayDTO> gidenFaturaDetayListesi = new List<GidenFaturaDetayDTO>();
 
-        public Form1()
+        public frmAnaSayfa()
         {
             InitializeComponent();
         }
@@ -27,7 +36,7 @@ namespace QNBFinansGIB
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Form1_Shown(object sender, EventArgs e)
+        private void FormAnaSayfa_Shown(object sender, EventArgs e)
         {
             #region İlk Verilerin Hazırlanması
             #region Giden Faturaları Ekleme
@@ -315,6 +324,17 @@ namespace QNBFinansGIB
         }
 
         /// <summary>
+        /// Form kapandığı zaman ne yapılacağını belirten bir metottur
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void frmAnaSayfa_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            MessageBox.Show("Programı kullandığınız için teşekkürler");
+            Application.Exit();
+        }
+
+        /// <summary>
         /// Sistemde E-Fatura ve E-Arşiv Servislerine Gönderilecek Formatta
         /// İdeal XML dosyalarının oluşturulması için XML Oluştur Butonuna tıklandığı zaman
         /// Yapılacak işlemlerin hazırlandığı metottur.
@@ -331,6 +351,8 @@ namespace QNBFinansGIB
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath))
                 {
                     var klasorAdi = dialogKlasorSecimi.SelectedPath;
+                    // Burada form yüklendiği zaman hazırlanan giden faturalardan rastgele birinin
+                    // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
                     var index = new Random().Next(gidenFaturaListesi.Count);
                     var gidenFatura = gidenFaturaListesi[index];
                     var gidenFaturaDetayListesiTemp = new List<GidenFaturaDetayDTO>();
@@ -339,7 +361,7 @@ namespace QNBFinansGIB
 
                     #region XML Oluşturma
                     var dosyaAdi = "";
-                    if (!string.IsNullOrEmpty(gidenFatura.TuzelKisiAd))
+                    if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
                     {
                         var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
                         if (kullaniciMi)
@@ -366,7 +388,8 @@ namespace QNBFinansGIB
         /// <summary>
         /// Sistemde E-Fatura veya E-Arşive yollansın yollanmasın
         /// Hazırlanan XML dosyalarının bu sistemlerde nasıl göründüğüne dair
-        /// Önizleme alınmasını sağlayan metottur.
+        /// Önizleme alınmasını sağlayan metottur. Bu önizleme PDF veya ZIP olarak alınacak
+        /// Sorun olsa da olmasa da bir mesaj ile kullanıcı bilgilendirilecektir.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -380,6 +403,8 @@ namespace QNBFinansGIB
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath))
                 {
                     var klasorAdi = dialogKlasorSecimi.SelectedPath;
+                    // Burada form yüklendiği zaman hazırlanan giden faturalardan rastgele birinin
+                    // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
                     var index = new Random().Next(gidenFaturaListesi.Count);
                     var gidenFatura = gidenFaturaListesi[index];
                     var gidenFaturaDetayListesiTemp = new List<GidenFaturaDetayDTO>();
@@ -392,7 +417,7 @@ namespace QNBFinansGIB
                     geriDonus.Tip = 0;
                     var dosya = new byte[1];
                     var kullaniciMi = false;
-                    if (!string.IsNullOrEmpty(gidenFatura.TuzelKisiAd))
+                    if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
                     {
                         kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
                         if (kullaniciMi)
@@ -439,6 +464,7 @@ namespace QNBFinansGIB
         /// <summary>
         /// Sistem tarafından hazırlanan XML dosyasının
         /// E-Fatura veya E-Arşiv servisine gönderilmesi için hazırlanan metottur.
+        /// Burada işlemin başarılı olup olmamasına göre kullanıcı bilgilendirilecektir.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -452,6 +478,8 @@ namespace QNBFinansGIB
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath))
                 {
                     var klasorAdi = dialogKlasorSecimi.SelectedPath;
+                    // Burada form yüklendiği zaman hazırlanan giden faturalardan rastgele birinin
+                    // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
                     var index = new Random().Next(gidenFaturaListesi.Count);
                     var gidenFatura = gidenFaturaListesi[index];
                     var gidenFaturaDetayListesiTemp = new List<GidenFaturaDetayDTO>();
@@ -462,7 +490,7 @@ namespace QNBFinansGIB
                     var dosyaAdi = "";
                     var sonuc = "";
                     var kullaniciMi = false;
-                    if (!string.IsNullOrEmpty(gidenFatura.TuzelKisiAd))
+                    if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
                     {
                         kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
                         if (kullaniciMi)

@@ -3,7 +3,10 @@
 namespace QNBFinansGIB.DTO
 {
     /// <summary>
-    /// Giden Fatura Detay typelist'indeki alanlar üzerinden oluşturulan sınıftır
+    /// Giden Fatura Detay Nesnesinde olması gereken alanlarla oluşturulan sınıftır
+    /// Tutarlar, ürün adı, KDV ve iskonto oranları
+    /// Malzeme faturası ile ilgili alanlar
+    /// Malzemenin taşındığı araç Plaka, sevk irsaliyesi vb. bilgileri içerir.
     /// </summary>
     public class GidenFaturaDetayDTO
     {
@@ -43,7 +46,7 @@ namespace QNBFinansGIB.DTO
         public string SevkIrsaliyesiNo;
 
         /// <summary>
-        /// Sevk İrsaliye Tarihi Tarihi Bilgisi
+        /// Sevk İrsaliye Tarihi Bilgisi
         /// </summary>
         public DateTime? SevkIrsaliyeTarihi { get; set; }
 
@@ -78,7 +81,7 @@ namespace QNBFinansGIB.DTO
         public string MalzemeFaturaAciklamasi;
 
         /// <summary>
-        /// GİB Kısaltma Bilgisi
+        /// GİB Kısaltma Bilgisi (Malzemenin Ölçü Birimi, GİB tarafında Kilogram KGM olarak adlandırılmaktadır)
         /// </summary>
         public string GibKisaltma;
 

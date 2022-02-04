@@ -1,7 +1,15 @@
 ﻿namespace QNBFinansGIB.Utils
 {
+    /// <summary>
+    /// Satış Türü Bilgilerinin Bulunduğu Enum sınıfı
+    /// </summary>
     public static class Enums
     {
+        /// <summary>
+        /// Faturadaki Satış Türlerinin Kodlarının Bulunduğu enum bilgisi
+        /// Burada İhraç Kayıtlı ise XML içerisinde bazı yapısal değişiklikler gerçekleştirildiği için
+        /// Bu konu önemlidir.
+        /// </summary>
         public enum SatisTur
         {
             Vadeli = 1,

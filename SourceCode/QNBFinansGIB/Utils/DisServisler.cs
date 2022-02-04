@@ -5,16 +5,41 @@ using System.Text;
 
 namespace QNBFinansGIB.Utils
 {
+    /// <summary>
+    /// QNB Finans Firması tarafından sağlanan GİB Web Servis referanslarının tüketildiği
+    /// Ve servise talep gönderilip sonuçlarının temin edildiği sınıftır.
+    /// </summary>
     public static class DisServisler
     {
         #region QNB GİB
 
+        /// <summary>
+        /// Servis Kullanıcı Adı Bilgisi
+        /// </summary>
         private static readonly string GIBKullaniciAdi = "turkseker.ws";
+        /// <summary>
+        /// Servis Şifre Bilgisi
+        /// </summary>
         private static readonly string GIBSifre = "1234qqqQ";
+        /// <summary>
+        /// Servise Gönderilecek Vergi No Bilgisi
+        /// </summary>
         private static readonly string GIBVKN = "3250566851";
+        /// <summary>
+        /// Servis İçin Tanımlanmış ERP Kodu Bilgisi
+        /// </summary>
         private static readonly string GIBERPKodu = "TSF30125";
+        /// <summary>
+        /// GİB Login Servis istemcisi
+        /// </summary>
         private static GIBUserService.userService gibUserService = new GIBUserService.userService();
+        /// <summary>
+        /// GİB E-Fatura Servis istemcisi
+        /// </summary>
         private static GIBEFatura.connectorService gibEFaturaService = new GIBEFatura.connectorService();
+        /// <summary>
+        /// GİB E-Arşiv Servis istemcisi
+        /// </summary>
         private static GIBEArsiv.EarsivWebService gibEArsivService = new GIBEArsiv.EarsivWebService();
 
         /// <summary>
@@ -54,9 +79,9 @@ namespace QNBFinansGIB.Utils
         /// <summary>
         /// Oluşturulan XML dosyasının QNB Finans Tarafına gönderilmesini sağlayan metottur
         /// </summary>
-        /// <param name="gidenFaturaId">Giden Fatura Id Bilgisi</param>
+        /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
         /// <param name="dosyaAdi">Dosya Adı bilgisi</param>
-        /// <returns></returns>
+        /// <returns>İşlem Sonucu (Buradan dönen değer gerekli yerlerde kontrol edilip ona göre kullanıcıya bilgi verilmektedir.)</returns>
         public static string EFaturaGonder(GidenFaturaDTO gidenFatura, string dosyaAdi)
         {
             try
@@ -92,10 +117,14 @@ namespace QNBFinansGIB.Utils
         }
 
         /// <summary>
-        /// Oluşturulan XML dosyasının QNB Finans Tarafına gönderilmesini sağlayan metottur
+        /// Oluşturulan XML dosyasının QNB Finans Tarafında Önizlemesinin yapılmasını sağlayan metottur
+        /// Eğer Belge Oid numarası varsa XML dosyasını göndermez, bu numarayla sistemdeki çıktı alınır.
+        /// Yoksa XML dosyası gönderilir, Mali Değeri Yoktur yazan bir filigranla yine XML üzerindeki 
+        /// Yapı üzerinden PDF çıktısı alınıcak şekilde veri döner
         /// </summary>
+        /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
         /// <param name="dosyaAdi">Dosya Adı bilgisi</param>
-        /// <returns></returns>
+        /// <returns>PDF veya ZIP olarak alınacak dosyanın Byte dizisi hali</returns>
         public static GeriDonus EFaturaOnIzleme(GidenFaturaDTO gidenFatura, string dosyaAdi)
         {
             try
@@ -155,7 +184,7 @@ namespace QNBFinansGIB.Utils
         /// <summary>
         /// Oluşturulan XML dosyasının QNB Finans Tarafına gönderilmesini sağlayan metottur
         /// </summary>
-        /// <param name="gidenFaturaId">Giden Fatura Id Bilgisi</param>
+        /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
         /// <param name="dosyaAdi">Dosya Adı bilgisi</param>
         /// <returns></returns>
         public static string EArsivGonder(GidenFaturaDTO gidenFatura, string dosyaAdi)
@@ -198,10 +227,12 @@ namespace QNBFinansGIB.Utils
 
         /// <summary>
         /// Oluşturulan XML dosyasının QNB Finans Tarafına gönderilmesini sağlayan metottur
+        /// Burada da E-Faturada olduğu gibi önce Fatura Id bilgisi ile gönderip
+        /// Bir sonuç gelmezse hazırlanan XML dosyası gönderilip çıktı alınmaya çalışılmaktadır
         /// </summary>
-        /// <param name="gidenFaturaId">Giden Fatura Id Bilgisi</param>
+        /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
         /// <param name="dosyaAdi">Dosya Adı bilgisi</param>
-        /// <returns></returns>
+        /// <returns>PDF olarak çıktısı alınacak dosyanın byte dizisi hali</returns>
         public static byte[] EArsivOnIzleme(GidenFaturaDTO gidenFatura, string dosyaAdi)
         {
             try
@@ -216,7 +247,8 @@ namespace QNBFinansGIB.Utils
 
                 var belge = new GIBEArsiv.belge();
 
-                string input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
+                // Burada VKN ve ERP Kodu önemlidir
+                string input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
 
                 var fatura = new GIBEArsiv.belge();
                 fatura.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
@@ -249,11 +281,10 @@ namespace QNBFinansGIB.Utils
         /// <summary>
         /// Dosyanın MD5 hashi alınması için yazılan metottur
         /// </summary>
-        /// <param name="gelen">Girdi Metni</param>
-        /// <returns>MD5 hashlenmiş hali</returns>
+        /// <param name="gelen">Girdi Bilgisi</param>
+        /// <returns>Metnin veya girdinin MD5 hashlenmiş hali</returns>
         public static string GetMD5Hash(byte[] gelen)
         {
-            //Fatura dosyalarının hash'lerini almak için kullanılan fonksiyondur.
             MD5 md5Hash = new MD5CryptoServiceProvider();
             byte[] data = md5Hash.ComputeHash(gelen);
             StringBuilder sBuilder = new StringBuilder();
