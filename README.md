@@ -1,10 +1,16 @@
-# QNN Finans GİB (Gelir İdaresi Başkanlığı E-Fatura ve E-Arşiv Web Servis Uygulaması)
+# QNB Finans GİB (Gelir İdaresi Başkanlığı E-Fatura ve E-Arşiv Web Servis Uygulaması)
 
 ![GitHub stars](https://img.shields.io/github/stars/coderserdar/QNBFinansGIB?style=social) ![GitHub forks](https://img.shields.io/github/forks/coderserdar/QNBFinansGIB?style=social) ![GitHub watchers](https://img.shields.io/github/watchers/coderserdar/QNBFinansGIB?style=social) ![GitHub repo size](https://img.shields.io/github/repo-size/coderserdar/QNBFinansGIB?style=plastic) ![GitHub language count](https://img.shields.io/github/languages/count/coderserdar/QNBFinansGIB?style=plastic) ![GitHub top language](https://img.shields.io/github/languages/top/coderserdar/QNBFinansGIB?style=plastic) ![GitHub last commit](https://img.shields.io/github/last-commit/coderserdar/QNBFinansGIB?color=red&style=plastic)
 
 Bu bir **Windows Form** uygulamasıdır ve içerisinde genel olarak **QNB Finans** firması üzerinden **GİB (Gelir İdaresi Başkanlığı)**'e ait olan *E-Fatura* ve *E-Arşiv* web servislerine göndermek üzere kesilen faturaların **XML** dosyalarını oluşturma, servis üzerinde PDF veya ZIP formatlarında önizlemesini yapma, hazırlanan XML dosyalarını GİB tarafına gönderme gibi işlemlerin yapılmasını sağlamaktadır. Örnek olarak yine tarafımca yazılan **Türkiye Şeker Fabrikaları A.Ş.** bünyesindeki yapı kullanılmıştır. Olabildiğince açıklama satırları yazılarak hazırlanmış bir uygulamadır. **C#** programlama dili ile **.NET 4** framework üzerinde **Visual Studio 2017 IDE**si kullanılarak hazırlanmıştır.
 
-Bu uygulamada bazı önemli noktalar bulunmaktadır. Bunlar aşağıda belirtilmiştir;
+Bu uygulamada aşağıdaki işlemler gerçekleştirilebilmektedir.
+
+ - **Gelir İdare Başkanlığı** *E-Fatura* ve *E-Arşiv* web servislerine kesilen fatura ile ilgili bilgilerin doğru bir şekilde gönderilebilmesi için **XML (UBL)** dosyaları oluşturabilme
+ - Eğer daha önceden gönderildiyse gönderilen faturanın, gönderilmediyse hazırlanan **XML (UBL)** dosyasının **GİB** portalında nasıl görüneceğine dair **PDF** veya **ZIP** formatında *önizleme* yapabilme 
+ - Hazırlanan **XML (UBL)** dosyasının **GİB** *E-Fatura* veya *E-Arşiv* servisine (fatura kesilen tüzel kişinin E-Fatura mükellefi olup olmamasına bağlı olarak) gönderilmesi
+
+Bu uygulamada bazı dikkat edilmesi gereken önemli noktalar bulunmaktadır. Bunlar aşağıda belirtilmiştir;
 
  - Öncelikle web servis adresleri Service Reference yerine Web Reference olarak eklenmelidir.
     - *Diğer türlü çalışması mümkün değildir (Ya da en azından ben beceremedim)*
@@ -16,10 +22,10 @@ Bu uygulamada bazı önemli noktalar bulunmaktadır. Bunlar aşağıda belirtilm
  - Olabildiğince kodlarda kontroller konuldu ancak herhangi bir durumda *exception* vb. oluşursa kodu **debug** ederek hatanın nerede olduğunu kontrol edebilirsiniz.
  - Kendi kullandığınız bazı alanlar XML içerisine tag ile konulmamış olabilir. Mesela Tevkifat kesintileri konulmamış olabilir. Burada en sık kullanılan alanlar üzerinden **XML** oluşturulmaya çalışıldı
     - *Burada deneme yanılma yöntemi uygulayabilirsiniz. Ya da ben fırsat buldukça uygulamayı güncellemeye çalışacağım*
-	
+   
 # Dokümantasyon ve Örnek Ekran Görüntüleri
 
-Kaynak kod hakkında, web servis metotları ile ilgili olarak hazırlanmış dokümanlara ve örnek XML dosyalarına [Dokümantasyon](https://github.com/coderserdar/QNBFinansGIB/blob/main/Documentation/QNBFinansGIB.pdf) kısmından ulaşabilirsiniz. Bu *PDF* dosyaları üzerinden kaynak kodları inceleyebilirsiniz. PDF dosyası Hyperlink desteklediğ için doküman üzerinden kodlara, fonksiyonlara vb. gidebilirsiniz. Kaynak kod içerisinde olabildiğince detaylı bir şekilde açıklama satırları yazmaya çalıştım.
+Kaynak kod hakkında, web servis metotları ile ilgili olarak hazırlanmış dokümanlara ve örnek XML dosyalarına [Dokümantasyon](https://github.com/coderserdar/QNBFinansGIB/blob/main/Documentation/QNBFinansGIB.pdf) kısmından ulaşabilirsiniz. Bu *PDF* dosyaları üzerinden kaynak kodları inceleyebilirsiniz. PDF dosyası Hyperlink desteklediği için doküman üzerinden kodlara, fonksiyonlara vb. gidebilirsiniz. Kaynak kod içerisinde olabildiğince detaylı bir şekilde açıklama satırları yazmaya çalıştım.
 
 Programla ilgili örnek ekran görüntüleri aşağıdadır
 
