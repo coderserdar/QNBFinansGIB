@@ -99,6 +99,7 @@ namespace QNBFinansGIB
                 IlAd = "Ankara",
                 IlceAd = "Etimesgut",
                 SatisTuruKod = 2,
+                FaturaTuruKod = 5, // İade Faturası
                 GibNumarasi = "KST2022000009999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
@@ -120,7 +121,7 @@ namespace QNBFinansGIB
                 DuzenlemeTarihi = new DateTime(2022, 1, 31),
                 IlAd = "Ankara",
                 IlceAd = "Çubuk",
-                SatisTuruKod = 10,
+                SatisTuruKod = 10, //İhraç Kayıtlı Fatura
                 GibNumarasi = "ILG202200009999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,

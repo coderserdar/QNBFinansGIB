@@ -37,6 +37,10 @@ namespace QNBFinansGIB.Utils
             if (gidenFatura.SatisTuruKod != null)
                 kodSatisTuruKod = gidenFatura.SatisTuruKod ?? 0;
 
+            var kodFaturaTuruKod = 0;
+            if (gidenFatura.FaturaTuruKod != null)
+                kodFaturaTuruKod = gidenFatura.FaturaTuruKod ?? 0;
+
             #region Standart ve Faturaya Bağlı Bilgiler
 
             // Faturanın türü, düzenleme tarihi, UBL Versiyon Numarası, GİB Numarası gibi bilgiler
@@ -118,6 +122,8 @@ namespace QNBFinansGIB.Utils
                 invoiceTypeCode.InnerText = "ISTISNA";
             if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
                 invoiceTypeCode.InnerText = "IHRACKAYITLI";
+            if (kodFaturaTuruKod == FaturaTur.Iade.GetHashCode())
+                invoiceTypeCode.InnerText = "IADE";
             root.AppendChild(invoiceTypeCode);
 
             #region İrsaliye Bilgileri
@@ -867,6 +873,10 @@ namespace QNBFinansGIB.Utils
                 if (gidenFatura.SatisTuruKod != null)
                     kodSatisTuruKod = gidenFatura.SatisTuruKod ?? 0;
 
+                var kodFaturaTuruKod = 0;
+                if (gidenFatura.FaturaTuruKod != null)
+                    kodFaturaTuruKod = gidenFatura.FaturaTuruKod ?? 0;
+
                 #region Standart ve Faturaya Bağlı Bilgiler
 
                 // Faturanın türü, düzenleme tarihi, UBL Versiyon Numarası, GİB Numarası gibi bilgiler
@@ -957,6 +967,8 @@ namespace QNBFinansGIB.Utils
                     invoiceTypeCode.InnerText = "ISTISNA";
                 if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
                     invoiceTypeCode.InnerText = "IHRACKAYITLI";
+                if (kodFaturaTuruKod == FaturaTur.Iade.GetHashCode())
+                    invoiceTypeCode.InnerText = "IADE";
                 root.AppendChild(invoiceTypeCode);
 
                 #region İrsaliye Bilgileri
@@ -1565,6 +1577,10 @@ namespace QNBFinansGIB.Utils
                 if (gidenFatura.SatisTuruKod != null)
                     kodSatisTuruKod = gidenFatura.SatisTuruKod ?? 0;
 
+                var kodFaturaTuruKod = 0;
+                if (gidenFatura.FaturaTuruKod != null)
+                    kodFaturaTuruKod = gidenFatura.FaturaTuruKod ?? 0;
+
                 #region Standart ve Faturaya Bağlı Bilgiler
 
                 // Faturanın türü, düzenleme tarihi, UBL Versiyon Numarası, GİB Numarası gibi bilgiler
@@ -1655,6 +1671,8 @@ namespace QNBFinansGIB.Utils
                     invoiceTypeCode.InnerText = "ISTISNA";
                 if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
                     invoiceTypeCode.InnerText = "IHRACKAYITLI";
+                if (kodFaturaTuruKod == FaturaTur.Iade.GetHashCode())
+                    invoiceTypeCode.InnerText = "IADE";
                 root.AppendChild(invoiceTypeCode);
 
                 #region İrsaliye Bilgileri
