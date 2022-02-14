@@ -14,6 +14,11 @@ namespace QNBFinansGIB.DTO
         public string GidenFaturaId;
 
         /// <summary>
+        /// Fatura Kesen Birimin Alt Şube Bilgisi
+        /// </summary>
+        public string AltBirimAd;
+
+        /// <summary>
         /// Satış Türü Kod Bilgisi
         /// </summary>
         public int? SatisTuruKod;

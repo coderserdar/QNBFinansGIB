@@ -10,7 +10,7 @@
   <cbc:ProfileID>EARSIVFATURA</cbc:ProfileID>
   <cbc:ID>MLT2022000099999</cbc:ID>
   <cbc:CopyIndicator>false</cbc:CopyIndicator>
-  <cbc:UUID>6BF9D763-F3BD-4654-BEDF-32237FEA0CC3</cbc:UUID>
+  <cbc:UUID>B50C3C06-5E6D-462F-A9FB-4497E3EEE5B5</cbc:UUID>
   <cbc:IssueDate>2022-01-01</cbc:IssueDate>
   <cbc:IssueTime>00:00:00</cbc:IssueTime>
   <cbc:InvoiceTypeCode>SATIS</cbc:InvoiceTypeCode>
@@ -45,6 +45,9 @@
       <cbc:WebsiteURI>https://www.turkseker.gov.tr</cbc:WebsiteURI>
       <cac:PartyIdentification>
         <cbc:ID schemeID="VKN">3250566851</cbc:ID>
+      </cac:PartyIdentification>
+      <cac:PartyIdentification>
+        <cbc:ID schemeID="SUBENO">B Birimi</cbc:ID>
       </cac:PartyIdentification>
       <cac:PartyName>
         <cbc:Name>TÜRKİYE ŞEKER FABRİKALARI A.Ş.</cbc:Name>

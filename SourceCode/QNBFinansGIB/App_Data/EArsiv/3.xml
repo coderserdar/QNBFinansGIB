@@ -13,10 +13,10 @@
   <cbc:ProfileID>TEMELFATURA</cbc:ProfileID>
   <cbc:ID>KST2022000009999</cbc:ID>
   <cbc:CopyIndicator>false</cbc:CopyIndicator>
-  <cbc:UUID>BC26045F-7D47-4030-B6E0-638359D62B60</cbc:UUID>
+  <cbc:UUID>0979C22B-A92D-41AC-9999-F49C0210185C</cbc:UUID>
   <cbc:IssueDate>2022-01-11</cbc:IssueDate>
   <cbc:IssueTime>00:00:00</cbc:IssueTime>
-  <cbc:InvoiceTypeCode>SATIS</cbc:InvoiceTypeCode>
+  <cbc:InvoiceTypeCode>IADE</cbc:InvoiceTypeCode>
   <cbc:DocumentCurrencyCode>TRY</cbc:DocumentCurrencyCode>
   <cbc:LineCountNumeric>1</cbc:LineCountNumeric>
   <cac:AdditionalDocumentReference>

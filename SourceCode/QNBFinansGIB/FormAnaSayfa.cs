@@ -43,6 +43,7 @@ namespace QNBFinansGIB
             var gidenFatura = new GidenFaturaDTO
             {
                 GidenFaturaId = "1",
+                AltBirimAd = "A Birimi",
                 TuzelKisiAd = "Deneme Şirketi - 1",
                 VergiNo = "53602329864",
                 VergiDairesi = "ANKARA",
@@ -65,6 +66,7 @@ namespace QNBFinansGIB
             gidenFatura = new GidenFaturaDTO
             {
                 GidenFaturaId = "2",
+                AltBirimAd = "B Birimi",
                 TuzelKisiAd = "Deneme Şirketi - 2",
                 VergiNo = "9250936109",
                 VergiDairesi = "ANKARA",

@@ -290,6 +290,19 @@ namespace QNBFinansGIB.Utils
             accountingSupplierPartyPartyId.InnerText = "3250566851";
             partyIdentification.AppendChild(accountingSupplierPartyPartyId);
             party.AppendChild(partyIdentification);
+
+            if (!string.IsNullOrEmpty(gidenFatura.AltBirimAd))
+            {
+                partyIdentification = doc.CreateElement("cac", "PartyIdentification", xlmnscac.Value);
+                accountingSupplierPartyIdAttr2 = doc.CreateAttribute("schemeID");
+                accountingSupplierPartyIdAttr2.Value = "SUBENO";
+                accountingSupplierPartyPartyId = doc.CreateElement("cbc", "ID", xlmnscbc.Value);
+                accountingSupplierPartyPartyId.Attributes.Append(accountingSupplierPartyIdAttr2);
+                accountingSupplierPartyPartyId.InnerText = gidenFatura.AltBirimAd;
+                partyIdentification.AppendChild(accountingSupplierPartyPartyId);
+                party.AppendChild(partyIdentification);
+            }
+
             var partyName = doc.CreateElement("cac", "PartyName", xlmnscac.Value);
             var partyNameReal = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
             partyNameReal.InnerText = "TÜRKİYE ŞEKER FABRİKALARI A.Ş.";
@@ -1109,6 +1122,19 @@ namespace QNBFinansGIB.Utils
                 accountingSupplierPartyPartyId.InnerText = "3250566851";
                 partyIdentification.AppendChild(accountingSupplierPartyPartyId);
                 party.AppendChild(partyIdentification);
+
+                if (!string.IsNullOrEmpty(gidenFatura.AltBirimAd))
+                {
+                    partyIdentification = doc.CreateElement("cac", "PartyIdentification", xlmnscac.Value);
+                    accountingSupplierPartyIdAttr2 = doc.CreateAttribute("schemeID");
+                    accountingSupplierPartyIdAttr2.Value = "SUBENO";
+                    accountingSupplierPartyPartyId = doc.CreateElement("cbc", "ID", xlmnscbc.Value);
+                    accountingSupplierPartyPartyId.Attributes.Append(accountingSupplierPartyIdAttr2);
+                    accountingSupplierPartyPartyId.InnerText = gidenFatura.AltBirimAd;
+                    partyIdentification.AppendChild(accountingSupplierPartyPartyId);
+                    party.AppendChild(partyIdentification);
+                }
+
                 var partyName = doc.CreateElement("cac", "PartyName", xlmnscac.Value);
                 var partyNameReal = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
                 partyNameReal.InnerText = "TÜRKİYE ŞEKER FABRİKALARI A.Ş.";
@@ -1813,6 +1839,19 @@ namespace QNBFinansGIB.Utils
                 accountingSupplierPartyPartyId.InnerText = "3250566851";
                 partyIdentification.AppendChild(accountingSupplierPartyPartyId);
                 party.AppendChild(partyIdentification);
+
+                if (!string.IsNullOrEmpty(gidenFatura.AltBirimAd))
+                {
+                    partyIdentification = doc.CreateElement("cac", "PartyIdentification", xlmnscac.Value);
+                    accountingSupplierPartyIdAttr2 = doc.CreateAttribute("schemeID");
+                    accountingSupplierPartyIdAttr2.Value = "SUBENO";
+                    accountingSupplierPartyPartyId = doc.CreateElement("cbc", "ID", xlmnscbc.Value);
+                    accountingSupplierPartyPartyId.Attributes.Append(accountingSupplierPartyIdAttr2);
+                    accountingSupplierPartyPartyId.InnerText = gidenFatura.AltBirimAd;
+                    partyIdentification.AppendChild(accountingSupplierPartyPartyId);
+                    party.AppendChild(partyIdentification);
+                }
+
                 var partyName = doc.CreateElement("cac", "PartyName", xlmnscac.Value);
                 var partyNameReal = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
                 partyNameReal.InnerText = "TÜRKİYE ŞEKER FABRİKALARI A.Ş.";
