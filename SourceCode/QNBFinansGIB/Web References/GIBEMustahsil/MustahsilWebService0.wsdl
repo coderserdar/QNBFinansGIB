@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.earsiv.uut.cs.com.tr/" targetNamespace="http://service.earsiv.uut.cs.com.tr/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="https://earsivtest.efinans.com.tr:443/earsiv/ws/MustahsilWebService?xsd=1" namespace="http://service.earsiv.uut.cs.com.tr/" />
+    </xsd:schema>
+  </types>
+  <message name="raporBolumListesiDetayliSorgula">
+    <part name="parameters" element="tns:raporBolumListesiDetayliSorgula" />
+  </message>
+  <message name="raporBolumListesiDetayliSorgulaResponse">
+    <part name="parameters" element="tns:raporBolumListesiDetayliSorgulaResponse" />
+  </message>
+  <message name="ePostaGonder">
+    <part name="parameters" element="tns:ePostaGonder" />
+  </message>
+  <message name="ePostaGonderResponse">
+    <part name="parameters" element="tns:ePostaGonderResponse" />
+  </message>
+  <message name="ePostaDurumSorgula">
+    <part name="parameters" element="tns:ePostaDurumSorgula" />
+  </message>
+  <message name="ePostaDurumSorgulaResponse">
+    <part name="parameters" element="tns:ePostaDurumSorgulaResponse" />
+  </message>
+  <message name="raporDurumSorgula">
+    <part name="parameters" element="tns:raporDurumSorgula" />
+  </message>
+  <message name="raporDurumSorgulaResponse">
+    <part name="parameters" element="tns:raporDurumSorgulaResponse" />
+  </message>
+  <message name="raporBolumListesiSorgula">
+    <part name="parameters" element="tns:raporBolumListesiSorgula" />
+  </message>
+  <message name="raporBolumListesiSorgulaResponse">
+    <part name="parameters" element="tns:raporBolumListesiSorgulaResponse" />
+  </message>
+  <message name="kontorBilgisiGetir">
+    <part name="parameters" element="tns:kontorBilgisiGetir" />
+  </message>
+  <message name="kontorBilgisiGetirResponse">
+    <part name="parameters" element="tns:kontorBilgisiGetirResponse" />
+  </message>
+  <message name="mustahsilMakbuzOlustur">
+    <part name="parameters" element="tns:mustahsilMakbuzOlustur" />
+  </message>
+  <message name="mustahsilMakbuzOlusturResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzOlusturResponse" />
+  </message>
+  <message name="mustahsilMakbuzSorgula">
+    <part name="parameters" element="tns:mustahsilMakbuzSorgula" />
+  </message>
+  <message name="mustahsilMakbuzSorgulaResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzSorgulaResponse" />
+  </message>
+  <message name="mustahsilMakbuzIptalEt">
+    <part name="parameters" element="tns:mustahsilMakbuzIptalEt" />
+  </message>
+  <message name="mustahsilMakbuzIptalEtResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzIptalEtResponse" />
+  </message>
+  <message name="mustahsilMakbuzIptaliKaldir">
+    <part name="parameters" element="tns:mustahsilMakbuzIptaliKaldir" />
+  </message>
+  <message name="mustahsilMakbuzIptaliKaldirResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzIptaliKaldirResponse" />
+  </message>
+  <message name="mustahsilMakbuzListeSorgula">
+    <part name="parameters" element="tns:mustahsilMakbuzListeSorgula" />
+  </message>
+  <message name="mustahsilMakbuzListeSorgulaResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzListeSorgulaResponse" />
+  </message>
+  <message name="mustahsilMakbuzListeSorgulaPortal">
+    <part name="parameters" element="tns:mustahsilMakbuzListeSorgulaPortal" />
+  </message>
+  <message name="mustahsilMakbuzListeSorgulaPortalResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzListeSorgulaPortalResponse" />
+  </message>
+  <message name="mustahsilMakbuzOnizleme">
+    <part name="parameters" element="tns:mustahsilMakbuzOnizleme" />
+  </message>
+  <message name="mustahsilMakbuzOnizlemeResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzOnizlemeResponse" />
+  </message>
+  <message name="rapordaBelgeSorgula">
+    <part name="parameters" element="tns:rapordaBelgeSorgula" />
+  </message>
+  <message name="rapordaBelgeSorgulaResponse">
+    <part name="parameters" element="tns:rapordaBelgeSorgulaResponse" />
+  </message>
+  <message name="mustahsilMakbuzTaslakOlustur">
+    <part name="parameters" element="tns:mustahsilMakbuzTaslakOlustur" />
+  </message>
+  <message name="mustahsilMakbuzTaslakOlusturResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzTaslakOlusturResponse" />
+  </message>
+  <message name="mustahsilMakbuzTaslaktanOlustur">
+    <part name="parameters" element="tns:mustahsilMakbuzTaslaktanOlustur" />
+  </message>
+  <message name="mustahsilMakbuzTaslaktanOlusturResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzTaslaktanOlusturResponse" />
+  </message>
+  <message name="mustahsilMakbuzTaslakOnizleme">
+    <part name="parameters" element="tns:mustahsilMakbuzTaslakOnizleme" />
+  </message>
+  <message name="mustahsilMakbuzTaslakOnizlemeResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzTaslakOnizlemeResponse" />
+  </message>
+  <message name="mustahsilMakbuzTaslakSorgula">
+    <part name="parameters" element="tns:mustahsilMakbuzTaslakSorgula" />
+  </message>
+  <message name="mustahsilMakbuzTaslakSorgulaResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzTaslakSorgulaResponse" />
+  </message>
+  <message name="mustahsilMakbuzTaslakSil">
+    <part name="parameters" element="tns:mustahsilMakbuzTaslakSil" />
+  </message>
+  <message name="mustahsilMakbuzTaslakSilResponse">
+    <part name="parameters" element="tns:mustahsilMakbuzTaslakSilResponse" />
+  </message>
+  <message name="belgeZipiAl">
+    <part name="parameters" element="tns:belgeZipiAl" />
+  </message>
+  <message name="belgeZipiAlResponse">
+    <part name="parameters" element="tns:belgeZipiAlResponse" />
+  </message>
+  <message name="raporGonder">
+    <part name="parameters" element="tns:raporGonder" />
+  </message>
+  <message name="raporGonderResponse">
+    <part name="parameters" element="tns:raporGonderResponse" />
+  </message>
+  <message name="raporBolumleriOlustur">
+    <part name="parameters" element="tns:raporBolumleriOlustur" />
+  </message>
+  <message name="raporBolumleriOlusturResponse">
+    <part name="parameters" element="tns:raporBolumleriOlusturResponse" />
+  </message>
+  <message name="raporBolumAl">
+    <part name="parameters" element="tns:raporBolumAl" />
+  </message>
+  <message name="raporBolumAlResponse">
+    <part name="parameters" element="tns:raporBolumAlResponse" />
+  </message>
+  <message name="raporBolumSil">
+    <part name="parameters" element="tns:raporBolumSil" />
+  </message>
+  <message name="raporBolumSilResponse">
+    <part name="parameters" element="tns:raporBolumSilResponse" />
+  </message>
+  <message name="raporBolumBilgisiAl">
+    <part name="parameters" element="tns:raporBolumBilgisiAl" />
+  </message>
+  <message name="raporBolumBilgisiAlResponse">
+    <part name="parameters" element="tns:raporBolumBilgisiAlResponse" />
+  </message>
+  <message name="smsDurumSorgula">
+    <part name="parameters" element="tns:smsDurumSorgula" />
+  </message>
+  <message name="smsDurumSorgulaResponse">
+    <part name="parameters" element="tns:smsDurumSorgulaResponse" />
+  </message>
+  <message name="smsGonder">
+    <part name="parameters" element="tns:smsGonder" />
+  </message>
+  <message name="smsGonderResponse">
+    <part name="parameters" element="tns:smsGonderResponse" />
+  </message>
+  <message name="raporBolumRaporNoGuncelleImzala">
+    <part name="parameters" element="tns:raporBolumRaporNoGuncelleImzala" />
+  </message>
+  <message name="raporBolumRaporNoGuncelleImzalaResponse">
+    <part name="parameters" element="tns:raporBolumRaporNoGuncelleImzalaResponse" />
+  </message>
+  <portType name="MustahsilWebService">
+    <operation name="raporBolumListesiDetayliSorgula">
+      <input xmlns:ns1="http://www.w3.org/2007/05/addressing/metadata" ns1:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumListesiDetayliSorgulaRequest" message="tns:raporBolumListesiDetayliSorgula" />
+      <output xmlns:ns2="http://www.w3.org/2007/05/addressing/metadata" ns2:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumListesiDetayliSorgulaResponse" message="tns:raporBolumListesiDetayliSorgulaResponse" />
+    </operation>
+    <operation name="ePostaGonder">
+      <input xmlns:ns3="http://www.w3.org/2007/05/addressing/metadata" ns3:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/ePostaGonderRequest" message="tns:ePostaGonder" />
+      <output xmlns:ns4="http://www.w3.org/2007/05/addressing/metadata" ns4:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/ePostaGonderResponse" message="tns:ePostaGonderResponse" />
+    </operation>
+    <operation name="ePostaDurumSorgula">
+      <input xmlns:ns5="http://www.w3.org/2007/05/addressing/metadata" ns5:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/ePostaDurumSorgulaRequest" message="tns:ePostaDurumSorgula" />
+      <output xmlns:ns6="http://www.w3.org/2007/05/addressing/metadata" ns6:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/ePostaDurumSorgulaResponse" message="tns:ePostaDurumSorgulaResponse" />
+    </operation>
+    <operation name="raporDurumSorgula">
+      <input xmlns:ns7="http://www.w3.org/2007/05/addressing/metadata" ns7:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporDurumSorgulaRequest" message="tns:raporDurumSorgula" />
+      <output xmlns:ns8="http://www.w3.org/2007/05/addressing/metadata" ns8:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporDurumSorgulaResponse" message="tns:raporDurumSorgulaResponse" />
+    </operation>
+    <operation name="raporBolumListesiSorgula">
+      <input xmlns:ns9="http://www.w3.org/2007/05/addressing/metadata" ns9:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumListesiSorgulaRequest" message="tns:raporBolumListesiSorgula" />
+      <output xmlns:ns10="http://www.w3.org/2007/05/addressing/metadata" ns10:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumListesiSorgulaResponse" message="tns:raporBolumListesiSorgulaResponse" />
+    </operation>
+    <operation name="kontorBilgisiGetir">
+      <input xmlns:ns11="http://www.w3.org/2007/05/addressing/metadata" ns11:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/kontorBilgisiGetirRequest" message="tns:kontorBilgisiGetir" />
+      <output xmlns:ns12="http://www.w3.org/2007/05/addressing/metadata" ns12:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/kontorBilgisiGetirResponse" message="tns:kontorBilgisiGetirResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzOlustur">
+      <input xmlns:ns13="http://www.w3.org/2007/05/addressing/metadata" ns13:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzOlusturRequest" message="tns:mustahsilMakbuzOlustur" />
+      <output xmlns:ns14="http://www.w3.org/2007/05/addressing/metadata" ns14:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzOlusturResponse" message="tns:mustahsilMakbuzOlusturResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzSorgula">
+      <input xmlns:ns15="http://www.w3.org/2007/05/addressing/metadata" ns15:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzSorgulaRequest" message="tns:mustahsilMakbuzSorgula" />
+      <output xmlns:ns16="http://www.w3.org/2007/05/addressing/metadata" ns16:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzSorgulaResponse" message="tns:mustahsilMakbuzSorgulaResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzIptalEt">
+      <input xmlns:ns17="http://www.w3.org/2007/05/addressing/metadata" ns17:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzIptalEtRequest" message="tns:mustahsilMakbuzIptalEt" />
+      <output xmlns:ns18="http://www.w3.org/2007/05/addressing/metadata" ns18:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzIptalEtResponse" message="tns:mustahsilMakbuzIptalEtResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzIptaliKaldir">
+      <input xmlns:ns19="http://www.w3.org/2007/05/addressing/metadata" ns19:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzIptaliKaldirRequest" message="tns:mustahsilMakbuzIptaliKaldir" />
+      <output xmlns:ns20="http://www.w3.org/2007/05/addressing/metadata" ns20:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzIptaliKaldirResponse" message="tns:mustahsilMakbuzIptaliKaldirResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzListeSorgula">
+      <input xmlns:ns21="http://www.w3.org/2007/05/addressing/metadata" ns21:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzListeSorgulaRequest" message="tns:mustahsilMakbuzListeSorgula" />
+      <output xmlns:ns22="http://www.w3.org/2007/05/addressing/metadata" ns22:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzListeSorgulaResponse" message="tns:mustahsilMakbuzListeSorgulaResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzListeSorgulaPortal">
+      <input xmlns:ns23="http://www.w3.org/2007/05/addressing/metadata" ns23:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzListeSorgulaPortalRequest" message="tns:mustahsilMakbuzListeSorgulaPortal" />
+      <output xmlns:ns24="http://www.w3.org/2007/05/addressing/metadata" ns24:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzListeSorgulaPortalResponse" message="tns:mustahsilMakbuzListeSorgulaPortalResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzOnizleme">
+      <input xmlns:ns25="http://www.w3.org/2007/05/addressing/metadata" ns25:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzOnizlemeRequest" message="tns:mustahsilMakbuzOnizleme" />
+      <output xmlns:ns26="http://www.w3.org/2007/05/addressing/metadata" ns26:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzOnizlemeResponse" message="tns:mustahsilMakbuzOnizlemeResponse" />
+    </operation>
+    <operation name="rapordaBelgeSorgula">
+      <input xmlns:ns27="http://www.w3.org/2007/05/addressing/metadata" ns27:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/rapordaBelgeSorgulaRequest" message="tns:rapordaBelgeSorgula" />
+      <output xmlns:ns28="http://www.w3.org/2007/05/addressing/metadata" ns28:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/rapordaBelgeSorgulaResponse" message="tns:rapordaBelgeSorgulaResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzTaslakOlustur">
+      <input xmlns:ns29="http://www.w3.org/2007/05/addressing/metadata" ns29:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzTaslakOlusturRequest" message="tns:mustahsilMakbuzTaslakOlustur" />
+      <output xmlns:ns30="http://www.w3.org/2007/05/addressing/metadata" ns30:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzTaslakOlusturResponse" message="tns:mustahsilMakbuzTaslakOlusturResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzTaslaktanOlustur">
+      <input xmlns:ns31="http://www.w3.org/2007/05/addressing/metadata" ns31:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzTaslaktanOlusturRequest" message="tns:mustahsilMakbuzTaslaktanOlustur" />
+      <output xmlns:ns32="http://www.w3.org/2007/05/addressing/metadata" ns32:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzTaslaktanOlusturResponse" message="tns:mustahsilMakbuzTaslaktanOlusturResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzTaslakOnizleme">
+      <input xmlns:ns33="http://www.w3.org/2007/05/addressing/metadata" ns33:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzTaslakOnizlemeRequest" message="tns:mustahsilMakbuzTaslakOnizleme" />
+      <output xmlns:ns34="http://www.w3.org/2007/05/addressing/metadata" ns34:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzTaslakOnizlemeResponse" message="tns:mustahsilMakbuzTaslakOnizlemeResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzTaslakSorgula">
+      <input xmlns:ns35="http://www.w3.org/2007/05/addressing/metadata" ns35:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzTaslakSorgulaRequest" message="tns:mustahsilMakbuzTaslakSorgula" />
+      <output xmlns:ns36="http://www.w3.org/2007/05/addressing/metadata" ns36:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzTaslakSorgulaResponse" message="tns:mustahsilMakbuzTaslakSorgulaResponse" />
+    </operation>
+    <operation name="mustahsilMakbuzTaslakSil">
+      <input xmlns:ns37="http://www.w3.org/2007/05/addressing/metadata" ns37:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzTaslakSilRequest" message="tns:mustahsilMakbuzTaslakSil" />
+      <output xmlns:ns38="http://www.w3.org/2007/05/addressing/metadata" ns38:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/mustahsilMakbuzTaslakSilResponse" message="tns:mustahsilMakbuzTaslakSilResponse" />
+    </operation>
+    <operation name="belgeZipiAl">
+      <input xmlns:ns39="http://www.w3.org/2007/05/addressing/metadata" ns39:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/belgeZipiAlRequest" message="tns:belgeZipiAl" />
+      <output xmlns:ns40="http://www.w3.org/2007/05/addressing/metadata" ns40:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/belgeZipiAlResponse" message="tns:belgeZipiAlResponse" />
+    </operation>
+    <operation name="raporGonder">
+      <input xmlns:ns41="http://www.w3.org/2007/05/addressing/metadata" ns41:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporGonderRequest" message="tns:raporGonder" />
+      <output xmlns:ns42="http://www.w3.org/2007/05/addressing/metadata" ns42:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporGonderResponse" message="tns:raporGonderResponse" />
+    </operation>
+    <operation name="raporBolumleriOlustur">
+      <input xmlns:ns43="http://www.w3.org/2007/05/addressing/metadata" ns43:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumleriOlusturRequest" message="tns:raporBolumleriOlustur" />
+      <output xmlns:ns44="http://www.w3.org/2007/05/addressing/metadata" ns44:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumleriOlusturResponse" message="tns:raporBolumleriOlusturResponse" />
+    </operation>
+    <operation name="raporBolumAl">
+      <input xmlns:ns45="http://www.w3.org/2007/05/addressing/metadata" ns45:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumAlRequest" message="tns:raporBolumAl" />
+      <output xmlns:ns46="http://www.w3.org/2007/05/addressing/metadata" ns46:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumAlResponse" message="tns:raporBolumAlResponse" />
+    </operation>
+    <operation name="raporBolumSil">
+      <input xmlns:ns47="http://www.w3.org/2007/05/addressing/metadata" ns47:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumSilRequest" message="tns:raporBolumSil" />
+      <output xmlns:ns48="http://www.w3.org/2007/05/addressing/metadata" ns48:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumSilResponse" message="tns:raporBolumSilResponse" />
+    </operation>
+    <operation name="raporBolumBilgisiAl">
+      <input xmlns:ns49="http://www.w3.org/2007/05/addressing/metadata" ns49:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumBilgisiAlRequest" message="tns:raporBolumBilgisiAl" />
+      <output xmlns:ns50="http://www.w3.org/2007/05/addressing/metadata" ns50:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumBilgisiAlResponse" message="tns:raporBolumBilgisiAlResponse" />
+    </operation>
+    <operation name="smsDurumSorgula">
+      <input xmlns:ns51="http://www.w3.org/2007/05/addressing/metadata" ns51:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/smsDurumSorgulaRequest" message="tns:smsDurumSorgula" />
+      <output xmlns:ns52="http://www.w3.org/2007/05/addressing/metadata" ns52:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/smsDurumSorgulaResponse" message="tns:smsDurumSorgulaResponse" />
+    </operation>
+    <operation name="smsGonder">
+      <input xmlns:ns53="http://www.w3.org/2007/05/addressing/metadata" ns53:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/smsGonderRequest" message="tns:smsGonder" />
+      <output xmlns:ns54="http://www.w3.org/2007/05/addressing/metadata" ns54:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/smsGonderResponse" message="tns:smsGonderResponse" />
+    </operation>
+    <operation name="raporBolumRaporNoGuncelleImzala">
+      <input xmlns:ns55="http://www.w3.org/2007/05/addressing/metadata" ns55:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumRaporNoGuncelleImzalaRequest" message="tns:raporBolumRaporNoGuncelleImzala" />
+      <output xmlns:ns56="http://www.w3.org/2007/05/addressing/metadata" ns56:Action="http://service.earsiv.uut.cs.com.tr/MustahsilWebService/raporBolumRaporNoGuncelleImzalaResponse" message="tns:raporBolumRaporNoGuncelleImzalaResponse" />
+    </operation>
+  </portType>
+</definitions>

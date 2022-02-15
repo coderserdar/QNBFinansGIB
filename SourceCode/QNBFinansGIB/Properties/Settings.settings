@@ -11,5 +11,11 @@
     <Setting Name="QNBFinansGIB_GIBEArsiv_EarsivWebService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">https://earsivtest.efinans.com.tr:443/earsiv/ws/EarsivWebService</Value>
     </Setting>
+    <Setting Name="QNBFinansGIB_GIBEArsiv_MustahsilWebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://earsivtest.efinans.com.tr/earsiv/ws/MustahsilWebService?wsdl=1</Value>
+    </Setting>
+    <Setting Name="QNBFinansGIB_GIBEMustahsil_MustahsilWebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://earsivtest.efinans.com.tr:443/earsiv/ws/MustahsilWebService</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

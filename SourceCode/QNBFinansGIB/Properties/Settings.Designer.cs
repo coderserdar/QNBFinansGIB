@@ -52,5 +52,25 @@ namespace QNBFinansGIB.Properties {
                 return ((string)(this["QNBFinansGIB_GIBEArsiv_EarsivWebService"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://earsivtest.efinans.com.tr/earsiv/ws/MustahsilWebService?wsdl=1")]
+        public string QNBFinansGIB_GIBEArsiv_MustahsilWebService {
+            get {
+                return ((string)(this["QNBFinansGIB_GIBEArsiv_MustahsilWebService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://earsivtest.efinans.com.tr:443/earsiv/ws/MustahsilWebService")]
+        public string QNBFinansGIB_GIBEMustahsil_MustahsilWebService {
+            get {
+                return ((string)(this["QNBFinansGIB_GIBEMustahsil_MustahsilWebService"]));
+            }
+        }
     }
 }

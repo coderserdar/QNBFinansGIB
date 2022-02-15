@@ -14,6 +14,7 @@ namespace QNBFinansGIB
     /// </summary>
     public partial class frmAnaSayfa : Form
     {
+        #region Sabit Elemanlar
         /// <summary>
         /// Giden Fatura Listesi
         /// </summary>
@@ -22,6 +23,15 @@ namespace QNBFinansGIB
         /// Giden Fatura Detay Listesi
         /// </summary>
         public List<GidenFaturaDetayDTO> gidenFaturaDetayListesi = new List<GidenFaturaDetayDTO>();
+        /// <summary>
+        /// Müstahsil Makbuzu Listesi
+        /// </summary>
+        public List<MustahsilMakbuzuDTO> mustahsilMakbuzuListesi = new List<MustahsilMakbuzuDTO>();
+        /// <summary>
+        /// Müstahsil Makbuzu Detay Listesi
+        /// </summary>
+        public List<MustahsilMakbuzuDetayDTO> mustahsilMakbuzuDetayListesi = new List<MustahsilMakbuzuDetayDTO>();
+        #endregion
 
         public frmAnaSayfa()
         {
@@ -39,6 +49,8 @@ namespace QNBFinansGIB
         private void FormAnaSayfa_Shown(object sender, EventArgs e)
         {
             #region İlk Verilerin Hazırlanması
+
+            #region Giden Faturalar
             #region Giden Faturaları Ekleme
             var gidenFatura = new GidenFaturaDTO
             {
@@ -200,11 +212,6 @@ namespace QNBFinansGIB
             gidenFaturaListesi.Add(gidenFatura);
             #endregion
 
-            // burada fatura detayları kabarık olsun diye tüm fatura ana nesnelerine eklenecek bir yapı kuruldu
-            // ancak arada bir ilişki istenirse
-            // DTO sınıfında GidenFaturaDetayDTO sınıfına bir GidenFaturaId alanı eklenerek
-            // Ve üstteki regionda faturalara elle id verildikten sonra
-            // fatura detayları eklenirken buradaki ana nesne id alanları girilebilir
             #region Giden Fatura Detayları Ekleme
 
             var gidenFaturaDetay = new GidenFaturaDetayDTO
@@ -324,6 +331,259 @@ namespace QNBFinansGIB
 
             #endregion
             #endregion
+
+            #region Müstahsil Makbuzlar
+            #region Müstahsil Makbuzları Ekleme
+            var mustahsilMakbuzu = new MustahsilMakbuzuDTO
+            {
+                MustahsilMakbuzuId = "1",
+                AltBirimAd = "A Birimi",
+                TuzelKisiAd = "Deneme Şirketi - 1",
+                VergiNo = "53602329864",
+                VergiDairesi = "ANKARA",
+                Adres = "Kızılay Gima'nın Önü",
+                FaksNo = "03121111111",
+                BankaAd = "Türkiye İş Bankası",
+                BankaSube = "Kızılay",
+                IbanNo = "TR130006297372542652383131",
+                MustahsilMakbuzuTarihi = new DateTime(2022, 2, 13),
+                IlAd = "Ankara",
+                IlceAd = "Çankaya",
+                MustahsilMakbuzuNo = "MLT2022000010998",
+                NetTutar = 0,
+                GelirVergisi = 0,
+                MustahsilMakbuzuTutari = 0,
+            };
+            mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
+
+            mustahsilMakbuzu = new MustahsilMakbuzuDTO
+            {
+                MustahsilMakbuzuId = "2",
+                AltBirimAd = "B Birimi",
+                TuzelKisiAd = "Deneme Şirketi - 2",
+                VergiNo = "9250936109",
+                VergiDairesi = "ANKARA",
+                Adres = "Kızılay YKM",
+                FaksNo = "03121111112",
+                BankaAd = "Vakıflar Bankası",
+                BankaSube = "Kızılay",
+                IbanNo = "TR530006291586775935345942",
+                MustahsilMakbuzuTarihi = new DateTime(2022, 2, 1),
+                IlAd = "Ankara",
+                IlceAd = "Etimesgut",
+                MustahsilMakbuzuNo = "MLT2022000099999",
+                NetTutar = 0,
+                GelirVergisi = 0,
+                MustahsilMakbuzuTutari = 0,
+            };
+            mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
+
+            mustahsilMakbuzu = new MustahsilMakbuzuDTO
+            {
+                MustahsilMakbuzuId = "3",
+                TuzelKisiAd = "Deneme Şirketi - 3",
+                VergiNo = "5240018140",
+                VergiDairesi = "ANKARA",
+                Adres = "Zafer Çarşısı",
+                FaksNo = "03121111113",
+                BankaAd = "Vakıf Katılım Bankası",
+                BankaSube = "Kızılay",
+                IbanNo = "TR830006214925976839299642",
+                MustahsilMakbuzuTarihi = new DateTime(2022, 2, 11),
+                IlAd = "Ankara",
+                IlceAd = "Etimesgut",
+                MustahsilMakbuzuNo = "KST2022000009999",
+                NetTutar = 0,
+                GelirVergisi = 0,
+                MustahsilMakbuzuTutari = 0,
+            };
+            mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
+
+            mustahsilMakbuzu = new MustahsilMakbuzuDTO
+            {
+                MustahsilMakbuzuId = "4",
+                TuzelKisiAd = "Deneme Şirketi - 4",
+                VergiNo = "6940116151",
+                VergiDairesi = "ANKARA",
+                Adres = "Göksu Parkı",
+                FaksNo = "03121111114",
+                BankaAd = "Kuveyt Tür",
+                BankaSube = "Kızılay",
+                IbanNo = "TR350006267645192879857714",
+                MustahsilMakbuzuTarihi = new DateTime(2022, 2, 3),
+                IlAd = "Ankara",
+                IlceAd = "Çubuk",
+                MustahsilMakbuzuNo = "ILG202200009999",
+                NetTutar = 0,
+                GelirVergisi = 0,
+                MustahsilMakbuzuTutari = 0,
+            };
+            mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
+
+            mustahsilMakbuzu = new MustahsilMakbuzuDTO
+            {
+                MustahsilMakbuzuId = "5",
+                TuzelKisiAd = "Deneme Şirketi - 3",
+                VergiNo = "20101516422",
+                VergiDairesi = "ANKARA",
+                Adres = "Dost'un Önü",
+                FaksNo = "03121111113",
+                BankaAd = "Enpara.Com Bankadan Güzeli",
+                BankaSube = "Karakusunlar Şube",
+                IbanNo = "TR630006295412435711171488",
+                MustahsilMakbuzuTarihi = new DateTime(2022, 2, 1),
+                IlAd = "Ankara",
+                IlceAd = "Pursaklar",
+                MustahsilMakbuzuNo = "SUS2022000999999",
+                NetTutar = 0,
+                GelirVergisi = 0,
+                MustahsilMakbuzuTutari = 0,
+            };
+            mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
+
+            mustahsilMakbuzu = new MustahsilMakbuzuDTO
+            {
+                MustahsilMakbuzuId = "6",
+                VergiNo = "52270709114",
+                TuzelKisiAd = "Adnan Şenses",
+                EPostaAdresi = "adnansenses@mynet.com",
+                Adres = "Dost'un Önü",
+                BankaAd = "Halkbank",
+                BankaSube = "Etimesgut Şube",
+                IbanNo = "TR540006234114125194267726",
+                MustahsilMakbuzuTarihi = new DateTime(2022, 2, 2),
+                IlAd = "Konya",
+                IlceAd = "Beyşehir",
+                MustahsilMakbuzuNo = "YZG2022000999999",
+                NetTutar = 0,
+                GelirVergisi = 0,
+                MustahsilMakbuzuTutari = 0,
+            };
+            mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
+
+            mustahsilMakbuzu = new MustahsilMakbuzuDTO
+            {
+                MustahsilMakbuzuId = "7",
+                VergiNo = "20077290692",
+                TuzelKisiAd = "Mehmet Emin",
+                EPostaAdresi = "memo@yahoo.com",
+                BankaAd = "Bank Mellat",
+                BankaSube = "Yenimahalle Şube",
+                IbanNo = "TR410006276748779926367358",
+                MustahsilMakbuzuTarihi = new DateTime(2022, 1, 25),
+                IlAd = "Ağrı",
+                IlceAd = "Patnos",
+                MustahsilMakbuzuNo = "AGR2022000999999",
+                NetTutar = 0,
+                GelirVergisi = 0,
+                MustahsilMakbuzuTutari = 0,
+            };
+            mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
+            #endregion
+
+            #region Müstahsil Makbuz Detayları Ekleme
+
+            var mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
+            {
+                MustahsilMakbuzuId = "7",
+                BirimFiyat = (decimal)0.1234,
+                Miktar = 1000,
+                NetTutar = 1234,
+                GelirVergisi = 0,
+                GibKisaltma = "KGM",
+                IsinMahiyeti = "Dizüstü Bilgisayar",
+            };
+            mustahsilMakbuzuDetayListesi.Add(mustahsilMakbuzuDetay);
+
+            mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
+            {
+                MustahsilMakbuzuId = "7",
+                BirimFiyat = (decimal)0.1234,
+                Miktar = 1000,
+                NetTutar = 1234,
+                GelirVergisi = (decimal)12.34,
+                ToplamTutar = (decimal)1246.34,
+                GibKisaltma = "MTR",
+                IsinMahiyeti = "Çubuk Mikrofon",
+            };
+            mustahsilMakbuzuDetayListesi.Add(mustahsilMakbuzuDetay);
+
+            mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
+            {
+                MustahsilMakbuzuId = "2",
+                BirimFiyat = (decimal)0.1234,
+                Miktar = 1000,
+                NetTutar = 1234,
+                GelirVergisi = (decimal)12.34,
+                ToplamTutar = (decimal)1246.34,
+                GibKisaltma = "KWT",
+                IsinMahiyeti = "Çubuk Mikrofon",
+            };
+            mustahsilMakbuzuDetayListesi.Add(mustahsilMakbuzuDetay);
+
+            mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
+            {
+                MustahsilMakbuzuId = "3",
+                BirimFiyat = (decimal)0.124,
+                Miktar = 5000,
+                NetTutar = 6020,
+                GelirVergisi = (decimal)481.6,
+                ToplamTutar = (decimal)6500.6,
+                GibKisaltma = "MON",
+                IsinMahiyeti = "Mouse",
+            };
+            mustahsilMakbuzuDetayListesi.Add(mustahsilMakbuzuDetay);
+
+            mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
+            {
+                MustahsilMakbuzuId = "1",
+                BirimFiyat = 500,
+                Miktar = 120,
+                NetTutar = 60000,
+                GelirVergisi = 12800,
+                ToplamTutar = 72800,
+                GibKisaltma = "LTR",
+                IsinMahiyeti = "Ayakkabı",
+            };
+            mustahsilMakbuzuDetayListesi.Add(mustahsilMakbuzuDetay);
+
+            #endregion
+
+            #region Müstahsil Makbuz Toplamları Hesaplama ve Olmayanlara Ekleme
+
+            foreach (var item in mustahsilMakbuzuListesi)
+            {
+                if (mustahsilMakbuzuDetayListesi.Any(j => j.MustahsilMakbuzuId == item.MustahsilMakbuzuId))
+                {
+                    var mustahsilMakbuzuDetayListesiTemp = mustahsilMakbuzuDetayListesi.Where(j => j.MustahsilMakbuzuId == item.MustahsilMakbuzuId).ToList();
+                    item.NetTutar = mustahsilMakbuzuDetayListesiTemp.Sum(j => j.NetTutar);
+                    item.GelirVergisi = mustahsilMakbuzuDetayListesiTemp.Sum(j => j.GelirVergisi);
+                    item.MustahsilMakbuzuTutari = item.NetTutar + item.GelirVergisi;
+                }
+                else
+                {
+                    mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
+                    {
+                        MustahsilMakbuzuId = item.MustahsilMakbuzuId,
+                        BirimFiyat = (decimal)1.5,
+                        Miktar = 1000,
+                        NetTutar = 1500,
+                        GelirVergisi = 15,
+                        ToplamTutar = 1515,
+                        GibKisaltma = "MTR",
+                        IsinMahiyeti = "Deneme " + item.MustahsilMakbuzuId,
+                    };
+                    item.NetTutar = mustahsilMakbuzuDetay.NetTutar;
+                    item.GelirVergisi = mustahsilMakbuzuDetay.GelirVergisi;
+                    item.MustahsilMakbuzuTutari = item.NetTutar + item.GelirVergisi;
+                    mustahsilMakbuzuDetayListesi.Add(mustahsilMakbuzuDetay);
+                }
+            }
+
+            #endregion
+            #endregion
+
+            #endregion
         }
 
         /// <summary>
@@ -333,10 +593,11 @@ namespace QNBFinansGIB
         /// <param name="e"></param>
         private void frmAnaSayfa_FormClosed(object sender, FormClosedEventArgs e)
         {
-            MessageBox.Show("Programı kullandığınız için teşekkürler", MesajSabitler.MesajBasligi);
+            MessageBox.Show("Programı kullandığınız için teşekkürler", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
             Application.Exit();
         }
 
+        #region E-Fatura ve E-Arşiv Metotları
         /// <summary>
         /// Sistemde E-Fatura ve E-Arşiv Servislerine Gönderilecek Formatta
         /// İdeal XML dosyalarının oluşturulması için XML Oluştur Butonuna tıklandığı zaman
@@ -381,7 +642,7 @@ namespace QNBFinansGIB
                         dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, false);
                     }
 
-                    MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.", MesajSabitler.MesajBasligi);
+                    MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     #endregion
                 }
@@ -452,11 +713,11 @@ namespace QNBFinansGIB
 
                         File.WriteAllBytes(dosyaAdiTemp, dosya);
 
-                        MessageBox.Show(dosyaAdiTemp + " adresinde gerekli PDF veya ZIP dosyası oluşturulmuştur.", MesajSabitler.MesajBasligi);
+                        MessageBox.Show(dosyaAdiTemp + " adresinde gerekli PDF veya ZIP dosyası oluşturulmuştur.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Söz konusu faturanın önizlemesi oluşturulamamıştır", MesajSabitler.MesajBasligi);
+                        MessageBox.Show("Söz konusu faturanın önizlemesi oluşturulamamıştır", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                     #endregion
@@ -520,16 +781,173 @@ namespace QNBFinansGIB
 
                     if (sonuc == MesajSabitler.IslemBasarisiz)
                     {
-                        MessageBox.Show(dosyaAdi + " dosyasının servise gönderilmesinde bir sorun yaşanmıştır.", MesajSabitler.MesajBasligi);
+                        MessageBox.Show(dosyaAdi + " dosyasının servise gönderilmesinde bir sorun yaşanmıştır.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
-                        MessageBox.Show(dosyaAdi + " dosyası başarıyla GİB servislerine gönderilmiştir.", MesajSabitler.MesajBasligi);
+                        MessageBox.Show(dosyaAdi + " dosyası başarıyla GİB servislerine gönderilmiştir.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     #endregion
                 }
             }
         }
+        #endregion
+
+        #region E-Müstahsil Metotları
+        /// <summary>
+        /// Sistemde E-Müstahsil Servislerine Gönderilecek Formatta
+        /// İdeal XML dosyalarının oluşturulması için XML Oluştur Butonuna tıklandığı zaman
+        /// Yapılacak işlemlerin hazırlandığı metottur.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnXmlOlusturMustahsil_Click(object sender, EventArgs e)
+        {
+            using (var dialogKlasorSecimi = new FolderBrowserDialog())
+            {
+                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
+                DialogResult result = dialogKlasorSecimi.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath))
+                {
+                    var klasorAdi = dialogKlasorSecimi.SelectedPath;
+                    // Burada form yüklendiği zaman hazırlanan müstahsil makbuzlarından rastgele birinin
+                    // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
+                    var index = new Random().Next(mustahsilMakbuzuListesi.Count);
+                    var mustahsilMakbuzu = mustahsilMakbuzuListesi[index];
+                    var mustahsilMakbuzuDetayListesiTemp = new List<MustahsilMakbuzuDetayDTO>();
+                    if (mustahsilMakbuzuDetayListesi.Any(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId))
+                        mustahsilMakbuzuDetayListesiTemp = mustahsilMakbuzuDetayListesi.Where(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId).ToList();
+
+                    #region XML Oluşturma
+                    var dosyaAdi = "";
+                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
+                    {
+                        dosyaAdi = YardimciSiniflar.EMustahsilXMLOlustur(mustahsilMakbuzu, mustahsilMakbuzuDetayListesiTemp, klasorAdi);
+                        MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Müstahsil Makbuzu oluşturmak için vergi numarası zorunludur", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    #endregion
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sistemde E-Müstahsil Servisine yollansın yollanmasın
+        /// Hazırlanan XML dosyalarının bu sistemlerde nasıl göründüğüne dair
+        /// Önizleme alınmasını sağlayan metottur. Bu önizleme PDF veya ZIP olarak alınacak
+        /// Sorun olsa da olmasa da bir mesaj ile kullanıcı bilgilendirilecektir.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnGIBOnizlemeMustahsil_Click(object sender, EventArgs e)
+        {
+            using (var dialogKlasorSecimi = new FolderBrowserDialog())
+            {
+                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
+                DialogResult result = dialogKlasorSecimi.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath))
+                {
+                    var klasorAdi = dialogKlasorSecimi.SelectedPath;
+                    // Burada form yüklendiği zaman hazırlanan müstahsil makbuzlarından rastgele birinin
+                    // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
+                    var index = new Random().Next(mustahsilMakbuzuListesi.Count);
+                    var mustahsilMakbuzu = mustahsilMakbuzuListesi[index];
+                    var mustahsilMakbuzuDetayListesiTemp = new List<MustahsilMakbuzuDetayDTO>();
+                    if (mustahsilMakbuzuDetayListesi.Any(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId))
+                        mustahsilMakbuzuDetayListesiTemp = mustahsilMakbuzuDetayListesi.Where(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId).ToList();
+
+                    #region XML Oluşturma ve Servis Önizlemesi
+                    var dosyaAdi = "";
+                    var geriDonus = new GeriDonus();
+                    geriDonus.Tip = 0;
+                    var dosya = new byte[1];
+                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
+                    {
+                        dosyaAdi = YardimciSiniflar.EMustahsilXMLOlustur(mustahsilMakbuzu, mustahsilMakbuzuDetayListesiTemp, klasorAdi);
+                        dosya = DisServisler.EMustahsilOnIzleme(mustahsilMakbuzu, dosyaAdi);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Müstahsil Makbuzunu servise göndermek için vergi no zorunludur", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
+                    if (dosya != null && dosya.Length > 1)
+                    {
+                        var dosyaAdiTemp = dosyaAdi.Replace("xml", "pdf");
+                        if (geriDonus != null && geriDonus.Tip == 1)
+                            dosyaAdiTemp = dosyaAdi.Replace("xml", "zip");
+
+                        File.WriteAllBytes(dosyaAdiTemp, dosya);
+
+                        MessageBox.Show(dosyaAdiTemp + " adresinde gerekli PDF veya ZIP dosyası oluşturulmuştur.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Söz konusu faturanın önizlemesi oluşturulamamıştır", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    #endregion
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sistem tarafından hazırlanan XML dosyasının
+        /// E-Müstahsil servisine gönderilmesi için hazırlanan metottur.
+        /// Burada işlemin başarılı olup olmamasına göre kullanıcı bilgilendirilecektir.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnServiseGonderMustahsil_Click(object sender, EventArgs e)
+        {
+            using (var dialogKlasorSecimi = new FolderBrowserDialog())
+            {
+                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
+                DialogResult result = dialogKlasorSecimi.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath))
+                {
+                    var klasorAdi = dialogKlasorSecimi.SelectedPath;
+                    // Burada form yüklendiği zaman hazırlanan müstahsil makbuzlarından rastgele birinin
+                    // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
+                    var index = new Random().Next(mustahsilMakbuzuListesi.Count);
+                    var mustahsilMakbuzu = mustahsilMakbuzuListesi[index];
+                    var mustahsilMakbuzuDetayListesiTemp = new List<MustahsilMakbuzuDetayDTO>();
+                    if (mustahsilMakbuzuDetayListesi.Any(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId))
+                        mustahsilMakbuzuDetayListesiTemp = mustahsilMakbuzuDetayListesi.Where(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId).ToList();
+
+                    #region XML Oluşturma ve Servise Gönderme
+                    var dosyaAdi = "";
+                    var sonuc = "";
+                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
+                    {
+                        dosyaAdi = YardimciSiniflar.EMustahsilXMLOlustur(mustahsilMakbuzu, mustahsilMakbuzuDetayListesiTemp, klasorAdi);
+                        sonuc = DisServisler.EMustahsilGonder(mustahsilMakbuzu, dosyaAdi);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Müstahsil Makbuzunu servise göndermek için vergi no zorunludur", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
+                    if (sonuc == MesajSabitler.IslemBasarisiz)
+                    {
+                        MessageBox.Show(dosyaAdi + " dosyasının servise gönderilmesinde bir sorun yaşanmıştır.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show(dosyaAdi + " dosyası başarıyla GİB servislerine gönderilmiştir.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    #endregion
+                }
+            }
+        }
+        #endregion
     }
 }

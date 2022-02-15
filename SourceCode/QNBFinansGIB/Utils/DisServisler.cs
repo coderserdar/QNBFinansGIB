@@ -41,6 +41,10 @@ namespace QNBFinansGIB.Utils
         /// GİB E-Arşiv Servis istemcisi
         /// </summary>
         private static GIBEArsiv.EarsivWebService gibEArsivService = new GIBEArsiv.EarsivWebService();
+        /// <summary>
+        /// GİB E-Arşiv Servis istemcisi
+        /// </summary>
+        private static GIBEMustahsil.MustahsilWebService gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
 
         /// <summary>
         /// Vergi Kimlik Numarası Gönderilen Tüzel Kişinin E Fatura Kullanıcısı Olup Olmadığını Kontrol Eden
@@ -199,16 +203,14 @@ namespace QNBFinansGIB.Utils
 
                 gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
-                var belge = new GIBEArsiv.belge();
-
                 string input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
-                var fatura = new GIBEArsiv.belge();
-                fatura.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
-                fatura.belgeFormatiSpecified = true;
-                fatura.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
+                var belgeTemp = new GIBEArsiv.belge();
+                belgeTemp.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
+                belgeTemp.belgeFormatiSpecified = true;
+                belgeTemp.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
                 GIBEArsiv.earsivServiceResult serviceResult = new GIBEArsiv.earsivServiceResult();
-                belge = gibEArsivService.faturaOlustur(input, fatura, out serviceResult);
+                var belge = gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
 
                 if (serviceResult.resultCode != "AE00000")
                     return MesajSabitler.IslemBasarisiz;
@@ -245,15 +247,13 @@ namespace QNBFinansGIB.Utils
 
                 gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
-                var belge = new GIBEArsiv.belge();
-
                 // Burada VKN ve ERP Kodu önemlidir
                 string input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
 
-                var fatura = new GIBEArsiv.belge();
-                fatura.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
-                fatura.belgeFormatiSpecified = true;
-                fatura.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
+                var belgeTemp = new GIBEArsiv.belge();
+                belgeTemp.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
+                belgeTemp.belgeFormatiSpecified = true;
+                belgeTemp.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
 
                 GIBEArsiv.earsivServiceResult serviceResult = new GIBEArsiv.earsivServiceResult();
                 var temp = gibEArsivService.faturaSorgula(input, out serviceResult);
@@ -261,7 +261,100 @@ namespace QNBFinansGIB.Utils
                     return temp.belgeIcerigi;
                 else
                 {
-                    temp = gibEArsivService.faturaOnizleme(input, fatura, out serviceResult);
+                    temp = gibEArsivService.faturaOnizleme(input, belgeTemp, out serviceResult);
+                    if (temp != null)
+                        return temp.belgeIcerigi;
+                    else
+                        return null;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                gibUserService.logout();
+            }
+        }
+
+        /// <summary>
+        /// Oluşturulan XML dosyasının QNB Finans Tarafına gönderilmesini sağlayan metottur
+        /// </summary>
+        /// <param name="mustahsilMakbuzu">Müstahsil Makbuzu Bilgisi</param>
+        /// <param name="dosyaAdi">Dosya Adı bilgisi</param>
+        /// <returns></returns>
+        public static string EMustahsilGonder(MustahsilMakbuzuDTO mustahsilMakbuzu, string dosyaAdi)
+        {
+            try
+            {
+                gibUserService = new GIBUserService.userService();
+                gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
+
+                gibUserService.CookieContainer = new System.Net.CookieContainer();
+                gibEMustahsilService.CookieContainer = gibUserService.CookieContainer;
+
+                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
+
+                string input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
+
+                var belgeTemp = new GIBEMustahsil.belge();
+                belgeTemp.belgeFormati = GIBEMustahsil.belgeFormatiEnum.UBL;
+                belgeTemp.belgeFormatiSpecified = true;
+                belgeTemp.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
+                GIBEMustahsil.earsivServiceResult serviceResult = new GIBEMustahsil.earsivServiceResult();
+                var belge = gibEMustahsilService.mustahsilMakbuzOlustur(input, belgeTemp, out serviceResult);
+
+                if (serviceResult.resultCode != "AE00000")
+                    return MesajSabitler.IslemBasarisiz;
+                else
+                    return MesajSabitler.IslemBasarili;
+            }
+            catch (System.Exception ex)
+            {
+                return MesajSabitler.IslemBasarisiz;
+            }
+            finally
+            {
+                gibUserService.logout();
+            }
+        }
+
+        /// <summary>
+        /// Oluşturulan XML dosyasının QNB Finans Tarafına gönderilmesini sağlayan metottur
+        /// Burada da E-Faturada olduğu gibi önce Fatura Id bilgisi ile gönderip
+        /// Bir sonuç gelmezse hazırlanan XML dosyası gönderilip çıktı alınmaya çalışılmaktadır
+        /// </summary>
+        /// <param name="mustahsilMakbuzu">Müstahsil Makbuzu Bilgisi</param>
+        /// <param name="dosyaAdi">Dosya Adı bilgisi</param>
+        /// <returns>PDF olarak çıktısı alınacak dosyanın byte dizisi hali</returns>
+        public static byte[] EMustahsilOnIzleme(MustahsilMakbuzuDTO mustahsilMakbuzu, string dosyaAdi)
+        {
+            try
+            {
+                gibUserService = new GIBUserService.userService();
+                gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
+
+                gibUserService.CookieContainer = new System.Net.CookieContainer();
+                gibEMustahsilService.CookieContainer = gibUserService.CookieContainer;
+
+                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
+
+                // Burada VKN ve ERP Kodu önemlidir
+                string input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
+
+                var belgeTemp = new GIBEMustahsil.belge();
+                belgeTemp.belgeFormati = GIBEMustahsil.belgeFormatiEnum.UBL;
+                belgeTemp.belgeFormatiSpecified = true;
+                belgeTemp.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
+
+                GIBEMustahsil.earsivServiceResult serviceResult = new GIBEMustahsil.earsivServiceResult();
+                var temp = gibEMustahsilService.mustahsilMakbuzSorgula(input, out serviceResult);
+                if (temp != null)
+                    return temp.belgeIcerigi;
+                else
+                {
+                    temp = gibEMustahsilService.mustahsilMakbuzOnizleme(input, belgeTemp, out serviceResult);
                     if (temp != null)
                         return temp.belgeIcerigi;
                     else

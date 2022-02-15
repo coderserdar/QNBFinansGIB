@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\MustahsilMakbuzuDetayDTO.cs" />
     <Compile Include="DTO\GidenFaturaDetayDTO.cs" />
+    <Compile Include="DTO\MustahsilMakbuzuDTO.cs" />
     <Compile Include="DTO\GidenFaturaDTO.cs" />
     <Compile Include="FormAnaSayfa.cs">
       <SubType>Form</SubType>
@@ -66,6 +68,11 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\GIBEFatura\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\GIBEMustahsil\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -154,6 +161,27 @@
     <None Include="Web References\GIBEFatura\wsKullaniciBilgileri.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\GIBEMustahsil\belge.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\GIBEMustahsil\belgeDTO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\GIBEMustahsil\earsivServiceResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\GIBEMustahsil\MustahsilWebService.wsdl" />
+    <None Include="Web References\GIBEMustahsil\MustahsilWebService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\GIBEMustahsil\MustahsilWebService0.wsdl" />
+    <None Include="Web References\GIBEMustahsil\raporBolumDTO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\GIBEMustahsil\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <None Include="Web References\GIBUserService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -203,6 +231,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>QNBFinansGIB_GIBEArsiv_EarsivWebService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://earsivtest.efinans.com.tr/earsiv/ws/MustahsilWebService%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\GIBEMustahsil\</RelPath>
+      <UpdateFromURL>https://earsivtest.efinans.com.tr/earsiv/ws/MustahsilWebService%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>QNBFinansGIB_GIBEMustahsil_MustahsilWebService</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>

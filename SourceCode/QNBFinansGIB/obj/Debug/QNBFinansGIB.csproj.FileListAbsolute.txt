@@ -11,10 +11,10 @@ C:\Users\serdar\Documents\GitHub\QNBFinansGIB\QNBFinansGIB\obj\Debug\QNBFinansGI
 C:\Users\serdar\Documents\GitHub\QNBFinansGIB\SourceCode\QNBFinansGIB\bin\Debug\QNBFinansGIB.exe.config
 C:\Users\serdar\Documents\GitHub\QNBFinansGIB\SourceCode\QNBFinansGIB\bin\Debug\QNBFinansGIB.exe
 C:\Users\serdar\Documents\GitHub\QNBFinansGIB\SourceCode\QNBFinansGIB\bin\Debug\QNBFinansGIB.pdb
-C:\Users\serdar\Documents\GitHub\QNBFinansGIB\SourceCode\QNBFinansGIB\obj\Debug\QNBFinansGIB.csprojAssemblyReference.cache
 C:\Users\serdar\Documents\GitHub\QNBFinansGIB\SourceCode\QNBFinansGIB\obj\Debug\QNBFinansGIB.Properties.Resources.resources
 C:\Users\serdar\Documents\GitHub\QNBFinansGIB\SourceCode\QNBFinansGIB\obj\Debug\QNBFinansGIB.csproj.GenerateResource.cache
 C:\Users\serdar\Documents\GitHub\QNBFinansGIB\SourceCode\QNBFinansGIB\obj\Debug\QNBFinansGIB.csproj.CoreCompileInputs.cache
 C:\Users\serdar\Documents\GitHub\QNBFinansGIB\SourceCode\QNBFinansGIB\obj\Debug\QNBFinansGIB.exe
 C:\Users\serdar\Documents\GitHub\QNBFinansGIB\SourceCode\QNBFinansGIB\obj\Debug\QNBFinansGIB.pdb
 C:\Users\serdar\Documents\GitHub\QNBFinansGIB\SourceCode\QNBFinansGIB\obj\Debug\QNBFinansGIB.frmAnaSayfa.resources
+C:\Users\serdar\Documents\GitHub\QNBFinansGIB\SourceCode\QNBFinansGIB\obj\Debug\QNBFinansGIB.csprojAssemblyReference.cache

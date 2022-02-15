@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://service.earsiv.uut.cs.com.tr/" targetNamespace="http://service.earsiv.uut.cs.com.tr/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="belgeZipiAl" type="tns:belgeZipiAl" />
+  <xs:element name="belgeZipiAlResponse" type="tns:belgeZipiAlResponse" />
+  <xs:element name="ePostaDurumSorgula" type="tns:ePostaDurumSorgula" />
+  <xs:element name="ePostaDurumSorgulaResponse" nillable="true" type="tns:doubleStringOutputWrapper" />
+  <xs:element name="ePostaGonder" type="tns:ePostaGonder" />
+  <xs:element name="ePostaGonderResponse" type="tns:ePostaGonderResponse" />
+  <xs:element name="kontorBilgisiGetir" type="tns:kontorBilgisiGetir" />
+  <xs:element name="kontorBilgisiGetirResponse" type="tns:kontorBilgisiGetirResponse" />
+  <xs:element name="mustahsilMakbuzIptalEt" type="tns:mustahsilMakbuzIptalEt" />
+  <xs:element name="mustahsilMakbuzIptalEtResponse" type="tns:mustahsilMakbuzIptalEtResponse" />
+  <xs:element name="mustahsilMakbuzIptaliKaldir" type="tns:mustahsilMakbuzIptaliKaldir" />
+  <xs:element name="mustahsilMakbuzIptaliKaldirResponse" type="tns:mustahsilMakbuzIptaliKaldirResponse" />
+  <xs:element name="mustahsilMakbuzListeSorgula" type="tns:mustahsilMakbuzListeSorgula" />
+  <xs:element name="mustahsilMakbuzListeSorgulaPortal" type="tns:mustahsilMakbuzListeSorgulaPortal" />
+  <xs:element name="mustahsilMakbuzListeSorgulaPortalResponse" type="tns:mustahsilMakbuzListeSorgulaPortalResponse" />
+  <xs:element name="mustahsilMakbuzListeSorgulaResponse" type="tns:mustahsilMakbuzListeSorgulaResponse" />
+  <xs:element name="mustahsilMakbuzOlustur" type="tns:mustahsilMakbuzOlustur" />
+  <xs:element name="mustahsilMakbuzOlusturResponse" nillable="true" type="tns:belgeOutputWrapper" />
+  <xs:element name="mustahsilMakbuzOnizleme" type="tns:mustahsilMakbuzOnizleme" />
+  <xs:element name="mustahsilMakbuzOnizlemeResponse" nillable="true" type="tns:belgeOutputWrapper" />
+  <xs:element name="mustahsilMakbuzSorgula" type="tns:mustahsilMakbuzSorgula" />
+  <xs:element name="mustahsilMakbuzSorgulaResponse" nillable="true" type="tns:belgeOutputWrapper" />
+  <xs:element name="mustahsilMakbuzTaslakOlustur" type="tns:mustahsilMakbuzTaslakOlustur" />
+  <xs:element name="mustahsilMakbuzTaslakOlusturResponse" type="tns:mustahsilMakbuzTaslakOlusturResponse" />
+  <xs:element name="mustahsilMakbuzTaslakOnizleme" type="tns:mustahsilMakbuzTaslakOnizleme" />
+  <xs:element name="mustahsilMakbuzTaslakOnizlemeResponse" type="tns:mustahsilMakbuzTaslakOnizlemeResponse" />
+  <xs:element name="mustahsilMakbuzTaslakSil" type="tns:mustahsilMakbuzTaslakSil" />
+  <xs:element name="mustahsilMakbuzTaslakSilResponse" type="tns:mustahsilMakbuzTaslakSilResponse" />
+  <xs:element name="mustahsilMakbuzTaslakSorgula" type="tns:mustahsilMakbuzTaslakSorgula" />
+  <xs:element name="mustahsilMakbuzTaslakSorgulaResponse" type="tns:mustahsilMakbuzTaslakSorgulaResponse" />
+  <xs:element name="mustahsilMakbuzTaslaktanOlustur" type="tns:mustahsilMakbuzTaslaktanOlustur" />
+  <xs:element name="mustahsilMakbuzTaslaktanOlusturResponse" nillable="true" type="tns:belgeOutputWrapper" />
+  <xs:element name="raporBolumAl" type="tns:raporBolumAl" />
+  <xs:element name="raporBolumAlResponse" nillable="true" type="tns:belgeOutputWrapper" />
+  <xs:element name="raporBolumBilgisiAl" type="tns:raporBolumBilgisiAl" />
+  <xs:element name="raporBolumBilgisiAlResponse" type="tns:raporBolumBilgisiAlResponse" />
+  <xs:element name="raporBolumListesiDetayliSorgula" type="tns:raporBolumListesiDetayliSorgula" />
+  <xs:element name="raporBolumListesiDetayliSorgulaResponse" type="tns:raporBolumListesiDetayliSorgulaResponse" />
+  <xs:element name="raporBolumListesiSorgula" type="tns:raporBolumListesiSorgula" />
+  <xs:element name="raporBolumListesiSorgulaResponse" nillable="true" type="tns:stringOutputWrapper" />
+  <xs:element name="raporBolumRaporNoGuncelleImzala" type="tns:raporBolumRaporNoGuncelleImzala" />
+  <xs:element name="raporBolumRaporNoGuncelleImzalaResponse" type="tns:raporBolumRaporNoGuncelleImzalaResponse" />
+  <xs:element name="raporBolumSil" type="tns:raporBolumSil" />
+  <xs:element name="raporBolumSilResponse" type="tns:raporBolumSilResponse" />
+  <xs:element name="raporBolumleriOlustur" type="tns:raporBolumleriOlustur" />
+  <xs:element name="raporBolumleriOlusturResponse" type="tns:raporBolumleriOlusturResponse" />
+  <xs:element name="raporDurumSorgula" type="tns:raporDurumSorgula" />
+  <xs:element name="raporDurumSorgulaResponse" type="tns:raporDurumSorgulaResponse" />
+  <xs:element name="raporGonder" type="tns:raporGonder" />
+  <xs:element name="raporGonderResponse" type="tns:raporGonderResponse" />
+  <xs:element name="rapordaBelgeSorgula" type="tns:rapordaBelgeSorgula" />
+  <xs:element name="rapordaBelgeSorgulaResponse" type="tns:rapordaBelgeSorgulaResponse" />
+  <xs:element name="smsDurumSorgula" type="tns:smsDurumSorgula" />
+  <xs:element name="smsDurumSorgulaResponse" type="tns:smsDurumSorgulaResponse" />
+  <xs:element name="smsGonder" type="tns:smsGonder" />
+  <xs:element name="smsGonderResponse" type="tns:smsGonderResponse" />
+  <xs:complexType name="belgeZipiAl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeZipiAlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+      <xs:element minOccurs="0" name="output" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="earsivServiceResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="resultCode" type="xs:string" />
+      <xs:element name="resultExtra">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:anyType" />
+                  <xs:element minOccurs="0" name="value" type="xs:anyType" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="resultText" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzListeSorgulaPortal">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzListeSorgulaPortalResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="output" type="tns:belgeDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:faturaDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="belgeNo" type="xs:string" />
+          <xs:element minOccurs="0" name="brutUcret" type="xs:decimal" />
+          <xs:element minOccurs="0" name="kdv0_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="kdv18_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="kdv1_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="kdv8_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="kdvTevkifatTutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="netTahsilat" type="xs:decimal" />
+          <xs:element minOccurs="0" name="netUcret" type="xs:decimal" />
+          <xs:element minOccurs="0" name="stpj0_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="stpj10_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="stpj15_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="stpj17_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="stpj1_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="stpj20_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="stpj2_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="stpj3_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="stpj4_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="stpj5_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="stpj7_Tutar" type="xs:decimal" />
+          <xs:element minOccurs="0" name="tip" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="faturaDTO">
+    <xs:sequence>
+      <xs:element name="arsiv" type="xs:int" />
+      <xs:element minOccurs="0" name="creationTime" type="xs:string" />
+      <xs:element minOccurs="0" name="currency" type="xs:string" />
+      <xs:element minOccurs="0" name="dokumanFormati" type="xs:string" />
+      <xs:element minOccurs="0" name="durum" type="xs:int" />
+      <xs:element minOccurs="0" name="duzenlenmeZamani" type="xs:string" />
+      <xs:element minOccurs="0" name="epostaGonderimDurumu" type="xs:int" />
+      <xs:element minOccurs="0" name="erpKodu" type="xs:string" />
+      <xs:element minOccurs="0" name="faturaSiraNo" type="xs:int" />
+      <xs:element minOccurs="0" name="faturaZamani" type="xs:string" />
+      <xs:element minOccurs="0" name="ilkKayitZmani" type="xs:string" />
+      <xs:element minOccurs="0" name="indirildi" type="xs:int" />
+      <xs:element minOccurs="0" name="invoiceId" type="xs:string" />
+      <xs:element minOccurs="0" name="invoiceTypeCode" type="xs:string" />
+      <xs:element minOccurs="0" name="iptalEdenKullaniciKodu" type="xs:string" />
+      <xs:element minOccurs="0" name="iptalKaynagi" type="xs:int" />
+      <xs:element minOccurs="0" name="iptalRaporTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="iptalTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="iptalTarihiExcel" type="xs:string" />
+      <xs:element minOccurs="0" name="islemId" type="xs:string" />
+      <xs:element minOccurs="0" name="issueDate" type="xs:string" />
+      <xs:element minOccurs="0" name="itirazEdenKullaniciKodu" type="xs:string" />
+      <xs:element minOccurs="0" name="itirazKaynagi" type="xs:int" />
+      <xs:element minOccurs="0" name="itirazTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="kagitFatura" type="xs:boolean" />
+      <xs:element minOccurs="0" name="kasa" type="xs:string" />
+      <xs:element name="kaynak" type="xs:int" />
+      <xs:element minOccurs="0" name="kepDurum" type="xs:int" />
+      <xs:element minOccurs="0" name="kolayFatura" type="xs:int" />
+      <xs:element minOccurs="0" name="okundu" type="xs:int" />
+      <xs:element minOccurs="0" name="payableAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="profileId" type="xs:string" />
+      <xs:element minOccurs="0" name="raporTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="receiverContact" type="xs:string" />
+      <xs:element minOccurs="0" name="receiverIdentifier" type="xs:string" />
+      <xs:element minOccurs="0" name="receiverIdentifierTxt" type="xs:string" />
+      <xs:element minOccurs="0" name="receiverName" type="xs:string" />
+      <xs:element minOccurs="0" name="senderContact" type="xs:string" />
+      <xs:element minOccurs="0" name="senderName" type="xs:string" />
+      <xs:element minOccurs="0" name="sonGuncellemeZamani" type="xs:string" />
+      <xs:element minOccurs="0" name="sube" type="xs:string" />
+      <xs:element minOccurs="0" name="tanimliSubeKod" type="xs:string" />
+      <xs:element minOccurs="0" name="telNo" type="xs:string" />
+      <xs:element minOccurs="0" name="toplamTutar" type="xs:decimal" />
+      <xs:element minOccurs="0" name="uuid" type="xs:string" />
+      <xs:element minOccurs="0" name="vergilerToplami" type="xs:decimal" />
+      <xs:element minOccurs="0" name="versiyon" type="xs:int" />
+      <xs:element minOccurs="0" name="yazdirildi" type="xs:int" />
+      <xs:element minOccurs="0" name="yerelFaturaNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzListeSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzListeSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="output" type="tns:belgeDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumBilgisiAl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bolumRaporNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumBilgisiAlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporGonder">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="donem" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporGonderResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumRaporNoGuncelleImzala">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bolumRaporNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumRaporNoGuncelleImzalaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzIptalEt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzIptalEtResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzTaslakSil">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzTaslakSilResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporDurumSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="donem" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporDurumSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="smsGonder">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+      <xs:element minOccurs="0" name="ilaveTelefonNo" type="xs:string" />
+      <xs:element name="tanimliTelefonNoyaGonder" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="smsGonderResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="kontorBilgisiGetir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="vknTckn" type="xs:string" />
+      <xs:element minOccurs="0" name="kontorTipi" type="xs:string" />
+      <xs:element minOccurs="0" name="kontorBirimi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="kontorBilgisiGetirResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumListesiSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="donem" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="stringOutputWrapper">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="output" type="xs:string" />
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzTaslakOnizleme">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzTaslakOnizlemeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+      <xs:element minOccurs="0" name="output" type="tns:belge" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belge">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="belgeFormati" type="tns:belgeFormatiEnum" />
+      <xs:element minOccurs="0" name="belgeIcerigi" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzTaslakOlustur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+      <xs:element minOccurs="0" name="belge" type="tns:belge" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzTaslakOlusturResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumAl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bolumRaporNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="belgeOutputWrapper">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="output" type="tns:belge" />
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumSil">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bolumRaporNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumSilResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzOnizleme">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+      <xs:element minOccurs="0" name="belge" type="tns:belge" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ePostaDurumSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="doubleStringOutputWrapper">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="outputDurum" type="xs:string" />
+      <xs:element minOccurs="0" name="outputEposta" type="xs:string" />
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzTaslaktanOlustur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumleriOlustur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+      <xs:element minOccurs="0" name="donem" type="xs:string" />
+      <xs:element minOccurs="0" name="sonGun" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumleriOlusturResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rapordaBelgeSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rapordaBelgeSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzIptaliKaldir">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzIptaliKaldirResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumListesiDetayliSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="donem" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumListesiDetayliSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="output" type="tns:raporBolumDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="raporBolumDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="baslangicTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="bitisTarihi" type="xs:string" />
+      <xs:element minOccurs="0" name="bolumNo" type="xs:long" />
+      <xs:element minOccurs="0" name="bolumRaporNo" type="xs:string" />
+      <xs:element name="durum" type="xs:int" />
+      <xs:element minOccurs="0" name="durumAciklama" type="xs:string" />
+      <xs:element minOccurs="0" name="durumKodu" type="xs:string" />
+      <xs:element minOccurs="0" name="sonIslemeZamani" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="smsDurumSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="smsDurumSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+      <xs:element minOccurs="0" name="outputDurum" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ePostaGonder">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+      <xs:element minOccurs="0" name="ilaveEposta" type="xs:string" />
+      <xs:element name="tanimliEpostayaGonder" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ePostaGonderResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzOlustur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+      <xs:element minOccurs="0" name="belge" type="tns:belge" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzTaslakSorgula">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="input" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mustahsilMakbuzTaslakSorgulaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:earsivServiceResult" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="output" type="tns:belgeDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="belgeFormatiEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UBL" />
+      <xs:enumeration value="CSXML" />
+      <xs:enumeration value="HTML" />
+      <xs:enumeration value="PDF" />
+      <xs:enumeration value="CUSTOM" />
+      <xs:enumeration value="PDF_CUSTOM" />
+      <xs:enumeration value="PDF_UBL" />
+      <xs:enumeration value="CSXML1" />
+      <xs:enumeration value="CSXML2" />
+      <xs:enumeration value="CSXML3" />
+      <xs:enumeration value="PDF_CSXML1" />
+      <xs:enumeration value="PDF_CSXML2" />
+      <xs:enumeration value="PDF_CSXML3" />
+      <xs:enumeration value="JSON" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
