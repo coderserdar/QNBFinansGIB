@@ -333,7 +333,7 @@ namespace QNBFinansGIB
         /// <param name="e"></param>
         private void frmAnaSayfa_FormClosed(object sender, FormClosedEventArgs e)
         {
-            MessageBox.Show("Programı kullandığınız için teşekkürler");
+            MessageBox.Show("Programı kullandığınız için teşekkürler", MesajSabitler.MesajBasligi);
             Application.Exit();
         }
 
@@ -381,7 +381,7 @@ namespace QNBFinansGIB
                         dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, false);
                     }
 
-                    MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.");
+                    MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.", MesajSabitler.MesajBasligi);
 
                     #endregion
                 }
@@ -452,11 +452,11 @@ namespace QNBFinansGIB
 
                         File.WriteAllBytes(dosyaAdiTemp, dosya);
 
-                        MessageBox.Show(dosyaAdiTemp + " adresinde gerekli PDF veya ZIP dosyası oluşturulmuştur.");
+                        MessageBox.Show(dosyaAdiTemp + " adresinde gerekli PDF veya ZIP dosyası oluşturulmuştur.", MesajSabitler.MesajBasligi);
                     }
                     else
                     {
-                        MessageBox.Show("Söz konusu faturanın önizlemesi oluşturulamamıştır");
+                        MessageBox.Show("Söz konusu faturanın önizlemesi oluşturulamamıştır", MesajSabitler.MesajBasligi);
                     }
 
                     #endregion
@@ -520,11 +520,11 @@ namespace QNBFinansGIB
 
                     if (sonuc == MesajSabitler.IslemBasarisiz)
                     {
-                        MessageBox.Show(dosyaAdi + " dosyasının servise gönderilmesinde bir sorun yaşanmıştır.");
+                        MessageBox.Show(dosyaAdi + " dosyasının servise gönderilmesinde bir sorun yaşanmıştır.", MesajSabitler.MesajBasligi);
                     }
                     else
                     {
-                        MessageBox.Show(dosyaAdi + " dosyası başarıyla GİB servislerine gönderilmiştir.");
+                        MessageBox.Show(dosyaAdi + " dosyası başarıyla GİB servislerine gönderilmiştir.", MesajSabitler.MesajBasligi);
                     }
 
                     #endregion

@@ -619,6 +619,12 @@ namespace QNBFinansGIB.Utils
             taxAmount2.Attributes.Append(currencyId);
             taxAmount2.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
             taxSubTotal.AppendChild(taxAmount2);
+            var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
+            if (gidenFatura.KdvHaricTutar != 0)
+                percent.InnerText = Decimal.Round(((decimal)gidenFatura.KdvTutari * 100) / (decimal)gidenFatura.KdvHaricTutar, 0, MidpointRounding.AwayFromZero).ToString();
+            else
+                percent.InnerText = "0";
+            taxSubTotal.AppendChild(percent);
             var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
             if (gidenFatura.KdvTutari == 0)
             {
@@ -777,7 +783,7 @@ namespace QNBFinansGIB.Utils
                 taxAmount2.Attributes.Append(currencyId);
                 taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 taxSubTotal.AppendChild(taxAmount2);
-                var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
+                percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
                 if (item.KdvOran != null)
                     percent.InnerText = Decimal.Round((decimal)item.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
                 taxSubTotal.AppendChild(percent);

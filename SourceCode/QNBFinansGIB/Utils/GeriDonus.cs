@@ -31,5 +31,9 @@
         /// İşlemin Başarısız Olduğuna Dair Mesaj Bilgisi
         /// </summary>
         public static string IslemBasarisiz = "İşlem Başarısız";
+        /// <summary>
+        /// İşlem Mesajlarının Kutusunda Gösterilecek Başlık Mesaj Bilgisi
+        /// </summary>
+        public static string MesajBasligi = "QNB Finans GİB Servis Uygulaması";
     }
 }
