@@ -13,7 +13,7 @@
   <cbc:ProfileID>EARSIVBELGE</cbc:ProfileID>
   <cbc:ID>KST2022000009999</cbc:ID>
   <cbc:CopyIndicator>false</cbc:CopyIndicator>
-  <cbc:UUID>982EC721-5B71-4F9F-ADCF-64805E63F2B2</cbc:UUID>
+  <cbc:UUID>6C92460B-343B-43CD-8797-652BAD78649A</cbc:UUID>
   <cbc:IssueDate>2022-02-11</cbc:IssueDate>
   <cbc:IssueTime>00:00:00</cbc:IssueTime>
   <cbc:CreditNoteTypeCode>MUSTAHSILMAKBUZ</cbc:CreditNoteTypeCode>
@@ -21,7 +21,7 @@
   <cbc:DocumentCurrencyCode>TRY</cbc:DocumentCurrencyCode>
   <cbc:LineCountNumeric>1</cbc:LineCountNumeric>
   <cac:AdditionalDocumentReference>
-    <cbc:ID>25146200-CB08-44BE-AF24-8C95C27A19B9</cbc:ID>
+    <cbc:ID>9A3458FC-7702-46CD-B8DB-E391645D16D6</cbc:ID>
     <cbc:IssueDate>2022-02-11</cbc:IssueDate>
     <cbc:DocumentType>XSLT</cbc:DocumentType>
     <cac:Attachment>
