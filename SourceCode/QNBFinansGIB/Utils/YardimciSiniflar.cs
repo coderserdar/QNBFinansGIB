@@ -593,65 +593,165 @@ namespace QNBFinansGIB.Utils
                 #endregion
             }
 
-            // Burada vergi bilgileri yer almaktadır
+            #region KDVlerin Belirlenmesi
+
+            var faturaKdvListesi = new List<FaturaKdvDTO>();
+            foreach (var item in gidenFaturaDetayListesi)
+            {
+                decimal kodKdvTuruOran = item.KdvOran ?? 0;
+                if (!faturaKdvListesi.Any(j => j.KdvOran == kodKdvTuruOran))
+                {
+                    var faturaKdv = new FaturaKdvDTO
+                    {
+                        KdvOran = kodKdvTuruOran,
+                        KdvTutari = item.KdvTutari,
+                        KdvHaricTutar = item.KdvHaricTutar
+                    };
+                    faturaKdvListesi.Add(faturaKdv);
+                }
+                else
+                {
+                    var index = faturaKdvListesi.FindIndex(j => j.KdvOran == kodKdvTuruOran);
+                    faturaKdvListesi[index].KdvTutari += item.KdvTutari;
+                    faturaKdvListesi[index].KdvHaricTutar += item.KdvHaricTutar;
+                }
+                if (faturaKdvListesi.Count > 0)
+                    faturaKdvListesi = faturaKdvListesi.OrderBy(j => j.KdvOran).ToList();
+            }
+
+            #endregion
+
             #region TaxTotal
 
-            var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
-            XmlAttribute currencyId = doc.CreateAttribute("currencyID");
-            currencyId.Value = "TRY";
-            var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
-            taxAmount.RemoveAllAttributes();
-            taxAmount.Attributes.Append(currencyId);
-            taxAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
-            taxTotal.AppendChild(taxAmount);
-            var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
-            var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
-            taxableAmount.RemoveAllAttributes();
-            currencyId = doc.CreateAttribute("currencyID");
-            currencyId.Value = "TRY";
-            taxableAmount.Attributes.Append(currencyId);
-            taxableAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
-            taxSubTotal.AppendChild(taxableAmount);
-            var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
-            taxAmount2.RemoveAllAttributes();
-            currencyId = doc.CreateAttribute("currencyID");
-            currencyId.Value = "TRY";
-            taxAmount2.Attributes.Append(currencyId);
-            taxAmount2.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
-            taxSubTotal.AppendChild(taxAmount2);
-            var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
-            if (gidenFatura.KdvHaricTutar != 0)
-                percent.InnerText = Decimal.Round(((decimal)gidenFatura.KdvTutari * 100) / (decimal)gidenFatura.KdvHaricTutar, 0, MidpointRounding.AwayFromZero).ToString();
-            else
-                percent.InnerText = "0";
-            taxSubTotal.AppendChild(percent);
-            var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
-            if (gidenFatura.KdvTutari == 0)
+            var sayac = 1;
+            foreach (var item in faturaKdvListesi)
             {
-                var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
-                taxExemptionReasonCode.InnerText = "325";
-                var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
-                taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
-                taxCategory.AppendChild(taxExemptionReasonCode);
-                taxCategory.AppendChild(taxExemptionReason);
+                // Burada vergi bilgileri yer almaktadır
+                #region TaxTotal
+
+                var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
+                XmlAttribute currencyIdGeneral = doc.CreateAttribute("currencyID");
+                currencyIdGeneral.Value = "TRY";
+                var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                taxAmount.RemoveAllAttributes();
+                taxAmount.Attributes.Append(currencyIdGeneral);
+                taxAmount.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                taxTotal.AppendChild(taxAmount);
+                var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
+                var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
+                taxableAmount.RemoveAllAttributes();
+                currencyIdGeneral = doc.CreateAttribute("currencyID");
+                currencyIdGeneral.Value = "TRY";
+                taxableAmount.Attributes.Append(currencyIdGeneral);
+                taxableAmount.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                taxSubTotal.AppendChild(taxableAmount);
+                var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                taxAmount2.RemoveAllAttributes();
+                currencyIdGeneral = doc.CreateAttribute("currencyID");
+                currencyIdGeneral.Value = "TRY";
+                taxAmount2.Attributes.Append(currencyIdGeneral);
+                taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                taxSubTotal.AppendChild(taxAmount2);
+                var calculationSequenceNumeric = doc.CreateElement("cbc", "CalculationSequenceNumeric", xlmnscbc.Value);
+                calculationSequenceNumeric.InnerText = sayac + ".0";
+                taxSubTotal.AppendChild(calculationSequenceNumeric);
+                var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
+                percent.InnerText = Decimal.Round((decimal)item.KdvOran, 0, MidpointRounding.AwayFromZero).ToString();
+                taxSubTotal.AppendChild(percent);
+                var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
+                if (item.KdvTutari == 0)
+                {
+                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                    taxExemptionReasonCode.InnerText = "325";
+                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                    taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+                    taxCategory.AppendChild(taxExemptionReasonCode);
+                    taxCategory.AppendChild(taxExemptionReason);
+                }
+                if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
+                {
+                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                    taxExemptionReasonCode.InnerText = "701";
+                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                    taxExemptionReason.InnerText = "3065 sayılı Katma Değer Vergisi kanununun 11/1-c maddesi kapsamında ihraç edilmek şartıyla teslim edildiğinden Katma Değer Vergisi tahsil edilmemiştir.";
+                    taxCategory.AppendChild(taxExemptionReasonCode);
+                    taxCategory.AppendChild(taxExemptionReason);
+                }
+                var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
+                var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
+                taxTypeCode.InnerText = "0015";
+                taxScheme2.AppendChild(taxTypeCode);
+                taxCategory.AppendChild(taxScheme2);
+                taxSubTotal.AppendChild(taxCategory);
+                taxTotal.AppendChild(taxSubTotal);
+                root.AppendChild(taxTotal);
+
+                #endregion
+
+                sayac++;
             }
-            if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
-            {
-                var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
-                taxExemptionReasonCode.InnerText = "701";
-                var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
-                taxExemptionReason.InnerText = "3065 sayılı Katma Değer Vergisi kanununun 11/1-c maddesi kapsamında ihraç edilmek şartıyla teslim edildiğinden Katma Değer Vergisi tahsil edilmemiştir.";
-                taxCategory.AppendChild(taxExemptionReasonCode);
-                taxCategory.AppendChild(taxExemptionReason);
-            }
-            var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
-            var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
-            taxTypeCode.InnerText = "0015";
-            taxScheme2.AppendChild(taxTypeCode);
-            taxCategory.AppendChild(taxScheme2);
-            taxSubTotal.AppendChild(taxCategory);
-            taxTotal.AppendChild(taxSubTotal);
-            root.AppendChild(taxTotal);
+
+            #endregion
+
+            // Burada vergi bilgileri yer almaktadır (Açıklama Satırı haline getirildi)
+            #region Açıklama Satırı (TaxTotal)
+
+            //var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
+            //XmlAttribute currencyId = doc.CreateAttribute("currencyID");
+            //currencyId.Value = "TRY";
+            //var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+            //taxAmount.RemoveAllAttributes();
+            //taxAmount.Attributes.Append(currencyId);
+            //taxAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+            //taxTotal.AppendChild(taxAmount);
+            //var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
+            //var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
+            //taxableAmount.RemoveAllAttributes();
+            //currencyId = doc.CreateAttribute("currencyID");
+            //currencyId.Value = "TRY";
+            //taxableAmount.Attributes.Append(currencyId);
+            //taxableAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+            //taxSubTotal.AppendChild(taxableAmount);
+            //var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+            //taxAmount2.RemoveAllAttributes();
+            //currencyId = doc.CreateAttribute("currencyID");
+            //currencyId.Value = "TRY";
+            //taxAmount2.Attributes.Append(currencyId);
+            //taxAmount2.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+            //taxSubTotal.AppendChild(taxAmount2);
+            //var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
+            //if (gidenFatura.KdvHaricTutar != 0)
+            //    percent.InnerText = Decimal.Round(((decimal)gidenFatura.KdvTutari * 100) / (decimal)gidenFatura.KdvHaricTutar, 0, MidpointRounding.AwayFromZero).ToString();
+            //else
+            //    percent.InnerText = "0";
+            //taxSubTotal.AppendChild(percent);
+            //var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
+            //if (gidenFatura.KdvTutari == 0)
+            //{
+            //    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+            //    taxExemptionReasonCode.InnerText = "325";
+            //    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+            //    taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+            //    taxCategory.AppendChild(taxExemptionReasonCode);
+            //    taxCategory.AppendChild(taxExemptionReason);
+            //}
+            //if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
+            //{
+            //    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+            //    taxExemptionReasonCode.InnerText = "701";
+            //    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+            //    taxExemptionReason.InnerText = "3065 sayılı Katma Değer Vergisi kanununun 11/1-c maddesi kapsamında ihraç edilmek şartıyla teslim edildiğinden Katma Değer Vergisi tahsil edilmemiştir.";
+            //    taxCategory.AppendChild(taxExemptionReasonCode);
+            //    taxCategory.AppendChild(taxExemptionReason);
+            //}
+            //var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
+            //var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
+            //taxTypeCode.InnerText = "0015";
+            //taxScheme2.AppendChild(taxTypeCode);
+            //taxCategory.AppendChild(taxScheme2);
+            //taxSubTotal.AppendChild(taxCategory);
+            //taxTotal.AppendChild(taxSubTotal);
+            //root.AppendChild(taxTotal);
 
             #endregion
 
@@ -661,7 +761,7 @@ namespace QNBFinansGIB.Utils
             var legalMonetaryTotal = doc.CreateElement("cac", "LegalMonetaryTotal", xlmnscac.Value);
             var lineExtensionAmount = doc.CreateElement("cbc", "LineExtensionAmount", xlmnscbc.Value);
             lineExtensionAmount.RemoveAllAttributes();
-            currencyId = doc.CreateAttribute("currencyID");
+            var currencyId = doc.CreateAttribute("currencyID");
             currencyId.Value = "TRY";
             lineExtensionAmount.Attributes.Append(currencyId);
             lineExtensionAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
@@ -690,7 +790,7 @@ namespace QNBFinansGIB.Utils
             root.AppendChild(legalMonetaryTotal);
             #endregion
 
-            var sayac = 1;
+            sayac = 1;
             // Her bir fatura edtayı için hazırlanan bölümdür
             foreach (var item in gidenFaturaDetayListesi)
             {
@@ -760,34 +860,34 @@ namespace QNBFinansGIB.Utils
 
                 // Vergi bilgileri yer almaktadır
                 #region TaxTotal
-                taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
+                var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
                 currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
-                taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                 taxAmount.RemoveAllAttributes();
                 taxAmount.Attributes.Append(currencyId);
                 taxAmount.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 taxTotal.AppendChild(taxAmount);
-                taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
-                taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
+                var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
+                var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
                 taxableAmount.RemoveAllAttributes();
                 currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 taxableAmount.Attributes.Append(currencyId);
                 taxableAmount.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 taxSubTotal.AppendChild(taxableAmount);
-                taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                 taxAmount2.RemoveAllAttributes();
                 currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 taxAmount2.Attributes.Append(currencyId);
                 taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 taxSubTotal.AppendChild(taxAmount2);
-                percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
+                var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
                 if (item.KdvOran != null)
                     percent.InnerText = Decimal.Round((decimal)item.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
                 taxSubTotal.AppendChild(percent);
-                taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
+                var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
                 if (item.KdvTutari == 0)
                 {
                     var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
@@ -797,11 +897,11 @@ namespace QNBFinansGIB.Utils
                     taxCategory.AppendChild(taxExemptionReasonCode);
                     taxCategory.AppendChild(taxExemptionReason);
                 }
-                taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
+                var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
                 var taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
                 taxTypeName.InnerText = "KDV";
                 taxScheme2.AppendChild(taxTypeName);
-                taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
+                var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
                 taxTypeCode.InnerText = "0015";
                 taxScheme2.AppendChild(taxTypeCode);
                 taxCategory.AppendChild(taxScheme2);
@@ -1316,71 +1416,172 @@ namespace QNBFinansGIB.Utils
                     #endregion
                 }
 
-                // Burada vergi bilgileri yer almaktadır
+                #region KDVlerin Belirlenmesi
+
+                var faturaKdvListesi = new List<FaturaKdvDTO>();
+                foreach (var item in gidenFaturaDetayListesi)
+                {
+                    decimal kodKdvTuruOran = item.KdvOran ?? 0;
+                    if (!faturaKdvListesi.Any(j => j.KdvOran == kodKdvTuruOran))
+                    {
+                        var faturaKdv = new FaturaKdvDTO
+                        {
+                            KdvOran = kodKdvTuruOran,
+                            KdvTutari = item.KdvTutari,
+                            KdvHaricTutar = item.KdvHaricTutar
+                        };
+                        faturaKdvListesi.Add(faturaKdv);
+                    }
+                    else
+                    {
+                        var index = faturaKdvListesi.FindIndex(j => j.KdvOran == kodKdvTuruOran);
+                        faturaKdvListesi[index].KdvTutari += item.KdvTutari;
+                        faturaKdvListesi[index].KdvHaricTutar += item.KdvHaricTutar;
+                    }
+                    if (faturaKdvListesi.Count > 0)
+                        faturaKdvListesi = faturaKdvListesi.OrderBy(j => j.KdvOran).ToList();
+                }
+
+                #endregion
+
                 #region TaxTotal
 
-                var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
-                XmlAttribute currencyId = doc.CreateAttribute("currencyID");
-                currencyId.Value = "TRY";
-                var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
-                taxAmount.RemoveAllAttributes();
-                taxAmount.Attributes.Append(currencyId);
-                taxAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
-                taxTotal.AppendChild(taxAmount);
-                var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
-                var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
-                taxableAmount.RemoveAllAttributes();
-                currencyId = doc.CreateAttribute("currencyID");
-                currencyId.Value = "TRY";
-                taxableAmount.Attributes.Append(currencyId);
-                taxableAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
-                taxSubTotal.AppendChild(taxableAmount);
-                var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
-                taxAmount2.RemoveAllAttributes();
-                currencyId = doc.CreateAttribute("currencyID");
-                currencyId.Value = "TRY";
-                taxAmount2.Attributes.Append(currencyId);
-                taxAmount2.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
-                taxSubTotal.AppendChild(taxAmount2);
-                var calculationSequenceNumeric = doc.CreateElement("cbc", "CalculationSequenceNumeric", xlmnscbc.Value);
-                calculationSequenceNumeric.InnerText = "1.0";
-                taxSubTotal.AppendChild(calculationSequenceNumeric);
-                var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
-                if (gidenFatura.KdvHaricTutar != 0)
-                    percent.InnerText = Decimal.Round(((decimal)gidenFatura.KdvTutari * 100) / (decimal)gidenFatura.KdvHaricTutar, 0, MidpointRounding.AwayFromZero).ToString();
-                else
-                    percent.InnerText = "0";
-                taxSubTotal.AppendChild(percent);
-                var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
-                if (gidenFatura.KdvTutari == 0)
+                var sayac = 1;
+                foreach (var item in faturaKdvListesi)
                 {
-                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
-                    taxExemptionReasonCode.InnerText = "325";
-                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
-                    taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
-                    taxCategory.AppendChild(taxExemptionReasonCode);
-                    taxCategory.AppendChild(taxExemptionReason);
+                    // Burada vergi bilgileri yer almaktadır
+                    #region TaxTotal
+
+                    var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
+                    XmlAttribute currencyIdGeneral = doc.CreateAttribute("currencyID");
+                    currencyIdGeneral.Value = "TRY";
+                    var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                    taxAmount.RemoveAllAttributes();
+                    taxAmount.Attributes.Append(currencyIdGeneral);
+                    taxAmount.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxTotal.AppendChild(taxAmount);
+                    var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
+                    var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
+                    taxableAmount.RemoveAllAttributes();
+                    currencyIdGeneral = doc.CreateAttribute("currencyID");
+                    currencyIdGeneral.Value = "TRY";
+                    taxableAmount.Attributes.Append(currencyIdGeneral);
+                    taxableAmount.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxSubTotal.AppendChild(taxableAmount);
+                    var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                    taxAmount2.RemoveAllAttributes();
+                    currencyIdGeneral = doc.CreateAttribute("currencyID");
+                    currencyIdGeneral.Value = "TRY";
+                    taxAmount2.Attributes.Append(currencyIdGeneral);
+                    taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxSubTotal.AppendChild(taxAmount2);
+                    var calculationSequenceNumeric = doc.CreateElement("cbc", "CalculationSequenceNumeric", xlmnscbc.Value);
+                    calculationSequenceNumeric.InnerText = sayac + ".0";
+                    taxSubTotal.AppendChild(calculationSequenceNumeric);
+                    var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
+                    percent.InnerText = Decimal.Round((decimal)item.KdvOran, 0, MidpointRounding.AwayFromZero).ToString();
+                    taxSubTotal.AppendChild(percent);
+                    var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
+                    if (item.KdvTutari == 0)
+                    {
+                        var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                        taxExemptionReasonCode.InnerText = "325";
+                        var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                        taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+                        taxCategory.AppendChild(taxExemptionReasonCode);
+                        taxCategory.AppendChild(taxExemptionReason);
+                    }
+                    if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
+                    {
+                        var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                        taxExemptionReasonCode.InnerText = "701";
+                        var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                        taxExemptionReason.InnerText = "3065 sayılı Katma Değer Vergisi kanununun 11/1-c maddesi kapsamında ihraç edilmek şartıyla teslim edildiğinden Katma Değer Vergisi tahsil edilmemiştir.";
+                        taxCategory.AppendChild(taxExemptionReasonCode);
+                        taxCategory.AppendChild(taxExemptionReason);
+                    }
+                    var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
+                    var taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
+                    taxTypeName.InnerText = "Katma Değer Vergisi";
+                    var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
+                    taxTypeCode.InnerText = "0015";
+                    taxScheme2.AppendChild(taxTypeName);
+                    taxScheme2.AppendChild(taxTypeCode);
+                    taxCategory.AppendChild(taxScheme2);
+                    taxSubTotal.AppendChild(taxCategory);
+                    taxTotal.AppendChild(taxSubTotal);
+                    root.AppendChild(taxTotal);
+
+                    #endregion
                 }
-                if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
-                {
-                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
-                    taxExemptionReasonCode.InnerText = "701";
-                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
-                    taxExemptionReason.InnerText = "3065 sayılı Katma Değer Vergisi kanununun 11/1-c maddesi kapsamında ihraç edilmek şartıyla teslim edildiğinden Katma Değer Vergisi tahsil edilmemiştir.";
-                    taxCategory.AppendChild(taxExemptionReasonCode);
-                    taxCategory.AppendChild(taxExemptionReason);
-                }
-                var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
-                var taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                taxTypeName.InnerText = "Katma Değer Vergisi";
-                var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
-                taxTypeCode.InnerText = "0015";
-                taxScheme2.AppendChild(taxTypeName);
-                taxScheme2.AppendChild(taxTypeCode);
-                taxCategory.AppendChild(taxScheme2);
-                taxSubTotal.AppendChild(taxCategory);
-                taxTotal.AppendChild(taxSubTotal);
-                root.AppendChild(taxTotal);
+
+                #endregion
+
+                // Burada vergi bilgileri yer almaktadır
+                #region Açıklama Satırı (TaxTotal)
+
+                //var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
+                //XmlAttribute currencyId = doc.CreateAttribute("currencyID");
+                //currencyId.Value = "TRY";
+                //var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                //taxAmount.RemoveAllAttributes();
+                //taxAmount.Attributes.Append(currencyId);
+                //taxAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                //taxTotal.AppendChild(taxAmount);
+                //var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
+                //var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
+                //taxableAmount.RemoveAllAttributes();
+                //currencyId = doc.CreateAttribute("currencyID");
+                //currencyId.Value = "TRY";
+                //taxableAmount.Attributes.Append(currencyId);
+                //taxableAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                //taxSubTotal.AppendChild(taxableAmount);
+                //var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                //taxAmount2.RemoveAllAttributes();
+                //currencyId = doc.CreateAttribute("currencyID");
+                //currencyId.Value = "TRY";
+                //taxAmount2.Attributes.Append(currencyId);
+                //taxAmount2.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                //taxSubTotal.AppendChild(taxAmount2);
+                //var calculationSequenceNumeric = doc.CreateElement("cbc", "CalculationSequenceNumeric", xlmnscbc.Value);
+                //calculationSequenceNumeric.InnerText = "1.0";
+                //taxSubTotal.AppendChild(calculationSequenceNumeric);
+                //var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
+                //if (gidenFatura.KdvHaricTutar != 0)
+                //    percent.InnerText = Decimal.Round(((decimal)gidenFatura.KdvTutari * 100) / (decimal)gidenFatura.KdvHaricTutar, 0, MidpointRounding.AwayFromZero).ToString();
+                //else
+                //    percent.InnerText = "0";
+                //taxSubTotal.AppendChild(percent);
+                //var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
+                //if (gidenFatura.KdvTutari == 0)
+                //{
+                //    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                //    taxExemptionReasonCode.InnerText = "325";
+                //    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                //    taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+                //    taxCategory.AppendChild(taxExemptionReasonCode);
+                //    taxCategory.AppendChild(taxExemptionReason);
+                //}
+                //if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
+                //{
+                //    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                //    taxExemptionReasonCode.InnerText = "701";
+                //    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                //    taxExemptionReason.InnerText = "3065 sayılı Katma Değer Vergisi kanununun 11/1-c maddesi kapsamında ihraç edilmek şartıyla teslim edildiğinden Katma Değer Vergisi tahsil edilmemiştir.";
+                //    taxCategory.AppendChild(taxExemptionReasonCode);
+                //    taxCategory.AppendChild(taxExemptionReason);
+                //}
+                //var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
+                //var taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
+                //taxTypeName.InnerText = "Katma Değer Vergisi";
+                //var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
+                //taxTypeCode.InnerText = "0015";
+                //taxScheme2.AppendChild(taxTypeName);
+                //taxScheme2.AppendChild(taxTypeCode);
+                //taxCategory.AppendChild(taxScheme2);
+                //taxSubTotal.AppendChild(taxCategory);
+                //taxTotal.AppendChild(taxSubTotal);
+                //root.AppendChild(taxTotal);
 
                 #endregion
 
@@ -1390,7 +1591,7 @@ namespace QNBFinansGIB.Utils
                 var legalMonetaryTotal = doc.CreateElement("cac", "LegalMonetaryTotal", xlmnscac.Value);
                 var lineExtensionAmount = doc.CreateElement("cbc", "LineExtensionAmount", xlmnscbc.Value);
                 lineExtensionAmount.RemoveAllAttributes();
-                currencyId = doc.CreateAttribute("currencyID");
+                var currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 lineExtensionAmount.Attributes.Append(currencyId);
                 lineExtensionAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
@@ -1426,7 +1627,7 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(legalMonetaryTotal);
                 #endregion
 
-                var sayac = 1;
+                sayac = 1;
                 // Her bir fatura detayı için hazırlanan bölümdür
                 foreach (var item in gidenFaturaDetayListesi)
                 {
@@ -1496,39 +1697,39 @@ namespace QNBFinansGIB.Utils
 
                     // Vergi bilgileri yer almaktadır
                     #region TaxTotal
-                    taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
+                    var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
-                    taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                    var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                     taxAmount.RemoveAllAttributes();
                     taxAmount.Attributes.Append(currencyId);
                     taxAmount.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxTotal.AppendChild(taxAmount);
-                    taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
-                    taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
+                    var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
+                    var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
                     taxableAmount.RemoveAllAttributes();
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     taxableAmount.Attributes.Append(currencyId);
                     taxableAmount.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxSubTotal.AppendChild(taxableAmount);
-                    taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                    var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                     taxAmount2.RemoveAllAttributes();
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     taxAmount2.Attributes.Append(currencyId);
                     taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxSubTotal.AppendChild(taxAmount2);
-                    percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
+                    var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
                     if (item.KdvOran != null)
                         percent.InnerText = Decimal.Round((decimal)item.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
                     taxSubTotal.AppendChild(percent);
-                    taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
-                    taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
-                    taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
+                    var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
+                    var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
+                    var taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
                     taxTypeName.InnerText = "KDV";
                     taxScheme2.AppendChild(taxTypeName);
-                    taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
+                    var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
                     taxTypeCode.InnerText = "0015";
                     taxScheme2.AppendChild(taxTypeCode);
                     taxCategory.AppendChild(taxScheme2);
@@ -2161,71 +2362,172 @@ namespace QNBFinansGIB.Utils
                     #endregion
                 }
 
-                // Burada vergi bilgileri yer almaktadır
+                #region KDVlerin Belirlenmesi
+
+                var faturaKdvListesi = new List<FaturaKdvDTO>();
+                foreach (var item in gidenFaturaDetayListesi)
+                {
+                    decimal kodKdvTuruOran = item.KdvOran ?? 0;
+                    if (!faturaKdvListesi.Any(j => j.KdvOran == kodKdvTuruOran))
+                    {
+                        var faturaKdv = new FaturaKdvDTO
+                        {
+                            KdvOran = kodKdvTuruOran,
+                            KdvTutari = item.KdvTutari,
+                            KdvHaricTutar = item.KdvHaricTutar
+                        };
+                        faturaKdvListesi.Add(faturaKdv);
+                    }
+                    else
+                    {
+                        var index = faturaKdvListesi.FindIndex(j => j.KdvOran == kodKdvTuruOran);
+                        faturaKdvListesi[index].KdvTutari += item.KdvTutari;
+                        faturaKdvListesi[index].KdvHaricTutar += item.KdvHaricTutar;
+                    }
+                    if (faturaKdvListesi.Count > 0)
+                        faturaKdvListesi = faturaKdvListesi.OrderBy(j => j.KdvOran).ToList();
+                }
+
+                #endregion
+
                 #region TaxTotal
 
-                var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
-                XmlAttribute currencyId = doc.CreateAttribute("currencyID");
-                currencyId.Value = "TRY";
-                var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
-                taxAmount.RemoveAllAttributes();
-                taxAmount.Attributes.Append(currencyId);
-                taxAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
-                taxTotal.AppendChild(taxAmount);
-                var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
-                var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
-                taxableAmount.RemoveAllAttributes();
-                currencyId = doc.CreateAttribute("currencyID");
-                currencyId.Value = "TRY";
-                taxableAmount.Attributes.Append(currencyId);
-                taxableAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
-                taxSubTotal.AppendChild(taxableAmount);
-                var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
-                taxAmount2.RemoveAllAttributes();
-                currencyId = doc.CreateAttribute("currencyID");
-                currencyId.Value = "TRY";
-                taxAmount2.Attributes.Append(currencyId);
-                taxAmount2.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
-                taxSubTotal.AppendChild(taxAmount2);
-                var calculationSequenceNumeric = doc.CreateElement("cbc", "CalculationSequenceNumeric", xlmnscbc.Value);
-                calculationSequenceNumeric.InnerText = "1.0";
-                taxSubTotal.AppendChild(calculationSequenceNumeric);
-                var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
-                if (gidenFatura.KdvHaricTutar != 0)
-                    percent.InnerText = Decimal.Round(((decimal)gidenFatura.KdvTutari * 100) / (decimal)gidenFatura.KdvHaricTutar, 0, MidpointRounding.AwayFromZero).ToString();
-                else
-                    percent.InnerText = "0";
-                taxSubTotal.AppendChild(percent);
-                var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
-                if (gidenFatura.KdvTutari == 0)
+                var sayac = 1;
+                foreach (var item in faturaKdvListesi)
                 {
-                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
-                    taxExemptionReasonCode.InnerText = "325";
-                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
-                    taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
-                    taxCategory.AppendChild(taxExemptionReasonCode);
-                    taxCategory.AppendChild(taxExemptionReason);
+                    // Burada vergi bilgileri yer almaktadır
+                    #region TaxTotal
+
+                    var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
+                    XmlAttribute currencyIdGeneral = doc.CreateAttribute("currencyID");
+                    currencyIdGeneral.Value = "TRY";
+                    var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                    taxAmount.RemoveAllAttributes();
+                    taxAmount.Attributes.Append(currencyIdGeneral);
+                    taxAmount.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxTotal.AppendChild(taxAmount);
+                    var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
+                    var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
+                    taxableAmount.RemoveAllAttributes();
+                    currencyIdGeneral = doc.CreateAttribute("currencyID");
+                    currencyIdGeneral.Value = "TRY";
+                    taxableAmount.Attributes.Append(currencyIdGeneral);
+                    taxableAmount.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxSubTotal.AppendChild(taxableAmount);
+                    var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                    taxAmount2.RemoveAllAttributes();
+                    currencyIdGeneral = doc.CreateAttribute("currencyID");
+                    currencyIdGeneral.Value = "TRY";
+                    taxAmount2.Attributes.Append(currencyIdGeneral);
+                    taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxSubTotal.AppendChild(taxAmount2);
+                    var calculationSequenceNumeric = doc.CreateElement("cbc", "CalculationSequenceNumeric", xlmnscbc.Value);
+                    calculationSequenceNumeric.InnerText = sayac + ".0";
+                    taxSubTotal.AppendChild(calculationSequenceNumeric);
+                    var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
+                    percent.InnerText = Decimal.Round((decimal)item.KdvOran, 0, MidpointRounding.AwayFromZero).ToString();
+                    taxSubTotal.AppendChild(percent);
+                    var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
+                    if (item.KdvTutari == 0)
+                    {
+                        var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                        taxExemptionReasonCode.InnerText = "325";
+                        var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                        taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+                        taxCategory.AppendChild(taxExemptionReasonCode);
+                        taxCategory.AppendChild(taxExemptionReason);
+                    }
+                    if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
+                    {
+                        var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                        taxExemptionReasonCode.InnerText = "701";
+                        var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                        taxExemptionReason.InnerText = "3065 sayılı Katma Değer Vergisi kanununun 11/1-c maddesi kapsamında ihraç edilmek şartıyla teslim edildiğinden Katma Değer Vergisi tahsil edilmemiştir.";
+                        taxCategory.AppendChild(taxExemptionReasonCode);
+                        taxCategory.AppendChild(taxExemptionReason);
+                    }
+                    var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
+                    var taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
+                    taxTypeName.InnerText = "Katma Değer Vergisi";
+                    var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
+                    taxTypeCode.InnerText = "0015";
+                    taxScheme2.AppendChild(taxTypeName);
+                    taxScheme2.AppendChild(taxTypeCode);
+                    taxCategory.AppendChild(taxScheme2);
+                    taxSubTotal.AppendChild(taxCategory);
+                    taxTotal.AppendChild(taxSubTotal);
+                    root.AppendChild(taxTotal);
+
+                    #endregion
                 }
-                if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
-                {
-                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
-                    taxExemptionReasonCode.InnerText = "701";
-                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
-                    taxExemptionReason.InnerText = "3065 sayılı Katma Değer Vergisi kanununun 11/1-c maddesi kapsamında ihraç edilmek şartıyla teslim edildiğinden Katma Değer Vergisi tahsil edilmemiştir.";
-                    taxCategory.AppendChild(taxExemptionReasonCode);
-                    taxCategory.AppendChild(taxExemptionReason);
-                }
-                var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
-                var taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                taxTypeName.InnerText = "Katma Değer Vergisi";
-                var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
-                taxTypeCode.InnerText = "0015";
-                taxScheme2.AppendChild(taxTypeName);
-                taxScheme2.AppendChild(taxTypeCode);
-                taxCategory.AppendChild(taxScheme2);
-                taxSubTotal.AppendChild(taxCategory);
-                taxTotal.AppendChild(taxSubTotal);
-                root.AppendChild(taxTotal);
+
+                #endregion
+
+                // Burada vergi bilgileri yer almaktadır
+                #region Açıklama Satırı (TaxTotal)
+
+                //var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
+                //XmlAttribute currencyId = doc.CreateAttribute("currencyID");
+                //currencyId.Value = "TRY";
+                //var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                //taxAmount.RemoveAllAttributes();
+                //taxAmount.Attributes.Append(currencyId);
+                //taxAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                //taxTotal.AppendChild(taxAmount);
+                //var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
+                //var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
+                //taxableAmount.RemoveAllAttributes();
+                //currencyId = doc.CreateAttribute("currencyID");
+                //currencyId.Value = "TRY";
+                //taxableAmount.Attributes.Append(currencyId);
+                //taxableAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                //taxSubTotal.AppendChild(taxableAmount);
+                //var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                //taxAmount2.RemoveAllAttributes();
+                //currencyId = doc.CreateAttribute("currencyID");
+                //currencyId.Value = "TRY";
+                //taxAmount2.Attributes.Append(currencyId);
+                //taxAmount2.InnerText = Decimal.Round((decimal)gidenFatura.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                //taxSubTotal.AppendChild(taxAmount2);
+                //var calculationSequenceNumeric = doc.CreateElement("cbc", "CalculationSequenceNumeric", xlmnscbc.Value);
+                //calculationSequenceNumeric.InnerText = "1.0";
+                //taxSubTotal.AppendChild(calculationSequenceNumeric);
+                //var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
+                //if (gidenFatura.KdvHaricTutar != 0)
+                //    percent.InnerText = Decimal.Round(((decimal)gidenFatura.KdvTutari * 100) / (decimal)gidenFatura.KdvHaricTutar, 0, MidpointRounding.AwayFromZero).ToString();
+                //else
+                //    percent.InnerText = "0";
+                //taxSubTotal.AppendChild(percent);
+                //var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
+                //if (gidenFatura.KdvTutari == 0)
+                //{
+                //    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                //    taxExemptionReasonCode.InnerText = "325";
+                //    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                //    taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+                //    taxCategory.AppendChild(taxExemptionReasonCode);
+                //    taxCategory.AppendChild(taxExemptionReason);
+                //}
+                //if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
+                //{
+                //    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                //    taxExemptionReasonCode.InnerText = "701";
+                //    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                //    taxExemptionReason.InnerText = "3065 sayılı Katma Değer Vergisi kanununun 11/1-c maddesi kapsamında ihraç edilmek şartıyla teslim edildiğinden Katma Değer Vergisi tahsil edilmemiştir.";
+                //    taxCategory.AppendChild(taxExemptionReasonCode);
+                //    taxCategory.AppendChild(taxExemptionReason);
+                //}
+                //var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
+                //var taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
+                //taxTypeName.InnerText = "Katma Değer Vergisi";
+                //var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
+                //taxTypeCode.InnerText = "0015";
+                //taxScheme2.AppendChild(taxTypeName);
+                //taxScheme2.AppendChild(taxTypeCode);
+                //taxCategory.AppendChild(taxScheme2);
+                //taxSubTotal.AppendChild(taxCategory);
+                //taxTotal.AppendChild(taxSubTotal);
+                //root.AppendChild(taxTotal);
 
                 #endregion
 
@@ -2235,7 +2537,7 @@ namespace QNBFinansGIB.Utils
                 var legalMonetaryTotal = doc.CreateElement("cac", "LegalMonetaryTotal", xlmnscac.Value);
                 var lineExtensionAmount = doc.CreateElement("cbc", "LineExtensionAmount", xlmnscbc.Value);
                 lineExtensionAmount.RemoveAllAttributes();
-                currencyId = doc.CreateAttribute("currencyID");
+                var currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 lineExtensionAmount.Attributes.Append(currencyId);
                 lineExtensionAmount.InnerText = Decimal.Round((decimal)gidenFatura.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
@@ -2271,7 +2573,7 @@ namespace QNBFinansGIB.Utils
                 root.AppendChild(legalMonetaryTotal);
                 #endregion
 
-                var sayac = 1;
+                sayac = 1;
                 // Her bir fatura edtayı için hazırlanan bölümdür
                 foreach (var item in gidenFaturaDetayListesi)
                 {
@@ -2341,39 +2643,39 @@ namespace QNBFinansGIB.Utils
 
                     // Vergi bilgileri yer almaktadır
                     #region TaxTotal
-                    taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
+                    var taxTotal = doc.CreateElement("cac", "TaxTotal", xlmnscac.Value);
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
-                    taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                    var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                     taxAmount.RemoveAllAttributes();
                     taxAmount.Attributes.Append(currencyId);
                     taxAmount.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxTotal.AppendChild(taxAmount);
-                    taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
-                    taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
+                    var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
+                    var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
                     taxableAmount.RemoveAllAttributes();
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     taxableAmount.Attributes.Append(currencyId);
                     taxableAmount.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxSubTotal.AppendChild(taxableAmount);
-                    taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
+                    var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                     taxAmount2.RemoveAllAttributes();
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     taxAmount2.Attributes.Append(currencyId);
                     taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxSubTotal.AppendChild(taxAmount2);
-                    percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
+                    var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
                     if (item.KdvOran != null)
                         percent.InnerText = Decimal.Round((decimal)item.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
                     taxSubTotal.AppendChild(percent);
-                    taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
-                    taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
-                    taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
+                    var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
+                    var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
+                    var taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
                     taxTypeName.InnerText = "KDV";
                     taxScheme2.AppendChild(taxTypeName);
-                    taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
+                    var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xlmnscbc.Value);
                     taxTypeCode.InnerText = "0015";
                     taxScheme2.AppendChild(taxTypeCode);
                     taxCategory.AppendChild(taxScheme2);

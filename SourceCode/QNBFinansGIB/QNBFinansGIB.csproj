@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\FaturaKdvDTO.cs" />
     <Compile Include="DTO\MustahsilMakbuzuDetayDTO.cs" />
     <Compile Include="DTO\GidenFaturaDetayDTO.cs" />
     <Compile Include="DTO\MustahsilMakbuzuDTO.cs" />

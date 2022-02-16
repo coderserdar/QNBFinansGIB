@@ -238,6 +238,27 @@ namespace QNBFinansGIB
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
                 GidenFaturaId = "7",
+                BirimFiyat = (decimal)0.1,
+                Miktar = 10000,
+                KdvOran = 18,
+                IskontoOran = 0,
+                KdvHaricTutar = 1000,
+                KdvTutari = 180,
+                GibKisaltma = "KWT",
+                IrsaliyeNo = "1",
+                MalzemeFaturaAciklamasi = "Ofis demirbaşı 2 için alındı",
+                SevkIrsaliyeTarihi = new DateTime(2022, 1, 1),
+                SevkIrsaliyesiNo = "34",
+                PlakaNo = "06GUC778",
+                FaturaUrunTuru = "Priz",
+                Tonaj = 1,
+                YuklemeFormuNo = 1236
+            };
+            gidenFaturaDetayListesi.Add(gidenFaturaDetay);
+
+            gidenFaturaDetay = new GidenFaturaDetayDTO
+            {
+                GidenFaturaId = "7",
                 BirimFiyat = (decimal)0.1234,
                 Miktar = 1000,
                 KdvOran = 1,
