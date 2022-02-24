@@ -118,7 +118,7 @@ namespace QNBFinansGIB.Utils
 
             var invoiceTypeCode = doc.CreateElement("cbc", "InvoiceTypeCode", xlmnscbc.Value);
             invoiceTypeCode.InnerText = "SATIS";
-            if (gidenFatura.KdvTutari == 0)
+            if (gidenFatura.KdvTutari == 0 || gidenFaturaDetayListesi.Any(j => j.KdvTutari == 0))
                 invoiceTypeCode.InnerText = "ISTISNA";
             if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
                 invoiceTypeCode.InnerText = "IHRACKAYITLI";
@@ -1082,7 +1082,7 @@ namespace QNBFinansGIB.Utils
 
                 var invoiceTypeCode = doc.CreateElement("cbc", "InvoiceTypeCode", xlmnscbc.Value);
                 invoiceTypeCode.InnerText = "SATIS";
-                if (gidenFatura.KdvTutari == 0)
+                if (gidenFatura.KdvTutari == 0 || gidenFaturaDetayListesi.Any(j => j.KdvTutari == 0))
                     invoiceTypeCode.InnerText = "ISTISNA";
                 if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
                     invoiceTypeCode.InnerText = "IHRACKAYITLI";
@@ -1900,7 +1900,7 @@ namespace QNBFinansGIB.Utils
 
                 var invoiceTypeCode = doc.CreateElement("cbc", "InvoiceTypeCode", xlmnscbc.Value);
                 invoiceTypeCode.InnerText = "SATIS";
-                if (gidenFatura.KdvTutari == 0)
+                if (gidenFatura.KdvTutari == 0 || gidenFaturaDetayListesi.Any(j => j.KdvTutari == 0))
                     invoiceTypeCode.InnerText = "ISTISNA";
                 if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
                     invoiceTypeCode.InnerText = "IHRACKAYITLI";
