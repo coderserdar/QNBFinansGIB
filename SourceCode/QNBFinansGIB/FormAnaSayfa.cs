@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using static QNBFinansGIB.Utils.Enums;
 
 namespace QNBFinansGIB
 {
@@ -67,7 +68,8 @@ namespace QNBFinansGIB
                 DuzenlemeTarihi = new DateTime(2022, 1, 13),
                 IlAd = "Ankara",
                 IlceAd = "Çankaya",
-                SatisTuruKod = 1,
+                SatisTuruKod = SatisTur.Hesaben.GetHashCode(),
+                FaturaGrupTuruKod = FaturaMakbuzGrupTur.Kuspe.GetHashCode(),
                 GibNumarasi = "MLT2022000010998",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
@@ -90,7 +92,9 @@ namespace QNBFinansGIB
                 DuzenlemeTarihi = new DateTime(2022, 1, 1),
                 IlAd = "Ankara",
                 IlceAd = "Etimesgut",
-                SatisTuruKod = 2,
+                SatisTuruKod = SatisTur.Pesin.GetHashCode(),
+                FaturaGrupTuruKod = FaturaMakbuzGrupTur.Malzeme.GetHashCode(),
+                FaturaTuruKod = FaturaTur.Iade.GetHashCode(),
                 GibNumarasi = "MLT2022000099999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
@@ -112,8 +116,8 @@ namespace QNBFinansGIB
                 DuzenlemeTarihi = new DateTime(2022, 1, 11),
                 IlAd = "Ankara",
                 IlceAd = "Etimesgut",
-                SatisTuruKod = 2,
-                FaturaTuruKod = 5, // İade Faturası
+                SatisTuruKod = SatisTur.ImalatciIhracatci.GetHashCode(),
+                FaturaTuruKod = FaturaTur.Iade.GetHashCode(),
                 GibNumarasi = "KST2022000009999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
@@ -135,7 +139,8 @@ namespace QNBFinansGIB
                 DuzenlemeTarihi = new DateTime(2022, 1, 31),
                 IlAd = "Ankara",
                 IlceAd = "Çubuk",
-                SatisTuruKod = 10, //İhraç Kayıtlı Fatura
+                SatisTuruKod = SatisTur.IhracKayitli.GetHashCode(),
+                FaturaGrupTuruKod = FaturaMakbuzGrupTur.Personel.GetHashCode(),
                 GibNumarasi = "ILG202200009999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
@@ -157,7 +162,7 @@ namespace QNBFinansGIB
                 DuzenlemeTarihi = new DateTime(2022, 2, 1),
                 IlAd = "Ankara",
                 IlceAd = "Pursaklar",
-                SatisTuruKod = 2,
+                SatisTuruKod = SatisTur.Vadeli.GetHashCode(),
                 GibNumarasi = "SUS2022000999999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
@@ -180,7 +185,7 @@ namespace QNBFinansGIB
                 DuzenlemeTarihi = new DateTime(2022, 2, 2),
                 IlAd = "Konya",
                 IlceAd = "Beyşehir",
-                SatisTuruKod = 10,
+                SatisTuruKod = SatisTur.RafFiyatGarantili.GetHashCode(),
                 GibNumarasi = "YZG2022000999999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
@@ -203,7 +208,7 @@ namespace QNBFinansGIB
                 DuzenlemeTarihi = new DateTime(2022, 1, 25),
                 IlAd = "Ağrı",
                 IlceAd = "Patnos",
-                SatisTuruKod = 11,
+                SatisTuruKod = SatisTur.IstirakeSatilan.GetHashCode(),
                 GibNumarasi = "AGR2022000999999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
@@ -336,10 +341,10 @@ namespace QNBFinansGIB
                         GidenFaturaId = item.GidenFaturaId,
                         BirimFiyat = (decimal)1.5,
                         Miktar = 1000,
-                        KdvOran = 1,
+                        KdvOran = 0,
                         IskontoOran = 0,
                         KdvHaricTutar = 1500,
-                        KdvTutari = 15,
+                        KdvTutari = 0,
                         GibKisaltma = "MTR",
                         FaturaUrunTuru = "Deneme " + item.GidenFaturaId,
                     };
@@ -371,6 +376,7 @@ namespace QNBFinansGIB
                 IlAd = "Ankara",
                 IlceAd = "Çankaya",
                 MustahsilMakbuzuNo = "MLT2022000010998",
+                MakbuzGrupTuruKod = FaturaMakbuzGrupTur.Kuspe.GetHashCode(),
                 NetTutar = 0,
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0,
@@ -393,6 +399,7 @@ namespace QNBFinansGIB
                 IlAd = "Ankara",
                 IlceAd = "Etimesgut",
                 MustahsilMakbuzuNo = "MLT2022000099999",
+                MakbuzGrupTuruKod = FaturaMakbuzGrupTur.Personel.GetHashCode(),
                 NetTutar = 0,
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0,
@@ -589,8 +596,8 @@ namespace QNBFinansGIB
                         BirimFiyat = (decimal)1.5,
                         Miktar = 1000,
                         NetTutar = 1500,
-                        GelirVergisi = 15,
-                        ToplamTutar = 1515,
+                        GelirVergisi = 0,
+                        ToplamTutar = 1500,
                         GibKisaltma = "MTR",
                         IsinMahiyeti = "Deneme " + item.MustahsilMakbuzuId,
                     };

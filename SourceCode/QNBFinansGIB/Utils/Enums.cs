@@ -44,5 +44,22 @@
             NoterlikMakbuzu = 9,
             Harcirah = 10
         }
+
+        /// <summary>
+        /// İstisna Faturalarındave Müstahsil Makbuzlarında Grup Türüne Göre Kontrol yapılmasını sağlayan enum Bilgisi
+        /// Burada Küspe olup olmamasına göre XML içeriğinde değişiklikler yapıldığı için
+        /// Bu kısım önemlidir
+        /// </summary>
+        public enum FaturaMakbuzGrupTur
+        {
+            Seker = 1,
+            Melas = 2,
+            Kuspe = 3,
+            Diger = 4,
+            Malzeme = 5,
+            PancarKuyrugu = 6,
+            Alkol = 7,
+            Personel = 8
+        }
     }
 }

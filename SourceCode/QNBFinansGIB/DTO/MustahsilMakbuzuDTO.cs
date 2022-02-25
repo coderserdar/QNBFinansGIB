@@ -97,5 +97,10 @@ namespace QNBFinansGIB.DTO
         /// Gelir Vergisi Bilgisi
         /// </summary>
         public decimal? GelirVergisi;
+
+        /// <summary>
+        /// Makbuz Grup Türü Kod Bilgisi
+        /// </summary>
+        public int? MakbuzGrupTuruKod;
     }
 }

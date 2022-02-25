@@ -41,6 +41,10 @@ namespace QNBFinansGIB.Utils
             if (gidenFatura.FaturaTuruKod != null)
                 kodFaturaTuruKod = gidenFatura.FaturaTuruKod ?? 0;
 
+            var kodFaturaGrupTuruKod = 0;
+            if (gidenFatura.FaturaGrupTuruKod != null)
+                kodFaturaGrupTuruKod = gidenFatura.FaturaGrupTuruKod ?? 0;
+
             #region Standart ve Faturaya Bağlı Bilgiler
 
             // Faturanın türü, düzenleme tarihi, UBL Versiyon Numarası, GİB Numarası gibi bilgiler
@@ -661,12 +665,24 @@ namespace QNBFinansGIB.Utils
                 var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
                 if (item.KdvTutari == 0)
                 {
-                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
-                    taxExemptionReasonCode.InnerText = "325";
-                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
-                    taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
-                    taxCategory.AppendChild(taxExemptionReasonCode);
-                    taxCategory.AppendChild(taxExemptionReason);
+                    if (kodFaturaGrupTuruKod == FaturaMakbuzGrupTur.Kuspe.GetHashCode())
+                    {
+                        var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                        taxExemptionReasonCode.InnerText = "325";
+                        var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                        taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+                        taxCategory.AppendChild(taxExemptionReasonCode);
+                        taxCategory.AppendChild(taxExemptionReason);
+                    }
+                    else
+                    {
+                        var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                        taxExemptionReasonCode.InnerText = "350";
+                        var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                        taxExemptionReason.InnerText = "Diğerleri";
+                        taxCategory.AppendChild(taxExemptionReasonCode);
+                        taxCategory.AppendChild(taxExemptionReason);
+                    }
                 }
                 if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
                 {
@@ -890,12 +906,24 @@ namespace QNBFinansGIB.Utils
                 var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
                 if (item.KdvTutari == 0)
                 {
-                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
-                    taxExemptionReasonCode.InnerText = "325";
-                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
-                    taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
-                    taxCategory.AppendChild(taxExemptionReasonCode);
-                    taxCategory.AppendChild(taxExemptionReason);
+                    if (kodFaturaGrupTuruKod == FaturaMakbuzGrupTur.Kuspe.GetHashCode())
+                    {
+                        var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                        taxExemptionReasonCode.InnerText = "325";
+                        var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                        taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+                        taxCategory.AppendChild(taxExemptionReasonCode);
+                        taxCategory.AppendChild(taxExemptionReason);
+                    }
+                    else
+                    {
+                        var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                        taxExemptionReasonCode.InnerText = "350";
+                        var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                        taxExemptionReason.InnerText = "Diğerleri";
+                        taxCategory.AppendChild(taxExemptionReasonCode);
+                        taxCategory.AppendChild(taxExemptionReason);
+                    }
                 }
                 var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
                 var taxTypeName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
@@ -995,6 +1023,10 @@ namespace QNBFinansGIB.Utils
                 var kodFaturaTuruKod = 0;
                 if (gidenFatura.FaturaTuruKod != null)
                     kodFaturaTuruKod = gidenFatura.FaturaTuruKod ?? 0;
+
+                var kodFaturaGrupTuruKod = 0;
+                if (gidenFatura.FaturaGrupTuruKod != null)
+                    kodFaturaGrupTuruKod = gidenFatura.FaturaGrupTuruKod ?? 0;
 
                 #region Standart ve Faturaya Bağlı Bilgiler
 
@@ -1484,12 +1516,24 @@ namespace QNBFinansGIB.Utils
                     var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
                     if (item.KdvTutari == 0)
                     {
-                        var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
-                        taxExemptionReasonCode.InnerText = "325";
-                        var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
-                        taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
-                        taxCategory.AppendChild(taxExemptionReasonCode);
-                        taxCategory.AppendChild(taxExemptionReason);
+                        if (kodFaturaGrupTuruKod == FaturaMakbuzGrupTur.Kuspe.GetHashCode())
+                        {
+                            var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                            taxExemptionReasonCode.InnerText = "325";
+                            var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                            taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+                            taxCategory.AppendChild(taxExemptionReasonCode);
+                            taxCategory.AppendChild(taxExemptionReason);
+                        }
+                        else
+                        {
+                            var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                            taxExemptionReasonCode.InnerText = "350";
+                            var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                            taxExemptionReason.InnerText = "Diğerleri";
+                            taxCategory.AppendChild(taxExemptionReasonCode);
+                            taxCategory.AppendChild(taxExemptionReason);
+                        }
                     }
                     if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
                     {
@@ -1813,6 +1857,10 @@ namespace QNBFinansGIB.Utils
                 var kodFaturaTuruKod = 0;
                 if (gidenFatura.FaturaTuruKod != null)
                     kodFaturaTuruKod = gidenFatura.FaturaTuruKod ?? 0;
+
+                var kodFaturaGrupTuruKod = 0;
+                if (gidenFatura.FaturaGrupTuruKod != null)
+                    kodFaturaGrupTuruKod = gidenFatura.FaturaGrupTuruKod ?? 0;
 
                 #region Standart ve Faturaya Bağlı Bilgiler
 
@@ -2430,12 +2478,24 @@ namespace QNBFinansGIB.Utils
                     var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
                     if (item.KdvTutari == 0)
                     {
-                        var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
-                        taxExemptionReasonCode.InnerText = "325";
-                        var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
-                        taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
-                        taxCategory.AppendChild(taxExemptionReasonCode);
-                        taxCategory.AppendChild(taxExemptionReason);
+                        if (kodFaturaGrupTuruKod == FaturaMakbuzGrupTur.Kuspe.GetHashCode())
+                        {
+                            var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                            taxExemptionReasonCode.InnerText = "325";
+                            var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                            taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+                            taxCategory.AppendChild(taxExemptionReasonCode);
+                            taxCategory.AppendChild(taxExemptionReason);
+                        }
+                        else
+                        {
+                            var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                            taxExemptionReasonCode.InnerText = "350";
+                            var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                            taxExemptionReason.InnerText = "Diğerleri";
+                            taxCategory.AppendChild(taxExemptionReasonCode);
+                            taxCategory.AppendChild(taxExemptionReason);
+                        }
                     }
                     if (kodSatisTuruKod == SatisTur.IhracKayitli.GetHashCode())
                     {
@@ -2758,6 +2818,10 @@ namespace QNBFinansGIB.Utils
             doc.AppendChild(doc.CreateProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"general.xslt\""));
 
             root = doc.CreateElement("CreditNote");
+
+            var kodMakbuzGrupTuruKod = 0;
+            if (mustahsilMakbuzu.MakbuzGrupTuruKod != null)
+                kodMakbuzGrupTuruKod = mustahsilMakbuzu.MakbuzGrupTuruKod ?? 0;
 
             #region Standart ve Müstahsil Makbuzuna Bağlı Bilgiler
 
@@ -3265,12 +3329,24 @@ namespace QNBFinansGIB.Utils
             var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
             if (mustahsilMakbuzu.GelirVergisi == 0)
             {
-                var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
-                taxExemptionReasonCode.InnerText = "325";
-                var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
-                taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
-                taxCategory.AppendChild(taxExemptionReasonCode);
-                taxCategory.AppendChild(taxExemptionReason);
+                if (kodMakbuzGrupTuruKod == FaturaMakbuzGrupTur.Kuspe.GetHashCode())
+                {
+                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                    taxExemptionReasonCode.InnerText = "325";
+                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                    taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+                    taxCategory.AppendChild(taxExemptionReasonCode);
+                    taxCategory.AppendChild(taxExemptionReason);
+                }
+                else
+                {
+                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xlmnscbc.Value);
+                    taxExemptionReasonCode.InnerText = "350";
+                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xlmnscbc.Value);
+                    taxExemptionReason.InnerText = "Diğerleri";
+                    taxCategory.AppendChild(taxExemptionReasonCode);
+                    taxCategory.AppendChild(taxExemptionReason);
+                }
             }
             var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
             var taxName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
