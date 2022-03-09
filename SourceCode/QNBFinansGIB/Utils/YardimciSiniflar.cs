@@ -577,7 +577,10 @@ namespace QNBFinansGIB.Utils
 
                 var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xlmnscac.Value);
                 var paymentMeansCode = doc.CreateElement("cbc", "PaymentMeansCode", xlmnscbc.Value);
-                paymentMeansCode.InnerText = "1";
+                //paymentMeansCode.InnerText = "1";
+                /// Burada 1 verildiği zaman Sözleşme Kapsamında yazıyor metinde
+                /// ZZZ ise Diğer anlamında geliyor
+                paymentMeansCode.InnerText = "ZZZ";
                 paymentMeans.AppendChild(paymentMeansCode);
                 var payeeFinancialAccount = doc.CreateElement("cac", "PayeeFinancialAccount", xlmnscac.Value);
                 var payeeFinancialAccountId = doc.CreateElement("cbc", "ID", xlmnscbc.Value);
@@ -1428,7 +1431,10 @@ namespace QNBFinansGIB.Utils
 
                     var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xlmnscac.Value);
                     var paymentMeansCode = doc.CreateElement("cbc", "PaymentMeansCode", xlmnscbc.Value);
-                    paymentMeansCode.InnerText = "1";
+                    //paymentMeansCode.InnerText = "1";
+                    /// Burada 1 verildiği zaman Sözleşme Kapsamında yazıyor metinde
+                    /// ZZZ ise Diğer anlamında geliyor
+                    paymentMeansCode.InnerText = "ZZZ";
                     paymentMeans.AppendChild(paymentMeansCode);
                     var payeeFinancialAccount = doc.CreateElement("cac", "PayeeFinancialAccount", xlmnscac.Value);
                     var payeeFinancialAccountId = doc.CreateElement("cbc", "ID", xlmnscbc.Value);
@@ -2390,7 +2396,10 @@ namespace QNBFinansGIB.Utils
 
                     var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xlmnscac.Value);
                     var paymentMeansCode = doc.CreateElement("cbc", "PaymentMeansCode", xlmnscbc.Value);
-                    paymentMeansCode.InnerText = "1";
+                    //paymentMeansCode.InnerText = "1";
+                    /// Burada 1 verildiği zaman Sözleşme Kapsamında yazıyor metinde
+                    /// ZZZ ise Diğer anlamında geliyor
+                    paymentMeansCode.InnerText = "ZZZ";
                     paymentMeans.AppendChild(paymentMeansCode);
                     var payeeFinancialAccount = doc.CreateElement("cac", "PayeeFinancialAccount", xlmnscac.Value);
                     var payeeFinancialAccountId = doc.CreateElement("cbc", "ID", xlmnscbc.Value);
