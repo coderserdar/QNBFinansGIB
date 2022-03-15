@@ -33,6 +33,11 @@ namespace QNBFinansGIB.DTO
         /// </summary>
         public int? FaturaGrupTuruKod;
 
+        /// <summary>
+        /// Fatura Açıklama Bilgisi
+        /// </summary>
+        public string Aciklama;
+
         #region Gerçek Kişi Bilgileri
 
         /// <summary>

@@ -69,11 +69,12 @@ namespace QNBFinansGIB
                 IlAd = "Ankara",
                 IlceAd = "Çankaya",
                 SatisTuruKod = SatisTur.Hesaben.GetHashCode(),
-                FaturaGrupTuruKod = FaturaMakbuzGrupTur.Kuspe.GetHashCode(),
+                FaturaGrupTuruKod = FaturaMakbuzGrupTur.Diger.GetHashCode(),
                 GibNumarasi = "MLT2022000010998",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
                 FaturaTutari = 0,
+                Aciklama = "Denem amaçlı eklenmiştir",
             };
             gidenFaturaListesi.Add(gidenFatura);
 
@@ -317,7 +318,7 @@ namespace QNBFinansGIB
                 KdvTutari = 12800,
                 GibKisaltma = "LTR",
                 PlakaNo = "06C99876",
-                FaturaUrunTuru = "Ayakkabı",
+                FaturaUrunTuru = "Şartname Bedeli",
             };
             gidenFaturaDetayListesi.Add(gidenFaturaDetay);
 
