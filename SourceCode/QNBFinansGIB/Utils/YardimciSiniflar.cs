@@ -151,6 +151,8 @@ namespace QNBFinansGIB.Utils
                         gidenFaturaDetayListesi2[index].Tonaj = gidenFaturaDetayListesi2[index].Tonaj + item.Miktar;
                     }
                 }
+                else
+                    gidenFaturaDetayListesi2.Add(item);
             }
             //if (gidenFaturaDetayListesi2.Count < 1)
             //    gidenFaturaDetayListesi2.Add(new GidenFaturaDetayDTO());
@@ -1148,6 +1150,8 @@ namespace QNBFinansGIB.Utils
                             gidenFaturaDetayListesi2[index].Tonaj = gidenFaturaDetayListesi2[index].Tonaj + item.Miktar;
                         }
                     }
+                    else
+                        gidenFaturaDetayListesi2.Add(item);
                 }
                 //if (gidenFaturaDetayListesi2.Count < 1)
                 //    gidenFaturaDetayListesi2.Add(new GidenFaturaDetayDTO());
@@ -1987,6 +1991,8 @@ namespace QNBFinansGIB.Utils
                             gidenFaturaDetayListesi2[index].Tonaj = gidenFaturaDetayListesi2[index].Tonaj + item.Miktar;
                         }
                     }
+                    else
+                        gidenFaturaDetayListesi2.Add(item);
                 }
                 //if (gidenFaturaDetayListesi2.Count < 1)
                 //    gidenFaturaDetayListesi2.Add(new GidenFaturaDetayDTO());
