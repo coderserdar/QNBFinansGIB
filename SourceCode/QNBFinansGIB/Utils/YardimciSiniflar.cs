@@ -164,7 +164,9 @@ namespace QNBFinansGIB.Utils
                 foreach (var item in gidenFaturaDetayListesi2)
                 {
                     var irsaliyeNote = doc.CreateElement("cbc", "Note", xlmnscbc.Value);
-                    irsaliyeNote.InnerText = "Plaka No: " + item.PlakaNo;
+                    irsaliyeNote.InnerText = "";
+                    if (!string.IsNullOrEmpty(item.PlakaNo))
+                        irsaliyeNote.InnerText += "Plaka No: " + item.PlakaNo;
                     if (!string.IsNullOrEmpty(item.SevkIrsaliyesiNo))
                         irsaliyeNote.InnerText += " İrsaliye No: " + item.SevkIrsaliyesiNo;
                     if (item.SevkIrsaliyeTarihi != null)
@@ -1163,7 +1165,9 @@ namespace QNBFinansGIB.Utils
                     foreach (var item in gidenFaturaDetayListesi2)
                     {
                         var irsaliyeNote = doc.CreateElement("cbc", "Note", xlmnscbc.Value);
-                        irsaliyeNote.InnerText = "Plaka No: " + item.PlakaNo;
+                        irsaliyeNote.InnerText = "";
+                        if (!string.IsNullOrEmpty(item.PlakaNo))
+                            irsaliyeNote.InnerText += "Plaka No: " + item.PlakaNo;
                         if (!string.IsNullOrEmpty(item.SevkIrsaliyesiNo))
                             irsaliyeNote.InnerText += " İrsaliye No: " + item.SevkIrsaliyesiNo;
                         if (item.SevkIrsaliyeTarihi != null)
@@ -2004,7 +2008,9 @@ namespace QNBFinansGIB.Utils
                     foreach (var item in gidenFaturaDetayListesi2)
                     {
                         var irsaliyeNote = doc.CreateElement("cbc", "Note", xlmnscbc.Value);
-                        irsaliyeNote.InnerText = "Plaka No: " + item.PlakaNo;
+                        irsaliyeNote.InnerText = "";
+                        if (!string.IsNullOrEmpty(item.PlakaNo))
+                            irsaliyeNote.InnerText += "Plaka No: " + item.PlakaNo;
                         if (!string.IsNullOrEmpty(item.SevkIrsaliyesiNo))
                             irsaliyeNote.InnerText += " İrsaliye No: " + item.SevkIrsaliyesiNo;
                         if (item.SevkIrsaliyeTarihi != null)
