@@ -177,7 +177,8 @@ namespace QNBFinansGIB.Utils
                         irsaliyeNote.InnerText += " Tonaj: " + item.Tonaj;
                     if ((item.FaturaUrunTuru.Contains("Şartname") || item.FaturaUrunTuru.Contains("Kira")) && kodFaturaGrupTuruKod == FaturaMakbuzGrupTur.Diger.GetHashCode() && !string.IsNullOrEmpty(gidenFatura.Aciklama))
                         irsaliyeNote.InnerText += " Açıklama: " + gidenFatura.Aciklama;
-                    root.AppendChild(irsaliyeNote);
+                    if (!string.IsNullOrEmpty(irsaliyeNote.InnerText))
+                        root.AppendChild(irsaliyeNote);
                 }
             }
 
@@ -1178,7 +1179,8 @@ namespace QNBFinansGIB.Utils
                             irsaliyeNote.InnerText += " Tonaj: " + item.Tonaj;
                         if ((item.FaturaUrunTuru.Contains("Şartname") || item.FaturaUrunTuru.Contains("Kira")) && kodFaturaGrupTuruKod == FaturaMakbuzGrupTur.Diger.GetHashCode() && !string.IsNullOrEmpty(gidenFatura.Aciklama))
                             irsaliyeNote.InnerText += " Açıklama: " + gidenFatura.Aciklama;
-                        root.AppendChild(irsaliyeNote);
+                        if (!string.IsNullOrEmpty(irsaliyeNote.InnerText))
+                            root.AppendChild(irsaliyeNote);
                     }
                 }
 
@@ -2021,7 +2023,8 @@ namespace QNBFinansGIB.Utils
                             irsaliyeNote.InnerText += " Tonaj: " + item.Tonaj;
                         if ((item.FaturaUrunTuru.Contains("Şartname") || item.FaturaUrunTuru.Contains("Kira")) && kodFaturaGrupTuruKod == FaturaMakbuzGrupTur.Diger.GetHashCode() && !string.IsNullOrEmpty(gidenFatura.Aciklama))
                             irsaliyeNote.InnerText += " Açıklama: " + gidenFatura.Aciklama;
-                        root.AppendChild(irsaliyeNote);
+                        if (!string.IsNullOrEmpty(irsaliyeNote.InnerText))
+                            root.AppendChild(irsaliyeNote);
                     }
                 }
 
