@@ -462,8 +462,10 @@ namespace QNBFinansGIB.Utils
                         var firstName = doc.CreateElement("cbc", "FirstName", xlmnscbc.Value);
                         firstName.InnerText = liste[0];
                         person.AppendChild(firstName);
+                        var surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
                         var familyName = doc.CreateElement("cbc", "FamilyName", xlmnscbc.Value);
-                        familyName.InnerText = liste[1];
+                        familyName.InnerText = surname;
+                        //familyName.InnerText = liste[1];
                         person.AppendChild(familyName);
                         party.AppendChild(person);
                     }
@@ -563,8 +565,10 @@ namespace QNBFinansGIB.Utils
                             var firstName = doc.CreateElement("cbc", "FirstName", xlmnscbc.Value);
                             firstName.InnerText = liste[0];
                             person.AppendChild(firstName);
+                            var surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
                             var familyName = doc.CreateElement("cbc", "FamilyName", xlmnscbc.Value);
-                            familyName.InnerText = liste[1];
+                            familyName.InnerText = surname;
+                            //familyName.InnerText = liste[1];
                             person.AppendChild(familyName);
                             party.AppendChild(person);
                         }
@@ -2288,8 +2292,10 @@ namespace QNBFinansGIB.Utils
                         var firstName = doc.CreateElement("cbc", "FirstName", xlmnscbc.Value);
                         firstName.InnerText = liste[0];
                         person.AppendChild(firstName);
+                        var surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
                         var familyName = doc.CreateElement("cbc", "FamilyName", xlmnscbc.Value);
-                        familyName.InnerText = liste[1];
+                        familyName.InnerText = surname;
+                        //familyName.InnerText = liste[1];
                         person.AppendChild(familyName);
                         party.AppendChild(person);
                     }
@@ -2396,8 +2402,10 @@ namespace QNBFinansGIB.Utils
                                 var firstName = doc.CreateElement("cbc", "FirstName", xlmnscbc.Value);
                                 firstName.InnerText = liste[0];
                                 person.AppendChild(firstName);
+                                var surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
                                 var familyName = doc.CreateElement("cbc", "FamilyName", xlmnscbc.Value);
-                                familyName.InnerText = liste[1];
+                                familyName.InnerText = surname;
+                                //familyName.InnerText = liste[1];
                                 person.AppendChild(familyName);
                                 party.AppendChild(person);
                             }
@@ -3210,8 +3218,10 @@ namespace QNBFinansGIB.Utils
                     var firstName = doc.CreateElement("cbc", "FirstName", xlmnscbc.Value);
                     firstName.InnerText = liste[0];
                     person.AppendChild(firstName);
+                    var surname = mustahsilMakbuzu.TuzelKisiAd.Substring(liste[0].Length + 1);
                     var familyName = doc.CreateElement("cbc", "FamilyName", xlmnscbc.Value);
-                    familyName.InnerText = liste[1];
+                    familyName.InnerText = surname;
+                    //familyName.InnerText = liste[1];
                     person.AppendChild(familyName);
                     party.AppendChild(person);
                 }
@@ -3310,8 +3320,10 @@ namespace QNBFinansGIB.Utils
                             var firstName = doc.CreateElement("cbc", "FirstName", xlmnscbc.Value);
                             firstName.InnerText = liste[0];
                             person.AppendChild(firstName);
+                            var surname = mustahsilMakbuzu.TuzelKisiAd.Substring(liste[0].Length + 1);
                             var familyName = doc.CreateElement("cbc", "FamilyName", xlmnscbc.Value);
-                            familyName.InnerText = liste[1];
+                            familyName.InnerText = surname;
+                            //familyName.InnerText = liste[1];
                             person.AppendChild(familyName);
                             party.AppendChild(person);
                         }
