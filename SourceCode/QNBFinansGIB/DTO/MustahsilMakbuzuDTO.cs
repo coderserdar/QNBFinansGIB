@@ -11,72 +11,72 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Müstahsil Makbuzu Id Bilgisi
         /// </summary>
-        public string MustahsilMakbuzuId;
+        public string MustahsilMakbuzuId { get; set; }
 
         /// <summary>
         /// Makbuz Kesen Birimin Alt Şube Bilgisi
         /// </summary>
-        public string AltBirimAd;
+        public string AltBirimAd { get; set; }
 
         /// <summary>
         /// Tüzel Kişi Ad Bilgisi
         /// </summary>
-        public string TuzelKisiAd;
+        public string TuzelKisiAd { get; set; }
 
         /// <summary>
         /// Vergi Numarası Bilgisi
         /// </summary>
-        public string VergiNo;
+        public string VergiNo { get; set; }
 
         /// <summary>
         /// Vergi Dairesi Bilgisi
         /// </summary>
-        public string VergiDairesi;
+        public string VergiDairesi { get; set; }
 
         /// <summary>
         /// İl Ad Bilgisi
         /// </summary>
-        public string IlAd;
+        public string IlAd { get; set; }
 
         /// <summary>
         /// İlçe Ad Bilgisi
         /// </summary>
-        public string IlceAd;
+        public string IlceAd { get; set; }
 
         /// <summary>
         /// Adres Bilgisi
         /// </summary>
-        public string Adres;
+        public string Adres { get; set; }
 
         /// <summary>
         /// E-Posta Adresi Bilgisi
         /// </summary>
-        public string EPostaAdresi;
+        public string EPostaAdresi { get; set; }
 
         /// <summary>
         /// Faks No Bilgisi
         /// </summary>
-        public string FaksNo;
+        public string FaksNo { get; set; }
 
         /// <summary>
         /// İBAN No Bilgisi
         /// </summary>
-        public string IbanNo;
+        public string IbanNo { get; set; }
 
         /// <summary>
         /// Banka Ad Bilgisi
         /// </summary>
-        public string BankaAd;
+        public string BankaAd { get; set; }
 
         /// <summary>
         /// Banka Şube Bilgisi
         /// </summary>
-        public string BankaSube;
+        public string BankaSube { get; set; }
 
         /// <summary>
         /// Müstahsil Makbuzu No Bilgisi
         /// </summary>
-        public string MustahsilMakbuzuNo;
+        public string MustahsilMakbuzuNo { get; set; }
 
         /// <summary>
         /// Müstahsil Makbuzu Tarihi Bilgisi

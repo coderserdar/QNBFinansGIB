@@ -56,7 +56,7 @@ namespace QNBFinansGIB
             var gidenFatura = new GidenFaturaDTO
             {
                 GidenFaturaId = "1",
-                AltBirimAd = "A Birimi",
+                AltBirimAd = "  A Birimi    ",
                 TuzelKisiAd = "Deneme Şirketi - 1",
                 VergiNo = "53602329864",
                 VergiDairesi = "ANKARA",
@@ -81,8 +81,8 @@ namespace QNBFinansGIB
             gidenFatura = new GidenFaturaDTO
             {
                 GidenFaturaId = "2",
-                AltBirimAd = "B Birimi",
-                TuzelKisiAd = "Deneme Şirketi - 2",
+                AltBirimAd = "B Birimi    ",
+                TuzelKisiAd = "  Deneme Şirketi - 2",
                 VergiNo = "9250936109",
                 VergiDairesi = "ANKARA",
                 Adres = "Kızılay YKM",
@@ -106,7 +106,8 @@ namespace QNBFinansGIB
             gidenFatura = new GidenFaturaDTO
             {
                 GidenFaturaId = "3",
-                TuzelKisiAd = "Deneme Şirketi - 3",
+                AltBirimAd = "B Birimi    ",
+                TuzelKisiAd = "  Deneme Şirketi - 3",
                 VergiNo = "5240018140",
                 VergiDairesi = "ANKARA",
                 Adres = "Zafer Çarşısı",
@@ -129,6 +130,7 @@ namespace QNBFinansGIB
             gidenFatura = new GidenFaturaDTO
             {
                 GidenFaturaId = "4",
+                AltBirimAd = "B Birimi    ",
                 TuzelKisiAd = "Deneme Şirketi - 4",
                 VergiNo = "6940116151",
                 VergiDairesi = "ANKARA",
@@ -152,6 +154,7 @@ namespace QNBFinansGIB
             gidenFatura = new GidenFaturaDTO
             {
                 GidenFaturaId = "5",
+                AltBirimAd = "B Birimi    ",
                 TuzelKisiAd = "Deneme Şirketi - 3",
                 VergiNo = "20101516422",
                 VergiDairesi = "ANKARA",
@@ -174,6 +177,7 @@ namespace QNBFinansGIB
             gidenFatura = new GidenFaturaDTO
             {
                 GidenFaturaId = "6",
+                AltBirimAd = "B Birimi    ",
                 GercekKisiTcKimlikNo = "52270709114",
                 GercekKisiAd = "Adnan",
                 GercekKisiSoyad = "Şenses",
@@ -197,6 +201,7 @@ namespace QNBFinansGIB
             gidenFatura = new GidenFaturaDTO
             {
                 GidenFaturaId = "7",
+                AltBirimAd = "B Birimi    ",
                 GercekKisiTcKimlikNo = "20077290692",
                 GercekKisiAd = "Mehmet Emin",
                 GercekKisiSoyad = "Akdeniz",

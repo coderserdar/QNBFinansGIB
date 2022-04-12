@@ -33,6 +33,8 @@ namespace QNBFinansGIB.Utils
 
             root = doc.CreateElement("Invoice");
 
+            gidenFatura = BoslukKaldir.BosluklariKaldir(gidenFatura);
+
             var kodSatisTuruKod = 0;
             if (gidenFatura.SatisTuruKod != null)
                 kodSatisTuruKod = gidenFatura.SatisTuruKod ?? 0;
@@ -824,6 +826,8 @@ namespace QNBFinansGIB.Utils
             // Her bir fatura edtayı için hazırlanan bölümdür
             foreach (var item in gidenFaturaDetayListesi)
             {
+                var detayBilgisi = BoslukKaldir.BosluklariKaldir(item);
+
                 #region InvoiceLine
 
                 // Ölçü Birimi, KDV Hariç Tutar, Para Birimi gibi bilgiler yer almaktadır
@@ -833,21 +837,21 @@ namespace QNBFinansGIB.Utils
                 invoiceLineId.InnerText = sayac.ToString();
                 invoiceLine.AppendChild(invoiceLineId);
                 var quantity = doc.CreateAttribute("unitCode");
-                if (!string.IsNullOrEmpty(item.GibKisaltma))
-                    quantity.Value = item.GibKisaltma;
+                if (!string.IsNullOrEmpty(detayBilgisi.GibKisaltma))
+                    quantity.Value = detayBilgisi.GibKisaltma;
                 else
                     quantity.Value = "KGM";
                 var invoicedQuantity = doc.CreateElement("cbc", "InvoicedQuantity", xlmnscbc.Value);
                 invoicedQuantity.RemoveAllAttributes();
                 invoicedQuantity.Attributes.Append(quantity);
-                invoicedQuantity.InnerText = Decimal.Round((decimal)item.Miktar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                invoicedQuantity.InnerText = Decimal.Round((decimal)detayBilgisi.Miktar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 invoiceLine.AppendChild(invoicedQuantity);
                 var lineExtensionAmountDetail = doc.CreateElement("cbc", "LineExtensionAmount", xlmnscbc.Value);
                 lineExtensionAmountDetail.RemoveAllAttributes();
                 currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 lineExtensionAmountDetail.Attributes.Append(currencyId);
-                lineExtensionAmountDetail.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                lineExtensionAmountDetail.InnerText = Decimal.Round((decimal)detayBilgisi.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 invoiceLine.AppendChild(lineExtensionAmountDetail);
                 #endregion
 
@@ -859,11 +863,11 @@ namespace QNBFinansGIB.Utils
                 chargeIndicator.InnerText = "false";
                 allowanceCharge.AppendChild(chargeIndicator);
                 decimal amount2 = 0;
-                decimal toplamTutar = (decimal)item.KdvHaricTutar;
-                decimal kodIskontoTuruOran = item.IskontoOran ?? 0;
+                decimal toplamTutar = (decimal)detayBilgisi.KdvHaricTutar;
+                decimal kodIskontoTuruOran = detayBilgisi.IskontoOran ?? 0;
                 if (kodIskontoTuruOran > 0)
                 {
-                    toplamTutar = Decimal.Round((decimal)item.Miktar * (decimal)item.BirimFiyat, 4, MidpointRounding.AwayFromZero);
+                    toplamTutar = Decimal.Round((decimal)detayBilgisi.Miktar * (decimal)detayBilgisi.BirimFiyat, 4, MidpointRounding.AwayFromZero);
                     decimal toplamTutar2 = Decimal.Round(toplamTutar * (100 - kodIskontoTuruOran) * (decimal)0.01, 4, MidpointRounding.AwayFromZero);
                     amount2 = toplamTutar - toplamTutar2;
                 }
@@ -896,7 +900,7 @@ namespace QNBFinansGIB.Utils
                 var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                 taxAmount.RemoveAllAttributes();
                 taxAmount.Attributes.Append(currencyId);
-                taxAmount.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                taxAmount.InnerText = Decimal.Round((decimal)detayBilgisi.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 taxTotal.AppendChild(taxAmount);
                 var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
                 var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
@@ -904,21 +908,21 @@ namespace QNBFinansGIB.Utils
                 currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 taxableAmount.Attributes.Append(currencyId);
-                taxableAmount.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                taxableAmount.InnerText = Decimal.Round((decimal)detayBilgisi.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 taxSubTotal.AppendChild(taxableAmount);
                 var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                 taxAmount2.RemoveAllAttributes();
                 currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 taxAmount2.Attributes.Append(currencyId);
-                taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                taxAmount2.InnerText = Decimal.Round((decimal)detayBilgisi.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 taxSubTotal.AppendChild(taxAmount2);
                 var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
-                if (item.KdvOran != null)
-                    percent.InnerText = Decimal.Round((decimal)item.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
+                if (detayBilgisi.KdvOran != null)
+                    percent.InnerText = Decimal.Round((decimal)detayBilgisi.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
                 taxSubTotal.AppendChild(percent);
                 var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
-                if (item.KdvTutari == 0)
+                if (detayBilgisi.KdvTutari == 0)
                 {
                     if (kodFaturaGrupTuruKod == FaturaMakbuzGrupTur.Kuspe.GetHashCode())
                     {
@@ -955,16 +959,16 @@ namespace QNBFinansGIB.Utils
                 // Fatura kesilen ürün detayı ve açıklama bilgileri yer almaktadır
                 #region Item
                 var invoiceItem = doc.CreateElement("cac", "Item", xlmnscac.Value);
-                if (!string.IsNullOrEmpty(item.MalzemeFaturaAciklamasi))
+                if (!string.IsNullOrEmpty(detayBilgisi.MalzemeFaturaAciklamasi))
                 {
                     var description = doc.CreateElement("cbc", "Description", xlmnscbc.Value);
-                    description.InnerText = item.MalzemeFaturaAciklamasi;
+                    description.InnerText = detayBilgisi.MalzemeFaturaAciklamasi;
                     invoiceItem.AppendChild(description);
                 }
-                var itemName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                if (!string.IsNullOrEmpty(item.FaturaUrunTuru))
-                    itemName.InnerText = item.FaturaUrunTuru;
-                invoiceItem.AppendChild(itemName);
+                var detayBilgisiName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
+                if (!string.IsNullOrEmpty(detayBilgisi.FaturaUrunTuru))
+                    detayBilgisiName.InnerText = detayBilgisi.FaturaUrunTuru;
+                invoiceItem.AppendChild(detayBilgisiName);
                 invoiceLine.AppendChild(invoiceItem);
                 #endregion
 
@@ -977,8 +981,8 @@ namespace QNBFinansGIB.Utils
                 currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 priceAmount.Attributes.Append(currencyId);
-                if (item.BirimFiyat != null)
-                    priceAmount.InnerText = Decimal.Round((decimal)item.BirimFiyat, 4, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                if (detayBilgisi.BirimFiyat != null)
+                    priceAmount.InnerText = Decimal.Round((decimal)detayBilgisi.BirimFiyat, 4, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 else
                     priceAmount.InnerText = "0.00";
                 price.AppendChild(priceAmount);
@@ -1013,11 +1017,11 @@ namespace QNBFinansGIB.Utils
         /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
         /// <param name="gidenFaturaDetayListesi">Giden Fatura Detay Listesi</param>
         /// <param name="aktarilacakKlasorAdi">Oluşturulan Dosyanın Aktarılacağı Klasör</param>
-        /// <param name="mustahsilMakbuzuMi">Tüzel Kişi Mi Bilgisi</param>
+        /// <param name="mustahsilMakbuzuMu">Müstahsil Makbuzu Mu Bilgisi</param>
         /// <returns>Kaydedilen Dosyanın Bilgisayardaki Adresi</returns>
-        public static string EArsivXMLOlustur(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesi, string aktarilacakKlasorAdi, bool mustahsilMakbuzuMi)
+        public static string EArsivXMLOlustur(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesi, string aktarilacakKlasorAdi, bool mustahsilMakbuzuMu)
         {
-            if (!mustahsilMakbuzuMi)
+            if (!mustahsilMakbuzuMu)
             {
                 #region Şahıs Şirketi veya Personel Kaydından Gelecekse
 
@@ -1029,6 +1033,8 @@ namespace QNBFinansGIB.Utils
                 //doc.AppendChild(doc.CreateProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"general.xslt\""));
 
                 root = doc.CreateElement("Invoice");
+
+                gidenFatura = BoslukKaldir.BosluklariKaldir(gidenFatura);
 
                 var kodSatisTuruKod = 0;
                 if (gidenFatura.SatisTuruKod != null)
@@ -1699,6 +1705,8 @@ namespace QNBFinansGIB.Utils
                 // Her bir fatura detayı için hazırlanan bölümdür
                 foreach (var item in gidenFaturaDetayListesi)
                 {
+                    var detayBilgisi = BoslukKaldir.BosluklariKaldir(item);
+
                     #region InvoiceLine
 
                     // Ölçü Birimi, KDV Hariç Tutar, Para Birimi gibi bilgiler yer almaktadır
@@ -1708,21 +1716,21 @@ namespace QNBFinansGIB.Utils
                     invoiceLineId.InnerText = sayac.ToString();
                     invoiceLine.AppendChild(invoiceLineId);
                     var quantity = doc.CreateAttribute("unitCode");
-                    if (!string.IsNullOrEmpty(item.GibKisaltma))
-                        quantity.Value = item.GibKisaltma;
+                    if (!string.IsNullOrEmpty(detayBilgisi.GibKisaltma))
+                        quantity.Value = detayBilgisi.GibKisaltma;
                     else
                         quantity.Value = "KGM";
                     var invoicedQuantity = doc.CreateElement("cbc", "InvoicedQuantity", xlmnscbc.Value);
                     invoicedQuantity.RemoveAllAttributes();
                     invoicedQuantity.Attributes.Append(quantity);
-                    invoicedQuantity.InnerText = Decimal.Round((decimal)item.Miktar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    invoicedQuantity.InnerText = Decimal.Round((decimal)detayBilgisi.Miktar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     invoiceLine.AppendChild(invoicedQuantity);
                     var lineExtensionAmountDetail = doc.CreateElement("cbc", "LineExtensionAmount", xlmnscbc.Value);
                     lineExtensionAmountDetail.RemoveAllAttributes();
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     lineExtensionAmountDetail.Attributes.Append(currencyId);
-                    lineExtensionAmountDetail.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    lineExtensionAmountDetail.InnerText = Decimal.Round((decimal)detayBilgisi.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     invoiceLine.AppendChild(lineExtensionAmountDetail);
                     #endregion
 
@@ -1734,11 +1742,11 @@ namespace QNBFinansGIB.Utils
                     chargeIndicator.InnerText = "false";
                     allowanceCharge.AppendChild(chargeIndicator);
                     decimal amount2 = 0;
-                    decimal toplamTutar = (decimal)item.KdvHaricTutar;
-                    decimal kodIskontoTuruOran = item.IskontoOran ?? 0;
+                    decimal toplamTutar = (decimal)detayBilgisi.KdvHaricTutar;
+                    decimal kodIskontoTuruOran = detayBilgisi.IskontoOran ?? 0;
                     if (kodIskontoTuruOran > 0)
                     {
-                        toplamTutar = Decimal.Round((decimal)item.Miktar * (decimal)item.BirimFiyat, 4, MidpointRounding.AwayFromZero);
+                        toplamTutar = Decimal.Round((decimal)detayBilgisi.Miktar * (decimal)detayBilgisi.BirimFiyat, 4, MidpointRounding.AwayFromZero);
                         decimal toplamTutar2 = Decimal.Round(toplamTutar * (100 - kodIskontoTuruOran) * (decimal)0.01, 4, MidpointRounding.AwayFromZero);
                         amount2 = toplamTutar - toplamTutar2;
                     }
@@ -1771,7 +1779,7 @@ namespace QNBFinansGIB.Utils
                     var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                     taxAmount.RemoveAllAttributes();
                     taxAmount.Attributes.Append(currencyId);
-                    taxAmount.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxAmount.InnerText = Decimal.Round((decimal)detayBilgisi.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxTotal.AppendChild(taxAmount);
                     var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
                     var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
@@ -1779,18 +1787,18 @@ namespace QNBFinansGIB.Utils
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     taxableAmount.Attributes.Append(currencyId);
-                    taxableAmount.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxableAmount.InnerText = Decimal.Round((decimal)detayBilgisi.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxSubTotal.AppendChild(taxableAmount);
                     var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                     taxAmount2.RemoveAllAttributes();
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     taxAmount2.Attributes.Append(currencyId);
-                    taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxAmount2.InnerText = Decimal.Round((decimal)detayBilgisi.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxSubTotal.AppendChild(taxAmount2);
                     var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
-                    if (item.KdvOran != null)
-                        percent.InnerText = Decimal.Round((decimal)item.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
+                    if (detayBilgisi.KdvOran != null)
+                        percent.InnerText = Decimal.Round((decimal)detayBilgisi.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
                     taxSubTotal.AppendChild(percent);
                     var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
                     var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
@@ -1809,16 +1817,16 @@ namespace QNBFinansGIB.Utils
                     // Fatura kesilen ürün detayı ve açıklama bilgileri yer almaktadır
                     #region Item
                     var invoiceItem = doc.CreateElement("cac", "Item", xlmnscac.Value);
-                    if (!string.IsNullOrEmpty(item.MalzemeFaturaAciklamasi))
+                    if (!string.IsNullOrEmpty(detayBilgisi.MalzemeFaturaAciklamasi))
                     {
                         var description = doc.CreateElement("cbc", "Description", xlmnscbc.Value);
-                        description.InnerText = item.MalzemeFaturaAciklamasi;
+                        description.InnerText = detayBilgisi.MalzemeFaturaAciklamasi;
                         invoiceItem.AppendChild(description);
                     }
-                    var itemName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                    if (!string.IsNullOrEmpty(item.FaturaUrunTuru))
-                        itemName.InnerText = item.FaturaUrunTuru;
-                    invoiceItem.AppendChild(itemName);
+                    var detayBilgisiName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
+                    if (!string.IsNullOrEmpty(detayBilgisi.FaturaUrunTuru))
+                        detayBilgisiName.InnerText = detayBilgisi.FaturaUrunTuru;
+                    invoiceItem.AppendChild(detayBilgisiName);
                     invoiceLine.AppendChild(invoiceItem);
                     #endregion
 
@@ -1831,8 +1839,8 @@ namespace QNBFinansGIB.Utils
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     priceAmount.Attributes.Append(currencyId);
-                    if (item.BirimFiyat != null)
-                        priceAmount.InnerText = Decimal.Round((decimal)item.BirimFiyat, 4, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    if (detayBilgisi.BirimFiyat != null)
+                        priceAmount.InnerText = Decimal.Round((decimal)detayBilgisi.BirimFiyat, 4, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     else
                         priceAmount.InnerText = "0.00";
                     price.AppendChild(priceAmount);
@@ -2675,6 +2683,8 @@ namespace QNBFinansGIB.Utils
                 // Her bir fatura edtayı için hazırlanan bölümdür
                 foreach (var item in gidenFaturaDetayListesi)
                 {
+                    var detayBilgisi = BoslukKaldir.BosluklariKaldir(item);
+
                     #region InvoiceLine
 
                     // Ölçü Birimi, KDV Hariç Tutar, Para Birimi gibi bilgiler yer almaktadır
@@ -2684,21 +2694,21 @@ namespace QNBFinansGIB.Utils
                     invoiceLineId.InnerText = sayac.ToString();
                     invoiceLine.AppendChild(invoiceLineId);
                     var quantity = doc.CreateAttribute("unitCode");
-                    if (!string.IsNullOrEmpty(item.GibKisaltma))
-                        quantity.Value = item.GibKisaltma;
+                    if (!string.IsNullOrEmpty(detayBilgisi.GibKisaltma))
+                        quantity.Value = detayBilgisi.GibKisaltma;
                     else
                         quantity.Value = "KGM";
                     var invoicedQuantity = doc.CreateElement("cbc", "InvoicedQuantity", xlmnscbc.Value);
                     invoicedQuantity.RemoveAllAttributes();
                     invoicedQuantity.Attributes.Append(quantity);
-                    invoicedQuantity.InnerText = Decimal.Round((decimal)item.Miktar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    invoicedQuantity.InnerText = Decimal.Round((decimal)detayBilgisi.Miktar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     invoiceLine.AppendChild(invoicedQuantity);
                     var lineExtensionAmountDetail = doc.CreateElement("cbc", "LineExtensionAmount", xlmnscbc.Value);
                     lineExtensionAmountDetail.RemoveAllAttributes();
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     lineExtensionAmountDetail.Attributes.Append(currencyId);
-                    lineExtensionAmountDetail.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    lineExtensionAmountDetail.InnerText = Decimal.Round((decimal)detayBilgisi.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     invoiceLine.AppendChild(lineExtensionAmountDetail);
                     #endregion
 
@@ -2710,11 +2720,11 @@ namespace QNBFinansGIB.Utils
                     chargeIndicator.InnerText = "false";
                     allowanceCharge.AppendChild(chargeIndicator);
                     decimal amount2 = 0;
-                    decimal toplamTutar = (decimal)item.KdvHaricTutar;
-                    decimal kodIskontoTuruOran = item.IskontoOran ?? 0;
+                    decimal toplamTutar = (decimal)detayBilgisi.KdvHaricTutar;
+                    decimal kodIskontoTuruOran = detayBilgisi.IskontoOran ?? 0;
                     if (kodIskontoTuruOran > 0)
                     {
-                        toplamTutar = Decimal.Round((decimal)item.Miktar * (decimal)item.BirimFiyat, 4, MidpointRounding.AwayFromZero);
+                        toplamTutar = Decimal.Round((decimal)detayBilgisi.Miktar * (decimal)detayBilgisi.BirimFiyat, 4, MidpointRounding.AwayFromZero);
                         decimal toplamTutar2 = Decimal.Round(toplamTutar * (100 - kodIskontoTuruOran) * (decimal)0.01, 4, MidpointRounding.AwayFromZero);
                         amount2 = toplamTutar - toplamTutar2;
                     }
@@ -2747,7 +2757,7 @@ namespace QNBFinansGIB.Utils
                     var taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                     taxAmount.RemoveAllAttributes();
                     taxAmount.Attributes.Append(currencyId);
-                    taxAmount.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxAmount.InnerText = Decimal.Round((decimal)detayBilgisi.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxTotal.AppendChild(taxAmount);
                     var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
                     var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
@@ -2755,18 +2765,18 @@ namespace QNBFinansGIB.Utils
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     taxableAmount.Attributes.Append(currencyId);
-                    taxableAmount.InnerText = Decimal.Round((decimal)item.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxableAmount.InnerText = Decimal.Round((decimal)detayBilgisi.KdvHaricTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxSubTotal.AppendChild(taxableAmount);
                     var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                     taxAmount2.RemoveAllAttributes();
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     taxAmount2.Attributes.Append(currencyId);
-                    taxAmount2.InnerText = Decimal.Round((decimal)item.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    taxAmount2.InnerText = Decimal.Round((decimal)detayBilgisi.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     taxSubTotal.AppendChild(taxAmount2);
                     var percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
-                    if (item.KdvOran != null)
-                        percent.InnerText = Decimal.Round((decimal)item.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
+                    if (detayBilgisi.KdvOran != null)
+                        percent.InnerText = Decimal.Round((decimal)detayBilgisi.KdvOran, 2, MidpointRounding.AwayFromZero).ToString("N1").Replace(",", ".");
                     taxSubTotal.AppendChild(percent);
                     var taxCategory = doc.CreateElement("cac", "TaxCategory", xlmnscac.Value);
                     var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xlmnscac.Value);
@@ -2785,15 +2795,15 @@ namespace QNBFinansGIB.Utils
                     // Fatura kesilen ürün detayı ve açıklama bilgileri yer almaktadır
                     #region Item
                     var invoiceItem = doc.CreateElement("cac", "Item", xlmnscac.Value);
-                    if (!string.IsNullOrEmpty(item.MalzemeFaturaAciklamasi))
+                    if (!string.IsNullOrEmpty(detayBilgisi.MalzemeFaturaAciklamasi))
                     {
                         var description = doc.CreateElement("cbc", "Description", xlmnscbc.Value);
-                        description.InnerText = item.MalzemeFaturaAciklamasi;
+                        description.InnerText = detayBilgisi.MalzemeFaturaAciklamasi;
                         invoiceItem.AppendChild(description);
                     }
                     var itemName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                    if (!string.IsNullOrEmpty(item.FaturaUrunTuru))
-                        itemName.InnerText = item.FaturaUrunTuru;
+                    if (!string.IsNullOrEmpty(detayBilgisi.FaturaUrunTuru))
+                        itemName.InnerText = detayBilgisi.FaturaUrunTuru;
                     invoiceItem.AppendChild(itemName);
                     invoiceLine.AppendChild(invoiceItem);
                     #endregion
@@ -2807,8 +2817,8 @@ namespace QNBFinansGIB.Utils
                     currencyId = doc.CreateAttribute("currencyID");
                     currencyId.Value = "TRY";
                     priceAmount.Attributes.Append(currencyId);
-                    if (item.BirimFiyat != null)
-                        priceAmount.InnerText = Decimal.Round((decimal)item.BirimFiyat, 4, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                    if (detayBilgisi.BirimFiyat != null)
+                        priceAmount.InnerText = Decimal.Round((decimal)detayBilgisi.BirimFiyat, 4, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                     else
                         priceAmount.InnerText = "0.00";
                     price.AppendChild(priceAmount);
@@ -2856,6 +2866,8 @@ namespace QNBFinansGIB.Utils
             doc.AppendChild(doc.CreateProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"general.xslt\""));
 
             root = doc.CreateElement("CreditNote");
+
+            mustahsilMakbuzu = BoslukKaldir.BosluklariKaldir(mustahsilMakbuzu);
 
             var kodMakbuzGrupTuruKod = 0;
             if (mustahsilMakbuzu.MakbuzGrupTuruKod != null)
@@ -3443,6 +3455,8 @@ namespace QNBFinansGIB.Utils
             // Her bir makbuz detayı için hazırlanan bölümdür
             foreach (var item in mustahsilMakbuzuDetayListesi)
             {
+                var detayBilgisi = BoslukKaldir.BosluklariKaldir(item);
+
                 #region CreditNoteLine
 
                 #region MetaData
@@ -3455,14 +3469,14 @@ namespace QNBFinansGIB.Utils
                 var creditedQuantity = doc.CreateElement("cbc", "CreditedQuantity", xlmnscbc.Value);
                 creditedQuantity.RemoveAllAttributes();
                 creditedQuantity.Attributes.Append(quantity);
-                creditedQuantity.InnerText = Decimal.Round((decimal)item.Miktar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                creditedQuantity.InnerText = Decimal.Round((decimal)detayBilgisi.Miktar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 creditNoteLine.AppendChild(creditedQuantity);
                 var lineExtensionAmountDetail = doc.CreateElement("cbc", "LineExtensionAmount", xlmnscbc.Value);
                 lineExtensionAmountDetail.RemoveAllAttributes();
                 currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 lineExtensionAmountDetail.Attributes.Append(currencyId);
-                lineExtensionAmountDetail.InnerText = Decimal.Round((decimal)item.NetTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                lineExtensionAmountDetail.InnerText = Decimal.Round((decimal)detayBilgisi.NetTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 creditNoteLine.AppendChild(lineExtensionAmountDetail);
                 #endregion
 
@@ -3473,7 +3487,7 @@ namespace QNBFinansGIB.Utils
                 taxAmount = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                 taxAmount.RemoveAllAttributes();
                 taxAmount.Attributes.Append(currencyId);
-                taxAmount.InnerText = Decimal.Round((decimal)item.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                taxAmount.InnerText = Decimal.Round((decimal)detayBilgisi.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 taxTotal.AppendChild(taxAmount);
                 taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xlmnscac.Value);
                 taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xlmnscbc.Value);
@@ -3481,14 +3495,14 @@ namespace QNBFinansGIB.Utils
                 currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 taxableAmount.Attributes.Append(currencyId);
-                taxableAmount.InnerText = Decimal.Round((decimal)item.NetTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                taxableAmount.InnerText = Decimal.Round((decimal)detayBilgisi.NetTutar, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 taxSubTotal.AppendChild(taxableAmount);
                 taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xlmnscbc.Value);
                 taxAmount2.RemoveAllAttributes();
                 currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 taxAmount2.Attributes.Append(currencyId);
-                taxAmount2.InnerText = Decimal.Round((decimal)item.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                taxAmount2.InnerText = Decimal.Round((decimal)detayBilgisi.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 taxSubTotal.AppendChild(taxAmount2);
                 percent = doc.CreateElement("cbc", "Percent", xlmnscbc.Value);
                 percent.InnerText = "2";
@@ -3510,7 +3524,7 @@ namespace QNBFinansGIB.Utils
                 #region Item
                 var creditNoteItem = doc.CreateElement("cac", "Item", xlmnscac.Value);
                 var itemName = doc.CreateElement("cbc", "Name", xlmnscbc.Value);
-                itemName.InnerText = item.IsinMahiyeti;
+                itemName.InnerText = detayBilgisi.IsinMahiyeti;
                 creditNoteItem.AppendChild(itemName);
                 creditNoteLine.AppendChild(creditNoteItem);
                 #endregion
@@ -3523,8 +3537,8 @@ namespace QNBFinansGIB.Utils
                 currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 priceAmount.Attributes.Append(currencyId);
-                if (item.BirimFiyat != null)
-                    priceAmount.InnerText = Decimal.Round((decimal)item.BirimFiyat, 4, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+                if (detayBilgisi.BirimFiyat != null)
+                    priceAmount.InnerText = Decimal.Round((decimal)detayBilgisi.BirimFiyat, 4, MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
                 else
                     priceAmount.InnerText = "0.00";
                 price.AppendChild(priceAmount);

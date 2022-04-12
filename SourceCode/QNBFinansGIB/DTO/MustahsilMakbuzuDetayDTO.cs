@@ -9,12 +9,12 @@
         /// <summary>
         /// Müstahsil Makbuzu Id Bilgisi
         /// </summary>
-        public string MustahsilMakbuzuId;
+        public string MustahsilMakbuzuId { get; set; }
 
         /// <summary>
         /// İşin Mahiyeti Bilgisi
         /// </summary>
-        public string IsinMahiyeti;
+        public string IsinMahiyeti { get; set; }
 
         /// <summary>
         /// Birim Fiyat Bilgisi
@@ -44,6 +44,6 @@
         /// <summary>
         /// GİB Kısaltma Bilgisi (Malzemenin Ölçü Birimi, GİB tarafında Kilogram KGM olarak adlandırılmaktadır)
         /// </summary>
-        public string GibKisaltma;
+        public string GibKisaltma { get; set; }
     }
 }

@@ -11,12 +11,12 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Giden Fatura Id Bilgisi
         /// </summary>
-        public string GidenFaturaId;
+        public string GidenFaturaId { get; set; }
 
         /// <summary>
         /// Fatura Kesen Birimin Alt Şube Bilgisi
         /// </summary>
-        public string AltBirimAd;
+        public string AltBirimAd { get; set; }
 
         /// <summary>
         /// Satış Türü Kod Bilgisi
@@ -36,7 +36,7 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Fatura Açıklama Bilgisi
         /// </summary>
-        public string Aciklama;
+        public string Aciklama { get; set; }
 
         #region Gerçek Kişi Bilgileri
 
@@ -70,62 +70,62 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Tüzel Kişi Ad Bilgisi
         /// </summary>
-        public string TuzelKisiAd;
+        public string TuzelKisiAd { get; set; }
 
         /// <summary>
         /// Vergi Numarası Bilgisi
         /// </summary>
-        public string VergiNo;
+        public string VergiNo { get; set; }
 
         /// <summary>
         /// Vergi Dairesi Bilgisi
         /// </summary>
-        public string VergiDairesi;
+        public string VergiDairesi { get; set; }
 
         /// <summary>
         /// İl Ad Bilgisi
         /// </summary>
-        public string IlAd;
+        public string IlAd { get; set; }
 
         /// <summary>
         /// İlçe Ad Bilgisi
         /// </summary>
-        public string IlceAd;
+        public string IlceAd { get; set; }
 
         /// <summary>
         /// Adres Bilgisi
         /// </summary>
-        public string Adres;
+        public string Adres { get; set; }
 
         /// <summary>
         /// E-Posta Adresi Bilgisi
         /// </summary>
-        public string EPostaAdresi;
+        public string EPostaAdresi { get; set; }
 
         /// <summary>
         /// Telefon No Bilgisi
         /// </summary>
-        public string TelefonNo;
+        public string TelefonNo { get; set; }
 
         /// <summary>
         /// Faks No Bilgisi
         /// </summary>
-        public string FaksNo;
+        public string FaksNo { get; set; }
 
         /// <summary>
         /// İBAN No Bilgisi
         /// </summary>
-        public string IbanNo;
+        public string IbanNo { get; set; }
 
         /// <summary>
         /// Banka Ad Bilgisi
         /// </summary>
-        public string BankaAd;
+        public string BankaAd { get; set; }
 
         /// <summary>
         /// Banka Şube Bilgisi
         /// </summary>
-        public string BankaSube;
+        public string BankaSube { get; set; }
         #endregion
 
         /// <summary>
@@ -136,12 +136,12 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// GİB Numarası Bilgisi
         /// </summary>
-        public string GibNumarasi;
+        public string GibNumarasi { get; set; }
 
         /// <summary>
         /// Belge Oid Id alanı
         /// </summary>
-        public string BelgeOid;
+        public string BelgeOid { get; set; }
 
         /// <summary>
         /// KDV Hariç Tutar Bilgisi
