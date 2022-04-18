@@ -135,11 +135,18 @@ namespace QNBFinansGIB.Utils
                 #region Belge Durumu Kontrolü
                 if (sonucMesaji.Length <= 20)
                 {
-                    var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                    //var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                    //var durum = belgeDurum.durum;
+                    //while (durum == 1)
+                    //{
+                    //    belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                    //    durum = belgeDurum.durum;
+                    //}
+                    var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
                     var durum = belgeDurum.durum;
                     while (durum == 1)
                     {
-                        belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                        belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
                         durum = belgeDurum.durum;
                     }
                     if (durum == 2)
