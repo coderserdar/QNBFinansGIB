@@ -204,18 +204,34 @@ namespace QNBFinansGIB.Utils
                 gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
                 string input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
+                //string inputKontrol = "{\"vkn\":\"3250566851\",\"donenBelgeFormati\":\"9\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\"";
+                string inputKontrol = "{\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
                 var belgeTemp = new GIBEArsiv.belge();
                 belgeTemp.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
                 belgeTemp.belgeFormatiSpecified = true;
                 belgeTemp.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
                 GIBEArsiv.earsivServiceResult serviceResult = new GIBEArsiv.earsivServiceResult();
-                var belge = gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
+
+                gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
+                if (serviceResult.resultCode != "AE00000")
+                {
+                    var belge = gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
+                }
+                else
+                    return MesajSabitler.IslemBasarili;
 
                 if (serviceResult.resultCode != "AE00000")
                     return MesajSabitler.IslemBasarisiz;
                 else
                     return MesajSabitler.IslemBasarili;
+
+                //var belge = gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
+
+                //if (serviceResult.resultCode != "AE00000")
+                //    return MesajSabitler.IslemBasarisiz;
+                //else
+                //    return MesajSabitler.IslemBasarili;
             }
             catch (System.Exception ex)
             {
