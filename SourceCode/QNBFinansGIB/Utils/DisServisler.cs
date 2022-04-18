@@ -1,5 +1,6 @@
 ﻿using QNBFinansGIB.DTO;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -108,7 +109,67 @@ namespace QNBFinansGIB.Utils
                 parametreler.mimeType = "application/xml";
                 parametreler.erpKodu = GIBERPKodu;
 
-                return gibEFaturaService.belgeGonderExt(parametreler);
+                var sonucMesaji = string.Empty;
+
+                #region Belge Oid Durumuna Göre Evrak Gönderme
+                if (!string.IsNullOrEmpty(gidenFatura.BelgeOid))
+                {
+                    if (gidenFatura.BelgeOid != "Tekrar Gönder")
+                        sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
+                    else
+                    {
+                        var yenidenGonderDurum = false;
+                        var belgeOidDizi = new string[1];
+                        belgeOidDizi[0] = gidenFatura.BelgeOid;
+                        while (yenidenGonderDurum == false)
+                        {
+                            yenidenGonderDurum = gibEFaturaService.belgeleriTekrarGonderBelgeOid(parametreler.vergiTcKimlikNo, belgeOidDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
+                        }
+                        sonucMesaji = gidenFatura.BelgeOid;
+                    }
+                }
+                else
+                    sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
+                #endregion
+
+                #region Belge Durumu Kontrolü
+                if (sonucMesaji.Length <= 20)
+                {
+                    var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                    var durum = belgeDurum.durum;
+                    while (durum == 1)
+                    {
+                        belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                        durum = belgeDurum.durum;
+                    }
+                    if (durum == 2)
+                        sonucMesaji = MesajSabitler.IslemBasarisiz;
+                    else if (durum == 3)
+                    {
+                        var gonderimDurumu = belgeDurum.gonderimDurumu;
+                        if (gonderimDurumu == 2)
+                            return sonucMesaji;
+                        else if (gonderimDurumu == 4)
+                            return sonucMesaji;
+                        else if (gonderimDurumu == 3)
+                        {
+                            var gibYanitKodu = belgeDurum.gonderimCevabiKodu;
+                            if (gibYanitKodu > 1300)
+                                return sonucMesaji;
+                            else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
+                                return "Tekrar Gönder";
+                            else if (!Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu) && (gibYanitKodu <= 1200 && gibYanitKodu >= 1100))
+                                return MesajSabitler.IslemBasarisiz;
+                            else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
+                                return MesajSabitler.IslemBasarisiz;
+                            else
+                                return sonucMesaji;
+                        }
+                    }
+                }
+                #endregion
+
+                return sonucMesaji;
             }
             catch (System.Exception ex)
             {
