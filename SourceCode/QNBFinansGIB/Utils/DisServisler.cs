@@ -83,6 +83,53 @@ namespace QNBFinansGIB.Utils
         }
 
         /// <summary>
+        /// Gönderilen Id bilgisine sahip Faturanın Belge Oid Bilgisinin QNB Finans Tarafına gönderilmesini sağlayan metottur
+        /// </summary>
+        /// <param name="gidenFaturaId">Giden Fatura Id Bilgisi</param>
+        /// <param name="baslangicTarihi">Başlangıç Tarihi bilgisi</param>
+        /// <param name="bitisTarihi">Bitiş Tarihi Bilgisi</param>
+        /// <returns>İşlem Sonucu (Buradan dönen değer gerekli yerlerde kontrol edilip ona göre kullanıcıya bilgi verilmektedir.)</returns>
+        public static string BelgeOidKontrol(string gidenFaturaId, DateTime? baslangicTarihi, DateTime? bitisTarihi)
+        {
+            try
+            {
+                gibUserService = new GIBUserService.userService();
+                gibEFaturaService = new GIBEFatura.connectorService();
+
+                gibUserService.CookieContainer = new System.Net.CookieContainer();
+                gibEFaturaService.CookieContainer = gibUserService.CookieContainer;
+
+                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+
+                var parametreler = new GIBEFatura.gidenBelgeleriListeleParametreleri();
+                parametreler.vkn = "3250566851";
+                parametreler.belgeTuru = "FATURA_UBL";
+                parametreler.baslangicGonderimTarihi = baslangicTarihi?.ToString("yyyyMMdd");
+                parametreler.bitisGonderimTarihi = bitisTarihi?.ToString("yyyyMMdd");
+
+                var sonucMesaji = "İşlem Başarılı";
+
+                var liste = gibEFaturaService.gidenBelgeleriListele(parametreler);
+                foreach (var item in liste)
+                {
+                    var nesne = item as GIBEFatura.gidenBelgeleriListeleData;
+                    if (nesne.yerelBelgeNo == gidenFaturaId)
+                        return nesne.belgeOid;
+                }
+
+                return sonucMesaji;
+            }
+            catch (System.Exception ex)
+            {
+                return MesajSabitler.IslemBasarisiz;
+            }
+            finally
+            {
+                gibUserService.logout();
+            }
+        }
+
+        /// <summary>
         /// Oluşturulan XML dosyasının QNB Finans Tarafına gönderilmesini sağlayan metottur
         /// </summary>
         /// <param name="gidenFatura">Giden Fatura Bilgisi</param>

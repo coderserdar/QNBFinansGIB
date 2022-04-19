@@ -36,6 +36,7 @@
             this.btnXmlOlusturMustahsil = new System.Windows.Forms.Button();
             this.btnServiseGonderMustahsil = new System.Windows.Forms.Button();
             this.btnGIBOnizlemeMustahsil = new System.Windows.Forms.Button();
+            this.btnBelgeOidKontrol = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -52,7 +53,7 @@
             // 
             // btnGIBOnizleme
             // 
-            this.btnGIBOnizleme.Location = new System.Drawing.Point(140, 30);
+            this.btnGIBOnizleme.Location = new System.Drawing.Point(128, 30);
             this.btnGIBOnizleme.Name = "btnGIBOnizleme";
             this.btnGIBOnizleme.Size = new System.Drawing.Size(174, 58);
             this.btnGIBOnizleme.TabIndex = 1;
@@ -62,7 +63,7 @@
             // 
             // btnServiseGonder
             // 
-            this.btnServiseGonder.Location = new System.Drawing.Point(331, 30);
+            this.btnServiseGonder.Location = new System.Drawing.Point(308, 30);
             this.btnServiseGonder.Name = "btnServiseGonder";
             this.btnServiseGonder.Size = new System.Drawing.Size(165, 58);
             this.btnServiseGonder.TabIndex = 2;
@@ -72,12 +73,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnBelgeOidKontrol);
             this.groupBox1.Controls.Add(this.btnXmlOlustur);
             this.groupBox1.Controls.Add(this.btnServiseGonder);
             this.groupBox1.Controls.Add(this.btnGIBOnizleme);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(502, 119);
+            this.groupBox1.Size = new System.Drawing.Size(651, 119);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "E-Fatura ve E-Arşiv";
@@ -89,7 +91,7 @@
             this.groupBox2.Controls.Add(this.btnGIBOnizlemeMustahsil);
             this.groupBox2.Location = new System.Drawing.Point(12, 137);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(502, 119);
+            this.groupBox2.Size = new System.Drawing.Size(651, 119);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "E-Müstahsil";
@@ -106,7 +108,7 @@
             // 
             // btnServiseGonderMustahsil
             // 
-            this.btnServiseGonderMustahsil.Location = new System.Drawing.Point(331, 30);
+            this.btnServiseGonderMustahsil.Location = new System.Drawing.Point(308, 30);
             this.btnServiseGonderMustahsil.Name = "btnServiseGonderMustahsil";
             this.btnServiseGonderMustahsil.Size = new System.Drawing.Size(165, 58);
             this.btnServiseGonderMustahsil.TabIndex = 2;
@@ -116,7 +118,7 @@
             // 
             // btnGIBOnizlemeMustahsil
             // 
-            this.btnGIBOnizlemeMustahsil.Location = new System.Drawing.Point(140, 30);
+            this.btnGIBOnizlemeMustahsil.Location = new System.Drawing.Point(128, 30);
             this.btnGIBOnizlemeMustahsil.Name = "btnGIBOnizlemeMustahsil";
             this.btnGIBOnizlemeMustahsil.Size = new System.Drawing.Size(174, 58);
             this.btnGIBOnizlemeMustahsil.TabIndex = 1;
@@ -124,13 +126,23 @@
             this.btnGIBOnizlemeMustahsil.UseVisualStyleBackColor = true;
             this.btnGIBOnizlemeMustahsil.Click += new System.EventHandler(this.btnGIBOnizlemeMustahsil_Click);
             // 
+            // btnBelgeOidKontrol
+            // 
+            this.btnBelgeOidKontrol.Location = new System.Drawing.Point(479, 30);
+            this.btnBelgeOidKontrol.Name = "btnBelgeOidKontrol";
+            this.btnBelgeOidKontrol.Size = new System.Drawing.Size(165, 58);
+            this.btnBelgeOidKontrol.TabIndex = 3;
+            this.btnBelgeOidKontrol.Text = "Belge Oid Kontrol";
+            this.btnBelgeOidKontrol.UseVisualStyleBackColor = true;
+            this.btnBelgeOidKontrol.Click += new System.EventHandler(this.btnBelgeOidKontrol_Click);
+            // 
             // frmAnaSayfa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(526, 272);
+            this.ClientSize = new System.Drawing.Size(675, 272);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "frmAnaSayfa";
@@ -154,6 +166,7 @@
         private System.Windows.Forms.Button btnXmlOlusturMustahsil;
         private System.Windows.Forms.Button btnServiseGonderMustahsil;
         private System.Windows.Forms.Button btnGIBOnizlemeMustahsil;
+        private System.Windows.Forms.Button btnBelgeOidKontrol;
     }
 }
 

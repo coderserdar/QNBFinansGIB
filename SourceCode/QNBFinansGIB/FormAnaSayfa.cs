@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using static QNBFinansGIB.Utils.Enums;
 
@@ -826,6 +827,50 @@ namespace QNBFinansGIB
                 }
             }
         }
+
+        /// <summary>
+        /// Eğer Fatura E-Fatura Mükellefine kesiliyorsa
+        /// Ve Belge Oid değeri yoksa,
+        /// Daha önce gönderilme ihtimaline karşılık olarak
+        /// Bu bilgilerin servis üzerinden temin edilebilmesi için gerekli işlemler gerçekleştirildi
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnBelgeOidKontrol_Click(object sender, EventArgs e)
+        {
+            #region E-Fatura Mükelleflerinin Fatura Id Bilgilerinin Temini
+            var gidenFaturaIdListesi = new List<string>();
+            foreach (var item in gidenFaturaListesi)
+            {
+                var kullaniciMi = false;
+                if (!string.IsNullOrEmpty(item.VergiNo))
+                {
+                    kullaniciMi = DisServisler.EFaturaKullanicisiMi(item.VergiNo);
+                    if (kullaniciMi)
+                        gidenFaturaIdListesi.Add(item.GidenFaturaId);
+                }
+            }
+            #endregion
+
+            var islemSonucu = string.Empty;
+            if (gidenFaturaIdListesi.Count > 0)
+            {
+                var builder = new StringBuilder();
+                builder.Append(islemSonucu);
+                foreach (var item in gidenFaturaIdListesi)
+                {
+                    var sonuc = DisServisler.BelgeOidKontrol(item, DateTime.Now.AddMonths(-3), DateTime.Now);
+                    if (sonuc != MesajSabitler.IslemBasarili && sonuc != MesajSabitler.IslemBasarisiz)
+                        builder.Append(item + " belge numaralı faturanın Belge Oid değeri: " + sonuc + " ,");
+                }
+                islemSonucu = builder.ToString();
+                if (islemSonucu.Length > 2)
+                {
+                    islemSonucu = islemSonucu.Substring(0, islemSonucu.Length - 2);
+                    MessageBox.Show(islemSonucu, MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
         #endregion
 
         #region E-Müstahsil Metotları
@@ -983,5 +1028,6 @@ namespace QNBFinansGIB
             }
         }
         #endregion
+
     }
 }
