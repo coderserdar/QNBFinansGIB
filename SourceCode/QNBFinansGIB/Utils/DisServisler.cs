@@ -1,4 +1,5 @@
 ﻿using QNBFinansGIB.DTO;
+using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -85,9 +86,10 @@ namespace QNBFinansGIB.Utils
         /// Oluşturulan XML dosyasının QNB Finans Tarafına gönderilmesini sağlayan metottur
         /// </summary>
         /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
-        /// <param name="dosyaAdi">Dosya Adı bilgisi</param>
+        /// <param name="dosyaAdi">Dosya Adı Bilgisi</param>
+        /// <param name="belgeOid">Belge Oid Bilgisi</param>
         /// <returns>İşlem Sonucu (Buradan dönen değer gerekli yerlerde kontrol edilip ona göre kullanıcıya bilgi verilmektedir.)</returns>
-        public static string EFaturaGonder(GidenFaturaDTO gidenFatura, string dosyaAdi)
+        public static string EFaturaGonder(GidenFaturaDTO gidenFatura, string dosyaAdi, string belgeOid)
         {
             try
             {
@@ -111,72 +113,173 @@ namespace QNBFinansGIB.Utils
 
                 var sonucMesaji = string.Empty;
 
-                #region Belge Oid Durumuna Göre Evrak Gönderme
-                if (!string.IsNullOrEmpty(gidenFatura.BelgeOid))
+                try
                 {
-                    if (gidenFatura.BelgeOid != "Tekrar Gönder")
-                        sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
+                    var belgeDurumEsas = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                    if (belgeDurumEsas.durum != 1 && belgeDurumEsas.durum != 3)
+                    {
+                        #region Belge Oid Durumuna Göre Evrak Gönderme
+                        if (!string.IsNullOrEmpty(belgeOid))
+                        {
+                            if (belgeOid != "Tekrar Gönder")
+                                sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
+                            else
+                            {
+                                var yenidenGonderDurum = false;
+                                //var ettnDizi = new string[1];
+                                //ettnDizi[0] = parametreler.belgeNo;
+                                //while (yenidenGonderDurum == false)
+                                //{
+                                //    yenidenGonderDurum = gibEFaturaService.belgeleriTekrarGonder(parametreler.vergiTcKimlikNo, ettnDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
+                                //}
+                                var belgeOidDizi = new string[1];
+                                belgeOidDizi[0] = belgeOid;
+                                while (yenidenGonderDurum == false)
+                                {
+                                    yenidenGonderDurum = gibEFaturaService.belgeleriTekrarGonderBelgeOid(parametreler.vergiTcKimlikNo, belgeOidDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
+                                }
+                                sonucMesaji = belgeOid;
+                            }
+                        }
+                        else
+                            sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
+                        #endregion
+
+                        #region Belge Durumu Kontrolü
+                        if (sonucMesaji.Length <= 20)
+                        {
+                            // todo: buradaki metotta Belge Oid'ye göre kontrol yapılıyor
+                            //var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                            //var durum = belgeDurum.durum;
+                            //while (durum == 1)
+                            //{
+                            //    belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                            //    durum = belgeDurum.durum;
+                            //}
+                            var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                            var durum = belgeDurum.durum;
+                            while (durum == 1)
+                            {
+                                belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                                durum = belgeDurum.durum;
+                            }
+                            if (durum == 2)
+                                sonucMesaji = MesajSabitler.IslemBasarisiz;
+                            else if (durum == 3)
+                            {
+                                var gonderimDurumu = belgeDurum.gonderimDurumu;
+                                if (gonderimDurumu == 2)
+                                    return sonucMesaji;
+                                else if (gonderimDurumu == 4)
+                                    return sonucMesaji;
+                                else if (gonderimDurumu == 3)
+                                {
+                                    var gibYanitKodu = belgeDurum.gonderimCevabiKodu;
+                                    if (gibYanitKodu > 1300)
+                                        return sonucMesaji;
+                                    else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
+                                        return "Tekrar Gönder";
+                                    else if (!Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu) && (gibYanitKodu <= 1200 && gibYanitKodu >= 1100))
+                                        return MesajSabitler.IslemBasarisiz;
+                                    else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
+                                        return MesajSabitler.IslemBasarisiz;
+                                    else
+                                        return sonucMesaji;
+                                }
+                            }
+                        }
+                        #endregion
+                    }
+                    else if (belgeDurumEsas.durum == 3)
+                    {
+                        if (!string.IsNullOrEmpty(belgeOid))
+                            return belgeOid;
+                        else
+                            sonucMesaji = MesajSabitler.IslemBasarili;
+                    }
                     else
                     {
-                        var yenidenGonderDurum = false;
-                        var belgeOidDizi = new string[1];
-                        belgeOidDizi[0] = gidenFatura.BelgeOid;
-                        while (yenidenGonderDurum == false)
-                        {
-                            yenidenGonderDurum = gibEFaturaService.belgeleriTekrarGonderBelgeOid(parametreler.vergiTcKimlikNo, belgeOidDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
-                        }
-                        sonucMesaji = gidenFatura.BelgeOid;
-                    }
-                }
-                else
-                    sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
-                #endregion
-
-                #region Belge Durumu Kontrolü
-                if (sonucMesaji.Length <= 20)
-                {
-                    //var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
-                    //var durum = belgeDurum.durum;
-                    //while (durum == 1)
-                    //{
-                    //    belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
-                    //    durum = belgeDurum.durum;
-                    //}
-                    var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
-                    var durum = belgeDurum.durum;
-                    while (durum == 1)
-                    {
-                        belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
-                        durum = belgeDurum.durum;
-                    }
-                    if (durum == 2)
                         sonucMesaji = MesajSabitler.IslemBasarisiz;
-                    else if (durum == 3)
+                    }
+
+                    return sonucMesaji;
+                }
+                catch (Exception)
+                {
+                    #region Belge Oid Durumuna Göre Evrak Gönderme
+                    if (!string.IsNullOrEmpty(belgeOid))
                     {
-                        var gonderimDurumu = belgeDurum.gonderimDurumu;
-                        if (gonderimDurumu == 2)
-                            return sonucMesaji;
-                        else if (gonderimDurumu == 4)
-                            return sonucMesaji;
-                        else if (gonderimDurumu == 3)
+                        if (belgeOid != "Tekrar Gönder")
+                            sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
+                        else
                         {
-                            var gibYanitKodu = belgeDurum.gonderimCevabiKodu;
-                            if (gibYanitKodu > 1300)
-                                return sonucMesaji;
-                            else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
-                                return "Tekrar Gönder";
-                            else if (!Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu) && (gibYanitKodu <= 1200 && gibYanitKodu >= 1100))
-                                return MesajSabitler.IslemBasarisiz;
-                            else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
-                                return MesajSabitler.IslemBasarisiz;
-                            else
-                                return sonucMesaji;
+                            var yenidenGonderDurum = false;
+                            //var ettnDizi = new string[1];
+                            //ettnDizi[0] = parametreler.belgeNo;
+                            //while (yenidenGonderDurum == false)
+                            //{
+                            //    yenidenGonderDurum = gibEFaturaService.belgeleriTekrarGonder(parametreler.vergiTcKimlikNo, ettnDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
+                            //}
+                            var belgeOidDizi = new string[1];
+                            belgeOidDizi[0] = belgeOid;
+                            while (yenidenGonderDurum == false)
+                            {
+                                yenidenGonderDurum = gibEFaturaService.belgeleriTekrarGonderBelgeOid(parametreler.vergiTcKimlikNo, belgeOidDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
+                            }
+                            sonucMesaji = belgeOid;
                         }
                     }
-                }
-                #endregion
+                    else
+                        sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
+                    #endregion
 
-                return sonucMesaji;
+                    #region Belge Durumu Kontrolü
+                    if (sonucMesaji.Length <= 20)
+                    {
+                        // todo: buradaki metotta Belge Oid'ye göre kontrol yapılıyor
+                        //var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                        //var durum = belgeDurum.durum;
+                        //while (durum == 1)
+                        //{
+                        //    belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                        //    durum = belgeDurum.durum;
+                        //}
+                        var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                        var durum = belgeDurum.durum;
+                        while (durum == 1)
+                        {
+                            belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                            durum = belgeDurum.durum;
+                        }
+                        if (durum == 2)
+                            sonucMesaji = MesajSabitler.IslemBasarisiz;
+                        else if (durum == 3)
+                        {
+                            var gonderimDurumu = belgeDurum.gonderimDurumu;
+                            if (gonderimDurumu == 2)
+                                return sonucMesaji;
+                            else if (gonderimDurumu == 4)
+                                return sonucMesaji;
+                            else if (gonderimDurumu == 3)
+                            {
+                                var gibYanitKodu = belgeDurum.gonderimCevabiKodu;
+                                if (gibYanitKodu > 1300)
+                                    return sonucMesaji;
+                                else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
+                                    return "Tekrar Gönder";
+                                else if (!Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu) && (gibYanitKodu <= 1200 && gibYanitKodu >= 1100))
+                                    return MesajSabitler.IslemBasarisiz;
+                                else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
+                                    return MesajSabitler.IslemBasarisiz;
+                                else
+                                    return sonucMesaji;
+                            }
+                        }
+                    }
+                    #endregion
+
+                    return sonucMesaji;
+                }
             }
             catch (System.Exception ex)
             {

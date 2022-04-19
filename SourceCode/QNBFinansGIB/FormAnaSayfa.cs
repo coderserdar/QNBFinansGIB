@@ -794,7 +794,7 @@ namespace QNBFinansGIB
                         if (kullaniciMi)
                         {
                             dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi);
-                            sonuc = DisServisler.EFaturaGonder(gidenFatura, dosyaAdi);
+                            sonuc = DisServisler.EFaturaGonder(gidenFatura, dosyaAdi, gidenFatura.BelgeOid);
                             if (sonuc != MesajSabitler.IslemBasarisiz)
                             {
                                 if (sonuc.Length <= 20)
