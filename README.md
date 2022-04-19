@@ -7,6 +7,7 @@ Bu bir **Windows Form** uygulamasıdır ve içerisinde genel olarak **QNB Finans
 Bu uygulamada aşağıdaki işlemler gerçekleştirilebilmektedir.
 
  - **Gelir İdare Başkanlığı** *E-Fatura* ve *E-Arşiv* web servislerine kesilen fatura ile ilgili bilgilerin doğru bir şekilde gönderilebilmesi için **XML (UBL)** dosyaları oluşturabilme
+    + Daha önceden bu servis üzerinden gönderilen faturaların çıktısının ideal olarak alınabilmesi için **Belge Oid** denilen alanlarının temin edilmesi
  - **Gelir İdare Başkanlığı** *E-Müstahsil* web servisine müstahsil makbuzu ile ilgili bilgilerin doğru bir şekilde gönderilebilmesi için **XML (UBL)** dosyaları oluşturabilme
  - Eğer daha önceden gönderildiyse gönderilen faturanın veya müstahsil makbuzunun, gönderilmediyse hazırlanan **XML (UBL)** dosyasının **GİB** portalında nasıl görüneceğine dair **PDF** veya **ZIP** formatında *önizleme* yapabilme 
  - Hazırlanan **XML (UBL)** dosyasının **GİB** *E-Fatura* ve *E-Arşiv* servisine (fatura kesilen tüzel kişinin E-Fatura mükellefi olup olmamasına bağlı olarak) veya *E-Müstahsil* servisine gönderilmesi
@@ -48,5 +49,6 @@ Programla ilgili örnek ekran görüntüleri aşağıdadır
    <tr>
       <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_09.png?raw=true"></td>
       <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_10.png?raw=true"></td>
+      <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_11.png?raw=true"></td>
    </tr>
 </table>
