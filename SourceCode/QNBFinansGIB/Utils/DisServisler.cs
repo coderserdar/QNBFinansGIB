@@ -83,6 +83,49 @@ namespace QNBFinansGIB.Utils
         }
 
         /// <summary>
+        /// İlgili faturanın QNB Finans servislerine gönderilip gönderilmediği
+        /// Gönderildi ise durumuna bakarak 
+        /// Bu kaydın silinebilir olup olmadığını belirleye bir metottur.
+        /// </summary>
+        /// <param name="gidenFaturaId">Giden Fatura Id Bilgisi</param>
+        /// <returns>Kaydın Silinmeye Uygun Olup Olmadığı Bilgisi</returns>
+        public static bool EFaturaSilmeyeUygunMu(string gidenFaturaId)
+        {
+            try
+            {
+                var uygunMu = true;
+
+                gibUserService = new GIBUserService.userService();
+                gibEFaturaService = new GIBEFatura.connectorService();
+
+                gibUserService.CookieContainer = new System.Net.CookieContainer();
+                gibEFaturaService.CookieContainer = gibUserService.CookieContainer;
+
+                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+
+                var parametreler = new GIBEFatura.gidenBelgeParametreleri();
+                parametreler.vergiTcKimlikNo = "3250566851";
+                parametreler.belgeTuru = "FATURA_UBL";
+                parametreler.belgeNo = gidenFaturaId;
+                parametreler.erpKodu = GIBERPKodu;
+
+                var belgeDurumEsas = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                if (belgeDurumEsas.durum == 1 || belgeDurumEsas.durum == 3)
+                    uygunMu = false;
+
+                return uygunMu;
+            }
+            catch (System.Exception ex)
+            {
+                return true;
+            }
+            finally
+            {
+                gibUserService.logout();
+            }
+        }
+
+        /// <summary>
         /// Gönderilen Id bilgisine sahip Faturanın Belge Oid Bilgisinin QNB Finans Tarafına gönderilmesini sağlayan metottur
         /// </summary>
         /// <param name="gidenFaturaId">Giden Fatura Id Bilgisi</param>
@@ -396,6 +439,50 @@ namespace QNBFinansGIB.Utils
             catch (System.Exception ex)
             {
                 return null;
+            }
+            finally
+            {
+                gibUserService.logout();
+            }
+        }
+
+        /// <summary>
+        /// İlgili faturanın QNB Finans servislerine gönderilip gönderilmediği
+        /// Gönderildi ise durumuna bakarak 
+        /// Bu kaydın silinebilir olup olmadığını belirleye bir metottur.
+        /// </summary>
+        /// <param name="gidenFaturaId">Giden Fatura Id Bilgisi</param>
+        /// <returns></returns>
+        public static bool EArsivSilmeyeUygunMu(string gidenFaturaId)
+        {
+            try
+            {
+                var uygunMu = true;
+
+                gibUserService = new GIBUserService.userService();
+                gibEArsivService = new GIBEArsiv.EarsivWebService();
+
+                gibUserService.CookieContainer = new System.Net.CookieContainer();
+                gibEArsivService.CookieContainer = gibUserService.CookieContainer;
+
+                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+
+                string inputKontrol = "{\"faturaUuid\":\"" + gidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
+
+                var fatura = new GIBEArsiv.belge();
+                fatura.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
+                fatura.belgeFormatiSpecified = true;
+                GIBEArsiv.earsivServiceResult serviceResult = new GIBEArsiv.earsivServiceResult();
+
+                gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
+                if (serviceResult.resultCode == "AE00000")
+                    uygunMu = false;
+
+                return uygunMu;
+            }
+            catch (System.Exception ex)
+            {
+                return true;
             }
             finally
             {

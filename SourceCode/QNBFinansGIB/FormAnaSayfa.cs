@@ -871,6 +871,38 @@ namespace QNBFinansGIB
                 }
             }
         }
+
+        /// <summary>
+        /// Faturanın sisteme gönderilip gönderilmediği kontrol edilerek
+        /// Buna göre silinip silinmeyeceğina karar verilmesini sağlayan metottur.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnFaturaSil_Click(object sender, EventArgs e)
+        {
+            var index = new Random().Next(gidenFaturaListesi.Count);
+            var gidenFatura = gidenFaturaListesi[index];
+
+            var sonuc = true;
+            if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
+            {
+                var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
+                if (kullaniciMi)
+                    sonuc = DisServisler.EFaturaSilmeyeUygunMu(gidenFatura.GidenFaturaId);
+                else
+                    sonuc = DisServisler.EArsivSilmeyeUygunMu(gidenFatura.GidenFaturaId);
+
+                if (sonuc)
+                    MessageBox.Show(gidenFatura.GidenFaturaId + " yerel belge numaralı fatura silinebilir", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show(gidenFatura.GidenFaturaId + " yerel belge numaralı fatura GİB servislerine gönderildiği, onaylandığı veya onay beklediği için silinemez", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("Vergi Numarası olmayan bir fatura silinemez.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         #endregion
 
         #region E-Müstahsil Metotları
