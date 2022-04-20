@@ -50,5 +50,10 @@ Programla ilgili örnek ekran görüntüleri aşağıdadır
       <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_09.png?raw=true"></td>
       <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_10.png?raw=true"></td>
       <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_11.png?raw=true"></td>
+      <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_12.png?raw=true"></td>
+   </tr>
+   <tr>
+      <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_13.png?raw=true"></td>
+      <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_14.png?raw=true"></td>
    </tr>
 </table>
