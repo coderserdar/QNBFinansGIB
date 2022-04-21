@@ -32,12 +32,13 @@
             this.btnGIBOnizleme = new System.Windows.Forms.Button();
             this.btnServiseGonder = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnFaturaSil = new System.Windows.Forms.Button();
             this.btnBelgeOidKontrol = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnXmlOlusturMustahsil = new System.Windows.Forms.Button();
             this.btnServiseGonderMustahsil = new System.Windows.Forms.Button();
             this.btnGIBOnizlemeMustahsil = new System.Windows.Forms.Button();
-            this.btnFaturaSil = new System.Windows.Forms.Button();
+            this.btnMakbuzSil = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -86,6 +87,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "E-Fatura ve E-Arşiv";
             // 
+            // btnFaturaSil
+            // 
+            this.btnFaturaSil.Location = new System.Drawing.Point(223, 72);
+            this.btnFaturaSil.Name = "btnFaturaSil";
+            this.btnFaturaSil.Size = new System.Drawing.Size(165, 31);
+            this.btnFaturaSil.TabIndex = 4;
+            this.btnFaturaSil.Text = "Fatura Sil";
+            this.btnFaturaSil.UseVisualStyleBackColor = true;
+            this.btnFaturaSil.Click += new System.EventHandler(this.btnFaturaSil_Click);
+            // 
             // btnBelgeOidKontrol
             // 
             this.btnBelgeOidKontrol.Location = new System.Drawing.Point(479, 30);
@@ -98,6 +109,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnMakbuzSil);
             this.groupBox2.Controls.Add(this.btnXmlOlusturMustahsil);
             this.groupBox2.Controls.Add(this.btnServiseGonderMustahsil);
             this.groupBox2.Controls.Add(this.btnGIBOnizlemeMustahsil);
@@ -120,7 +132,7 @@
             // 
             // btnServiseGonderMustahsil
             // 
-            this.btnServiseGonderMustahsil.Location = new System.Drawing.Point(479, 30);
+            this.btnServiseGonderMustahsil.Location = new System.Drawing.Point(308, 30);
             this.btnServiseGonderMustahsil.Name = "btnServiseGonderMustahsil";
             this.btnServiseGonderMustahsil.Size = new System.Drawing.Size(165, 31);
             this.btnServiseGonderMustahsil.TabIndex = 2;
@@ -132,21 +144,21 @@
             // 
             this.btnGIBOnizlemeMustahsil.Location = new System.Drawing.Point(128, 30);
             this.btnGIBOnizlemeMustahsil.Name = "btnGIBOnizlemeMustahsil";
-            this.btnGIBOnizlemeMustahsil.Size = new System.Drawing.Size(345, 31);
+            this.btnGIBOnizlemeMustahsil.Size = new System.Drawing.Size(174, 31);
             this.btnGIBOnizlemeMustahsil.TabIndex = 1;
             this.btnGIBOnizlemeMustahsil.Text = "GIB Makbuz Çıktı Önizleme";
             this.btnGIBOnizlemeMustahsil.UseVisualStyleBackColor = true;
             this.btnGIBOnizlemeMustahsil.Click += new System.EventHandler(this.btnGIBOnizlemeMustahsil_Click);
             // 
-            // btnFaturaSil
+            // btnMakbuzSil
             // 
-            this.btnFaturaSil.Location = new System.Drawing.Point(223, 72);
-            this.btnFaturaSil.Name = "btnFaturaSil";
-            this.btnFaturaSil.Size = new System.Drawing.Size(165, 31);
-            this.btnFaturaSil.TabIndex = 4;
-            this.btnFaturaSil.Text = "Fatura Sil";
-            this.btnFaturaSil.UseVisualStyleBackColor = true;
-            this.btnFaturaSil.Click += new System.EventHandler(this.btnFaturaSil_Click);
+            this.btnMakbuzSil.Location = new System.Drawing.Point(479, 30);
+            this.btnMakbuzSil.Name = "btnMakbuzSil";
+            this.btnMakbuzSil.Size = new System.Drawing.Size(165, 31);
+            this.btnMakbuzSil.TabIndex = 3;
+            this.btnMakbuzSil.Text = "Makbuz Sil";
+            this.btnMakbuzSil.UseVisualStyleBackColor = true;
+            this.btnMakbuzSil.Click += new System.EventHandler(this.btnMakbuzSil_Click);
             // 
             // frmAnaSayfa
             // 
@@ -180,6 +192,7 @@
         private System.Windows.Forms.Button btnGIBOnizlemeMustahsil;
         private System.Windows.Forms.Button btnBelgeOidKontrol;
         private System.Windows.Forms.Button btnFaturaSil;
+        private System.Windows.Forms.Button btnMakbuzSil;
     }
 }
 

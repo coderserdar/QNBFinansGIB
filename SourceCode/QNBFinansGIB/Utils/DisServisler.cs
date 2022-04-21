@@ -600,6 +600,47 @@ namespace QNBFinansGIB.Utils
         }
 
         /// <summary>
+        /// İlgili faturanın QNB Finans servislerine gönderilip gönderilmediği
+        /// Gönderildi ise durumuna bakarak 
+        /// Bu kaydın silinebilir olup olmadığını belirleye bir metottur.
+        /// </summary>
+        /// <param name="mustahsilMakbuzuId">Müstahsil Makbuzu Id Bilgisi</param>
+        /// <returns>Kaydın Silinmeye Uygun Olup Olmadığı Bilgisi</returns>
+        public static bool EMustahsilSilmeyeUygunMu(string mustahsilMakbuzuId)
+        {
+            try
+            {
+                var uygunMu = true;
+
+                gibUserService = new GIBUserService.userService();
+                gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
+
+                gibUserService.CookieContainer = new System.Net.CookieContainer();
+                gibEMustahsilService.CookieContainer = gibUserService.CookieContainer;
+
+                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
+
+                string inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
+
+                GIBEMustahsil.earsivServiceResult serviceResult = new GIBEMustahsil.earsivServiceResult();
+
+                gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out serviceResult);
+                if (serviceResult.resultCode == "AE00000")
+                    uygunMu = false;
+
+                return uygunMu;
+            }
+            catch (System.Exception ex)
+            {
+                return true;
+            }
+            finally
+            {
+                gibUserService.logout();
+            }
+        }
+
+        /// <summary>
         /// Oluşturulan XML dosyasının QNB Finans Tarafına gönderilmesini sağlayan metottur
         /// </summary>
         /// <param name="mustahsilMakbuzu">Müstahsil Makbuzu Bilgisi</param>

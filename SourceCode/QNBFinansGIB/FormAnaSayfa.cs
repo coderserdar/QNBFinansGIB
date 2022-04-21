@@ -1059,6 +1059,33 @@ namespace QNBFinansGIB
                 }
             }
         }
+
+        /// <summary>
+        /// Makbuzun sisteme gönderilip gönderilmediği kontrol edilerek
+        /// Buna göre silinip silinmeyeceğina karar verilmesini sağlayan metottur.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnMakbuzSil_Click(object sender, EventArgs e)
+        {
+            var index = new Random().Next(mustahsilMakbuzuListesi.Count);
+            var mustahsilMakbuzu = mustahsilMakbuzuListesi[index];
+
+            if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
+            {
+                var sonuc = DisServisler.EMustahsilSilmeyeUygunMu(mustahsilMakbuzu.MustahsilMakbuzuId);
+
+                if (sonuc)
+                    MessageBox.Show(mustahsilMakbuzu.MustahsilMakbuzuId + " yerel belge numaralı makbuz silinebilir", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show(mustahsilMakbuzu.MustahsilMakbuzuId + " yerel belge numaralı makbuz GİB servislerine gönderildiği, onaylandığı veya onay beklediği için silinemez", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("Vergi Numarası olmayan bir makbuz silinemez.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         #endregion
 
     }
