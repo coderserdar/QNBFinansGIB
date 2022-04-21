@@ -11,13 +11,14 @@ Bu uygulamada aşağıdaki işlemler gerçekleştirilebilmektedir.
  - **Gelir İdare Başkanlığı** *E-Müstahsil* web servisine müstahsil makbuzu ile ilgili bilgilerin doğru bir şekilde gönderilebilmesi için **XML (UBL)** dosyaları oluşturabilme
  - Eğer daha önceden gönderildiyse gönderilen faturanın veya müstahsil makbuzunun, gönderilmediyse hazırlanan **XML (UBL)** dosyasının **GİB** portalında nasıl görüneceğine dair **PDF** veya **ZIP** formatında *önizleme* yapabilme 
  - Hazırlanan **XML (UBL)** dosyasının **GİB** *E-Fatura* ve *E-Arşiv* servisine (fatura kesilen tüzel kişinin E-Fatura mükellefi olup olmamasına bağlı olarak) veya *E-Müstahsil* servisine gönderilmesi
+ - Fatura veya Makbuzları silmeye çalışırken, daha önce başarılı bir şekilde **GİB** servislerine gönderilip gönderilmediğinin kontrol edilmesi
 
 Bu uygulamada bazı dikkat edilmesi gereken önemli noktalar bulunmaktadır. Bunlar aşağıda belirtilmiştir;
 
  - Öncelikle web servis adresleri Service Reference yerine Web Reference olarak eklenmelidir.
     - *Diğer türlü çalışması mümkün değildir (Ya da en azından ben beceremedim)*
  - **Giden Fatura** ana nesnesinde bulunan *GIB Numarası* alanı XML ve matbu çıktı için önem taşımaktadır.
-    - *Formatı faturayı gönderen kurumun kısaltması 3 harf, faturanın yılı 4 karakter ve geri kalan 9 hane de faturanın sıra numarası vb. olaack şekildedir. Mesela ERP2022000000001 gibi. Ancak burada XML oluşturulurken eğer faturanın düzenlenme tarihi 2021 ise ve GIB numarasında 2022 yazıyorsa sistem hata vermektedir. Ayrıca GIB numarası üzerinden tekillik kontrolüde yapıldığı için bu konnuda özen gösterilmesi gerekmektedir.*
+    - *Formatı faturayı gönderen kurumun kısaltması 3 harf, faturanın yılı 4 karakter ve geri kalan 9 hane de faturanın sıra numarası vb. olaack şekildedir. Mesela ERP2022000000001 gibi. Ancak burada XML oluşturulurken eğer faturanın düzenlenme tarihi 2021 ise ve GIB numarasında 2022 yazıyorsa sistem hata vermektedir. Ayrıca GIB numarası üzerinden tekillik kontrolüde yapıldığı için bu konuda özen gösterilmesi gerekmektedir.*
  - Önizleme kısmında **E-Fatura** sistemi için *Belge Oid* adı verilen alan oldukça önemlidir.
     - *Bu da tekil bir değer olmaktadır. XML dosyası E-Fatura servisine gönderildiği zaman, işlem başarılı ise servisten bu değer dönmektedir. Bu değerin bir şekilde fatura içerisinde kaydedilmesi önemlidir. Çünkü önizleme yapılırken bu bilgi gönderilirse Mali Değer İçermez adındaki filigran çıktıda görünmez. Ama eğer bu bilgi yoksa, sistemdeki çıktı alınırken yukarıda bahsedilen filigran çıktıda görünür*
  - **Müstahsil Makbuzu** ana nesnesinde bulunan *Müstahsil Makbuzu No* alanı XML ve matbu çıktı için önem taşımaktadır.
@@ -55,5 +56,6 @@ Programla ilgili örnek ekran görüntüleri aşağıdadır
    <tr>
       <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_13.png?raw=true"></td>
       <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_14.png?raw=true"></td>
+      <td><img src="https://github.com/coderserdar/QNBFinansGIB/blob/main/Screenshots/App_Screens_15.png?raw=true"></td>
    </tr>
 </table>
