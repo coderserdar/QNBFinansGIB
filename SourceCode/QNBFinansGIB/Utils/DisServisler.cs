@@ -618,13 +618,21 @@ namespace QNBFinansGIB.Utils
                 gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
 
                 string input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
+                string inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
 
                 var belgeTemp = new GIBEMustahsil.belge();
                 belgeTemp.belgeFormati = GIBEMustahsil.belgeFormatiEnum.UBL;
                 belgeTemp.belgeFormatiSpecified = true;
                 belgeTemp.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
                 GIBEMustahsil.earsivServiceResult serviceResult = new GIBEMustahsil.earsivServiceResult();
-                var belge = gibEMustahsilService.mustahsilMakbuzOlustur(input, belgeTemp, out serviceResult);
+
+                gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out serviceResult);
+                if (serviceResult.resultCode != "AE00000")
+                {
+                    var belge = gibEMustahsilService.mustahsilMakbuzOlustur(input, belgeTemp, out serviceResult);
+                }
+                else
+                    return MesajSabitler.IslemBasarili;
 
                 if (serviceResult.resultCode != "AE00000")
                     return MesajSabitler.IslemBasarisiz;
