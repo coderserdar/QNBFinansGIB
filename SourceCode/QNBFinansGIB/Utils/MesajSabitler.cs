@@ -8,14 +8,14 @@
         /// <summary>
         /// İşlemin Başarılı Olduğuna Dair Mesaj Bilgisi
         /// </summary>
-        public static string IslemBasarili = "İşlem Başarılı";
+        public const string IslemBasarili = "İşlem Başarılı";
         /// <summary>
         /// İşlemin Başarısız Olduğuna Dair Mesaj Bilgisi
         /// </summary>
-        public static string IslemBasarisiz = "İşlem Başarısız";
+        public const string IslemBasarisiz = "İşlem Başarısız";
         /// <summary>
         /// İşlem Mesajlarının Kutusunda Gösterilecek Başlık Mesaj Bilgisi
         /// </summary>
-        public static string MesajBasligi = "QNB Finans GİB Servis Uygulaması";
+        public const string MesajBasligi = "QNB Finans GİB Servis Uygulaması";
     }
 }

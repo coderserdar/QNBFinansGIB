@@ -20,14 +20,14 @@ namespace QNBFinansGIB.Utils
         public static TSelf BosluklariKaldir<TSelf>(this TSelf input)
         {
             if (input == null)
-                return input;
+                return default(TSelf);
 
             var stringProperties = typeof(TSelf).GetProperties()
                 .Where(p => p.PropertyType == typeof(string));
 
             foreach (var stringProperty in stringProperties)
             {
-                string currentValue = (string)stringProperty.GetValue(input, null);
+                var currentValue = (string)stringProperty.GetValue(input, null);
                 if (currentValue != null)
                     stringProperty.SetValue(input, currentValue.Trim().TrimEnd().TrimStart(), null);
             }

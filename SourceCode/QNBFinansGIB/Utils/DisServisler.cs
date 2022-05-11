@@ -34,19 +34,19 @@ namespace QNBFinansGIB.Utils
         /// <summary>
         /// GİB Login Servis istemcisi
         /// </summary>
-        private static GIBUserService.userService gibUserService = new GIBUserService.userService();
+        private static GIBUserService.userService _gibUserService = new GIBUserService.userService();
         /// <summary>
         /// GİB E-Fatura Servis istemcisi
         /// </summary>
-        private static GIBEFatura.connectorService gibEFaturaService = new GIBEFatura.connectorService();
+        private static GIBEFatura.connectorService _gibEFaturaService = new GIBEFatura.connectorService();
         /// <summary>
         /// GİB E-Arşiv Servis istemcisi
         /// </summary>
-        private static GIBEArsiv.EarsivWebService gibEArsivService = new GIBEArsiv.EarsivWebService();
+        private static GIBEArsiv.EarsivWebService _gibEArsivService = new GIBEArsiv.EarsivWebService();
         /// <summary>
         /// GİB E-Arşiv Servis istemcisi
         /// </summary>
-        private static GIBEMustahsil.MustahsilWebService gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
+        private static GIBEMustahsil.MustahsilWebService _gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
 
         /// <summary>
         /// Vergi Kimlik Numarası Gönderilen Tüzel Kişinin E Fatura Kullanıcısı Olup Olmadığını Kontrol Eden
@@ -60,25 +60,25 @@ namespace QNBFinansGIB.Utils
             {
                 var kullaniciMi = false;
 
-                gibUserService = new GIBUserService.userService();
-                gibEFaturaService = new GIBEFatura.connectorService();
+                _gibUserService = new GIBUserService.userService();
+                _gibEFaturaService = new GIBEFatura.connectorService();
 
-                gibUserService.CookieContainer = new System.Net.CookieContainer();
-                gibEFaturaService.CookieContainer = gibUserService.CookieContainer;
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
 
-                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
-                kullaniciMi = gibEFaturaService.efaturaKullanicisi(vergiNo);
+                kullaniciMi = _gibEFaturaService.efaturaKullanicisi(vergiNo);
 
                 return kullaniciMi;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }
             finally
             {
-                gibUserService.logout();
+                _gibUserService.logout();
             }
         }
 
@@ -95,13 +95,13 @@ namespace QNBFinansGIB.Utils
             {
                 var uygunMu = true;
 
-                gibUserService = new GIBUserService.userService();
-                gibEFaturaService = new GIBEFatura.connectorService();
+                _gibUserService = new GIBUserService.userService();
+                _gibEFaturaService = new GIBEFatura.connectorService();
 
-                gibUserService.CookieContainer = new System.Net.CookieContainer();
-                gibEFaturaService.CookieContainer = gibUserService.CookieContainer;
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
 
-                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
                 var parametreler = new GIBEFatura.gidenBelgeParametreleri();
                 parametreler.vergiTcKimlikNo = "3250566851";
@@ -109,19 +109,19 @@ namespace QNBFinansGIB.Utils
                 parametreler.belgeNo = gidenFaturaId;
                 parametreler.erpKodu = GIBERPKodu;
 
-                var belgeDurumEsas = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                var belgeDurumEsas = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
                 if (belgeDurumEsas.durum == 1 || belgeDurumEsas.durum == 3)
                     uygunMu = false;
 
                 return uygunMu;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return true;
             }
             finally
             {
-                gibUserService.logout();
+                _gibUserService.logout();
             }
         }
 
@@ -136,13 +136,13 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                gibUserService = new GIBUserService.userService();
-                gibEFaturaService = new GIBEFatura.connectorService();
+                _gibUserService = new GIBUserService.userService();
+                _gibEFaturaService = new GIBEFatura.connectorService();
 
-                gibUserService.CookieContainer = new System.Net.CookieContainer();
-                gibEFaturaService.CookieContainer = gibUserService.CookieContainer;
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
 
-                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
                 var parametreler = new GIBEFatura.gidenBelgeleriListeleParametreleri();
                 parametreler.vkn = "3250566851";
@@ -152,23 +152,23 @@ namespace QNBFinansGIB.Utils
 
                 var sonucMesaji = "İşlem Başarılı";
 
-                var liste = gibEFaturaService.gidenBelgeleriListele(parametreler);
+                var liste = _gibEFaturaService.gidenBelgeleriListele(parametreler);
                 foreach (var item in liste)
                 {
                     var nesne = item as GIBEFatura.gidenBelgeleriListeleData;
-                    if (nesne.yerelBelgeNo == gidenFaturaId)
+                    if (nesne != null && nesne.yerelBelgeNo == gidenFaturaId)
                         return nesne.belgeOid;
                 }
 
                 return sonucMesaji;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return MesajSabitler.IslemBasarisiz;
             }
             finally
             {
-                gibUserService.logout();
+                _gibUserService.logout();
             }
         }
 
@@ -183,20 +183,20 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                gibUserService = new GIBUserService.userService();
-                gibEFaturaService = new GIBEFatura.connectorService();
+                _gibUserService = new GIBUserService.userService();
+                _gibEFaturaService = new GIBEFatura.connectorService();
 
-                gibUserService.CookieContainer = new System.Net.CookieContainer();
-                gibEFaturaService.CookieContainer = gibUserService.CookieContainer;
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
 
-                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
                 var parametreler = new GIBEFatura.gidenBelgeParametreleri();
                 parametreler.vergiTcKimlikNo = "3250566851";
                 parametreler.belgeTuru = "FATURA_UBL";
                 parametreler.belgeNo = gidenFatura.GidenFaturaId;
                 parametreler.belgeVersiyon = "1.0";
-                parametreler.veri = System.IO.File.ReadAllBytes(dosyaAdi);
+                parametreler.veri = File.ReadAllBytes(dosyaAdi);
                 parametreler.belgeHash = GetMD5Hash(parametreler.veri);
                 parametreler.mimeType = "application/xml";
                 parametreler.erpKodu = GIBERPKodu;
@@ -205,14 +205,14 @@ namespace QNBFinansGIB.Utils
 
                 try
                 {
-                    var belgeDurumEsas = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                    var belgeDurumEsas = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
                     if (belgeDurumEsas.durum != 1 && belgeDurumEsas.durum != 3)
                     {
                         #region Belge Oid Durumuna Göre Evrak Gönderme
                         if (!string.IsNullOrEmpty(belgeOid))
                         {
                             if (belgeOid != "Tekrar Gönder")
-                                sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
+                                sonucMesaji = _gibEFaturaService.belgeGonderExt(parametreler);
                             else
                             {
                                 var yenidenGonderDurum = false;
@@ -220,62 +220,70 @@ namespace QNBFinansGIB.Utils
                                 //ettnDizi[0] = parametreler.belgeNo;
                                 //while (yenidenGonderDurum == false)
                                 //{
-                                //    yenidenGonderDurum = gibEFaturaService.belgeleriTekrarGonder(parametreler.vergiTcKimlikNo, ettnDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
+                                //    yenidenGonderDurum = _gibEFaturaService.belgeleriTekrarGonder(parametreler.vergiTcKimlikNo, ettnDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
                                 //}
                                 var belgeOidDizi = new string[1];
                                 belgeOidDizi[0] = belgeOid;
                                 while (yenidenGonderDurum == false)
                                 {
-                                    yenidenGonderDurum = gibEFaturaService.belgeleriTekrarGonderBelgeOid(parametreler.vergiTcKimlikNo, belgeOidDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
+                                    yenidenGonderDurum = _gibEFaturaService.belgeleriTekrarGonderBelgeOid(parametreler.vergiTcKimlikNo, belgeOidDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
                                 }
                                 sonucMesaji = belgeOid;
                             }
                         }
                         else
-                            sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
+                            sonucMesaji = _gibEFaturaService.belgeGonderExt(parametreler);
                         #endregion
 
                         #region Belge Durumu Kontrolü
-                        if (sonucMesaji.Length <= 20)
+
+                        if (sonucMesaji.Length > 20) return sonucMesaji;
+                        // önemli not: buradaki metotta Belge Oid'ye göre kontrol yapılıyor
+                        //var belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                        //var durum = belgeDurum.durum;
+                        //while (durum == 1)
+                        //{
+                        //    belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                        //    durum = belgeDurum.durum;
+                        //}
+                        var belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                        var durum = belgeDurum.durum;
+                        while (durum == 1)
                         {
-                            // todo: buradaki metotta Belge Oid'ye göre kontrol yapılıyor
-                            //var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
-                            //var durum = belgeDurum.durum;
-                            //while (durum == 1)
-                            //{
-                            //    belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
-                            //    durum = belgeDurum.durum;
-                            //}
-                            var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
-                            var durum = belgeDurum.durum;
-                            while (durum == 1)
-                            {
-                                belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
-                                durum = belgeDurum.durum;
-                            }
-                            if (durum == 2)
+                            belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                            durum = belgeDurum.durum;
+                        }
+                        switch (durum)
+                        {
+                            case 2:
                                 sonucMesaji = MesajSabitler.IslemBasarisiz;
-                            else if (durum == 3)
+                                break;
+                            case 3:
                             {
                                 var gonderimDurumu = belgeDurum.gonderimDurumu;
-                                if (gonderimDurumu == 2)
-                                    return sonucMesaji;
-                                else if (gonderimDurumu == 4)
-                                    return sonucMesaji;
-                                else if (gonderimDurumu == 3)
+                                switch (gonderimDurumu)
                                 {
-                                    var gibYanitKodu = belgeDurum.gonderimCevabiKodu;
-                                    if (gibYanitKodu > 1300)
+                                    case 2:
                                         return sonucMesaji;
-                                    else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
-                                        return "Tekrar Gönder";
-                                    else if (!Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu) && (gibYanitKodu <= 1200 && gibYanitKodu >= 1100))
-                                        return MesajSabitler.IslemBasarisiz;
-                                    else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
-                                        return MesajSabitler.IslemBasarisiz;
-                                    else
+                                    case 4:
                                         return sonucMesaji;
+                                    case 3:
+                                    {
+                                        var gibYanitKodu = belgeDurum.gonderimCevabiKodu;
+                                        if (gibYanitKodu > 1300)
+                                            return sonucMesaji;
+                                        else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
+                                            return "Tekrar Gönder";
+                                        else if (Sabitler.TekrarGonderilebilecekKodListesi.All(j => j != gibYanitKodu) && gibYanitKodu <= 1200 && gibYanitKodu >= 1100)
+                                            return MesajSabitler.IslemBasarisiz;
+                                        else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
+                                            return MesajSabitler.IslemBasarisiz;
+                                        else
+                                            return sonucMesaji;
+                                    }
                                 }
+
+                                break;
                             }
                         }
                         #endregion
@@ -300,7 +308,7 @@ namespace QNBFinansGIB.Utils
                     if (!string.IsNullOrEmpty(belgeOid))
                     {
                         if (belgeOid != "Tekrar Gönder")
-                            sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
+                            sonucMesaji = _gibEFaturaService.belgeGonderExt(parametreler);
                         else
                         {
                             var yenidenGonderDurum = false;
@@ -308,62 +316,70 @@ namespace QNBFinansGIB.Utils
                             //ettnDizi[0] = parametreler.belgeNo;
                             //while (yenidenGonderDurum == false)
                             //{
-                            //    yenidenGonderDurum = gibEFaturaService.belgeleriTekrarGonder(parametreler.vergiTcKimlikNo, ettnDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
+                            //    yenidenGonderDurum = _gibEFaturaService.belgeleriTekrarGonder(parametreler.vergiTcKimlikNo, ettnDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
                             //}
                             var belgeOidDizi = new string[1];
                             belgeOidDizi[0] = belgeOid;
                             while (yenidenGonderDurum == false)
                             {
-                                yenidenGonderDurum = gibEFaturaService.belgeleriTekrarGonderBelgeOid(parametreler.vergiTcKimlikNo, belgeOidDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
+                                yenidenGonderDurum = _gibEFaturaService.belgeleriTekrarGonderBelgeOid(parametreler.vergiTcKimlikNo, belgeOidDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
                             }
                             sonucMesaji = belgeOid;
                         }
                     }
                     else
-                        sonucMesaji = gibEFaturaService.belgeGonderExt(parametreler);
+                        sonucMesaji = _gibEFaturaService.belgeGonderExt(parametreler);
                     #endregion
 
                     #region Belge Durumu Kontrolü
-                    if (sonucMesaji.Length <= 20)
+
+                    if (sonucMesaji.Length > 20) return sonucMesaji;
+                    // önemli not: buradaki metotta Belge Oid'ye göre kontrol yapılıyor
+                    //var belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                    //var durum = belgeDurum.durum;
+                    //while (durum == 1)
+                    //{
+                    //    belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+                    //    durum = belgeDurum.durum;
+                    //}
+                    var belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                    var durum = belgeDurum.durum;
+                    while (durum == 1)
                     {
-                        // todo: buradaki metotta Belge Oid'ye göre kontrol yapılıyor
-                        //var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
-                        //var durum = belgeDurum.durum;
-                        //while (durum == 1)
-                        //{
-                        //    belgeDurum = gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
-                        //    durum = belgeDurum.durum;
-                        //}
-                        var belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
-                        var durum = belgeDurum.durum;
-                        while (durum == 1)
-                        {
-                            belgeDurum = gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
-                            durum = belgeDurum.durum;
-                        }
-                        if (durum == 2)
+                        belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                        durum = belgeDurum.durum;
+                    }
+                    switch (durum)
+                    {
+                        case 2:
                             sonucMesaji = MesajSabitler.IslemBasarisiz;
-                        else if (durum == 3)
+                            break;
+                        case 3:
                         {
                             var gonderimDurumu = belgeDurum.gonderimDurumu;
-                            if (gonderimDurumu == 2)
-                                return sonucMesaji;
-                            else if (gonderimDurumu == 4)
-                                return sonucMesaji;
-                            else if (gonderimDurumu == 3)
+                            switch (gonderimDurumu)
                             {
-                                var gibYanitKodu = belgeDurum.gonderimCevabiKodu;
-                                if (gibYanitKodu > 1300)
+                                case 2:
                                     return sonucMesaji;
-                                else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
-                                    return "Tekrar Gönder";
-                                else if (!Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu) && (gibYanitKodu <= 1200 && gibYanitKodu >= 1100))
-                                    return MesajSabitler.IslemBasarisiz;
-                                else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
-                                    return MesajSabitler.IslemBasarisiz;
-                                else
+                                case 4:
                                     return sonucMesaji;
+                                case 3:
+                                {
+                                    var gibYanitKodu = belgeDurum.gonderimCevabiKodu;
+                                    if (gibYanitKodu > 1300)
+                                        return sonucMesaji;
+                                    else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
+                                        return "Tekrar Gönder";
+                                    else if (Sabitler.TekrarGonderilebilecekKodListesi.All(j => j != gibYanitKodu) && gibYanitKodu <= 1200 && gibYanitKodu >= 1100)
+                                        return MesajSabitler.IslemBasarisiz;
+                                    else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
+                                        return MesajSabitler.IslemBasarisiz;
+                                    else
+                                        return sonucMesaji;
+                                }
                             }
+
+                            break;
                         }
                     }
                     #endregion
@@ -371,13 +387,13 @@ namespace QNBFinansGIB.Utils
                     return sonucMesaji;
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return MesajSabitler.IslemBasarisiz;
             }
             finally
             {
-                gibUserService.logout();
+                _gibUserService.logout();
             }
         }
 
@@ -394,24 +410,24 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                gibUserService = new GIBUserService.userService();
-                gibEFaturaService = new GIBEFatura.connectorService();
+                _gibUserService = new GIBUserService.userService();
+                _gibEFaturaService = new GIBEFatura.connectorService();
 
-                gibUserService.CookieContainer = new System.Net.CookieContainer();
-                gibEFaturaService.CookieContainer = gibUserService.CookieContainer;
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
 
-                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
-                string vergiTcKimlikNo = "3250566851";
+                const string vergiTcKimlikNo = "3250566851";
                 if (!File.Exists(dosyaAdi))
                 {
                     return null;
                 }
-                byte[] veri = System.IO.File.ReadAllBytes(dosyaAdi);
-                string belgeFormati = "PDF";  //HTML, PDF, UBL
-                string belgeTuru = "FATURA"; //EFATURA ve EIRSALIYE değerleri alabilir.
+                var veri = File.ReadAllBytes(dosyaAdi);
+                const string belgeFormati = "PDF";  //HTML, PDF, UBL
+                const string belgeTuru = "FATURA"; //EFATURA ve EIRSALIYE değerleri alabilir.
 
-                byte[] onizleme = new byte[1];
+                var onizleme = new byte[1];
 
                 var geriDonus = new GeriDonus
                 {
@@ -423,26 +439,26 @@ namespace QNBFinansGIB.Utils
                 {
                     var idListesi = new string[1];
                     idListesi[0] = gidenFatura.BelgeOid;
-                    onizleme = gibEFaturaService.gidenBelgeleriIndir(vergiTcKimlikNo, idListesi, belgeTuru, belgeFormati);
+                    onizleme = _gibEFaturaService.gidenBelgeleriIndir(vergiTcKimlikNo, idListesi, belgeTuru, belgeFormati);
                     geriDonus.Dosya = onizleme;
                     geriDonus.Tip = 1;
                 }
                 else
                 {
-                    onizleme = gibEFaturaService.ublOnizleme(vergiTcKimlikNo, veri, belgeFormati, belgeTuru);
+                    onizleme = _gibEFaturaService.ublOnizleme(vergiTcKimlikNo, veri, belgeFormati, belgeTuru);
                     geriDonus.Dosya = onizleme;
                     geriDonus.Tip = 0;
                 }
 
                 return geriDonus;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
             finally
             {
-                gibUserService.logout();
+                _gibUserService.logout();
             }
         }
 
@@ -459,34 +475,34 @@ namespace QNBFinansGIB.Utils
             {
                 var uygunMu = true;
 
-                gibUserService = new GIBUserService.userService();
-                gibEArsivService = new GIBEArsiv.EarsivWebService();
+                _gibUserService = new GIBUserService.userService();
+                _gibEArsivService = new GIBEArsiv.EarsivWebService();
 
-                gibUserService.CookieContainer = new System.Net.CookieContainer();
-                gibEArsivService.CookieContainer = gibUserService.CookieContainer;
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEArsivService.CookieContainer = _gibUserService.CookieContainer;
 
-                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
-                string inputKontrol = "{\"faturaUuid\":\"" + gidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
+                var inputKontrol = "{\"faturaUuid\":\"" + gidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
                 var fatura = new GIBEArsiv.belge();
                 fatura.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
                 fatura.belgeFormatiSpecified = true;
-                GIBEArsiv.earsivServiceResult serviceResult = new GIBEArsiv.earsivServiceResult();
+                var serviceResult = new GIBEArsiv.earsivServiceResult();
 
-                gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
+                _gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode == "AE00000")
                     uygunMu = false;
 
                 return uygunMu;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return true;
             }
             finally
             {
-                gibUserService.logout();
+                _gibUserService.logout();
             }
         }
 
@@ -500,51 +516,48 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                gibUserService = new GIBUserService.userService();
-                gibEArsivService = new GIBEArsiv.EarsivWebService();
+                _gibUserService = new GIBUserService.userService();
+                _gibEArsivService = new GIBEArsiv.EarsivWebService();
 
-                gibUserService.CookieContainer = new System.Net.CookieContainer();
-                gibEArsivService.CookieContainer = gibUserService.CookieContainer;
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEArsivService.CookieContainer = _gibUserService.CookieContainer;
 
-                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
-                string input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
+                var input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
                 //string inputKontrol = "{\"vkn\":\"3250566851\",\"donenBelgeFormati\":\"9\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\"";
-                string inputKontrol = "{\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
+                var inputKontrol = "{\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
                 var belgeTemp = new GIBEArsiv.belge();
                 belgeTemp.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
                 belgeTemp.belgeFormatiSpecified = true;
-                belgeTemp.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
-                GIBEArsiv.earsivServiceResult serviceResult = new GIBEArsiv.earsivServiceResult();
+                belgeTemp.belgeIcerigi = File.ReadAllBytes(dosyaAdi);
+                var serviceResult = new GIBEArsiv.earsivServiceResult();
 
-                gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
+                _gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode != "AE00000")
                 {
-                    var belge = gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
+                    var belge = _gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
                 }
                 else
                     return MesajSabitler.IslemBasarili;
 
-                if (serviceResult.resultCode != "AE00000")
-                    return MesajSabitler.IslemBasarisiz;
-                else
-                    return MesajSabitler.IslemBasarili;
+                return serviceResult.resultCode != "AE00000" ? MesajSabitler.IslemBasarisiz : MesajSabitler.IslemBasarili;
 
-                //var belge = gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
+                //var belge = _gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
 
                 //if (serviceResult.resultCode != "AE00000")
                 //    return MesajSabitler.IslemBasarisiz;
                 //else
                 //    return MesajSabitler.IslemBasarili;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return MesajSabitler.IslemBasarisiz;
             }
             finally
             {
-                gibUserService.logout();
+                _gibUserService.logout();
             }
         }
 
@@ -560,42 +573,39 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                gibUserService = new GIBUserService.userService();
-                gibEArsivService = new GIBEArsiv.EarsivWebService();
+                _gibUserService = new GIBUserService.userService();
+                _gibEArsivService = new GIBEArsiv.EarsivWebService();
 
-                gibUserService.CookieContainer = new System.Net.CookieContainer();
-                gibEArsivService.CookieContainer = gibUserService.CookieContainer;
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEArsivService.CookieContainer = _gibUserService.CookieContainer;
 
-                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
                 // Burada VKN ve ERP Kodu önemlidir
-                string input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
+                var input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
 
                 var belgeTemp = new GIBEArsiv.belge();
                 belgeTemp.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
                 belgeTemp.belgeFormatiSpecified = true;
-                belgeTemp.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
+                belgeTemp.belgeIcerigi = File.ReadAllBytes(dosyaAdi);
 
-                GIBEArsiv.earsivServiceResult serviceResult = new GIBEArsiv.earsivServiceResult();
-                var temp = gibEArsivService.faturaSorgula(input, out serviceResult);
+                var serviceResult = new GIBEArsiv.earsivServiceResult();
+                var temp = _gibEArsivService.faturaSorgula(input, out serviceResult);
                 if (temp != null)
                     return temp.belgeIcerigi;
                 else
                 {
-                    temp = gibEArsivService.faturaOnizleme(input, belgeTemp, out serviceResult);
-                    if (temp != null)
-                        return temp.belgeIcerigi;
-                    else
-                        return null;
+                    temp = _gibEArsivService.faturaOnizleme(input, belgeTemp, out serviceResult);
+                    return temp != null ? temp.belgeIcerigi : null;
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
             finally
             {
-                gibUserService.logout();
+                _gibUserService.logout();
             }
         }
 
@@ -612,31 +622,31 @@ namespace QNBFinansGIB.Utils
             {
                 var uygunMu = true;
 
-                gibUserService = new GIBUserService.userService();
-                gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
+                _gibUserService = new GIBUserService.userService();
+                _gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
 
-                gibUserService.CookieContainer = new System.Net.CookieContainer();
-                gibEMustahsilService.CookieContainer = gibUserService.CookieContainer;
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEMustahsilService.CookieContainer = _gibUserService.CookieContainer;
 
-                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
 
-                string inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
+                var inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
 
-                GIBEMustahsil.earsivServiceResult serviceResult = new GIBEMustahsil.earsivServiceResult();
+                var serviceResult = new GIBEMustahsil.earsivServiceResult();
 
-                gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out serviceResult);
+                _gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode == "AE00000")
                     uygunMu = false;
 
                 return uygunMu;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return true;
             }
             finally
             {
-                gibUserService.logout();
+                _gibUserService.logout();
             }
         }
 
@@ -650,43 +660,40 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                gibUserService = new GIBUserService.userService();
-                gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
+                _gibUserService = new GIBUserService.userService();
+                _gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
 
-                gibUserService.CookieContainer = new System.Net.CookieContainer();
-                gibEMustahsilService.CookieContainer = gibUserService.CookieContainer;
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEMustahsilService.CookieContainer = _gibUserService.CookieContainer;
 
-                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
 
-                string input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
-                string inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
+                var input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
+                var inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
 
                 var belgeTemp = new GIBEMustahsil.belge();
                 belgeTemp.belgeFormati = GIBEMustahsil.belgeFormatiEnum.UBL;
                 belgeTemp.belgeFormatiSpecified = true;
-                belgeTemp.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
-                GIBEMustahsil.earsivServiceResult serviceResult = new GIBEMustahsil.earsivServiceResult();
+                belgeTemp.belgeIcerigi = File.ReadAllBytes(dosyaAdi);
+                var serviceResult = new GIBEMustahsil.earsivServiceResult();
 
-                gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out serviceResult);
+                _gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode != "AE00000")
                 {
-                    var belge = gibEMustahsilService.mustahsilMakbuzOlustur(input, belgeTemp, out serviceResult);
+                    var belge = _gibEMustahsilService.mustahsilMakbuzOlustur(input, belgeTemp, out serviceResult);
                 }
                 else
                     return MesajSabitler.IslemBasarili;
 
-                if (serviceResult.resultCode != "AE00000")
-                    return MesajSabitler.IslemBasarisiz;
-                else
-                    return MesajSabitler.IslemBasarili;
+                return serviceResult.resultCode != "AE00000" ? MesajSabitler.IslemBasarisiz : MesajSabitler.IslemBasarili;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return MesajSabitler.IslemBasarisiz;
             }
             finally
             {
-                gibUserService.logout();
+                _gibUserService.logout();
             }
         }
 
@@ -702,42 +709,39 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                gibUserService = new GIBUserService.userService();
-                gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
+                _gibUserService = new GIBUserService.userService();
+                _gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
 
-                gibUserService.CookieContainer = new System.Net.CookieContainer();
-                gibEMustahsilService.CookieContainer = gibUserService.CookieContainer;
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEMustahsilService.CookieContainer = _gibUserService.CookieContainer;
 
-                gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
 
                 // Burada VKN ve ERP Kodu önemlidir
-                string input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
+                var input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
 
                 var belgeTemp = new GIBEMustahsil.belge();
                 belgeTemp.belgeFormati = GIBEMustahsil.belgeFormatiEnum.UBL;
                 belgeTemp.belgeFormatiSpecified = true;
-                belgeTemp.belgeIcerigi = System.IO.File.ReadAllBytes(dosyaAdi);
+                belgeTemp.belgeIcerigi = File.ReadAllBytes(dosyaAdi);
 
-                GIBEMustahsil.earsivServiceResult serviceResult = new GIBEMustahsil.earsivServiceResult();
-                var temp = gibEMustahsilService.mustahsilMakbuzSorgula(input, out serviceResult);
+                var serviceResult = new GIBEMustahsil.earsivServiceResult();
+                var temp = _gibEMustahsilService.mustahsilMakbuzSorgula(input, out serviceResult);
                 if (temp != null)
                     return temp.belgeIcerigi;
                 else
                 {
-                    temp = gibEMustahsilService.mustahsilMakbuzOnizleme(input, belgeTemp, out serviceResult);
-                    if (temp != null)
-                        return temp.belgeIcerigi;
-                    else
-                        return null;
+                    temp = _gibEMustahsilService.mustahsilMakbuzOnizleme(input, belgeTemp, out serviceResult);
+                    return temp?.belgeIcerigi;
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
             finally
             {
-                gibUserService.logout();
+                _gibUserService.logout();
             }
         }
 
@@ -746,15 +750,15 @@ namespace QNBFinansGIB.Utils
         /// </summary>
         /// <param name="gelen">Girdi Bilgisi</param>
         /// <returns>Metnin veya girdinin MD5 hashlenmiş hali</returns>
-        public static string GetMD5Hash(byte[] gelen)
+        private static string GetMD5Hash(byte[] gelen)
         {
-            MD5 md5Hash = new MD5CryptoServiceProvider();
-            byte[] data = md5Hash.ComputeHash(gelen);
-            StringBuilder sBuilder = new StringBuilder();
+            var md5Hash = new MD5CryptoServiceProvider();
+            var data = md5Hash.ComputeHash(gelen);
+            var sBuilder = new StringBuilder();
 
-            for (int i = 0; i < data.Length; i++)
+            foreach (var t in data)
             {
-                sBuilder.Append(data[i].ToString("x2"));
+                sBuilder.Append(t.ToString("x2"));
             }
 
             return sBuilder.ToString();
