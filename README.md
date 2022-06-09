@@ -1,4 +1,4 @@
-# QNB Finans GİB (Gelir İdaresi Başkanlığı E-Fatura, E-Arşiv ve E-Müstahsil Web Servis Uygulaması)
+# QNB Finans GİB (Gelir İdaresi Başkanlığı) E-Fatura, E-Arşiv ve E-Müstahsil Web Servis Uygulaması
 
 ![GitHub stars](https://img.shields.io/github/stars/coderserdar/QNBFinansGIB?style=social) ![GitHub forks](https://img.shields.io/github/forks/coderserdar/QNBFinansGIB?style=social) ![GitHub watchers](https://img.shields.io/github/watchers/coderserdar/QNBFinansGIB?style=social) ![GitHub repo size](https://img.shields.io/github/repo-size/coderserdar/QNBFinansGIB?style=plastic) ![GitHub language count](https://img.shields.io/github/languages/count/coderserdar/QNBFinansGIB?style=plastic) ![GitHub top language](https://img.shields.io/github/languages/top/coderserdar/QNBFinansGIB?style=plastic) ![GitHub last commit](https://img.shields.io/github/last-commit/coderserdar/QNBFinansGIB?color=red&style=plastic)
 
