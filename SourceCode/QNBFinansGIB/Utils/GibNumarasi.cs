@@ -58,7 +58,7 @@ namespace QNBFinansGIB.Utils
         {  
             var builder = new StringBuilder(size);
             var random = new Random();
-            char offset = lowerCase ? 'a' : 'A';  
+            var offset = lowerCase ? 'a' : 'A';  
             const int lettersOffset = 26; // A...Z or a..z: length=26  
             for (var i = 0; i < size; i++)  
             {  

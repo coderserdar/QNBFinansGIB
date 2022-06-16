@@ -704,8 +704,10 @@ namespace QNBFinansGIB
 
                 #region XML Oluşturma ve Servis Önizlemesi
                 var dosyaAdi = "";
-                var geriDonus = new GeriDonus();
-                geriDonus.Tip = 0;
+                var geriDonus = new GeriDonus
+                {
+                    Tip = 0
+                };
                 var dosya = new byte[1];
                 var kullaniciMi = false;
                 if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
@@ -951,8 +953,8 @@ namespace QNBFinansGIB
 
                 #region XML Oluşturma ve Servis Önizlemesi
                 var dosyaAdi = "";
-                var geriDonus = new GeriDonus();
-                geriDonus.Tip = 0;
+                // var geriDonus = new GeriDonus();
+                // geriDonus.Tip = 0;
                 var dosya = new byte[1];
                 if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
                 {
@@ -967,8 +969,8 @@ namespace QNBFinansGIB
                 if (dosya != null && dosya.Length > 1)
                 {
                     var dosyaAdiTemp = dosyaAdi.Replace("xml", "pdf");
-                    if (geriDonus != null && geriDonus.Tip == 1)
-                        dosyaAdiTemp = dosyaAdi.Replace("xml", "zip");
+                    // if (geriDonus != null && geriDonus.Tip == 1)
+                    //     dosyaAdiTemp = dosyaAdi.Replace("xml", "zip");
 
                     File.WriteAllBytes(dosyaAdiTemp, dosya);
 

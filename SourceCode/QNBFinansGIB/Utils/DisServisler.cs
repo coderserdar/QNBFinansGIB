@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using QNBFinansGIB.GIBEFatura;
 
 namespace QNBFinansGIB.Utils
 {
@@ -58,8 +59,6 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                var kullaniciMi = false;
-
                 _gibUserService = new GIBUserService.userService();
                 _gibEFaturaService = new GIBEFatura.connectorService();
 
@@ -68,7 +67,7 @@ namespace QNBFinansGIB.Utils
 
                 _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
-                kullaniciMi = _gibEFaturaService.efaturaKullanicisi(vergiNo);
+                var kullaniciMi = _gibEFaturaService.efaturaKullanicisi(vergiNo);
 
                 return kullaniciMi;
             }
@@ -103,12 +102,13 @@ namespace QNBFinansGIB.Utils
 
                 _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
-                var parametreler = new GIBEFatura.gidenBelgeParametreleri();
-                parametreler.vergiTcKimlikNo = "3250566851";
-                parametreler.belgeTuru = "FATURA_UBL";
-                parametreler.belgeNo = gidenFaturaId;
-                parametreler.erpKodu = GIBERPKodu;
-
+                var parametreler = new GIBEFatura.gidenBelgeParametreleri
+                {
+                    vergiTcKimlikNo = "3250566851",
+                    belgeTuru = "FATURA_UBL",
+                    belgeNo = gidenFaturaId,
+                    erpKodu = GIBERPKodu
+                };
                 var belgeDurumEsas = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
                 if (belgeDurumEsas.durum == 1 || belgeDurumEsas.durum == 3)
                     uygunMu = false;
@@ -144,19 +144,18 @@ namespace QNBFinansGIB.Utils
 
                 _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
-                var parametreler = new GIBEFatura.gidenBelgeleriListeleParametreleri();
-                parametreler.vkn = "3250566851";
-                parametreler.belgeTuru = "FATURA_UBL";
-                parametreler.baslangicGonderimTarihi = baslangicTarihi?.ToString("yyyyMMdd");
-                parametreler.bitisGonderimTarihi = bitisTarihi?.ToString("yyyyMMdd");
-
+                var parametreler = new GIBEFatura.gidenBelgeleriListeleParametreleri
+                {
+                    vkn = "3250566851",
+                    belgeTuru = "FATURA_UBL",
+                    baslangicGonderimTarihi = baslangicTarihi?.ToString("yyyyMMdd"),
+                    bitisGonderimTarihi = bitisTarihi?.ToString("yyyyMMdd")
+                };
                 var sonucMesaji = "İşlem Başarılı";
-
                 var liste = _gibEFaturaService.gidenBelgeleriListele(parametreler);
                 foreach (var item in liste)
                 {
-                    var nesne = item as GIBEFatura.gidenBelgeleriListeleData;
-                    if (nesne != null && nesne.yerelBelgeNo == gidenFaturaId)
+                    if (item is gidenBelgeleriListeleData nesne && nesne.yerelBelgeNo == gidenFaturaId)
                         return nesne.belgeOid;
                 }
 
@@ -191,12 +190,14 @@ namespace QNBFinansGIB.Utils
 
                 _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
 
-                var parametreler = new GIBEFatura.gidenBelgeParametreleri();
-                parametreler.vergiTcKimlikNo = "3250566851";
-                parametreler.belgeTuru = "FATURA_UBL";
-                parametreler.belgeNo = gidenFatura.GidenFaturaId;
-                parametreler.belgeVersiyon = "1.0";
-                parametreler.veri = File.ReadAllBytes(dosyaAdi);
+                var parametreler = new GIBEFatura.gidenBelgeParametreleri
+                {
+                    vergiTcKimlikNo = "3250566851",
+                    belgeTuru = "FATURA_UBL",
+                    belgeNo = gidenFatura.GidenFaturaId,
+                    belgeVersiyon = "1.0",
+                    veri = File.ReadAllBytes(dosyaAdi)
+                };
                 parametreler.belgeHash = GetMD5Hash(parametreler.veri);
                 parametreler.mimeType = "application/xml";
                 parametreler.erpKodu = GIBERPKodu;
@@ -485,11 +486,12 @@ namespace QNBFinansGIB.Utils
 
                 var inputKontrol = "{\"faturaUuid\":\"" + gidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
-                var fatura = new GIBEArsiv.belge();
-                fatura.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
-                fatura.belgeFormatiSpecified = true;
+                var fatura = new GIBEArsiv.belge
+                {
+                    belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL,
+                    belgeFormatiSpecified = true
+                };
                 var serviceResult = new GIBEArsiv.earsivServiceResult();
-
                 _gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode == "AE00000")
                     uygunMu = false;
@@ -528,12 +530,13 @@ namespace QNBFinansGIB.Utils
                 //string inputKontrol = "{\"vkn\":\"3250566851\",\"donenBelgeFormati\":\"9\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\"";
                 var inputKontrol = "{\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
-                var belgeTemp = new GIBEArsiv.belge();
-                belgeTemp.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
-                belgeTemp.belgeFormatiSpecified = true;
-                belgeTemp.belgeIcerigi = File.ReadAllBytes(dosyaAdi);
+                var belgeTemp = new GIBEArsiv.belge
+                {
+                    belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL,
+                    belgeFormatiSpecified = true,
+                    belgeIcerigi = File.ReadAllBytes(dosyaAdi)
+                };
                 var serviceResult = new GIBEArsiv.earsivServiceResult();
-
                 _gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode != "AE00000")
                 {
@@ -584,11 +587,12 @@ namespace QNBFinansGIB.Utils
                 // Burada VKN ve ERP Kodu önemlidir
                 var input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
 
-                var belgeTemp = new GIBEArsiv.belge();
-                belgeTemp.belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL;
-                belgeTemp.belgeFormatiSpecified = true;
-                belgeTemp.belgeIcerigi = File.ReadAllBytes(dosyaAdi);
-
+                var belgeTemp = new GIBEArsiv.belge
+                {
+                    belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL,
+                    belgeFormatiSpecified = true,
+                    belgeIcerigi = File.ReadAllBytes(dosyaAdi)
+                };
                 var serviceResult = new GIBEArsiv.earsivServiceResult();
                 var temp = _gibEArsivService.faturaSorgula(input, out serviceResult);
                 if (temp != null)
@@ -596,7 +600,7 @@ namespace QNBFinansGIB.Utils
                 else
                 {
                     temp = _gibEArsivService.faturaOnizleme(input, belgeTemp, out serviceResult);
-                    return temp != null ? temp.belgeIcerigi : null;
+                    return temp?.belgeIcerigi;
                 }
             }
             catch (Exception ex)
@@ -671,12 +675,13 @@ namespace QNBFinansGIB.Utils
                 var input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
                 var inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
 
-                var belgeTemp = new GIBEMustahsil.belge();
-                belgeTemp.belgeFormati = GIBEMustahsil.belgeFormatiEnum.UBL;
-                belgeTemp.belgeFormatiSpecified = true;
-                belgeTemp.belgeIcerigi = File.ReadAllBytes(dosyaAdi);
+                var belgeTemp = new GIBEMustahsil.belge
+                {
+                    belgeFormati = GIBEMustahsil.belgeFormatiEnum.UBL,
+                    belgeFormatiSpecified = true,
+                    belgeIcerigi = File.ReadAllBytes(dosyaAdi)
+                };
                 var serviceResult = new GIBEMustahsil.earsivServiceResult();
-
                 _gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode != "AE00000")
                 {
@@ -720,11 +725,12 @@ namespace QNBFinansGIB.Utils
                 // Burada VKN ve ERP Kodu önemlidir
                 var input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
 
-                var belgeTemp = new GIBEMustahsil.belge();
-                belgeTemp.belgeFormati = GIBEMustahsil.belgeFormatiEnum.UBL;
-                belgeTemp.belgeFormatiSpecified = true;
-                belgeTemp.belgeIcerigi = File.ReadAllBytes(dosyaAdi);
-
+                var belgeTemp = new GIBEMustahsil.belge
+                {
+                    belgeFormati = GIBEMustahsil.belgeFormatiEnum.UBL,
+                    belgeFormatiSpecified = true,
+                    belgeIcerigi = File.ReadAllBytes(dosyaAdi)
+                };
                 var serviceResult = new GIBEMustahsil.earsivServiceResult();
                 var temp = _gibEMustahsilService.mustahsilMakbuzSorgula(input, out serviceResult);
                 if (temp != null)
