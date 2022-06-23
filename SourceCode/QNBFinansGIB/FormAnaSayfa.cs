@@ -3,6 +3,7 @@ using QNBFinansGIB.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -735,10 +736,15 @@ namespace QNBFinansGIB
                 if (dosya != null && dosya.Length > 1)
                 {
                     var dosyaAdiTemp = dosyaAdi.Replace("xml", "pdf");
+                    // if (kullaniciMi && !string.IsNullOrEmpty(gidenFatura.BelgeOid))
+                    //     dosyaAdiTemp = dosyaAdi.Replace("xml", "zip");
+                    // if (geriDonus != null && geriDonus.Tip == 1)
+                    //     dosyaAdiTemp = dosyaAdi.Replace("xml", "zip");
+
                     if (kullaniciMi && !string.IsNullOrEmpty(gidenFatura.BelgeOid))
-                        dosyaAdiTemp = dosyaAdi.Replace("xml", "zip");
+                        dosya = ZipDosyasindanPdfCikar(dosya);
                     if (geriDonus != null && geriDonus.Tip == 1)
-                        dosyaAdiTemp = dosyaAdi.Replace("xml", "zip");
+                        dosya = ZipDosyasindanPdfCikar(dosya);
 
                     File.WriteAllBytes(dosyaAdiTemp, dosya);
 
@@ -1063,5 +1069,36 @@ namespace QNBFinansGIB
 
         #endregion
 
+        #region Diğer Yardımcı Metotlar
+        
+        /// <summary>
+        /// E-Fatura Sisteminden Onaylı Fatura Çıktısı PDF yerine ZIP Formatında
+        /// Geldiği için bu ZIP formatındaki byte array üzerinden
+        /// İçindeki PDF dosyasının alınıp yazdırılması için
+        /// Gerkli metottur
+        /// </summary>
+        /// <param name="dosya">ZIP Byte Array</param>
+        /// <returns>PDF Byte Array</returns>
+        private static byte[] ZipDosyasindanPdfCikar(byte[] dosya)
+        {
+            var streamZip = new MemoryStream(dosya);
+            using (var zip = new ZipArchive(streamZip, ZipArchiveMode.Update))
+            {
+                foreach (var entry in zip.Entries)
+                {
+                    var streamTemp = entry.Open();
+                    byte[] bytes;
+                    using (var ms = new MemoryStream())
+                    {
+                        streamTemp.CopyTo(ms);
+                        bytes = ms.ToArray();
+                    }
+                    dosya = bytes;
+                }
+            }
+            return dosya;
+        }
+        
+        #endregion
     }
 }
