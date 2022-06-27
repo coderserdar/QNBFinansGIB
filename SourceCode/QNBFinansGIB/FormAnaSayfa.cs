@@ -908,7 +908,7 @@ namespace QNBFinansGIB
                 if (!string.IsNullOrEmpty(item))
                     lbEFaturaKullaniciListesi.Items.Add(item);
             }
-            MessageBox.Show(vergiKimlikNoListesi.Count + " adet e-fatura mükellef kaydı bulundu", ActiveForm.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(vergiKimlikNoListesi.Count + " adet e-fatura mükellef kaydı bulundu", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #endregion
