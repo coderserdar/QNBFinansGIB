@@ -1,5 +1,6 @@
 ﻿using QNBFinansGIB.DTO;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -74,6 +75,45 @@ namespace QNBFinansGIB.Utils
             catch (Exception ex)
             {
                 return false;
+            }
+            finally
+            {
+                _gibUserService.logout();
+            }
+        }
+        
+        /// <summary>
+        /// Girilen tarihten önceki E-Fatura Mükellef Listesini getiren metottur
+        /// Bir Metottur
+        /// </summary>
+        /// <param name="faturaTarihi">Fatura Tarihi Bilgisi</param>
+        /// <returns>E-Fatura Kullanıcı Listesi</returns>
+        public static List<string> EFaturaKullaniciListesi(DateTime faturaTarihi)
+        {
+            try
+            {
+                _gibUserService = new GIBUserService.userService();
+                _gibEFaturaService = new GIBEFatura.connectorService();
+
+                _gibUserService.CookieContainer = new System.Net.CookieContainer();
+                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
+
+                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+
+                var vergiKimlikNoListesi = new List<string>();
+                
+                var kayitTarihiString = faturaTarihi.Date.ToString("yyyyMMdd") + faturaTarihi.ToString("HHmmss");
+                var list = _gibEFaturaService.eFaturaKayitliKullaniciListele(kayitTarihiString);
+                foreach (var item in list)
+                {
+                    vergiKimlikNoListesi.Add(item.vergiTcKimlikNo);
+                }
+
+                return vergiKimlikNoListesi;
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
             }
             finally
             {

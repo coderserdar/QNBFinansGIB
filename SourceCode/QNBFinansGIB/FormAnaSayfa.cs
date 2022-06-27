@@ -47,10 +47,12 @@ namespace QNBFinansGIB
         /// Buradan sonra butonlara tıklandığında
         /// Bu listeler üzerinden kolayca işlem yapılabilsin
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
         private void FormAnaSayfa_Shown(object sender, EventArgs e)
         {
+            dtpFaturaTarihi.Format = DateTimePickerFormat.Short;
+            
             #region İlk Verilerin Hazırlanması
 
             #region Giden Faturalar
@@ -627,8 +629,8 @@ namespace QNBFinansGIB
         /// <summary>
         /// Form kapandığı zaman ne yapılacağını belirten bir metottur
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
         private void frmAnaSayfa_FormClosed(object sender, FormClosedEventArgs e)
         {
             MessageBox.Show("Programı kullandığınız için teşekkürler", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -641,8 +643,8 @@ namespace QNBFinansGIB
         /// İdeal XML dosyalarının oluşturulması için XML Oluştur Butonuna tıklandığı zaman
         /// Yapılacak işlemlerin hazırlandığı metottur.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
         private void btnXmlOlustur_Click(object sender, EventArgs e)
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
@@ -684,8 +686,8 @@ namespace QNBFinansGIB
         /// Önizleme alınmasını sağlayan metottur. Bu önizleme PDF veya ZIP olarak alınacak
         /// Sorun olsa da olmasa da bir mesaj ile kullanıcı bilgilendirilecektir.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
         private void btnGIBOnizleme_Click(object sender, EventArgs e)
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
@@ -764,8 +766,8 @@ namespace QNBFinansGIB
         /// E-Fatura veya E-Arşiv servisine gönderilmesi için hazırlanan metottur.
         /// Burada işlemin başarılı olup olmamasına göre kullanıcı bilgilendirilecektir.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
         private void btnServiseGonder_Click(object sender, EventArgs e)
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
@@ -830,8 +832,8 @@ namespace QNBFinansGIB
         /// Daha önce gönderilme ihtimaline karşılık olarak
         /// Bu bilgilerin servis üzerinden temin edilebilmesi için gerekli işlemler gerçekleştirildi
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
         private void btnBelgeOidKontrol_Click(object sender, EventArgs e)
         {
             #region E-Fatura Mükelleflerinin Fatura Id Bilgilerinin Temini
@@ -867,8 +869,8 @@ namespace QNBFinansGIB
         /// Faturanın sisteme gönderilip gönderilmediği kontrol edilerek
         /// Buna göre silinip silinmeyeceğina karar verilmesini sağlayan metottur.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
         private void btnFaturaSil_Click(object sender, EventArgs e)
         {
             var index = new Random().Next(gidenFaturaListesi.Count);
@@ -889,6 +891,25 @@ namespace QNBFinansGIB
                 MessageBox.Show("Vergi Numarası olmayan bir fatura silinemez.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
+        /// <summary>
+        /// Ekrandan girilne tarihten öncesine ait
+        /// Kayıtlı E-Fatura Mükellef Vergi Numara listesini getiren
+        /// Ve Listbox'ı dolduran metottur.
+        /// </summary>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnEFaturaKullaniciListesi_Click(object sender, EventArgs e)
+        {
+            lbEFaturaKullaniciListesi.Items.Clear();
+            var vergiKimlikNoListesi = DisServisler.EFaturaKullaniciListesi(dtpFaturaTarihi.Value);
+            foreach (var item in vergiKimlikNoListesi)
+            {
+                if (!string.IsNullOrEmpty(item))
+                    lbEFaturaKullaniciListesi.Items.Add(item);
+            }
+            MessageBox.Show(vergiKimlikNoListesi.Count + " adet e-fatura mükellef kaydı bulundu", ActiveForm.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
         #endregion
 
@@ -898,8 +919,8 @@ namespace QNBFinansGIB
         /// İdeal XML dosyalarının oluşturulması için XML Oluştur Butonuna tıklandığı zaman
         /// Yapılacak işlemlerin hazırlandığı metottur.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
         private void btnXmlOlusturMustahsil_Click(object sender, EventArgs e)
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
@@ -938,8 +959,8 @@ namespace QNBFinansGIB
         /// Önizleme alınmasını sağlayan metottur. Bu önizleme PDF veya ZIP olarak alınacak
         /// Sorun olsa da olmasa da bir mesaj ile kullanıcı bilgilendirilecektir.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
         private void btnGIBOnizlemeMustahsil_Click(object sender, EventArgs e)
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
@@ -996,8 +1017,8 @@ namespace QNBFinansGIB
         /// E-Müstahsil servisine gönderilmesi için hazırlanan metottur.
         /// Burada işlemin başarılı olup olmamasına göre kullanıcı bilgilendirilecektir.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
         private void btnServiseGonderMustahsil_Click(object sender, EventArgs e)
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
@@ -1045,8 +1066,8 @@ namespace QNBFinansGIB
         /// Makbuzun sisteme gönderilip gönderilmediği kontrol edilerek
         /// Buna göre silinip silinmeyeceğina karar verilmesini sağlayan metottur.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
         private void btnMakbuzSil_Click(object sender, EventArgs e)
         {
             var index = new Random().Next(mustahsilMakbuzuListesi.Count);

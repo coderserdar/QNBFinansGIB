@@ -35,12 +35,17 @@
             this.btnFaturaSil = new System.Windows.Forms.Button();
             this.btnBelgeOidKontrol = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnXmlOlusturMustahsil = new System.Windows.Forms.Button();
-            this.btnServiseGonderMustahsil = new System.Windows.Forms.Button();
-            this.btnGIBOnizlemeMustahsil = new System.Windows.Forms.Button();
-            this.btnMakbuzSil = new System.Windows.Forms.Button();
+            this.lbEFaturaKullaniciListesi = new System.Windows.Forms.ListBox();
+            this.dtpFaturaTarihi = new System.Windows.Forms.DateTimePicker();
+            this.btnEFaturaKullaniciListesi = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnXmlOlustur
@@ -109,56 +114,89 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.btnMakbuzSil);
-            this.groupBox2.Controls.Add(this.btnXmlOlusturMustahsil);
-            this.groupBox2.Controls.Add(this.btnServiseGonderMustahsil);
-            this.groupBox2.Controls.Add(this.btnGIBOnizlemeMustahsil);
-            this.groupBox2.Location = new System.Drawing.Point(12, 137);
+            this.groupBox2.Controls.Add(this.lbEFaturaKullaniciListesi);
+            this.groupBox2.Controls.Add(this.dtpFaturaTarihi);
+            this.groupBox2.Controls.Add(this.btnEFaturaKullaniciListesi);
+            this.groupBox2.Location = new System.Drawing.Point(12, 121);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(651, 123);
+            this.groupBox2.Size = new System.Drawing.Size(651, 128);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "E-Müstahsil";
+            this.groupBox2.Text = "E-Fatura";
             // 
-            // btnXmlOlusturMustahsil
+            // lbEFaturaKullaniciListesi
             // 
-            this.btnXmlOlusturMustahsil.Location = new System.Drawing.Point(6, 30);
-            this.btnXmlOlusturMustahsil.Name = "btnXmlOlusturMustahsil";
-            this.btnXmlOlusturMustahsil.Size = new System.Drawing.Size(116, 31);
-            this.btnXmlOlusturMustahsil.TabIndex = 0;
-            this.btnXmlOlusturMustahsil.Text = "XML Oluştur";
-            this.btnXmlOlusturMustahsil.UseVisualStyleBackColor = true;
-            this.btnXmlOlusturMustahsil.Click += new System.EventHandler(this.btnXmlOlusturMustahsil_Click);
+            this.lbEFaturaKullaniciListesi.FormattingEnabled = true;
+            this.lbEFaturaKullaniciListesi.Location = new System.Drawing.Point(319, 28);
+            this.lbEFaturaKullaniciListesi.Name = "lbEFaturaKullaniciListesi";
+            this.lbEFaturaKullaniciListesi.Size = new System.Drawing.Size(325, 95);
+            this.lbEFaturaKullaniciListesi.TabIndex = 5;
             // 
-            // btnServiseGonderMustahsil
+            // dtpFaturaTarihi
             // 
-            this.btnServiseGonderMustahsil.Location = new System.Drawing.Point(308, 30);
-            this.btnServiseGonderMustahsil.Name = "btnServiseGonderMustahsil";
-            this.btnServiseGonderMustahsil.Size = new System.Drawing.Size(165, 31);
-            this.btnServiseGonderMustahsil.TabIndex = 2;
-            this.btnServiseGonderMustahsil.Text = "Servise Gönder";
-            this.btnServiseGonderMustahsil.UseVisualStyleBackColor = true;
-            this.btnServiseGonderMustahsil.Click += new System.EventHandler(this.btnServiseGonderMustahsil_Click);
+            this.dtpFaturaTarihi.Location = new System.Drawing.Point(6, 31);
+            this.dtpFaturaTarihi.Name = "dtpFaturaTarihi";
+            this.dtpFaturaTarihi.Size = new System.Drawing.Size(116, 20);
+            this.dtpFaturaTarihi.TabIndex = 4;
             // 
-            // btnGIBOnizlemeMustahsil
+            // btnEFaturaKullaniciListesi
             // 
-            this.btnGIBOnizlemeMustahsil.Location = new System.Drawing.Point(128, 30);
-            this.btnGIBOnizlemeMustahsil.Name = "btnGIBOnizlemeMustahsil";
-            this.btnGIBOnizlemeMustahsil.Size = new System.Drawing.Size(174, 31);
-            this.btnGIBOnizlemeMustahsil.TabIndex = 1;
-            this.btnGIBOnizlemeMustahsil.Text = "GIB Makbuz Çıktı Önizleme";
-            this.btnGIBOnizlemeMustahsil.UseVisualStyleBackColor = true;
-            this.btnGIBOnizlemeMustahsil.Click += new System.EventHandler(this.btnGIBOnizlemeMustahsil_Click);
+            this.btnEFaturaKullaniciListesi.Location = new System.Drawing.Point(137, 28);
+            this.btnEFaturaKullaniciListesi.Name = "btnEFaturaKullaniciListesi";
+            this.btnEFaturaKullaniciListesi.Size = new System.Drawing.Size(165, 23);
+            this.btnEFaturaKullaniciListesi.TabIndex = 3;
+            this.btnEFaturaKullaniciListesi.Text = "E-Fatura Kullanıcı Listesi";
+            this.btnEFaturaKullaniciListesi.UseVisualStyleBackColor = true;
+            this.btnEFaturaKullaniciListesi.Click += new System.EventHandler(this.btnEFaturaKullaniciListesi_Click);
             // 
-            // btnMakbuzSil
+            // groupBox3
             // 
-            this.btnMakbuzSil.Location = new System.Drawing.Point(479, 30);
-            this.btnMakbuzSil.Name = "btnMakbuzSil";
-            this.btnMakbuzSil.Size = new System.Drawing.Size(165, 31);
-            this.btnMakbuzSil.TabIndex = 3;
-            this.btnMakbuzSil.Text = "Makbuz Sil";
-            this.btnMakbuzSil.UseVisualStyleBackColor = true;
-            this.btnMakbuzSil.Click += new System.EventHandler(this.btnMakbuzSil_Click);
+            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.button2);
+            this.groupBox3.Controls.Add(this.button3);
+            this.groupBox3.Controls.Add(this.button4);
+            this.groupBox3.Location = new System.Drawing.Point(12, 255);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(651, 78);
+            this.groupBox3.TabIndex = 5;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "E-Müstahsil";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(479, 30);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(165, 31);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Makbuz Sil";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(6, 30);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(116, 31);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "XML Oluştur";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(308, 30);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(165, 31);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "Servise Gönder";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(128, 30);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(174, 31);
+            this.button4.TabIndex = 1;
+            this.button4.Text = "GIB Makbuz Çıktı Önizleme";
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // frmAnaSayfa
             // 
@@ -166,7 +204,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(675, 272);
+            this.ClientSize = new System.Drawing.Size(675, 345);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "frmAnaSayfa";
@@ -176,9 +215,18 @@
             this.Shown += new System.EventHandler(this.FormAnaSayfa_Shown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
+
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnEFaturaKullaniciListesi;
+        private System.Windows.Forms.DateTimePicker dtpFaturaTarihi;
+        private System.Windows.Forms.ListBox lbEFaturaKullaniciListesi;
 
         #endregion
 
@@ -187,9 +235,6 @@
         private System.Windows.Forms.Button btnServiseGonder;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button btnXmlOlusturMustahsil;
-        private System.Windows.Forms.Button btnServiseGonderMustahsil;
-        private System.Windows.Forms.Button btnGIBOnizlemeMustahsil;
         private System.Windows.Forms.Button btnBelgeOidKontrol;
         private System.Windows.Forms.Button btnFaturaSil;
         private System.Windows.Forms.Button btnMakbuzSil;
