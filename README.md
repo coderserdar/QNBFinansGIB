@@ -12,6 +12,7 @@ Bu uygulamada aşağıdaki işlemler gerçekleştirilebilmektedir.
  - Eğer daha önceden gönderildiyse gönderilen faturanın veya müstahsil makbuzunun, gönderilmediyse hazırlanan **XML (UBL)** dosyasının **GİB** portalında nasıl görüneceğine dair **PDF** veya **ZIP** formatında *önizleme* yapabilme 
  - Hazırlanan **XML (UBL)** dosyasının **GİB** *E-Fatura* ve *E-Arşiv* servisine (fatura kesilen tüzel kişinin E-Fatura mükellefi olup olmamasına bağlı olarak) veya *E-Müstahsil* servisine gönderilmesi
  - Fatura veya Makbuzları silmeye çalışırken, daha önce başarılı bir şekilde **GİB** servislerine gönderilip gönderilmediğinin kontrol edilmesi
+ - Belli bir tarihten önce E-Fatura Mükellefi olan kullanıcıların listesi
 
 Bu uygulamada bazı dikkat edilmesi gereken önemli noktalar bulunmaktadır. Bunlar aşağıda belirtilmiştir;
 
@@ -25,6 +26,7 @@ Bu uygulamada bazı dikkat edilmesi gereken önemli noktalar bulunmaktadır. Bun
  - **Müstahsil Makbuzu** ana nesnesinde bulunan *Müstahsil Makbuzu No* alanı XML ve matbu çıktı için önem taşımaktadır.
     - *Formatı makbuzu kesen kurumun kısaltması 3 harf, makbuzun yılı 4 karakter ve geri kalan 9 hane de makbuzun sıra numarası vb. olaack şekildedir. Mesela ERP2022000000001 gibi. Ancak burada XML oluşturulurken eğer makbuzun tarihi 2021 ise ve GIB numarasında 2022 yazıyorsa sistem hata vermektedir. Ayrıca GIB numarası üzerinden tekillik kontrolüde yapıldığı için bu konuda özen gösterilmesi gerekmektedir.*
  - Sistemde XML çıktısı için QNB Finans portalı üzerinde kendinize bir şablon oluşturmanız faydalı olacaktır. Bu şablonda faturadaki veya müstahsil makbuzundaki hangi bilgilerin nerede görüneceği, logonun nasıl olacağı vb. bilgileri ayarlayabilmektesiniz. Şu anda projede **Türkşeker** şablonu kullanılmaktadır. Ama bunu kendinize göre ayarlayabilirsiniz.
+ - Bir faturanın çıktısı alınırken bazı istisnai durumlar söz konusu olabilmektedir. Mesela gönderilen faturadaki tüzel kişi fatura tarihinde e-fatura mükellefi olmayıp sonrasında mükellef olmuş olabilir. Bu yüzden Önizleme metodlarında en son eklenen kayıtlı kullanıcı listesi çalıştırılarak, eğer bu listede firmanın vergi numarası varsa **E-Fatura** değilse **E-Arşiv** çıktısı alınması mantıklı olacaktır. Ben şimdilik eski usülde bıraktım.
  - Olabildiğince kodlarda kontroller konuldu ancak herhangi bir durumda *exception* vb. oluşursa kodu **debug** ederek hatanın nerede olduğunu kontrol edebilirsiniz.
  - Kendi kullandığınız bazı alanlar XML içerisine tag ile konulmamış olabilir. Mesela Tevkifat kesintileri konulmamış olabilir. Burada en sık kullanılan alanlar üzerinden **XML** oluşturulmaya çalışıldı
     - *Burada deneme yanılma yöntemi uygulayabilirsiniz. Ya da ben fırsat buldukça uygulamayı güncellemeye çalışacağım*
