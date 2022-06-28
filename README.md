@@ -12,7 +12,7 @@ Bu uygulamada aşağıdaki işlemler gerçekleştirilebilmektedir.
  - Eğer daha önceden gönderildiyse gönderilen faturanın veya müstahsil makbuzunun, gönderilmediyse hazırlanan **XML (UBL)** dosyasının **GİB** portalında nasıl görüneceğine dair **PDF** veya **ZIP** formatında *önizleme* yapabilme 
  - Hazırlanan **XML (UBL)** dosyasının **GİB** *E-Fatura* ve *E-Arşiv* servisine (fatura kesilen tüzel kişinin E-Fatura mükellefi olup olmamasına bağlı olarak) veya *E-Müstahsil* servisine gönderilmesi
  - Fatura veya Makbuzları silmeye çalışırken, daha önce başarılı bir şekilde **GİB** servislerine gönderilip gönderilmediğinin kontrol edilmesi
- - Belli bir tarihten önce E-Fatura Mükellefi olan kullanıcıların listesi
+ - Belli bir tarihten sonra E-Fatura Mükellefi olan kullanıcıların listesi (*ListBox* içerisinde gösteriliyor)
 
 Bu uygulamada bazı dikkat edilmesi gereken önemli noktalar bulunmaktadır. Bunlar aşağıda belirtilmiştir;
 
