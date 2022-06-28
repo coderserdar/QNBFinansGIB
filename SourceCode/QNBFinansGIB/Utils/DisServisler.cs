@@ -20,19 +20,23 @@ namespace QNBFinansGIB.Utils
         /// <summary>
         /// Servis Kullanıcı Adı Bilgisi
         /// </summary>
-        private static readonly string GIBKullaniciAdi = "turkseker.ws";
+        private const string GIBKullaniciAdi = "turkseker.ws";
+
         /// <summary>
         /// Servis Şifre Bilgisi
         /// </summary>
-        private static readonly string GIBSifre = "1234qqqQ";
+        private const string GIBSifre = "1234qqqQ";
+
         /// <summary>
         /// Servise Gönderilecek Vergi No Bilgisi
         /// </summary>
-        private static readonly string GIBVKN = "3250566851";
+        private const string GIBVKN = "3250566851";
+
         /// <summary>
         /// Servis İçin Tanımlanmış ERP Kodu Bilgisi
         /// </summary>
-        private static readonly string GIBERPKodu = "TSF30125";
+        private const string GIBERPKodu = "TSF30125";
+
         /// <summary>
         /// GİB Login Servis istemcisi
         /// </summary>
@@ -191,7 +195,7 @@ namespace QNBFinansGIB.Utils
                     baslangicGonderimTarihi = baslangicTarihi?.ToString("yyyyMMdd"),
                     bitisGonderimTarihi = bitisTarihi?.ToString("yyyyMMdd")
                 };
-                var sonucMesaji = "İşlem Başarılı";
+                const string sonucMesaji = "İşlem Başarılı";
                 var liste = _gibEFaturaService.gidenBelgeleriListele(parametreler);
                 foreach (var item in liste)
                 {
@@ -526,11 +530,11 @@ namespace QNBFinansGIB.Utils
 
                 var inputKontrol = "{\"faturaUuid\":\"" + gidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
-                var fatura = new GIBEArsiv.belge
-                {
-                    belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL,
-                    belgeFormatiSpecified = true
-                };
+                // var fatura = new GIBEArsiv.belge
+                // {
+                //     belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL,
+                //     belgeFormatiSpecified = true
+                // };
                 var serviceResult = new GIBEArsiv.earsivServiceResult();
                 _gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode == "AE00000")
@@ -580,7 +584,7 @@ namespace QNBFinansGIB.Utils
                 _gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode != "AE00000")
                 {
-                    var belge = _gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
+                    _gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
                 }
                 else
                     return MesajSabitler.IslemBasarili;
@@ -725,7 +729,7 @@ namespace QNBFinansGIB.Utils
                 _gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode != "AE00000")
                 {
-                    var belge = _gibEMustahsilService.mustahsilMakbuzOlustur(input, belgeTemp, out serviceResult);
+                    _gibEMustahsilService.mustahsilMakbuzOlustur(input, belgeTemp, out serviceResult);
                 }
                 else
                     return MesajSabitler.IslemBasarili;

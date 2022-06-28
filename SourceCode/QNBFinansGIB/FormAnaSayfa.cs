@@ -52,10 +52,12 @@ namespace QNBFinansGIB
         /// <param name="e">Event Arguments</param>
         private void FormAnaSayfa_Shown(object sender, EventArgs e)
         {
+            #region Ekrandaki Alanların Düzenlenmesi
             dtpFaturaTarihi.Format = DateTimePickerFormat.Short;
             lbEFaturaKullaniciListesi.DrawMode = DrawMode.OwnerDrawVariable;
             lbEFaturaKullaniciListesi.MeasureItem += listBox_MeasureItem;
             lbEFaturaKullaniciListesi.DrawItem += listBox_DrawItem;
+            #endregion
             
             #region İlk Verilerin Hazırlanması
 
