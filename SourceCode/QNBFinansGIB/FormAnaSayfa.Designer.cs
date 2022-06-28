@@ -43,6 +43,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -114,6 +115,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.lbEFaturaKullaniciListesi);
             this.groupBox2.Controls.Add(this.dtpFaturaTarihi);
             this.groupBox2.Controls.Add(this.btnEFaturaKullaniciListesi);
@@ -198,6 +200,17 @@
             this.button4.Text = "GIB Makbuz Çıktı Önizleme";
             this.button4.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (162)));
+            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.Location = new System.Drawing.Point(4, 72);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(298, 23);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Seçilen Tarihten Sonra E-Fatura Mükellefi Olan Kullanıcılar =>";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // frmAnaSayfa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,6 +231,8 @@
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Label label1;
 
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button button1;

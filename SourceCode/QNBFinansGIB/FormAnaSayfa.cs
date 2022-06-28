@@ -2,6 +2,7 @@
 using QNBFinansGIB.Utils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -52,6 +53,9 @@ namespace QNBFinansGIB
         private void FormAnaSayfa_Shown(object sender, EventArgs e)
         {
             dtpFaturaTarihi.Format = DateTimePickerFormat.Short;
+            lbEFaturaKullaniciListesi.DrawMode = DrawMode.OwnerDrawVariable;
+            lbEFaturaKullaniciListesi.MeasureItem += listBox_MeasureItem;
+            lbEFaturaKullaniciListesi.DrawItem += listBox_DrawItem;
             
             #region İlk Verilerin Hazırlanması
 
@@ -624,6 +628,33 @@ namespace QNBFinansGIB
             #endregion
 
             #endregion
+        }
+        
+        /// <summary>
+        /// This method is used to meaure the length of the item in listbox and make it multi line
+        /// without using scrollbar and let the user see more efficiently
+        /// </summary>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
+        private static void listBox_MeasureItem(object sender, MeasureItemEventArgs e)
+        {
+            if (!(sender is ListBox listBox)) return;
+            e.ItemHeight = (int) e.Graphics
+                .MeasureString(listBox.Items[e.Index].ToString(), listBox.Font, listBox.Width).Height;
+        }
+
+        /// <summary>
+        /// This method is used to meaure the length of the item in listbox and make it multi line
+        /// without using scrollbar and let the user see more efficiently
+        /// </summary>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
+        private static void listBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (!(sender is ListBox listBox)) return;
+            e.DrawBackground();
+            e.DrawFocusRectangle();
+            e.Graphics.DrawString(listBox.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds);
         }
 
         /// <summary>

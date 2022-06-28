@@ -83,12 +83,12 @@ namespace QNBFinansGIB.Utils
         }
         
         /// <summary>
-        /// Girilen tarihten önceki E-Fatura Mükellef Listesini getiren metottur
+        /// Girilen tarihten sonraki E-Fatura Mükellef Listesini getiren metottur
         /// Bir Metottur
         /// </summary>
-        /// <param name="faturaTarihi">Fatura Tarihi Bilgisi</param>
+        /// <param name="islemTarihi">İşlem Tarihi Bilgisi</param>
         /// <returns>E-Fatura Kullanıcı Listesi</returns>
-        public static List<string> EFaturaKullaniciListesi(DateTime faturaTarihi)
+        public static List<string> EFaturaKullaniciListesi(DateTime islemTarihi)
         {
             try
             {
@@ -102,11 +102,11 @@ namespace QNBFinansGIB.Utils
 
                 var vergiKimlikNoListesi = new List<string>();
                 
-                var kayitTarihiString = faturaTarihi.Date.ToString("yyyyMMdd") + faturaTarihi.ToString("HHmmss");
-                var list = _gibEFaturaService.eFaturaKayitliKullaniciListele(kayitTarihiString);
+                var islemTarihiString = islemTarihi.Date.ToString("yyyyMMdd") + islemTarihi.ToString("HHmmss");
+                var list = _gibEFaturaService.eFaturaKayitliKullaniciListele(islemTarihiString);
                 foreach (var item in list)
                 {
-                    vergiKimlikNoListesi.Add(item.vergiTcKimlikNo);
+                    vergiKimlikNoListesi.Add(item.vergiTcKimlikNo + " - " + item.unvan + " - " + item.kayitZamani);
                 }
 
                 return vergiKimlikNoListesi;
