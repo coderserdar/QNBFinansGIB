@@ -8,9 +8,9 @@
   <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
   <cbc:CustomizationID>TR1.2</cbc:CustomizationID>
   <cbc:ProfileID>EARSIVFATURA</cbc:ProfileID>
-  <cbc:ID>MLT2022000099999</cbc:ID>
+  <cbc:ID>BUM2022054108424</cbc:ID>
   <cbc:CopyIndicator>false</cbc:CopyIndicator>
-  <cbc:UUID>3E4C9F19-98AC-4453-92CC-1185388197F3</cbc:UUID>
+  <cbc:UUID>882B33CE-EDA9-48BC-A78D-526EC506047E</cbc:UUID>
   <cbc:IssueDate>2022-01-01</cbc:IssueDate>
   <cbc:IssueTime>00:00:00</cbc:IssueTime>
   <cbc:InvoiceTypeCode>IADE</cbc:InvoiceTypeCode>
