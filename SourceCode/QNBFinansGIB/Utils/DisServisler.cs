@@ -110,7 +110,24 @@ namespace QNBFinansGIB.Utils
                 var list = _gibEFaturaService.eFaturaKayitliKullaniciListele(islemTarihiString);
                 foreach (var item in list)
                 {
-                    vergiKimlikNoListesi.Add(item.vergiTcKimlikNo + " - " + item.unvan + " - " + item.kayitZamani);
+                    var sb = new StringBuilder();
+                    if (!string.IsNullOrEmpty(item.kayitZamani))
+                    {
+                        sb.Append(item.kayitZamani.Substring(6, 2));
+                        sb.Append("-");
+                        sb.Append(item.kayitZamani.Substring(4, 2));
+                        sb.Append("-");
+                        sb.Append(item.kayitZamani.Substring(0, 4));
+                        sb.Append(" ");
+                        sb.Append(item.kayitZamani.Substring(8, 2));
+                        sb.Append(":");
+                        sb.Append(item.kayitZamani.Substring(10, 2));
+                        sb.Append(":");
+                        sb.Append(item.kayitZamani.Substring(12, 2));
+                    }
+                    if (sb.ToString().Length > 0)
+                        vergiKimlikNoListesi.Add(item.vergiTcKimlikNo + " - " + item.unvan + " - Kayıt Zamanı: " + sb.ToString());
+                    // vergiKimlikNoListesi.Add(item.vergiTcKimlikNo + " - " + item.unvan + " - " + item.kayitZamani);
                 }
 
                 return vergiKimlikNoListesi;
