@@ -1125,12 +1125,12 @@ namespace QNBFinansGIB.Utils
         /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
         /// <param name="gidenFaturaDetayListesi">Giden Fatura Detay Listesi</param>
         /// <param name="aktarilacakKlasorAdi">Oluşturulan Dosyanın Aktarılacağı Klasör</param>
-        /// <param name="mustahsilMakbuzuMu">Müstahsil Makbuzu Mu Bilgisi</param>
+        /// <param name="tuzelKisilikMi">Tüzel Kişilik Mi (Şahıs veya Şahıs Şirketi Değil) Bilgisi</param>
         /// <returns>Kaydedilen Dosyanın Bilgisayardaki Adresi</returns>
         public static string EArsivXMLOlustur(GidenFaturaDTO gidenFatura,
-            List<GidenFaturaDetayDTO> gidenFaturaDetayListesi, string aktarilacakKlasorAdi, bool mustahsilMakbuzuMu)
+            List<GidenFaturaDetayDTO> gidenFaturaDetayListesi, string aktarilacakKlasorAdi, bool tuzelKisilikMi)
         {
-            if (!mustahsilMakbuzuMu)
+            if (!tuzelKisilikMi)
             {
                 #region Şahıs Şirketi veya Personel Kaydından Gelecekse
 
