@@ -4,6 +4,12 @@
 
 Bu bir **Windows Form** uygulamasıdır ve içerisinde genel olarak **QNB Finans** firması üzerinden **GİB (Gelir İdaresi Başkanlığı)**'e ait olan *E-Fatura*, *E-Arşiv* ve *E-Müstahsil* web servislerine göndermek üzere kesilen faturaların ve müstahsil makbuzlarının **XML** dosyalarını oluşturma, servis üzerinde PDF veya ZIP formatlarında önizlemesini yapma, hazırlanan XML dosyalarını GİB tarafına gönderme gibi işlemlerin yapılmasını sağlamaktadır. Örnek olarak yine tarafımca yazılan **Türkiye Şeker Fabrikaları A.Ş.** bünyesindeki yapı kullanılmıştır. Olabildiğince açıklama satırları yazılarak hazırlanmış bir uygulamadır. **C#** programlama dili ile **.NET 4** framework üzerinde **Visual Studio 2017 IDE**si kullanılarak hazırlanmıştır. **Apache 2.0** lisansına sahip olup, bu projedeki kaynak kodları kendi projelerinizde sorunsuzca kullanabilirsiniz.
 
+**Sistem Hakkında :** 
+
+|  Programlama Dili  | .NET Versiyonu |  Geliştirme Ortamı   |
+|--------------------|----------------|----------------------|
+|      *C#*          |     *4.5*      | *Visual Studio 2017* |
+
 Bu uygulamada aşağıdaki işlemler gerçekleştirilebilmektedir.
 
  - **Gelir İdare Başkanlığı** *E-Fatura* ve *E-Arşiv* web servislerine kesilen fatura ile ilgili bilgilerin doğru bir şekilde gönderilebilmesi için **XML (UBL)** dosyaları oluşturabilme
