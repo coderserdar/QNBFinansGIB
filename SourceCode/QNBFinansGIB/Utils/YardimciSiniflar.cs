@@ -514,13 +514,15 @@ namespace QNBFinansGIB.Utils
                 if (gidenFatura.VergiNo.Length == 11)
                 {
                     var liste = gidenFatura.TuzelKisiAd.Split(' ').ToList();
-                    if (liste.Count > 1)
+                    if (liste.Count >= 1)
                     {
                         var person = doc.CreateElement("cac", "Person", xmlnscac.Value);
                         var firstName = doc.CreateElement("cbc", "FirstName", xmlnscbc.Value);
                         firstName.InnerText = liste[0];
                         person.AppendChild(firstName);
-                        var surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
+                        var surname = liste[0];
+                        if (liste.Count > 1)
+                            surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
                         var familyName = doc.CreateElement("cbc", "FamilyName", xmlnscbc.Value);
                         familyName.InnerText = surname;
                         //familyName.InnerText = liste[1];
@@ -620,13 +622,15 @@ namespace QNBFinansGIB.Utils
                     if (gidenFatura.VergiNo.Length == 11)
                     {
                         var liste = gidenFatura.TuzelKisiAd.Split(' ').ToList();
-                        if (liste.Count > 1)
+                        if (liste.Count >= 1)
                         {
                             var person = doc.CreateElement("cac", "Person", xmlnscac.Value);
                             var firstName = doc.CreateElement("cbc", "FirstName", xmlnscbc.Value);
                             firstName.InnerText = liste[0];
                             person.AppendChild(firstName);
-                            var surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
+                            var surname = liste[0];
+                            if (liste.Count > 1)
+                                surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
                             var familyName = doc.CreateElement("cbc", "FamilyName", xmlnscbc.Value);
                             familyName.InnerText = surname;
                             //familyName.InnerText = liste[1];
@@ -2497,13 +2501,15 @@ namespace QNBFinansGIB.Utils
                 if (!string.IsNullOrEmpty(gidenFatura.VergiNo) && gidenFatura.VergiNo.Length == 11)
                 {
                     var liste = gidenFatura.TuzelKisiAd.Split(' ').ToList();
-                    if (liste.Count > 1)
+                    if (liste.Count >= 1)
                     {
                         var person = doc.CreateElement("cac", "Person", xmlnscac.Value);
                         var firstName = doc.CreateElement("cbc", "FirstName", xmlnscbc.Value);
                         firstName.InnerText = liste[0];
                         person.AppendChild(firstName);
-                        var surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
+                        var surname = liste[0];
+                        if (liste.Count > 1)
+                            surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
                         var familyName = doc.CreateElement("cbc", "FamilyName", xmlnscbc.Value);
                         familyName.InnerText = surname;
                         //familyName.InnerText = liste[1];
@@ -2610,13 +2616,15 @@ namespace QNBFinansGIB.Utils
                         if (gidenFatura.VergiNo.Length == 11)
                         {
                             var liste = gidenFatura.TuzelKisiAd.Split(' ').ToList();
-                            if (liste.Count > 1)
+                            if (liste.Count >= 1)
                             {
                                 var person = doc.CreateElement("cac", "Person", xmlnscac.Value);
                                 var firstName = doc.CreateElement("cbc", "FirstName", xmlnscbc.Value);
                                 firstName.InnerText = liste[0];
                                 person.AppendChild(firstName);
-                                var surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
+                                var surname = liste[0];
+                                if (liste.Count > 1)
+                                    surname = gidenFatura.TuzelKisiAd.Substring(liste[0].Length + 1);
                                 var familyName = doc.CreateElement("cbc", "FamilyName", xmlnscbc.Value);
                                 familyName.InnerText = surname;
                                 //familyName.InnerText = liste[1];
@@ -3505,13 +3513,15 @@ namespace QNBFinansGIB.Utils
             if (mustahsilMakbuzu.VergiNo.Length == 11)
             {
                 var liste = mustahsilMakbuzu.TuzelKisiAd.Split(' ').ToList();
-                if (liste.Count > 1)
+                if (liste.Count >= 1)
                 {
                     var person = doc.CreateElement("cac", "Person", xmlnscac.Value);
                     var firstName = doc.CreateElement("cbc", "FirstName", xmlnscbc.Value);
                     firstName.InnerText = liste[0];
                     person.AppendChild(firstName);
-                    var surname = mustahsilMakbuzu.TuzelKisiAd.Substring(liste[0].Length + 1);
+                    var surname = liste[0];
+                    if (liste.Count > 1)
+                        surname = mustahsilMakbuzu.TuzelKisiAd.Substring(liste[0].Length + 1);
                     var familyName = doc.CreateElement("cbc", "FamilyName", xmlnscbc.Value);
                     familyName.InnerText = surname;
                     //familyName.InnerText = liste[1];
@@ -3610,13 +3620,15 @@ namespace QNBFinansGIB.Utils
                     if (mustahsilMakbuzu.VergiNo.Length == 11)
                     {
                         var liste = mustahsilMakbuzu.TuzelKisiAd.Split(' ').ToList();
-                        if (liste.Count > 1)
+                        if (liste.Count >= 1)
                         {
                             var person = doc.CreateElement("cac", "Person", xmlnscac.Value);
                             var firstName = doc.CreateElement("cbc", "FirstName", xmlnscbc.Value);
                             firstName.InnerText = liste[0];
                             person.AppendChild(firstName);
-                            var surname = mustahsilMakbuzu.TuzelKisiAd.Substring(liste[0].Length + 1);
+                            var surname = liste[0];
+                            if (liste.Count > 1)
+                                surname = mustahsilMakbuzu.TuzelKisiAd.Substring(liste[0].Length + 1);
                             var familyName = doc.CreateElement("cbc", "FamilyName", xmlnscbc.Value);
                             familyName.InnerText = surname;
                             //familyName.InnerText = liste[1];
