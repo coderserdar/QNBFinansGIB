@@ -225,13 +225,13 @@ namespace QNBFinansGIB.Utils
             additionalDocumentReference.AppendChild(documentType);
             var attachment = doc.CreateElement("cac", "Attachment", xmlnscac.Value);
             var embeddedDocumentBinaryObject = doc.CreateElement("cbc", "EmbeddedDocumentBinaryObject", xmlnscbc.Value);
-            XmlAttribute characterSetCode = doc.CreateAttribute("characterSetCode");
+            var characterSetCode = doc.CreateAttribute("characterSetCode");
             characterSetCode.Value = "UTF-8";
-            XmlAttribute encodingCode = doc.CreateAttribute("encodingCode");
+            var encodingCode = doc.CreateAttribute("encodingCode");
             encodingCode.Value = "Base64";
             // XmlAttribute fileName2 = doc.CreateAttribute("fileName");
             // fileName2.Value = "efatura.xslt";
-            XmlAttribute mimeCode = doc.CreateAttribute("mimeCode");
+            var mimeCode = doc.CreateAttribute("mimeCode");
             mimeCode.Value = "application/xml";
             embeddedDocumentBinaryObject.Attributes.Append(characterSetCode);
             embeddedDocumentBinaryObject.Attributes.Append(encodingCode);
