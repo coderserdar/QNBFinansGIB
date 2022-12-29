@@ -1862,7 +1862,7 @@ namespace QNBFinansGIB.Utils
 
                     var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
                     var taxTypeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                    taxTypeName.InnerText = "Katma Değer Vergisi";
+                    taxTypeName.InnerText = item.KdvOran != 2 ? "Katma Değer Vergisi" : "Konaklama Vergisi";
                     var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
                     taxTypeCode.InnerText = item.KdvOran != 2 ? "0015" : "0059";
                     taxScheme2.AppendChild(taxTypeName);
@@ -3032,7 +3032,7 @@ namespace QNBFinansGIB.Utils
 
                     var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
                     var taxTypeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                    taxTypeName.InnerText = "Katma Değer Vergisi";
+                    taxTypeName.InnerText = item.KdvOran != 2 ? "Katma Değer Vergisi" : "Konaklama Vergisi";
                     var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
                     taxTypeCode.InnerText = item.KdvOran != 2 ? "0015" : "0059";
                     taxScheme2.AppendChild(taxTypeName);
