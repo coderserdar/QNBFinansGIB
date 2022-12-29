@@ -936,7 +936,22 @@ namespace QNBFinansGIB.Utils
             #endregion
 
             sayac = 1;
-            // Her bir fatura edtayı için hazırlanan bölümdür
+            // Her bir fatura detayı için hazırlanan bölümdür
+            if (gidenFaturaDetayListesi.Count > 0)
+            {
+                if (gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi) > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
+                {
+                    var gidenFaturaDetayDTO = new GidenFaturaDetayDTO
+                    {
+                        KdvTutari = gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi),
+                        KdvHaricTutar = gidenFaturaDetayListesi.Sum(j => j.KdvHaricTutar),
+                        KdvOran = 2,
+                        BirimFiyat = gidenFaturaDetayListesi[0].BirimFiyat,
+                        FaturaUrunTuru = "Misafirhane",
+                    };
+                    gidenFaturaDetayListesi.Add(gidenFaturaDetayDTO);
+                }
+            }
             foreach (var item in gidenFaturaDetayListesi)
             {
                 var detayBilgisi = item.BosluklariKaldir();
@@ -1078,10 +1093,10 @@ namespace QNBFinansGIB.Utils
 
                 var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
                 var taxTypeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                taxTypeName.InnerText = "KDV";
+                taxTypeName.InnerText = item.KdvOran != 2 ? "KDV" : "Konaklama Vergisi";
                 taxScheme2.AppendChild(taxTypeName);
                 var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
-                taxTypeCode.InnerText = "0015";
+                taxTypeCode.InnerText = item.KdvOran != 2 ? "0015" : "0059";
                 taxScheme2.AppendChild(taxTypeCode);
                 taxCategory.AppendChild(taxScheme2);
                 taxSubTotal.AppendChild(taxCategory);
@@ -1985,6 +2000,21 @@ namespace QNBFinansGIB.Utils
 
                 sayac = 1;
                 // Her bir fatura detayı için hazırlanan bölümdür
+                if (gidenFaturaDetayListesi.Count > 0)
+                {
+                    if (gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi) > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
+                    {
+                        var gidenFaturaDetayDTO = new GidenFaturaDetayDTO
+                        {
+                            KdvTutari = gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi),
+                            KdvHaricTutar = gidenFaturaDetayListesi.Sum(j => j.KdvHaricTutar),
+                            KdvOran = 2,
+                            BirimFiyat = gidenFaturaDetayListesi[0].BirimFiyat,
+                            FaturaUrunTuru = "Misafirhane",
+                        };
+                        gidenFaturaDetayListesi.Add(gidenFaturaDetayDTO);
+                    }
+                }
                 foreach (var item in gidenFaturaDetayListesi)
                 {
                     var detayBilgisi = item.BosluklariKaldir();
@@ -2107,10 +2137,10 @@ namespace QNBFinansGIB.Utils
                     var taxCategory = doc.CreateElement("cac", "TaxCategory", xmlnscac.Value);
                     var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
                     var taxTypeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                    taxTypeName.InnerText = "KDV";
+                    taxTypeName.InnerText = item.KdvOran != 2 ? "KDV" : "Konaklama Vergisi";
                     taxScheme2.AppendChild(taxTypeName);
                     var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
-                    taxTypeCode.InnerText = "0015";
+                    taxTypeCode.InnerText = item.KdvOran != 2 ? "0015" : "0059";
                     taxScheme2.AppendChild(taxTypeCode);
                     taxCategory.AppendChild(taxScheme2);
                     taxSubTotal.AppendChild(taxCategory);
@@ -3139,7 +3169,22 @@ namespace QNBFinansGIB.Utils
                 #endregion
 
                 sayac = 1;
-                // Her bir fatura edtayı için hazırlanan bölümdür
+                // Her bir fatura detayı için hazırlanan bölümdür
+                if (gidenFaturaDetayListesi.Count > 0)
+                {
+                    if (gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi) > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
+                    {
+                        var gidenFaturaDetayDTO = new GidenFaturaDetayDTO
+                        {
+                            KdvTutari = gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi),
+                            KdvHaricTutar = gidenFaturaDetayListesi.Sum(j => j.KdvHaricTutar),
+                            KdvOran = 2,
+                            BirimFiyat = gidenFaturaDetayListesi[0].BirimFiyat,
+                            FaturaUrunTuru = "Misafirhane",
+                        };
+                        gidenFaturaDetayListesi.Add(gidenFaturaDetayDTO);
+                    }
+                }
                 foreach (var item in gidenFaturaDetayListesi)
                 {
                     var detayBilgisi = item.BosluklariKaldir();
@@ -3262,10 +3307,10 @@ namespace QNBFinansGIB.Utils
                     var taxCategory = doc.CreateElement("cac", "TaxCategory", xmlnscac.Value);
                     var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
                     var taxTypeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                    taxTypeName.InnerText = "KDV";
+                    taxTypeName.InnerText = item.KdvOran != 2 ? "KDV" : "Konaklama Vergisi";
                     taxScheme2.AppendChild(taxTypeName);
                     var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
-                    taxTypeCode.InnerText = "0015";
+                    taxTypeCode.InnerText = item.KdvOran != 2 ? "0015" : "0059";
                     taxScheme2.AppendChild(taxTypeCode);
                     taxCategory.AppendChild(taxScheme2);
                     taxSubTotal.AppendChild(taxCategory);
