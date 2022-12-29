@@ -74,6 +74,11 @@ namespace QNBFinansGIB.DTO
         /// KDV Tutarı Bilgisi
         /// </summary>
         public decimal? KdvTutari;
+        
+        /// <summary>
+        /// Konaklama Vergisi Bilgisi
+        /// </summary>
+        public decimal? KonaklamaVergisi;
 
         /// <summary>
         /// Malzeme Fatura Açıklaması Bilgisi

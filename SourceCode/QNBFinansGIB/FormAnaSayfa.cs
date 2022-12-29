@@ -83,7 +83,8 @@ namespace QNBFinansGIB
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
                 FaturaTutari = 0,
-                Aciklama = "Denem amaçlı eklenmiştir"
+                KonaklamaVergisi = 0,
+                Aciklama = "Deneme amaçlı eklenmiştir"
             };
             gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
             gidenFaturaListesi.Add(gidenFatura);
@@ -108,7 +109,8 @@ namespace QNBFinansGIB
                 FaturaTuruKod = FaturaTur.Iade.GetHashCode(),
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
-                FaturaTutari = 0
+                FaturaTutari = 0,
+                KonaklamaVergisi = 0
             };
             gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
             gidenFaturaListesi.Add(gidenFatura);
@@ -125,14 +127,15 @@ namespace QNBFinansGIB
                 BankaAd = "Vakıf Katılım Bankası",
                 BankaSube = "Kızılay",
                 IbanNo = "TR830006214925976839299642",
-                DuzenlemeTarihi = new DateTime(2022, 1, 11),
+                DuzenlemeTarihi = new DateTime(2023, 1, 11),
                 IlAd = "Ankara",
                 IlceAd = "Etimesgut",
                 SatisTuruKod = SatisTur.ImalatciIhracatci.GetHashCode(),
                 FaturaTuruKod = FaturaTur.Iade.GetHashCode(),
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
-                FaturaTutari = 0
+                FaturaTutari = 0,
+                KonaklamaVergisi = 0
             };
             gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
             gidenFaturaListesi.Add(gidenFatura);
@@ -156,7 +159,8 @@ namespace QNBFinansGIB
                 FaturaGrupTuruKod = FaturaMakbuzGrupTur.Personel.GetHashCode(),
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
-                FaturaTutari = 0
+                FaturaTutari = 0,
+                KonaklamaVergisi = 0
             };
             gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
             gidenFaturaListesi.Add(gidenFatura);
@@ -179,7 +183,8 @@ namespace QNBFinansGIB
                 SatisTuruKod = SatisTur.Vadeli.GetHashCode(),
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
-                FaturaTutari = 0
+                FaturaTutari = 0,
+                KonaklamaVergisi = 0
             };
             gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
             gidenFaturaListesi.Add(gidenFatura);
@@ -204,7 +209,8 @@ namespace QNBFinansGIB
                 GibNumarasi = "YZG2022000999999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
-                FaturaTutari = 0
+                FaturaTutari = 0,
+                KonaklamaVergisi = 0
             };
             gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
             gidenFaturaListesi.Add(gidenFatura);
@@ -229,7 +235,8 @@ namespace QNBFinansGIB
                 GibNumarasi = "AGR2022000999999",
                 KdvHaricTutar = 0,
                 KdvTutari = 0,
-                FaturaTutari = 0
+                FaturaTutari = 0,
+                KonaklamaVergisi = 0
             };
             gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
             gidenFaturaListesi.Add(gidenFatura);
@@ -246,6 +253,7 @@ namespace QNBFinansGIB
                 IskontoOran = 0,
                 KdvHaricTutar = 1234,
                 KdvTutari = 0,
+                KonaklamaVergisi = 0,
                 GibKisaltma = "KGM",
                 IrsaliyeNo = "1",
                 MalzemeFaturaAciklamasi = "Ofis demirbaşı için alındı",
@@ -267,6 +275,7 @@ namespace QNBFinansGIB
                 IskontoOran = 0,
                 KdvHaricTutar = 1000,
                 KdvTutari = 180,
+                KonaklamaVergisi = 0,
                 GibKisaltma = "KWT",
                 IrsaliyeNo = "1",
                 MalzemeFaturaAciklamasi = "Ofis demirbaşı 2 için alındı",
@@ -274,6 +283,28 @@ namespace QNBFinansGIB
                 SevkIrsaliyesiNo = "34",
                 PlakaNo = "06GUC778",
                 FaturaUrunTuru = "Priz",
+                Tonaj = 1,
+                YuklemeFormuNo = 1236
+            };
+            gidenFaturaDetayListesi.Add(gidenFaturaDetay);
+            
+            gidenFaturaDetay = new GidenFaturaDetayDTO
+            {
+                GidenFaturaId = "1",
+                BirimFiyat = (decimal)0.1,
+                Miktar = 10000,
+                KdvOran = 18,
+                IskontoOran = 0,
+                KdvHaricTutar = 1000,
+                KdvTutari = 180,
+                KonaklamaVergisi = 20,
+                GibKisaltma = "KWT",
+                IrsaliyeNo = "1",
+                MalzemeFaturaAciklamasi = "Konaklama için alındı",
+                SevkIrsaliyeTarihi = new DateTime(2022, 1, 1),
+                SevkIrsaliyesiNo = "34",
+                PlakaNo = "06GUC778",
+                FaturaUrunTuru = "Misafirhane",
                 Tonaj = 1,
                 YuklemeFormuNo = 1236
             };
@@ -288,6 +319,7 @@ namespace QNBFinansGIB
                 IskontoOran = 0,
                 KdvHaricTutar = 1234,
                 KdvTutari = (decimal)12.34,
+                KonaklamaVergisi = 0,
                 GibKisaltma = "MTR",
                 PlakaNo = "06GC7447",
                 FaturaUrunTuru = "Çubuk Mikrofon"
@@ -303,6 +335,7 @@ namespace QNBFinansGIB
                 IskontoOran = 0,
                 KdvHaricTutar = 1234,
                 KdvTutari = (decimal)12.34,
+                KonaklamaVergisi = 0,
                 GibKisaltma = "KWT",
                 PlakaNo = "06GC7447",
                 FaturaUrunTuru = "Çubuk Mikrofon"
@@ -318,6 +351,7 @@ namespace QNBFinansGIB
                 IskontoOran = 0,
                 KdvHaricTutar = 6020,
                 KdvTutari = (decimal)481.6,
+                KonaklamaVergisi = 0,
                 GibKisaltma = "MON",
                 PlakaNo = "06J1234",
                 FaturaUrunTuru = "Mouse"
@@ -333,9 +367,10 @@ namespace QNBFinansGIB
                 IskontoOran = 0,
                 KdvHaricTutar = 60000,
                 KdvTutari = 12800,
+                KonaklamaVergisi = 1200,
                 GibKisaltma = "LTR",
                 PlakaNo = "06C99876",
-                FaturaUrunTuru = "Şartname Bedeli"
+                FaturaUrunTuru = "Misafirhane"
             };
             gidenFaturaDetayListesi.Add(gidenFaturaDetay);
 
@@ -350,7 +385,8 @@ namespace QNBFinansGIB
                     var gidenFaturaDetayListesiTemp = gidenFaturaDetayListesi.Where(j => j.GidenFaturaId == item.GidenFaturaId).ToList();
                     item.KdvHaricTutar = gidenFaturaDetayListesiTemp.Sum(j => j.KdvHaricTutar);
                     item.KdvTutari = gidenFaturaDetayListesiTemp.Sum(j => j.KdvTutari);
-                    item.FaturaTutari = item.KdvHaricTutar + item.KdvTutari;
+                    item.KonaklamaVergisi = gidenFaturaDetayListesiTemp.Sum(j => j.KonaklamaVergisi);
+                    item.FaturaTutari = item.KdvHaricTutar + item.KdvTutari + item.KonaklamaVergisi;
                 }
                 else
                 {
@@ -363,12 +399,14 @@ namespace QNBFinansGIB
                         IskontoOran = 0,
                         KdvHaricTutar = 1500,
                         KdvTutari = 0,
+                        KonaklamaVergisi = 30,
                         GibKisaltma = "MTR",
-                        FaturaUrunTuru = "Deneme " + item.GidenFaturaId
+                        FaturaUrunTuru = "Misafirhane " + item.GidenFaturaId
                     };
                     item.KdvHaricTutar = gidenFaturaDetay.KdvHaricTutar;
                     item.KdvTutari = gidenFaturaDetay.KdvTutari;
-                    item.FaturaTutari = item.KdvHaricTutar + item.KdvTutari;
+                    item.KonaklamaVergisi = gidenFaturaDetay.KonaklamaVergisi;
+                    item.FaturaTutari = item.KdvHaricTutar + item.KdvTutari + item.KonaklamaVergisi;
                     gidenFaturaDetayListesi.Add(gidenFaturaDetay);
                 }
             }
