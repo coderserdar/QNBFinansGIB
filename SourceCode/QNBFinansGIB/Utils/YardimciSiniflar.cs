@@ -723,6 +723,16 @@ namespace QNBFinansGIB.Utils
                 if (faturaKdvListesi.Count > 0)
                     faturaKdvListesi = faturaKdvListesi.OrderBy(j => j.KdvOran).ToList();
             }
+            if (gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi) > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
+            {
+                var faturaKdv = new FaturaKdvDTO
+                {
+                    KdvOran = 2,
+                    KdvTutari = gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi),
+                    KdvHaricTutar = gidenFaturaDetayListesi.Sum(j => j.KdvHaricTutar)
+                };
+                faturaKdvListesi.Add(faturaKdv);
+            }
 
             #endregion
 
@@ -803,7 +813,7 @@ namespace QNBFinansGIB.Utils
 
                 var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
                 var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
-                taxTypeCode.InnerText = "0015";
+                taxTypeCode.InnerText = item.KdvOran != 2 ? "0015" : "0059";
                 taxScheme2.AppendChild(taxTypeCode);
                 taxCategory.AppendChild(taxScheme2);
                 taxSubTotal.AppendChild(taxCategory);
@@ -1742,6 +1752,16 @@ namespace QNBFinansGIB.Utils
                     if (faturaKdvListesi.Count > 0)
                         faturaKdvListesi = faturaKdvListesi.OrderBy(j => j.KdvOran).ToList();
                 }
+                if (gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi) > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
+                {
+                    var faturaKdv = new FaturaKdvDTO
+                    {
+                        KdvOran = 2,
+                        KdvTutari = gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi),
+                        KdvHaricTutar = gidenFaturaDetayListesi.Sum(j => j.KdvHaricTutar)
+                    };
+                    faturaKdvListesi.Add(faturaKdv);
+                }
 
                 #endregion
 
@@ -1829,7 +1849,7 @@ namespace QNBFinansGIB.Utils
                     var taxTypeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
                     taxTypeName.InnerText = "Katma Değer Vergisi";
                     var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
-                    taxTypeCode.InnerText = "0015";
+                    taxTypeCode.InnerText = item.KdvOran != 2 ? "0015" : "0059";
                     taxScheme2.AppendChild(taxTypeName);
                     taxScheme2.AppendChild(taxTypeCode);
                     taxCategory.AppendChild(taxScheme2);
@@ -2887,6 +2907,16 @@ namespace QNBFinansGIB.Utils
                     if (faturaKdvListesi.Count > 0)
                         faturaKdvListesi = faturaKdvListesi.OrderBy(j => j.KdvOran).ToList();
                 }
+                if (gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi) > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
+                {
+                    var faturaKdv = new FaturaKdvDTO
+                    {
+                        KdvOran = 2,
+                        KdvTutari = gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi),
+                        KdvHaricTutar = gidenFaturaDetayListesi.Sum(j => j.KdvHaricTutar)
+                    };
+                    faturaKdvListesi.Add(faturaKdv);
+                }
 
                 #endregion
 
@@ -2974,7 +3004,7 @@ namespace QNBFinansGIB.Utils
                     var taxTypeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
                     taxTypeName.InnerText = "Katma Değer Vergisi";
                     var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
-                    taxTypeCode.InnerText = "0015";
+                    taxTypeCode.InnerText = item.KdvOran != 2 ? "0015" : "0059";
                     taxScheme2.AppendChild(taxTypeName);
                     taxScheme2.AppendChild(taxTypeCode);
                     taxCategory.AppendChild(taxScheme2);
