@@ -255,7 +255,8 @@
     <Folder Include="App_Data\EFatura\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Other\sekersablon.txt" />
+    <Content Include="Other\sekersablonearsiv.txt" />
+    <Content Include="Other\sekersablonefatura.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
