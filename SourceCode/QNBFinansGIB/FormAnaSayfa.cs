@@ -981,6 +981,36 @@ namespace QNBFinansGIB
             }
             MessageBox.Show(vergiKimlikNoListesi.Count + " adet e-fatura mükellef kaydı bulundu", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        
+        /// <summary>
+        /// Ekrandan girilne tarihten öncesine ait
+        /// Kayıtlı E-Fatura Mükellef Vergi Numara listesini dışarıya TXT formatında aktaran metottur
+        /// </summary>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnEFaturaKullaniciListeAktar_Click(object sender, EventArgs e)
+        {
+            if (lbEFaturaKullaniciListesi.Items.Count < 1)
+                MessageBox.Show("Aktarılacak bir E-Fatura Kullanıcı listesi bulunamadı", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+            {
+                using (var dialogKlasorSecimi = new FolderBrowserDialog())
+                {
+                    dialogKlasorSecimi.SelectedPath = Application.StartupPath;
+                    var result = dialogKlasorSecimi.ShowDialog();
+
+                    if (result != DialogResult.OK || string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath)) return;
+                    var klasorAdi = dialogKlasorSecimi.SelectedPath;
+                    var ad = Guid.NewGuid().ToString();
+                    var dosyaAdi = klasorAdi + "/" + ad + ".txt";
+                    StreamWriter dosyaKaydi = new StreamWriter(dosyaAdi);
+                    foreach(var item in lbEFaturaKullaniciListesi.Items)
+                        dosyaKaydi.WriteLine(item.ToString());
+                    dosyaKaydi.Close();
+                    MessageBox.Show(dosyaAdi + " dosyası üzerinde kayıtlı E-Fatura Mükellefleri listelenmiştir.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
 
         #endregion
 
@@ -1192,5 +1222,7 @@ namespace QNBFinansGIB
         }
         
         #endregion
+
+        
     }
 }
