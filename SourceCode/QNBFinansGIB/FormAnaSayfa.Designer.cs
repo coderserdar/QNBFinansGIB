@@ -45,6 +45,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.btnEFaturaKullaniciListesiTemizle = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -123,6 +124,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnEFaturaKullaniciListesiTemizle);
             this.groupBox2.Controls.Add(this.btnEFaturaKullaniciListeAktar);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.lbEFaturaKullaniciListesi);
@@ -248,6 +250,17 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.btnGIBOnizlemeMustahsil_Click);
             // 
+            // btnEFaturaKullaniciListesiTemizle
+            // 
+            this.btnEFaturaKullaniciListesiTemizle.Location = new System.Drawing.Point(8, 122);
+            this.btnEFaturaKullaniciListesiTemizle.Margin = new System.Windows.Forms.Padding(4);
+            this.btnEFaturaKullaniciListesiTemizle.Name = "btnEFaturaKullaniciListesiTemizle";
+            this.btnEFaturaKullaniciListesiTemizle.Size = new System.Drawing.Size(155, 28);
+            this.btnEFaturaKullaniciListesiTemizle.TabIndex = 8;
+            this.btnEFaturaKullaniciListesiTemizle.Text = "Listeyi Temizle";
+            this.btnEFaturaKullaniciListesiTemizle.UseVisualStyleBackColor = true;
+            this.btnEFaturaKullaniciListesiTemizle.Click += new System.EventHandler(this.btnEFaturaKullaniciListesiTemizle_Click);
+            // 
             // frmAnaSayfa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -269,6 +282,8 @@
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Button btnEFaturaKullaniciListesiTemizle;
 
         private System.Windows.Forms.Button btnEFaturaKullaniciListeAktar;
 

@@ -1011,6 +1011,19 @@ namespace QNBFinansGIB
                 }
             }
         }
+        
+        /// <summary>
+        /// Ekrandan girilne tarihten öncesine ait
+        /// Kayıtlı E-Fatura Mükellef Vergi Numara listesini temizlemek için hazırlanan metottur
+        /// </summary>
+        /// <param name="sender">The sender info (For example Main Form)</param>
+        /// <param name="e">Event Arguments</param>
+        private void btnEFaturaKullaniciListesiTemizle_Click(object sender, EventArgs e)
+        {
+            var kayitSayisi = lbEFaturaKullaniciListesi.Items.Count;
+            lbEFaturaKullaniciListesi.Items.Clear();
+            MessageBox.Show(kayitSayisi + " adet E-Fatura Mükellefi sağdaki listeden temizlenmiştir.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
         #endregion
 
@@ -1222,6 +1235,7 @@ namespace QNBFinansGIB
         }
         
         #endregion
+
 
         
     }
