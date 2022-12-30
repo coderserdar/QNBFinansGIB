@@ -24,6 +24,7 @@ Bu uygulamada aşağıdaki işlemler gerçekleştirilebilmektedir.
 
 Bu uygulamada bazı dikkat edilmesi gereken önemli noktalar bulunmaktadır. Bunlar aşağıda belirtilmiştir;
 
+ - **Önemli Not:** 01.01.2023 tarihinden itibaren *%2*lik bir **Konaklama Vergisi** getirildiği için, programda *Konaklama Vergisi*ne uygun olacak şekilde gerekli güncellemeler gerçekleştirilmiştir. *E-Fatura* ve *E-Arşiv* servislerine gönderilen Fatura **XML** dosyaları içerisinde konaklama vergisi ile ilgili alanların eklenmesi sağlanmıştır.
  - Öncelikle web servis adresleri Service Reference yerine Web Reference olarak eklenmelidir.
     - *Diğer türlü çalışması mümkün değildir (Ya da en azından ben beceremedim)*
  - **Giden Fatura** ana nesnesinde bulunan *GIB Numarası* alanı XML ve matbu çıktı için önem taşımaktadır.
