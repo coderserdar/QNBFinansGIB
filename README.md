@@ -19,6 +19,8 @@ Bu uygulamada aşağıdaki işlemler gerçekleştirilebilmektedir.
  - Hazırlanan **XML (UBL)** dosyasının **GİB** *E-Fatura* ve *E-Arşiv* servisine (fatura kesilen tüzel kişinin E-Fatura mükellefi olup olmamasına bağlı olarak) veya *E-Müstahsil* servisine gönderilmesi
  - Fatura veya Makbuzları silmeye çalışırken, daha önce başarılı bir şekilde **GİB** servislerine gönderilip gönderilmediğinin kontrol edilmesi
  - Belli bir tarihten sonra E-Fatura Mükellefi olan kullanıcıların listesi (*ListBox* içerisinde gösteriliyor)
+ - Belli bir tarihten sonra E-Fatura Mükellefi olan kullanıcıların listesini kullanıcının istediği klasöre *TXT* dosyası olarak çıkarabilmesi
+ - Kullanıcının bu mükellef listesini ekrandan temizleyebilmesi
 
 Bu uygulamada bazı dikkat edilmesi gereken önemli noktalar bulunmaktadır. Bunlar aşağıda belirtilmiştir;
 
