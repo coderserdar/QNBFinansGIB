@@ -813,6 +813,9 @@ namespace QNBFinansGIB.Utils
                 }
 
                 var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
+                var taxTypeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+                taxTypeName.InnerText = item.KdvOran != 2 ? "Katma Değer Vergisi" : "Konaklama Vergisi";
+                taxScheme2.AppendChild(taxTypeName);
                 var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
                 taxTypeCode.InnerText = item.KdvOran != 2 ? "0015" : "0059";
                 taxScheme2.AppendChild(taxTypeCode);
