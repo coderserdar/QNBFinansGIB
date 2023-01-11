@@ -193,7 +193,7 @@ namespace QNBFinansGIB
             {
                 GidenFaturaId = "6",
                 AltBirimAd = "B Birimi    ",
-                GercekKisiTcKimlikNo = "52270709114",
+                GercekKisiTcKimlikNo = "11738150028",
                 GercekKisiAd = "Adnan",
                 GercekKisiSoyad = "Şenses",
                 CepTelefonNo = "05555555555",
@@ -742,7 +742,13 @@ namespace QNBFinansGIB
                 }
                 else
                 {
-                    dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, false);
+                    if (!string.IsNullOrEmpty((gidenFatura.GercekKisiTcKimlikNo)))
+                    {
+                        var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.GercekKisiTcKimlikNo);
+                        dosyaAdi = kullaniciMi ? YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi) : YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, true);
+                    }
+                    else
+                        dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, false);
                 }
 
                 MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -880,8 +886,30 @@ namespace QNBFinansGIB
                 }
                 else
                 {
-                    dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, false);
-                    sonuc = DisServisler.EArsivGonder(gidenFatura, dosyaAdi);
+                    if (!string.IsNullOrEmpty((gidenFatura.GercekKisiTcKimlikNo)))
+                    {
+                        var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.GercekKisiTcKimlikNo);
+                        if (kullaniciMi)
+                        {
+                            dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi);
+                            sonuc = DisServisler.EFaturaGonder(gidenFatura, dosyaAdi, gidenFatura.BelgeOid);
+                            if (sonuc != MesajSabitler.IslemBasarisiz)
+                            {
+                                if (sonuc.Length <= 20)
+                                    gidenFatura.BelgeOid = sonuc;
+                            }
+                        }
+                        else
+                        {
+                            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, true);
+                            sonuc = DisServisler.EArsivGonder(gidenFatura, dosyaAdi);
+                        }
+                    }
+                    else
+                    {
+                        dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, false);
+                        sonuc = DisServisler.EArsivGonder(gidenFatura, dosyaAdi);
+                    }
                 }
 
                 if (sonuc == MesajSabitler.IslemBasarisiz)

@@ -8,9 +8,9 @@
   <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
   <cbc:CustomizationID>TR1.2</cbc:CustomizationID>
   <cbc:ProfileID>EARSIVFATURA</cbc:ProfileID>
-  <cbc:ID>OBY2022572460202</cbc:ID>
+  <cbc:ID>WVS2022852755093</cbc:ID>
   <cbc:CopyIndicator>false</cbc:CopyIndicator>
-  <cbc:UUID>56FC1B4D-9289-49B8-8104-27C9A24B684C</cbc:UUID>
+  <cbc:UUID>CE47E7DC-DD9A-4070-8B08-4997C6DDBF65</cbc:UUID>
   <cbc:IssueDate>2022-01-25</cbc:IssueDate>
   <cbc:IssueTime>00:00:00</cbc:IssueTime>
   <cbc:InvoiceTypeCode>ISTISNA</cbc:InvoiceTypeCode>
@@ -60,7 +60,7 @@
         <cbc:ID schemeID="VKN">3250566851</cbc:ID>
       </cac:PartyIdentification>
       <cac:PartyIdentification>
-        <cbc:ID schemeID="SUBENO">B Birimi</cbc:ID>
+        <cbc:ID schemeID="SUBENO">B Birimi    </cbc:ID>
       </cac:PartyIdentification>
       <cac:PartyName>
         <cbc:Name>TÜRKİYE ŞEKER FABRİKALARI A.Ş.</cbc:Name>
@@ -92,12 +92,14 @@
     <cac:Party>
       <cbc:WebsiteURI />
       <cac:PartyIdentification>
-        <cbc:ID schemeID="TCKN">20077290692</cbc:ID>
+        <cbc:ID schemeID="TCKN">
+        </cbc:ID>
       </cac:PartyIdentification>
       <cac:PostalAddress>
-        <cbc:ID>20077290692</cbc:ID>
+        <cbc:ID>
+        </cbc:ID>
         <cbc:Room />
-        <cbc:StreetName>Fışkiyenin orası</cbc:StreetName>
+        <cbc:StreetName />
         <cbc:BuildingNumber />
         <cbc:CitySubdivisionName>Patnos</cbc:CitySubdivisionName>
         <cbc:CityName>Ağrı</cbc:CityName>
@@ -112,14 +114,10 @@
         </cac:TaxScheme>
       </cac:PartyTaxScheme>
       <cac:Contact>
-        <cbc:Telephone>05555555554</cbc:Telephone>
+        <cbc:Telephone />
         <cbc:Telefax />
         <cbc:ElectronicMail>memo@yahoo.com</cbc:ElectronicMail>
       </cac:Contact>
-      <cac:Person>
-        <cbc:FirstName>Mehmet Emin</cbc:FirstName>
-        <cbc:FamilyName>Akdeniz</cbc:FamilyName>
-      </cac:Person>
     </cac:Party>
   </cac:AccountingCustomerParty>
   <cac:PaymentMeans>

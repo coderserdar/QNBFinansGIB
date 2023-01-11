@@ -36,6 +36,8 @@ namespace QNBFinansGIB.Utils
             root = doc.CreateElement("Invoice");
 
             gidenFatura = gidenFatura.BosluklariKaldir();
+            if (string.IsNullOrEmpty(gidenFatura.VergiNo) && !string.IsNullOrEmpty(gidenFatura.GercekKisiTcKimlikNo))
+                gidenFatura.VergiNo = gidenFatura.GercekKisiTcKimlikNo;
 
             var kodSatisTuruKod = 0;
             if (gidenFatura.SatisTuruKod != null)
