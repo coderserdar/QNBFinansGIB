@@ -11,9 +11,9 @@
   <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
   <cbc:CustomizationID>TR1.2</cbc:CustomizationID>
   <cbc:ProfileID>TEMELFATURA</cbc:ProfileID>
-  <cbc:ID>OBY2023572460202</cbc:ID>
+  <cbc:ID>DGT2023133177257</cbc:ID>
   <cbc:CopyIndicator>false</cbc:CopyIndicator>
-  <cbc:UUID>8A5D70D8-464B-4A4F-9151-18EBAB59C9C0</cbc:UUID>
+  <cbc:UUID>7D32EB54-705A-42C0-B887-232FBCA516EC</cbc:UUID>
   <cbc:IssueDate>2023-01-11</cbc:IssueDate>
   <cbc:IssueTime>00:00:00</cbc:IssueTime>
   <cbc:InvoiceTypeCode>IADE</cbc:InvoiceTypeCode>
@@ -167,6 +167,7 @@
       <cbc:Percent>8</cbc:Percent>
       <cac:TaxCategory>
         <cac:TaxScheme>
+          <cbc:Name>Katma Değer Vergisi</cbc:Name>
           <cbc:TaxTypeCode>0015</cbc:TaxTypeCode>
         </cac:TaxScheme>
       </cac:TaxCategory>

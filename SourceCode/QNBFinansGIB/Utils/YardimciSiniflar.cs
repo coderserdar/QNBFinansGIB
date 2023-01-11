@@ -1036,7 +1036,9 @@ namespace QNBFinansGIB.Utils
                 taxAmount.InnerText = Decimal.Round((decimal) detayBilgisi.KdvTutari, 2, MidpointRounding.AwayFromZero)
                     .ToString().Replace(",", ".");
                 if (item.KonaklamaVergisi > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
-                    taxAmount.InnerText = Decimal.Round((decimal) detayBilgisi.KdvTutari + (decimal) detayBilgisi.KonaklamaVergisi, 2, MidpointRounding.AwayFromZero)
+                    taxAmount.InnerText = Decimal
+                        .Round((decimal) detayBilgisi.KdvTutari + (decimal) detayBilgisi.KonaklamaVergisi, 2,
+                            MidpointRounding.AwayFromZero)
                         .ToString().Replace(",", ".");
                 taxTotal.AppendChild(taxAmount);
                 var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xmlnscac.Value);
@@ -1138,6 +1140,7 @@ namespace QNBFinansGIB.Utils
 
                     #endregion
                 }
+
                 invoiceLine.AppendChild(taxTotal);
 
                 #endregion
@@ -1412,87 +1415,91 @@ namespace QNBFinansGIB.Utils
                 lineCountNumeric.InnerText = gidenFaturaDetayListesi.Count.ToString();
                 root.AppendChild(lineCountNumeric);
 
-                #region AdditionalDocumentReference
+                #region Açıklama Satırı
 
-                var additionalDocumentReference =
-                    doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
-                var additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
-                additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
-                issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-                issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
-                additionalDocumentReference.AppendChild(issueDate);
-                var documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
-                documentType.InnerText = "XSLT";
-                additionalDocumentReference.AppendChild(documentType);
-                issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-                issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd");
-                additionalDocumentReference.AppendChild(issueDate);
-                documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
-                documentType.InnerText = "XSLT";
-                additionalDocumentReference.AppendChild(documentType);
-                var attachment = doc.CreateElement("cac", "Attachment", xmlnscac.Value);
-                var embeddedDocumentBinaryObject =
-                    doc.CreateElement("cbc", "EmbeddedDocumentBinaryObject", xmlnscbc.Value);
-                var characterSetCode = doc.CreateAttribute("characterSetCode");
-                characterSetCode.Value = "UTF-8";
-                var encodingCode = doc.CreateAttribute("encodingCode");
-                encodingCode.Value = "Base64";
-                // XmlAttribute fileName2 = doc.CreateAttribute("fileName");
-                // fileName2.Value = "efatura.xslt";
-                var mimeCode = doc.CreateAttribute("mimeCode");
-                mimeCode.Value = "application/xml";
-                embeddedDocumentBinaryObject.Attributes.Append(characterSetCode);
-                embeddedDocumentBinaryObject.Attributes.Append(encodingCode);
-                // embeddedDocumentBinaryObject.Attributes.Append(fileName2);
-                embeddedDocumentBinaryObject.Attributes.Append(mimeCode);
-
-                #region Base 64 Metin
-
-                var sablonAdresi = Directory.GetFiles("../../Other");
-                if (sablonAdresi.Length > 0)
-                {
-                    foreach (var item in sablonAdresi)
-                    {
-                        if (item.Contains("earsiv"))
-                        {
-                            var base64Metin = File.ReadAllText(item);
-                            embeddedDocumentBinaryObject.InnerText = base64Metin;
-                            break;
-                        }
-                    }
-                }
-
-                #endregion
-
-                attachment.AppendChild(embeddedDocumentBinaryObject);
-                additionalDocumentReference.AppendChild(attachment);
-
-                root.AppendChild(additionalDocumentReference);
-
-                additionalDocumentReference = doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
-                additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
-                additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
-                issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-                issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
-                additionalDocumentReference.AppendChild(issueDate);
-                documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
-                documentType.InnerText = "XSLT";
-                additionalDocumentReference.AppendChild(documentType);
-                attachment = doc.CreateElement("cac", "Attachment", xmlnscac.Value);
-                embeddedDocumentBinaryObject = doc.CreateElement("cbc", "EmbeddedDocumentBinaryObject", xmlnscbc.Value);
-                characterSetCode = doc.CreateAttribute("characterSetCode");
-                characterSetCode.Value = "UTF-8";
-                encodingCode = doc.CreateAttribute("encodingCode");
-                encodingCode.Value = "Base64";
-                mimeCode = doc.CreateAttribute("mimeCode");
-                mimeCode.Value = "application/xml";
-                embeddedDocumentBinaryObject.Attributes.Append(characterSetCode);
-                embeddedDocumentBinaryObject.Attributes.Append(encodingCode);
-                embeddedDocumentBinaryObject.Attributes.Append(mimeCode);
-                attachment.AppendChild(embeddedDocumentBinaryObject);
-                additionalDocumentReference.AppendChild(attachment);
+                // #region AdditionalDocumentReference
+                //
+                // var additionalDocumentReference =
+                //     doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
+                // var additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+                // additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
+                // additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
+                // issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
+                // issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+                // additionalDocumentReference.AppendChild(issueDate);
+                // var documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
+                // documentType.InnerText = "XSLT";
+                // additionalDocumentReference.AppendChild(documentType);
+                // issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
+                // issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd");
+                // additionalDocumentReference.AppendChild(issueDate);
+                // documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
+                // documentType.InnerText = "XSLT";
+                // additionalDocumentReference.AppendChild(documentType);
+                // var attachment = doc.CreateElement("cac", "Attachment", xmlnscac.Value);
+                // var embeddedDocumentBinaryObject =
+                //     doc.CreateElement("cbc", "EmbeddedDocumentBinaryObject", xmlnscbc.Value);
+                // var characterSetCode = doc.CreateAttribute("characterSetCode");
+                // characterSetCode.Value = "UTF-8";
+                // var encodingCode = doc.CreateAttribute("encodingCode");
+                // encodingCode.Value = "Base64";
+                // // XmlAttribute fileName2 = doc.CreateAttribute("fileName");
+                // // fileName2.Value = "efatura.xslt";
+                // var mimeCode = doc.CreateAttribute("mimeCode");
+                // mimeCode.Value = "application/xml";
+                // embeddedDocumentBinaryObject.Attributes.Append(characterSetCode);
+                // embeddedDocumentBinaryObject.Attributes.Append(encodingCode);
+                // // embeddedDocumentBinaryObject.Attributes.Append(fileName2);
+                // embeddedDocumentBinaryObject.Attributes.Append(mimeCode);
+                //
+                // #region Base 64 Metin
+                //
+                // var sablonAdresi = Directory.GetFiles("../../Other");
+                // if (sablonAdresi.Length > 0)
+                // {
+                //     foreach (var item in sablonAdresi)
+                //     {
+                //         if (item.Contains("earsiv"))
+                //         {
+                //             var base64Metin = File.ReadAllText(item);
+                //             embeddedDocumentBinaryObject.InnerText = base64Metin;
+                //             break;
+                //         }
+                //     }
+                // }
+                //
+                // #endregion
+                //
+                // attachment.AppendChild(embeddedDocumentBinaryObject);
+                // additionalDocumentReference.AppendChild(attachment);
+                //
+                // root.AppendChild(additionalDocumentReference);
+                //
+                // additionalDocumentReference = doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
+                // additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+                // additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
+                // additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
+                // issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
+                // issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+                // additionalDocumentReference.AppendChild(issueDate);
+                // documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
+                // documentType.InnerText = "XSLT";
+                // additionalDocumentReference.AppendChild(documentType);
+                // attachment = doc.CreateElement("cac", "Attachment", xmlnscac.Value);
+                // embeddedDocumentBinaryObject = doc.CreateElement("cbc", "EmbeddedDocumentBinaryObject", xmlnscbc.Value);
+                // characterSetCode = doc.CreateAttribute("characterSetCode");
+                // characterSetCode.Value = "UTF-8";
+                // encodingCode = doc.CreateAttribute("encodingCode");
+                // encodingCode.Value = "Base64";
+                // mimeCode = doc.CreateAttribute("mimeCode");
+                // mimeCode.Value = "application/xml";
+                // embeddedDocumentBinaryObject.Attributes.Append(characterSetCode);
+                // embeddedDocumentBinaryObject.Attributes.Append(encodingCode);
+                // embeddedDocumentBinaryObject.Attributes.Append(mimeCode);
+                // attachment.AppendChild(embeddedDocumentBinaryObject);
+                // additionalDocumentReference.AppendChild(attachment);
+                //
+                // #endregion
 
                 #endregion
 
@@ -2134,7 +2141,8 @@ namespace QNBFinansGIB.Utils
                         .Replace(",", ".");
                     if (item.KonaklamaVergisi > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
                         taxAmount.InnerText = Decimal
-                            .Round((decimal) detayBilgisi.KdvTutari + (decimal) detayBilgisi.KonaklamaVergisi, 2, MidpointRounding.AwayFromZero).ToString()
+                            .Round((decimal) detayBilgisi.KdvTutari + (decimal) detayBilgisi.KonaklamaVergisi, 2,
+                                MidpointRounding.AwayFromZero).ToString()
                             .Replace(",", ".");
                     taxTotal.AppendChild(taxAmount);
                     var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xmlnscac.Value);
@@ -2216,6 +2224,7 @@ namespace QNBFinansGIB.Utils
 
                         #endregion
                     }
+
                     invoiceLine.AppendChild(taxTotal);
 
                     #endregion
@@ -2477,88 +2486,90 @@ namespace QNBFinansGIB.Utils
                 lineCountNumeric.InnerText = gidenFaturaDetayListesi.Count.ToString();
                 root.AppendChild(lineCountNumeric);
 
-                #region AdditionalDocumentReference
-
-                var additionalDocumentReference =
-                    doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
-                var additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
-                additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
-                issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-                issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
-                additionalDocumentReference.AppendChild(issueDate);
-                var documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
-                documentType.InnerText = "XSLT";
-                additionalDocumentReference.AppendChild(documentType);
-                issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-                issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd");
-                additionalDocumentReference.AppendChild(issueDate);
-                documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
-                documentType.InnerText = "XSLT";
-                additionalDocumentReference.AppendChild(documentType);
-                var attachment = doc.CreateElement("cac", "Attachment", xmlnscac.Value);
-                var embeddedDocumentBinaryObject =
-                    doc.CreateElement("cbc", "EmbeddedDocumentBinaryObject", xmlnscbc.Value);
-                var characterSetCode = doc.CreateAttribute("characterSetCode");
-                characterSetCode.Value = "UTF-8";
-                var encodingCode = doc.CreateAttribute("encodingCode");
-                encodingCode.Value = "Base64";
-                // XmlAttribute fileName2 = doc.CreateAttribute("fileName");
-                // fileName2.Value = "efatura.xslt";
-                var mimeCode = doc.CreateAttribute("mimeCode");
-                mimeCode.Value = "application/xml";
-                embeddedDocumentBinaryObject.Attributes.Append(characterSetCode);
-                embeddedDocumentBinaryObject.Attributes.Append(encodingCode);
-                // embeddedDocumentBinaryObject.Attributes.Append(fileName2);
-                embeddedDocumentBinaryObject.Attributes.Append(mimeCode);
-
-                #region Base 64 Metin
-
-                var sablonAdresi = Directory.GetFiles("../../Other");
-                if (sablonAdresi.Length > 0)
-                {
-                    foreach (var item in sablonAdresi)
-                    {
-                        if (item.Contains("earsiv"))
-                        {
-                            var base64Metin = File.ReadAllText(item);
-                            embeddedDocumentBinaryObject.InnerText = base64Metin;
-                            break;
-                        }
-                    }
-                }
-
-                #endregion
-
-                attachment.AppendChild(embeddedDocumentBinaryObject);
-                additionalDocumentReference.AppendChild(attachment);
-
-                root.AppendChild(additionalDocumentReference);
-
-                additionalDocumentReference = doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
-                additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
-                additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
-                issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-                issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
-                additionalDocumentReference.AppendChild(issueDate);
-                documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
-                documentType.InnerText = "XSLT";
-                additionalDocumentReference.AppendChild(documentType);
-                attachment = doc.CreateElement("cac", "Attachment", xmlnscac.Value);
-                embeddedDocumentBinaryObject = doc.CreateElement("cbc", "EmbeddedDocumentBinaryObject", xmlnscbc.Value);
-                characterSetCode = doc.CreateAttribute("characterSetCode");
-                characterSetCode.Value = "UTF-8";
-                encodingCode = doc.CreateAttribute("encodingCode");
-                encodingCode.Value = "Base64";
-                mimeCode = doc.CreateAttribute("mimeCode");
-                mimeCode.Value = "application/xml";
-                embeddedDocumentBinaryObject.Attributes.Append(characterSetCode);
-                embeddedDocumentBinaryObject.Attributes.Append(encodingCode);
-                embeddedDocumentBinaryObject.Attributes.Append(mimeCode);
-                attachment.AppendChild(embeddedDocumentBinaryObject);
-                additionalDocumentReference.AppendChild(attachment);
-
+                #region Açıklama Satırı
+                // #region AdditionalDocumentReference
+                //
+                // var additionalDocumentReference =
+                //     doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
+                // var additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+                // additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
+                // additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
+                // issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
+                // issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+                // additionalDocumentReference.AppendChild(issueDate);
+                // var documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
+                // documentType.InnerText = "XSLT";
+                // additionalDocumentReference.AppendChild(documentType);
+                // issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
+                // issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd");
+                // additionalDocumentReference.AppendChild(issueDate);
+                // documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
+                // documentType.InnerText = "XSLT";
+                // additionalDocumentReference.AppendChild(documentType);
+                // var attachment = doc.CreateElement("cac", "Attachment", xmlnscac.Value);
+                // var embeddedDocumentBinaryObject =
+                //     doc.CreateElement("cbc", "EmbeddedDocumentBinaryObject", xmlnscbc.Value);
+                // var characterSetCode = doc.CreateAttribute("characterSetCode");
+                // characterSetCode.Value = "UTF-8";
+                // var encodingCode = doc.CreateAttribute("encodingCode");
+                // encodingCode.Value = "Base64";
+                // // XmlAttribute fileName2 = doc.CreateAttribute("fileName");
+                // // fileName2.Value = "efatura.xslt";
+                // var mimeCode = doc.CreateAttribute("mimeCode");
+                // mimeCode.Value = "application/xml";
+                // embeddedDocumentBinaryObject.Attributes.Append(characterSetCode);
+                // embeddedDocumentBinaryObject.Attributes.Append(encodingCode);
+                // // embeddedDocumentBinaryObject.Attributes.Append(fileName2);
+                // embeddedDocumentBinaryObject.Attributes.Append(mimeCode);
+                //
+                // #region Base 64 Metin
+                //
+                // var sablonAdresi = Directory.GetFiles("../../Other");
+                // if (sablonAdresi.Length > 0)
+                // {
+                //     foreach (var item in sablonAdresi)
+                //     {
+                //         if (item.Contains("earsiv"))
+                //         {
+                //             var base64Metin = File.ReadAllText(item);
+                //             embeddedDocumentBinaryObject.InnerText = base64Metin;
+                //             break;
+                //         }
+                //     }
+                // }
+                //
+                // #endregion
+                //
+                // attachment.AppendChild(embeddedDocumentBinaryObject);
+                // additionalDocumentReference.AppendChild(attachment);
+                //
+                // root.AppendChild(additionalDocumentReference);
+                //
+                // additionalDocumentReference = doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
+                // additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+                // additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
+                // additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
+                // issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
+                // issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+                // additionalDocumentReference.AppendChild(issueDate);
+                // documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
+                // documentType.InnerText = "XSLT";
+                // additionalDocumentReference.AppendChild(documentType);
+                // attachment = doc.CreateElement("cac", "Attachment", xmlnscac.Value);
+                // embeddedDocumentBinaryObject = doc.CreateElement("cbc", "EmbeddedDocumentBinaryObject", xmlnscbc.Value);
+                // characterSetCode = doc.CreateAttribute("characterSetCode");
+                // characterSetCode.Value = "UTF-8";
+                // encodingCode = doc.CreateAttribute("encodingCode");
+                // encodingCode.Value = "Base64";
+                // mimeCode = doc.CreateAttribute("mimeCode");
+                // mimeCode.Value = "application/xml";
+                // embeddedDocumentBinaryObject.Attributes.Append(characterSetCode);
+                // embeddedDocumentBinaryObject.Attributes.Append(encodingCode);
+                // embeddedDocumentBinaryObject.Attributes.Append(mimeCode);
+                // attachment.AppendChild(embeddedDocumentBinaryObject);
+                // additionalDocumentReference.AppendChild(attachment);
+                //
+                // #endregion
                 #endregion
 
                 #endregion
@@ -3338,7 +3349,8 @@ namespace QNBFinansGIB.Utils
                         .Replace(",", ".");
                     if (item.KonaklamaVergisi > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
                         taxAmount.InnerText = Decimal
-                            .Round((decimal) detayBilgisi.KdvTutari + (decimal) detayBilgisi.KonaklamaVergisi, 2, MidpointRounding.AwayFromZero).ToString()
+                            .Round((decimal) detayBilgisi.KdvTutari + (decimal) detayBilgisi.KonaklamaVergisi, 2,
+                                MidpointRounding.AwayFromZero).ToString()
                             .Replace(",", ".");
                     taxTotal.AppendChild(taxAmount);
                     var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xmlnscac.Value);
@@ -3420,6 +3432,7 @@ namespace QNBFinansGIB.Utils
 
                         #endregion
                     }
+
                     invoiceLine.AppendChild(taxTotal);
 
                     #endregion

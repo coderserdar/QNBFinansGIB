@@ -1,33 +1,25 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="general.xslt"?>
-<CreditNote xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2 ../xsdrt/maindoc/UBL-CreditNote-2.1.xsd" xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" xmlns:n4="http://www.altova.com/samplexml/other-namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2">
+<Invoice xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 ../xsdrt/maindoc/UBL-Invoice-2.1.xsd" xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:ds="http://www.w3.org/2000/09/xmldsig" xmlns:xades="http://uri.etsi.org/01903/v1.3.2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:n4="http://www.altova.com/samplexml/other-namespace">
   <ext:UBLExtensions>
     <ext:UBLExtension>
-      <ext:ExtensionContent>
-        <n4:auto-generated_for_wildcard />
-      </ext:ExtensionContent>
+      <ext:ExtensionContent />
     </ext:UBLExtension>
   </ext:UBLExtensions>
   <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
-  <cbc:CustomizationID>TR1.2.1</cbc:CustomizationID>
-  <cbc:ProfileID>EARSIVBELGE</cbc:ProfileID>
-  <cbc:ID>YZN2022936120580</cbc:ID>
+  <cbc:CustomizationID>TR1.2</cbc:CustomizationID>
+  <cbc:ProfileID>EARSIVFATURA</cbc:ProfileID>
+  <cbc:ID>ANI2022036096304</cbc:ID>
   <cbc:CopyIndicator>false</cbc:CopyIndicator>
-  <cbc:UUID>5D427ECF-6E78-4211-B605-B29695DF492C</cbc:UUID>
-  <cbc:IssueDate>2022-04-25</cbc:IssueDate>
+  <cbc:UUID>73EFD490-EA61-46E5-B186-2C1391D20820</cbc:UUID>
+  <cbc:IssueDate>2022-01-25</cbc:IssueDate>
   <cbc:IssueTime>00:00:00</cbc:IssueTime>
-  <cbc:CreditNoteTypeCode>MUSTAHSILMAKBUZ</cbc:CreditNoteTypeCode>
+  <cbc:InvoiceTypeCode>ISTISNA</cbc:InvoiceTypeCode>
+  <cbc:Note>Plaka No: 06GUC777 İrsaliye No: 34 İrsaliye Tarihi: 1.01.2022 Yükleme Formu No: 1234 Tonaj: 1000</cbc:Note>
+  <cbc:Note>Plaka No: 06GUC778 İrsaliye No: 34 İrsaliye Tarihi: 1.01.2022 Yükleme Formu No: 1236 Tonaj: 10000</cbc:Note>
+  <cbc:Note>Plaka No: 06GC7447</cbc:Note>
   <cbc:Note>Gönderim Şekli: ELEKTRONIK</cbc:Note>
   <cbc:DocumentCurrencyCode>TRY</cbc:DocumentCurrencyCode>
-  <cbc:LineCountNumeric>2</cbc:LineCountNumeric>
-  <cac:AdditionalDocumentReference>
-    <cbc:ID>510E077B-4239-4B96-B4F6-8AAF942F5ED5</cbc:ID>
-    <cbc:IssueDate>2022-04-25</cbc:IssueDate>
-    <cbc:DocumentType>XSLT</cbc:DocumentType>
-    <cac:Attachment>
-      <cbc:EmbeddedDocumentBinaryObject characterSetCode="UTF-8" encodingCode="Base64" mimeCode="application/xml" />
-    </cac:Attachment>
-  </cac:AdditionalDocumentReference>
+  <cbc:LineCountNumeric>3</cbc:LineCountNumeric>
   <cac:Signature>
     <cbc:ID schemeID="VKN_TCKN">3250566851</cbc:ID>
     <cac:SignatoryParty>
@@ -56,6 +48,9 @@
       <cbc:WebsiteURI>https://www.turkseker.gov.tr</cbc:WebsiteURI>
       <cac:PartyIdentification>
         <cbc:ID schemeID="VKN">3250566851</cbc:ID>
+      </cac:PartyIdentification>
+      <cac:PartyIdentification>
+        <cbc:ID schemeID="SUBENO">B Birimi</cbc:ID>
       </cac:PartyIdentification>
       <cac:PartyName>
         <cbc:Name>TÜRKİYE ŞEKER FABRİKALARI A.Ş.</cbc:Name>
@@ -92,7 +87,7 @@
       <cac:PostalAddress>
         <cbc:ID>20077290692</cbc:ID>
         <cbc:Room />
-        <cbc:StreetName />
+        <cbc:StreetName>Fışkiyenin orası</cbc:StreetName>
         <cbc:BuildingNumber />
         <cbc:CitySubdivisionName>Patnos</cbc:CitySubdivisionName>
         <cbc:CityName>Ağrı</cbc:CityName>
@@ -107,73 +102,162 @@
         </cac:TaxScheme>
       </cac:PartyTaxScheme>
       <cac:Contact>
+        <cbc:Telephone>05555555554</cbc:Telephone>
+        <cbc:Telefax />
         <cbc:ElectronicMail>memo@yahoo.com</cbc:ElectronicMail>
       </cac:Contact>
       <cac:Person>
-        <cbc:FirstName>Mehmet</cbc:FirstName>
-        <cbc:FamilyName>Emin</cbc:FamilyName>
+        <cbc:FirstName>Mehmet Emin</cbc:FirstName>
+        <cbc:FamilyName>Akdeniz</cbc:FamilyName>
       </cac:Person>
     </cac:Party>
   </cac:AccountingCustomerParty>
+  <cac:PaymentMeans>
+    <cbc:PaymentMeansCode>ZZZ</cbc:PaymentMeansCode>
+    <cac:PayeeFinancialAccount>
+      <cbc:ID>TR410006276748779926367358</cbc:ID>
+      <cbc:CurrencyCode>TRY</cbc:CurrencyCode>
+      <cbc:PaymentNote>Bank Mellat - Yenimahalle Şube</cbc:PaymentNote>
+    </cac:PayeeFinancialAccount>
+  </cac:PaymentMeans>
+  <cac:TaxTotal>
+    <cbc:TaxAmount currencyID="TRY">0</cbc:TaxAmount>
+    <cac:TaxSubtotal>
+      <cbc:TaxableAmount currencyID="TRY">1234</cbc:TaxableAmount>
+      <cbc:TaxAmount currencyID="TRY">0</cbc:TaxAmount>
+      <cbc:CalculationSequenceNumeric>1.0</cbc:CalculationSequenceNumeric>
+      <cbc:Percent>0</cbc:Percent>
+      <cac:TaxCategory>
+        <cbc:TaxExemptionReasonCode>350</cbc:TaxExemptionReasonCode>
+        <cbc:TaxExemptionReason>Diğerleri</cbc:TaxExemptionReason>
+        <cac:TaxScheme>
+          <cbc:Name>Katma Değer Vergisi</cbc:Name>
+          <cbc:TaxTypeCode>0015</cbc:TaxTypeCode>
+        </cac:TaxScheme>
+      </cac:TaxCategory>
+    </cac:TaxSubtotal>
+  </cac:TaxTotal>
   <cac:TaxTotal>
     <cbc:TaxAmount currencyID="TRY">12.34</cbc:TaxAmount>
     <cac:TaxSubtotal>
-      <cbc:TaxableAmount currencyID="TRY">2468</cbc:TaxableAmount>
+      <cbc:TaxableAmount currencyID="TRY">1234</cbc:TaxableAmount>
       <cbc:TaxAmount currencyID="TRY">12.34</cbc:TaxAmount>
+      <cbc:CalculationSequenceNumeric>1.0</cbc:CalculationSequenceNumeric>
       <cbc:Percent>1</cbc:Percent>
       <cac:TaxCategory>
         <cac:TaxScheme>
-          <cbc:Name>GV STOPAJI</cbc:Name>
-          <cbc:TaxTypeCode>0003</cbc:TaxTypeCode>
+          <cbc:Name>Katma Değer Vergisi</cbc:Name>
+          <cbc:TaxTypeCode>0015</cbc:TaxTypeCode>
+        </cac:TaxScheme>
+      </cac:TaxCategory>
+    </cac:TaxSubtotal>
+  </cac:TaxTotal>
+  <cac:TaxTotal>
+    <cbc:TaxAmount currencyID="TRY">180</cbc:TaxAmount>
+    <cac:TaxSubtotal>
+      <cbc:TaxableAmount currencyID="TRY">1000</cbc:TaxableAmount>
+      <cbc:TaxAmount currencyID="TRY">180</cbc:TaxAmount>
+      <cbc:CalculationSequenceNumeric>1.0</cbc:CalculationSequenceNumeric>
+      <cbc:Percent>18</cbc:Percent>
+      <cac:TaxCategory>
+        <cac:TaxScheme>
+          <cbc:Name>Katma Değer Vergisi</cbc:Name>
+          <cbc:TaxTypeCode>0015</cbc:TaxTypeCode>
         </cac:TaxScheme>
       </cac:TaxCategory>
     </cac:TaxSubtotal>
   </cac:TaxTotal>
   <cac:LegalMonetaryTotal>
-    <cbc:LineExtensionAmount currencyID="TRY">2468</cbc:LineExtensionAmount>
-    <cbc:TaxExclusiveAmount currencyID="TRY">2468</cbc:TaxExclusiveAmount>
-    <cbc:TaxInclusiveAmount currencyID="TRY">2468</cbc:TaxInclusiveAmount>
-    <cbc:PayableAmount currencyID="TRY">2455.66</cbc:PayableAmount>
+    <cbc:LineExtensionAmount currencyID="TRY">3468</cbc:LineExtensionAmount>
+    <cbc:TaxExclusiveAmount currencyID="TRY">3468</cbc:TaxExclusiveAmount>
+    <cbc:TaxInclusiveAmount currencyID="TRY">3660.34</cbc:TaxInclusiveAmount>
+    <cbc:AllowanceTotalAmount currencyID="TRY">0.00</cbc:AllowanceTotalAmount>
+    <cbc:PayableAmount currencyID="TRY">3660.34</cbc:PayableAmount>
   </cac:LegalMonetaryTotal>
-  <cac:CreditNoteLine>
+  <cac:InvoiceLine>
     <cbc:ID>1</cbc:ID>
-    <cbc:CreditedQuantity unitCode="KGM">1000</cbc:CreditedQuantity>
+    <cbc:InvoicedQuantity unitCode="KGM">1000</cbc:InvoicedQuantity>
     <cbc:LineExtensionAmount currencyID="TRY">1234</cbc:LineExtensionAmount>
+    <cac:AllowanceCharge>
+      <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+      <cbc:MultiplierFactorNumeric>0.00</cbc:MultiplierFactorNumeric>
+      <cbc:Amount currencyID="TRY">0</cbc:Amount>
+      <cbc:BaseAmount currencyID="TRY">1234</cbc:BaseAmount>
+    </cac:AllowanceCharge>
     <cac:TaxTotal>
       <cbc:TaxAmount currencyID="TRY">0</cbc:TaxAmount>
       <cac:TaxSubtotal>
         <cbc:TaxableAmount currencyID="TRY">1234</cbc:TaxableAmount>
         <cbc:TaxAmount currencyID="TRY">0</cbc:TaxAmount>
-        <cbc:Percent>2</cbc:Percent>
+        <cbc:Percent>0.0</cbc:Percent>
         <cac:TaxCategory>
           <cac:TaxScheme>
-            <cbc:Name>GV STOPAJI</cbc:Name>
-            <cbc:TaxTypeCode>0003</cbc:TaxTypeCode>
+            <cbc:Name>KDV</cbc:Name>
+            <cbc:TaxTypeCode>0015</cbc:TaxTypeCode>
           </cac:TaxScheme>
         </cac:TaxCategory>
       </cac:TaxSubtotal>
     </cac:TaxTotal>
     <cac:Item>
+      <cbc:Description>Ofis demirbaşı için alındı</cbc:Description>
       <cbc:Name>Dizüstü Bilgisayar</cbc:Name>
     </cac:Item>
     <cac:Price>
       <cbc:PriceAmount currencyID="TRY">0.1234</cbc:PriceAmount>
     </cac:Price>
-  </cac:CreditNoteLine>
-  <cac:CreditNoteLine>
+  </cac:InvoiceLine>
+  <cac:InvoiceLine>
     <cbc:ID>2</cbc:ID>
-    <cbc:CreditedQuantity unitCode="KGM">1000</cbc:CreditedQuantity>
+    <cbc:InvoicedQuantity unitCode="KWT">10000</cbc:InvoicedQuantity>
+    <cbc:LineExtensionAmount currencyID="TRY">1000</cbc:LineExtensionAmount>
+    <cac:AllowanceCharge>
+      <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+      <cbc:MultiplierFactorNumeric>0.00</cbc:MultiplierFactorNumeric>
+      <cbc:Amount currencyID="TRY">0</cbc:Amount>
+      <cbc:BaseAmount currencyID="TRY">1000</cbc:BaseAmount>
+    </cac:AllowanceCharge>
+    <cac:TaxTotal>
+      <cbc:TaxAmount currencyID="TRY">180</cbc:TaxAmount>
+      <cac:TaxSubtotal>
+        <cbc:TaxableAmount currencyID="TRY">1000</cbc:TaxableAmount>
+        <cbc:TaxAmount currencyID="TRY">180</cbc:TaxAmount>
+        <cbc:Percent>18.0</cbc:Percent>
+        <cac:TaxCategory>
+          <cac:TaxScheme>
+            <cbc:Name>KDV</cbc:Name>
+            <cbc:TaxTypeCode>0015</cbc:TaxTypeCode>
+          </cac:TaxScheme>
+        </cac:TaxCategory>
+      </cac:TaxSubtotal>
+    </cac:TaxTotal>
+    <cac:Item>
+      <cbc:Description>Ofis demirbaşı 2 için alındı</cbc:Description>
+      <cbc:Name>Priz</cbc:Name>
+    </cac:Item>
+    <cac:Price>
+      <cbc:PriceAmount currencyID="TRY">0.1</cbc:PriceAmount>
+    </cac:Price>
+  </cac:InvoiceLine>
+  <cac:InvoiceLine>
+    <cbc:ID>3</cbc:ID>
+    <cbc:InvoicedQuantity unitCode="MTR">1000</cbc:InvoicedQuantity>
     <cbc:LineExtensionAmount currencyID="TRY">1234</cbc:LineExtensionAmount>
+    <cac:AllowanceCharge>
+      <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+      <cbc:MultiplierFactorNumeric>0.00</cbc:MultiplierFactorNumeric>
+      <cbc:Amount currencyID="TRY">0</cbc:Amount>
+      <cbc:BaseAmount currencyID="TRY">1234</cbc:BaseAmount>
+    </cac:AllowanceCharge>
     <cac:TaxTotal>
       <cbc:TaxAmount currencyID="TRY">12.34</cbc:TaxAmount>
       <cac:TaxSubtotal>
         <cbc:TaxableAmount currencyID="TRY">1234</cbc:TaxableAmount>
         <cbc:TaxAmount currencyID="TRY">12.34</cbc:TaxAmount>
-        <cbc:Percent>2</cbc:Percent>
+        <cbc:Percent>1.0</cbc:Percent>
         <cac:TaxCategory>
           <cac:TaxScheme>
-            <cbc:Name>GV STOPAJI</cbc:Name>
-            <cbc:TaxTypeCode>0003</cbc:TaxTypeCode>
+            <cbc:Name>KDV</cbc:Name>
+            <cbc:TaxTypeCode>0015</cbc:TaxTypeCode>
           </cac:TaxScheme>
         </cac:TaxCategory>
       </cac:TaxSubtotal>
@@ -184,5 +268,5 @@
     <cac:Price>
       <cbc:PriceAmount currencyID="TRY">0.1234</cbc:PriceAmount>
     </cac:Price>
-  </cac:CreditNoteLine>
-</CreditNote>
+  </cac:InvoiceLine>
+</Invoice>

@@ -901,7 +901,7 @@ namespace QNBFinansGIB
                         }
                         else
                         {
-                            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, true);
+                            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, false);
                             sonuc = DisServisler.EArsivGonder(gidenFatura, dosyaAdi);
                         }
                     }

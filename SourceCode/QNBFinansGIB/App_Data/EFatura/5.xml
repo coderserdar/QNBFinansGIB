@@ -8,9 +8,9 @@
   <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
   <cbc:CustomizationID>TR1.2</cbc:CustomizationID>
   <cbc:ProfileID>EARSIVFATURA</cbc:ProfileID>
-  <cbc:ID>WVS2022852755093</cbc:ID>
+  <cbc:ID>DGT2022133177257</cbc:ID>
   <cbc:CopyIndicator>false</cbc:CopyIndicator>
-  <cbc:UUID>5DA7B7C8-6CF7-4C80-90A7-8E861488A600</cbc:UUID>
+  <cbc:UUID>41FA40CA-4BC7-440F-8125-1FAA723FE204</cbc:UUID>
   <cbc:IssueDate>2022-02-01</cbc:IssueDate>
   <cbc:IssueTime>00:00:00</cbc:IssueTime>
   <cbc:InvoiceTypeCode>ISTISNA</cbc:InvoiceTypeCode>
