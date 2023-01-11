@@ -828,6 +828,8 @@ namespace QNBFinansGIB
                     File.WriteAllBytes(dosyaAdiTemp, dosya);
 
                     MessageBox.Show(dosyaAdiTemp + " adresinde gerekli PDF veya ZIP dosyası oluşturulmuştur.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (File.Exists(dosyaAdiTemp))
+                        System.Diagnostics.Process.Start(dosyaAdiTemp);
                 }
                 else
                 {
@@ -1144,6 +1146,9 @@ namespace QNBFinansGIB
                     File.WriteAllBytes(dosyaAdiTemp, dosya);
 
                     MessageBox.Show(dosyaAdiTemp + " adresinde gerekli PDF veya ZIP dosyası oluşturulmuştur.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                    if (File.Exists(dosyaAdiTemp))
+                        System.Diagnostics.Process.Start(dosyaAdiTemp);
                 }
                 else
                 {
