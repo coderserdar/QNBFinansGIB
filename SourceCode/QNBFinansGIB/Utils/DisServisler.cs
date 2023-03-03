@@ -54,6 +54,8 @@ namespace QNBFinansGIB.Utils
         /// </summary>
         private static GIBEMustahsil.MustahsilWebService _gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
 
+        #region E-Fatura Metotları
+        
         /// <summary>
         /// Vergi Kimlik Numarası Gönderilen Tüzel Kişinin E Fatura Kullanıcısı Olup Olmadığını Kontrol Eden
         /// Bir Metottur
@@ -64,13 +66,7 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                _gibUserService = new GIBUserService.userService();
-                _gibEFaturaService = new GIBEFatura.connectorService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                EFaturaServisineBaglan();
 
                 var kullaniciMi = _gibEFaturaService.efaturaKullanicisi(vergiNo);
 
@@ -96,13 +92,7 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                _gibUserService = new GIBUserService.userService();
-                _gibEFaturaService = new GIBEFatura.connectorService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                EFaturaServisineBaglan();
 
                 var vergiKimlikNoListesi = new List<string>();
                 
@@ -155,13 +145,7 @@ namespace QNBFinansGIB.Utils
             {
                 var uygunMu = true;
 
-                _gibUserService = new GIBUserService.userService();
-                _gibEFaturaService = new GIBEFatura.connectorService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                EFaturaServisineBaglan();
 
                 var parametreler = new GIBEFatura.gidenBelgeParametreleri
                 {
@@ -197,13 +181,7 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                _gibUserService = new GIBUserService.userService();
-                _gibEFaturaService = new GIBEFatura.connectorService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                EFaturaServisineBaglan();
 
                 var parametreler = new GIBEFatura.gidenBelgeleriListeleParametreleri
                 {
@@ -243,13 +221,7 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                _gibUserService = new GIBUserService.userService();
-                _gibEFaturaService = new GIBEFatura.connectorService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                EFaturaServisineBaglan();
 
                 var parametreler = new GIBEFatura.gidenBelgeParametreleri
                 {
@@ -472,13 +444,7 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                _gibUserService = new GIBUserService.userService();
-                _gibEFaturaService = new GIBEFatura.connectorService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                EFaturaServisineBaglan();
 
                 const string vergiTcKimlikNo = "3250566851";
                 if (!File.Exists(dosyaAdi))
@@ -523,7 +489,45 @@ namespace QNBFinansGIB.Utils
                 _gibUserService.logout();
             }
         }
+        
+        /// <summary>
+        /// E-Fatura Servisine Bağlanmak İçin
+        /// Gerekli olan işlemlerin gerçekleştirildiği metottur
+        /// </summary>
+        private static void EFaturaServisineBaglan()
+        {
+            _gibUserService = new GIBUserService.userService();
+            _gibEFaturaService = new GIBEFatura.connectorService();
 
+            _gibUserService.CookieContainer = new System.Net.CookieContainer();
+            _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
+
+            _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+        }
+        
+        /// <summary>
+        /// Dosyanın MD5 hashi alınması için yazılan metottur
+        /// </summary>
+        /// <param name="gelen">Girdi Bilgisi</param>
+        /// <returns>Metnin veya girdinin MD5 hashlenmiş hali</returns>
+        private static string GetMD5Hash(byte[] gelen)
+        {
+            var md5Hash = new MD5CryptoServiceProvider();
+            var data = md5Hash.ComputeHash(gelen);
+            var sBuilder = new StringBuilder();
+
+            foreach (var t in data)
+            {
+                sBuilder.Append(t.ToString("x2"));
+            }
+
+            return sBuilder.ToString();
+        }
+        
+        #endregion
+        
+        #region E-Arşiv Metotları
+        
         /// <summary>
         /// İlgili faturanın QNB Finans servislerine gönderilip gönderilmediği
         /// Gönderildi ise durumuna bakarak 
@@ -537,13 +541,7 @@ namespace QNBFinansGIB.Utils
             {
                 var uygunMu = true;
 
-                _gibUserService = new GIBUserService.userService();
-                _gibEArsivService = new GIBEArsiv.EarsivWebService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEArsivService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                EArsivServisineBaglan();
 
                 var inputKontrol = "{\"faturaUuid\":\"" + gidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
@@ -579,13 +577,7 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                _gibUserService = new GIBUserService.userService();
-                _gibEArsivService = new GIBEArsiv.EarsivWebService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEArsivService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                EArsivServisineBaglan();
 
                 var input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
                 //string inputKontrol = "{\"vkn\":\"3250566851\",\"donenBelgeFormati\":\"9\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\"";
@@ -637,13 +629,7 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                _gibUserService = new GIBUserService.userService();
-                _gibEArsivService = new GIBEArsiv.EarsivWebService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEArsivService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+                EArsivServisineBaglan();
 
                 // Burada VKN ve ERP Kodu önemlidir
                 var input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
@@ -675,6 +661,25 @@ namespace QNBFinansGIB.Utils
         }
 
         /// <summary>
+        /// E-Arşiv Servisine Bağlanmak İçin
+        /// Gerekli İşlemlerin gerçekleştirildiği metottur.
+        /// </summary>
+        private static void EArsivServisineBaglan()
+        {
+            _gibUserService = new GIBUserService.userService();
+            _gibEArsivService = new GIBEArsiv.EarsivWebService();
+
+            _gibUserService.CookieContainer = new System.Net.CookieContainer();
+            _gibEArsivService.CookieContainer = _gibUserService.CookieContainer;
+
+            _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+        }
+        
+        #endregion
+        
+        #region E-Müstahsil Metotları
+
+        /// <summary>
         /// İlgili faturanın QNB Finans servislerine gönderilip gönderilmediği
         /// Gönderildi ise durumuna bakarak 
         /// Bu kaydın silinebilir olup olmadığını belirleye bir metottur.
@@ -687,13 +692,7 @@ namespace QNBFinansGIB.Utils
             {
                 var uygunMu = true;
 
-                _gibUserService = new GIBUserService.userService();
-                _gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEMustahsilService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
+                EMustahsilServisineBaglan();
 
                 var inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
 
@@ -725,13 +724,7 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                _gibUserService = new GIBUserService.userService();
-                _gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEMustahsilService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
+                EMustahsilServisineBaglan();
 
                 var input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
                 var inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
@@ -775,13 +768,7 @@ namespace QNBFinansGIB.Utils
         {
             try
             {
-                _gibUserService = new GIBUserService.userService();
-                _gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
-
-                _gibUserService.CookieContainer = new System.Net.CookieContainer();
-                _gibEMustahsilService.CookieContainer = _gibUserService.CookieContainer;
-
-                _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
+                EMustahsilServisineBaglan();
 
                 // Burada VKN ve ERP Kodu önemlidir
                 var input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
@@ -813,23 +800,21 @@ namespace QNBFinansGIB.Utils
         }
 
         /// <summary>
-        /// Dosyanın MD5 hashi alınması için yazılan metottur
+        /// E-Müstahsil Servisine Bağlanmak için
+        /// Gerekli işlemlerin gerçekleştirildiği metottur.
         /// </summary>
-        /// <param name="gelen">Girdi Bilgisi</param>
-        /// <returns>Metnin veya girdinin MD5 hashlenmiş hali</returns>
-        private static string GetMD5Hash(byte[] gelen)
+        private static void EMustahsilServisineBaglan()
         {
-            var md5Hash = new MD5CryptoServiceProvider();
-            var data = md5Hash.ComputeHash(gelen);
-            var sBuilder = new StringBuilder();
+            _gibUserService = new GIBUserService.userService();
+            _gibEMustahsilService = new GIBEMustahsil.MustahsilWebService();
 
-            foreach (var t in data)
-            {
-                sBuilder.Append(t.ToString("x2"));
-            }
+            _gibUserService.CookieContainer = new System.Net.CookieContainer();
+            _gibEMustahsilService.CookieContainer = _gibUserService.CookieContainer;
 
-            return sBuilder.ToString();
+            _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, "tr");
         }
+
+        #endregion
 
         #endregion QNB GİB
     }

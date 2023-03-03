@@ -59,7 +59,7 @@ namespace QNBFinansGIB.Utils
             #region Standart Bilgiler
 
             root.RemoveAllAttributes();
-            var locationAttribute = "xsi:schemaLocation";
+            // var locationAttribute = "xsi:schemaLocation";
             var location = doc.CreateAttribute("xsi", "schemaLocation",
                 "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2");
             location.Value =
@@ -249,12 +249,10 @@ namespace QNBFinansGIB.Utils
             {
                 foreach (var item in sablonAdresi)
                 {
-                    if (item.Contains("efatura"))
-                    {
-                        var base64Metin = File.ReadAllText(item);
-                        embeddedDocumentBinaryObject.InnerText = base64Metin;
-                        break;
-                    }
+                    if (!item.Contains("efatura")) continue;
+                    var base64Metin = File.ReadAllText(item);
+                    embeddedDocumentBinaryObject.InnerText = base64Metin;
+                    break;
                 }
             }
 
@@ -1245,7 +1243,7 @@ namespace QNBFinansGIB.Utils
 
                 #region Standart ve Faturaya Bağlı Bilgiler
 
-                XmlElement partyIdentification, postalAddress, streetName, buildingNumber, citySubdivisionName, cityName, postalZone, country, countryName, party, webSiteUri, postalAddressId, partyTaxScheme, taxScheme, taxSchemeName, contact, telephone, telefax, electronicMail, partyName, partyNameReal;
+                XmlElement partyIdentification, postalAddress, streetName, buildingNumber, citySubdivisionName, cityName, postalZone, country, countryName, party, webSiteUri, postalAddressId, partyTaxScheme, taxScheme, taxSchemeName, contact, telephone, telefax, electronicMail;
                 
                 EArsivStandartImzaVeFirmaBilgisiDuzenle(gidenFatura, gidenFaturaDetayListesi, root, doc, kodSatisTuruKod, kodFaturaTuruKod, kodFaturaGrupTuruKod, out var xmlnscac, out var xmlnscbc);
 
@@ -1340,37 +1338,7 @@ namespace QNBFinansGIB.Utils
 
                 #endregion
 
-                if (!string.IsNullOrEmpty(gidenFatura.BankaAd))
-                {
-                    // Eğer Banka bilgileri mevcutsa burada banka bilgileri yer almaktadır
-
-                    #region PaymentMeans
-
-                    var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xmlnscac.Value);
-                    var paymentMeansCode = doc.CreateElement("cbc", "PaymentMeansCode", xmlnscbc.Value);
-                    //paymentMeansCode.InnerText = "1";
-
-                    // Burada 1 verildiği zaman Sözleşme Kapsamında yazıyor metinde
-                    // ZZZ ise Diğer anlamında geliyor
-                    paymentMeansCode.InnerText = "ZZZ";
-                    paymentMeans.AppendChild(paymentMeansCode);
-                    var payeeFinancialAccount = doc.CreateElement("cac", "PayeeFinancialAccount", xmlnscac.Value);
-                    var payeeFinancialAccountId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                    if (!string.IsNullOrEmpty(gidenFatura.IbanNo))
-                        payeeFinancialAccountId.InnerText = gidenFatura.IbanNo;
-                    payeeFinancialAccount.AppendChild(payeeFinancialAccountId);
-                    var currencyCode = doc.CreateElement("cbc", "CurrencyCode", xmlnscbc.Value);
-                    currencyCode.InnerText = "TRY";
-                    payeeFinancialAccount.AppendChild(currencyCode);
-                    var paymentNote = doc.CreateElement("cbc", "PaymentNote", xmlnscbc.Value);
-                    if (!string.IsNullOrEmpty(gidenFatura.BankaAd) && !string.IsNullOrEmpty(gidenFatura.BankaSube))
-                        paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
-                    payeeFinancialAccount.AppendChild(paymentNote);
-                    paymentMeans.AppendChild(payeeFinancialAccount);
-                    root.AppendChild(paymentMeans);
-
-                    #endregion
-                }
+                EArsivBankaBilgileriDuzenle(gidenFatura, doc, xmlnscac, xmlnscbc, root);
 
                 int sayac;
                 
@@ -1657,37 +1625,7 @@ namespace QNBFinansGIB.Utils
                     }
                 }
 
-                if (!string.IsNullOrEmpty(gidenFatura.BankaAd))
-                {
-                    // Eğer Banka bilgileri mevcutsa burada banka bilgileri yer almaktadır
-
-                    #region PaymentMeans
-
-                    var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xmlnscac.Value);
-                    var paymentMeansCode = doc.CreateElement("cbc", "PaymentMeansCode", xmlnscbc.Value);
-                    //paymentMeansCode.InnerText = "1";
-
-                    // Burada 1 verildiği zaman Sözleşme Kapsamında yazıyor metinde
-                    // ZZZ ise Diğer anlamında geliyor
-                    paymentMeansCode.InnerText = "ZZZ";
-                    paymentMeans.AppendChild(paymentMeansCode);
-                    var payeeFinancialAccount = doc.CreateElement("cac", "PayeeFinancialAccount", xmlnscac.Value);
-                    var payeeFinancialAccountId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                    if (!string.IsNullOrEmpty(gidenFatura.IbanNo))
-                        payeeFinancialAccountId.InnerText = gidenFatura.IbanNo;
-                    payeeFinancialAccount.AppendChild(payeeFinancialAccountId);
-                    var currencyCode = doc.CreateElement("cbc", "CurrencyCode", xmlnscbc.Value);
-                    currencyCode.InnerText = "TRY";
-                    payeeFinancialAccount.AppendChild(currencyCode);
-                    var paymentNote = doc.CreateElement("cbc", "PaymentNote", xmlnscbc.Value);
-                    if (!string.IsNullOrEmpty(gidenFatura.BankaAd) && !string.IsNullOrEmpty(gidenFatura.BankaSube))
-                        paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
-                    payeeFinancialAccount.AppendChild(paymentNote);
-                    paymentMeans.AppendChild(payeeFinancialAccount);
-                    root.AppendChild(paymentMeans);
-
-                    #endregion
-                }
+                EArsivBankaBilgileriDuzenle(gidenFatura, doc, xmlnscac, xmlnscbc, root);
 
                 int sayac;
                 
@@ -1715,6 +1653,50 @@ namespace QNBFinansGIB.Utils
 
                 #endregion
             }
+        }
+
+        /// <summary>
+        /// E-Arşiv Kısmında Tüzel Kişi De Olsa Şahıs Şirketi De Olsa
+        /// Banka Bilgilerinin hazırlandığı kod bloğu aynı olduğu için
+        /// Burada tek bir yerden güncelleme yapılması için gerekli işlemlerin gerçekleştirildiği metottur.
+        /// </summary>
+        /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
+        /// <param name="doc">XML Dokümanı Bilgisi</param>
+        /// <param name="xmlnscac">XML Attribute Bilgisi</param>
+        /// <param name="xmlnscbc">XML Attribute Bilgisi</param>
+        /// <param name="root">XML Ana Eleman Bilgisi</param>
+        private static void EArsivBankaBilgileriDuzenle(GidenFaturaDTO gidenFatura, XmlDocument doc, XmlAttribute xmlnscac,
+            XmlAttribute xmlnscbc, XmlElement root)
+        {
+            if (string.IsNullOrEmpty(gidenFatura.BankaAd)) return;
+            
+            // Eğer Banka bilgileri mevcutsa burada banka bilgileri yer almaktadır
+            #region PaymentMeans
+
+            var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xmlnscac.Value);
+            var paymentMeansCode = doc.CreateElement("cbc", "PaymentMeansCode", xmlnscbc.Value);
+            //paymentMeansCode.InnerText = "1";
+
+            // Burada 1 verildiği zaman Sözleşme Kapsamında yazıyor metinde
+            // ZZZ ise Diğer anlamında geliyor
+            paymentMeansCode.InnerText = "ZZZ";
+            paymentMeans.AppendChild(paymentMeansCode);
+            var payeeFinancialAccount = doc.CreateElement("cac", "PayeeFinancialAccount", xmlnscac.Value);
+            var payeeFinancialAccountId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            if (!string.IsNullOrEmpty(gidenFatura.IbanNo))
+                payeeFinancialAccountId.InnerText = gidenFatura.IbanNo;
+            payeeFinancialAccount.AppendChild(payeeFinancialAccountId);
+            var currencyCode = doc.CreateElement("cbc", "CurrencyCode", xmlnscbc.Value);
+            currencyCode.InnerText = "TRY";
+            payeeFinancialAccount.AppendChild(currencyCode);
+            var paymentNote = doc.CreateElement("cbc", "PaymentNote", xmlnscbc.Value);
+            if (!string.IsNullOrEmpty(gidenFatura.BankaAd) && !string.IsNullOrEmpty(gidenFatura.BankaSube))
+                paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
+            payeeFinancialAccount.AppendChild(paymentNote);
+            paymentMeans.AppendChild(payeeFinancialAccount);
+            root.AppendChild(paymentMeans);
+
+            #endregion
         }
 
         /// <summary>
@@ -2017,7 +1999,7 @@ namespace QNBFinansGIB.Utils
 
             root.RemoveAllAttributes();
 
-            var locationAttribute = "xsi:schemaLocation";
+            // var locationAttribute = "xsi:schemaLocation";
             var location = doc.CreateAttribute("xsi", "schemaLocation",
                 "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2");
             location.Value =
@@ -2443,7 +2425,7 @@ namespace QNBFinansGIB.Utils
         /// <param name="sayac">Sayaç Bilgisi</param>
         /// <param name="root">XML Ana Eleman Bilgisi</param>
         /// <returns></returns>
-        public static int EArsivFaturaDetaylariDuzenle(GidenFaturaDTO gidenFatura, GidenFaturaDetayDTO item, XmlDocument doc,
+        private static int EArsivFaturaDetaylariDuzenle(GidenFaturaDTO gidenFatura, GidenFaturaDetayDTO item, XmlDocument doc,
             XmlAttribute xmlnscac, XmlAttribute xmlnscbc, int sayac, XmlElement root)
         {
             XmlAttribute currencyId;
@@ -2708,7 +2690,7 @@ namespace QNBFinansGIB.Utils
             #region Standart Bilgiler
 
             root.RemoveAllAttributes();
-            var locationAttribute = "xsi:schemaLocation";
+            // var locationAttribute = "xsi:schemaLocation";
             var location = doc.CreateAttribute("xsi", "schemaLocation",
                 "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2");
             location.Value =

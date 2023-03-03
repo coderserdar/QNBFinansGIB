@@ -20,7 +20,7 @@ namespace QNBFinansGIB.Utils
         public static TSelf BosluklariKaldir<TSelf>(this TSelf input)
         {
             if (input == null)
-                return default(TSelf);
+                return default;
 
             var stringProperties = typeof(TSelf).GetProperties()
                 .Where(p => p.PropertyType == typeof(string));
