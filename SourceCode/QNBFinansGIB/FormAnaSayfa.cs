@@ -709,6 +709,7 @@ namespace QNBFinansGIB
         }
 
         #region E-Fatura ve E-Arşiv Metotları
+        
         /// <summary>
         /// Sistemde E-Fatura ve E-Arşiv Servislerine Gönderilecek Formatta
         /// İdeal XML dosyalarının oluşturulması için XML Oluştur Butonuna tıklandığı zaman
@@ -720,18 +721,8 @@ namespace QNBFinansGIB
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
             {
-                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
-                var result = dialogKlasorSecimi.ShowDialog();
-
-                if (result != DialogResult.OK || string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath)) return;
-                var klasorAdi = dialogKlasorSecimi.SelectedPath;
-                // Burada form yüklendiği zaman hazırlanan giden faturalardan rastgele birinin
-                // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
-                var index = new Random().Next(gidenFaturaListesi.Count);
-                var gidenFatura = gidenFaturaListesi[index];
-                var gidenFaturaDetayListesiTemp = new List<GidenFaturaDetayDTO>();
-                if (gidenFaturaDetayListesi.Any(j => j.GidenFaturaId == gidenFatura.GidenFaturaId))
-                    gidenFaturaDetayListesiTemp = gidenFaturaDetayListesi.Where(j => j.GidenFaturaId == gidenFatura.GidenFaturaId).ToList();
+                if (!IslemIcinKlasorSecildiMi(dialogKlasorSecimi, out var klasorAdi)) return;
+                IslemYapilacakFaturaBilgisiDuzenle(out var gidenFatura, out var gidenFaturaDetayListesiTemp);
 
                 #region XML Oluşturma
                 var dosyaAdi = "";
@@ -769,18 +760,8 @@ namespace QNBFinansGIB
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
             {
-                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
-                var result = dialogKlasorSecimi.ShowDialog();
-
-                if (result != DialogResult.OK || string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath)) return;
-                var klasorAdi = dialogKlasorSecimi.SelectedPath;
-                // Burada form yüklendiği zaman hazırlanan giden faturalardan rastgele birinin
-                // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
-                var index = new Random().Next(gidenFaturaListesi.Count);
-                var gidenFatura = gidenFaturaListesi[index];
-                var gidenFaturaDetayListesiTemp = new List<GidenFaturaDetayDTO>();
-                if (gidenFaturaDetayListesi.Any(j => j.GidenFaturaId == gidenFatura.GidenFaturaId))
-                    gidenFaturaDetayListesiTemp = gidenFaturaDetayListesi.Where(j => j.GidenFaturaId == gidenFatura.GidenFaturaId).ToList();
+                if (!IslemIcinKlasorSecildiMi(dialogKlasorSecimi, out var klasorAdi)) return;
+                IslemYapilacakFaturaBilgisiDuzenle(out var gidenFatura, out var gidenFaturaDetayListesiTemp);
 
                 #region XML Oluşturma ve Servis Önizlemesi
                 var dosyaAdi = "";
@@ -851,18 +832,8 @@ namespace QNBFinansGIB
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
             {
-                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
-                var result = dialogKlasorSecimi.ShowDialog();
-
-                if (result != DialogResult.OK || string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath)) return;
-                var klasorAdi = dialogKlasorSecimi.SelectedPath;
-                // Burada form yüklendiği zaman hazırlanan giden faturalardan rastgele birinin
-                // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
-                var index = new Random().Next(gidenFaturaListesi.Count);
-                var gidenFatura = gidenFaturaListesi[index];
-                var gidenFaturaDetayListesiTemp = new List<GidenFaturaDetayDTO>();
-                if (gidenFaturaDetayListesi.Any(j => j.GidenFaturaId == gidenFatura.GidenFaturaId))
-                    gidenFaturaDetayListesiTemp = gidenFaturaDetayListesi.Where(j => j.GidenFaturaId == gidenFatura.GidenFaturaId).ToList();
+                if (!IslemIcinKlasorSecildiMi(dialogKlasorSecimi, out var klasorAdi)) return;
+                IslemYapilacakFaturaBilgisiDuzenle(out var gidenFatura, out var gidenFaturaDetayListesiTemp);
 
                 #region XML Oluşturma ve Servise Gönderme
                 var dosyaAdi = "";
@@ -914,14 +885,7 @@ namespace QNBFinansGIB
                     }
                 }
 
-                if (sonuc == MesajSabitler.IslemBasarisiz)
-                {
-                    MessageBox.Show(dosyaAdi + " dosyasının servise gönderilmesinde bir sorun yaşanmıştır.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    MessageBox.Show(dosyaAdi + " dosyası başarıyla GİB servislerine gönderilmiştir.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                IslemSonucuMesajiHazirla(sonuc, dosyaAdi);
 
                 #endregion
             }
@@ -1026,11 +990,8 @@ namespace QNBFinansGIB
             {
                 using (var dialogKlasorSecimi = new FolderBrowserDialog())
                 {
-                    dialogKlasorSecimi.SelectedPath = Application.StartupPath;
-                    var result = dialogKlasorSecimi.ShowDialog();
-
-                    if (result != DialogResult.OK || string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath)) return;
-                    var klasorAdi = dialogKlasorSecimi.SelectedPath;
+                    if (!IslemIcinKlasorSecildiMi(dialogKlasorSecimi, out var klasorAdi)) return;
+                    
                     var ad = Guid.NewGuid().ToString();
                     var dosyaAdi = klasorAdi + "/" + ad + ".txt";
                     StreamWriter dosyaKaydi = new StreamWriter(dosyaAdi);
@@ -1058,6 +1019,7 @@ namespace QNBFinansGIB
         #endregion
 
         #region E-Müstahsil Metotları
+        
         /// <summary>
         /// Sistemde E-Müstahsil Servislerine Gönderilecek Formatta
         /// İdeal XML dosyalarının oluşturulması için XML Oluştur Butonuna tıklandığı zaman
@@ -1069,18 +1031,8 @@ namespace QNBFinansGIB
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
             {
-                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
-                var result = dialogKlasorSecimi.ShowDialog();
-
-                if (result != DialogResult.OK || string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath)) return;
-                var klasorAdi = dialogKlasorSecimi.SelectedPath;
-                // Burada form yüklendiği zaman hazırlanan müstahsil makbuzlarından rastgele birinin
-                // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
-                var index = new Random().Next(mustahsilMakbuzuListesi.Count);
-                var mustahsilMakbuzu = mustahsilMakbuzuListesi[index];
-                var mustahsilMakbuzuDetayListesiTemp = new List<MustahsilMakbuzuDetayDTO>();
-                if (mustahsilMakbuzuDetayListesi.Any(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId))
-                    mustahsilMakbuzuDetayListesiTemp = mustahsilMakbuzuDetayListesi.Where(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId).ToList();
+                if (!IslemIcinKlasorSecildiMi(dialogKlasorSecimi, out var klasorAdi)) return;
+                IslemYapilacakMakbuzBilgisiDuzenle(out var mustahsilMakbuzu, out var mustahsilMakbuzuDetayListesiTemp);
 
                 #region XML Oluşturma
 
@@ -1109,18 +1061,8 @@ namespace QNBFinansGIB
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
             {
-                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
-                var result = dialogKlasorSecimi.ShowDialog();
-
-                if (result != DialogResult.OK || string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath)) return;
-                var klasorAdi = dialogKlasorSecimi.SelectedPath;
-                // Burada form yüklendiği zaman hazırlanan müstahsil makbuzlarından rastgele birinin
-                // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
-                var index = new Random().Next(mustahsilMakbuzuListesi.Count);
-                var mustahsilMakbuzu = mustahsilMakbuzuListesi[index];
-                var mustahsilMakbuzuDetayListesiTemp = new List<MustahsilMakbuzuDetayDTO>();
-                if (mustahsilMakbuzuDetayListesi.Any(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId))
-                    mustahsilMakbuzuDetayListesiTemp = mustahsilMakbuzuDetayListesi.Where(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId).ToList();
+                if (!IslemIcinKlasorSecildiMi(dialogKlasorSecimi, out var klasorAdi)) return;
+                IslemYapilacakMakbuzBilgisiDuzenle(out var mustahsilMakbuzu, out var mustahsilMakbuzuDetayListesiTemp);
 
                 #region XML Oluşturma ve Servis Önizlemesi
                 var dosyaAdi = "";
@@ -1170,18 +1112,8 @@ namespace QNBFinansGIB
         {
             using (var dialogKlasorSecimi = new FolderBrowserDialog())
             {
-                dialogKlasorSecimi.SelectedPath = Application.StartupPath;
-                var result = dialogKlasorSecimi.ShowDialog();
-
-                if (result != DialogResult.OK || string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath)) return;
-                var klasorAdi = dialogKlasorSecimi.SelectedPath;
-                // Burada form yüklendiği zaman hazırlanan müstahsil makbuzlarından rastgele birinin
-                // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
-                var index = new Random().Next(mustahsilMakbuzuListesi.Count);
-                var mustahsilMakbuzu = mustahsilMakbuzuListesi[index];
-                var mustahsilMakbuzuDetayListesiTemp = new List<MustahsilMakbuzuDetayDTO>();
-                if (mustahsilMakbuzuDetayListesi.Any(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId))
-                    mustahsilMakbuzuDetayListesiTemp = mustahsilMakbuzuDetayListesi.Where(j => j.MustahsilMakbuzuId == mustahsilMakbuzu.MustahsilMakbuzuId).ToList();
+                if (!IslemIcinKlasorSecildiMi(dialogKlasorSecimi, out var klasorAdi)) return;
+                IslemYapilacakMakbuzBilgisiDuzenle(out var mustahsilMakbuzu, out var mustahsilMakbuzuDetayListesiTemp);
 
                 #region XML Oluşturma ve Servise Gönderme
                 var dosyaAdi = "";
@@ -1196,14 +1128,7 @@ namespace QNBFinansGIB
                     MessageBox.Show("Müstahsil Makbuzunu servise göndermek için vergi no zorunludur", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
 
-                if (sonuc == MesajSabitler.IslemBasarisiz)
-                {
-                    MessageBox.Show(dosyaAdi + " dosyasının servise gönderilmesinde bir sorun yaşanmıştır.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    MessageBox.Show(dosyaAdi + " dosyası başarıyla GİB servislerine gönderilmiştir.", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                IslemSonucuMesajiHazirla(sonuc, dosyaAdi);
 
                 #endregion
             }
@@ -1240,6 +1165,84 @@ namespace QNBFinansGIB
         #region Diğer Yardımcı Metotlar
         
         /// <summary>
+        /// Klasör Seçimi Yapılması ve klasör seçilirse
+        /// Bu klasör adının alınması için gerekli işlemlerin gerçekleştirildiği metottur.
+        /// </summary>
+        /// <param name="dialogKlasorSecimi">Klasör Seçim Diyaloğu</param>
+        /// <param name="klasorAdi">Boş Klasör Adı</param>
+        /// <returns>Klasör Seçiminin Yapılıp Yapılmadığı Bilgisi</returns>
+        private static bool IslemIcinKlasorSecildiMi(FolderBrowserDialog dialogKlasorSecimi, out string klasorAdi)
+        {
+            dialogKlasorSecimi.SelectedPath = Application.StartupPath;
+            var klasorSecimDiyalogu = dialogKlasorSecimi.ShowDialog();
+
+            if (klasorSecimDiyalogu != DialogResult.OK ||
+                string.IsNullOrWhiteSpace(dialogKlasorSecimi.SelectedPath))
+            {
+                klasorAdi = null;
+                return false;
+            }
+            klasorAdi = dialogKlasorSecimi.SelectedPath;
+            return true;
+        }
+        
+        /// <summary>
+        /// İşlem yapılacak Giden Fatura ve detay bilgilerinin düzenlenmesi için
+        /// Gerekli işlemlerin gerçekleştirildiği metottur.
+        /// </summary>
+        /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
+        /// <param name="gidenFaturaDetayListesiTemp">Giden Fatura Detay Listesi Bilgisi</param>
+        private void IslemYapilacakFaturaBilgisiDuzenle(out GidenFaturaDTO gidenFatura, out List<GidenFaturaDetayDTO> gidenFaturaDetayListesiTemp)
+        {
+            // Burada form yüklendiği zaman hazırlanan giden faturalardan rastgele birinin
+            // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
+            var index = new Random().Next(gidenFaturaListesi.Count);
+            gidenFatura = gidenFaturaListesi[index];
+            gidenFaturaDetayListesiTemp = new List<GidenFaturaDetayDTO>();
+            var dto = gidenFatura;
+            if (gidenFaturaDetayListesi.Any(j => j.GidenFaturaId == dto.GidenFaturaId))
+                gidenFaturaDetayListesiTemp = gidenFaturaDetayListesi.Where(j => j.GidenFaturaId == dto.GidenFaturaId).ToList();
+        }
+        
+        /// <summary>
+        /// İşlem yapılacak Müstahsil Makbuzu ve detay bilgilerinin düzenlenmesi için
+        /// Gerekli işlemlerin gerçekleştirildiği metottur.
+        /// </summary>
+        /// <param name="mustahsilMakbuzu">Müstahsil Makbuzu Bilgisi</param>
+        /// <param name="mustahsilMakbuzuDetayListesiTemp">Müstahsil Makbuzu Detay Listesi Bilgisi</param>
+        private void IslemYapilacakMakbuzBilgisiDuzenle(out MustahsilMakbuzuDTO mustahsilMakbuzu,
+            out List<MustahsilMakbuzuDetayDTO> mustahsilMakbuzuDetayListesiTemp)
+        {
+            // Burada form yüklendiği zaman hazırlanan müstahsil makbuzlarından rastgele birinin
+            // ve ona ait detay kayıtlarının seçilmesi sağlanıyor
+            var index = new Random().Next(mustahsilMakbuzuListesi.Count);
+            mustahsilMakbuzu = mustahsilMakbuzuListesi[index];
+            mustahsilMakbuzuDetayListesiTemp = new List<MustahsilMakbuzuDetayDTO>();
+            var dto = mustahsilMakbuzu;
+            if (mustahsilMakbuzuDetayListesi.Any(j => j.MustahsilMakbuzuId == dto.MustahsilMakbuzuId))
+                mustahsilMakbuzuDetayListesiTemp = mustahsilMakbuzuDetayListesi.Where(j => j.MustahsilMakbuzuId == dto.MustahsilMakbuzuId).ToList();
+        }
+        
+        /// <summary>
+        /// Servise gönderme konusunda sonuca göre bilgi mesajı verilmesini sağlayan metottur
+        /// </summary>
+        /// <param name="sonuc">İşlem Sonucu Bilgisi</param>
+        /// <param name="dosyaAdi">Dosya Adı Bilgisi</param>
+        private static void IslemSonucuMesajiHazirla(string sonuc, string dosyaAdi)
+        {
+            if (sonuc == MesajSabitler.IslemBasarisiz)
+            {
+                MessageBox.Show(dosyaAdi + " dosyasının servise gönderilmesinde bir sorun yaşanmıştır.",
+                    MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show(dosyaAdi + " dosyası başarıyla GİB servislerine gönderilmiştir.", MesajSabitler.MesajBasligi,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        /// <summary>
         /// E-Fatura Sisteminden Onaylı Fatura Çıktısı PDF yerine ZIP Formatında
         /// Geldiği için bu ZIP formatındaki byte array üzerinden
         /// İçindeki PDF dosyasının alınıp yazdırılması için
@@ -1268,8 +1271,5 @@ namespace QNBFinansGIB
         }
         
         #endregion
-
-
-        
     }
 }
