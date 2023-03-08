@@ -5,7 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using QNBFinansGIB.GIBEArsiv;
 using QNBFinansGIB.GIBEFatura;
+using belge = QNBFinansGIB.GIBEArsiv.belge;
 
 namespace QNBFinansGIB.Utils
 {
@@ -583,14 +585,8 @@ namespace QNBFinansGIB.Utils
                 //string inputKontrol = "{\"vkn\":\"3250566851\",\"donenBelgeFormati\":\"9\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\"";
                 var inputKontrol = "{\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
-                var belgeTemp = new GIBEArsiv.belge
-                {
-                    belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL,
-                    belgeFormatiSpecified = true,
-                    belgeIcerigi = File.ReadAllBytes(dosyaAdi)
-                };
-                var serviceResult = new GIBEArsiv.earsivServiceResult();
-                _gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
+                var temp = EArsivFaturaSorgula(dosyaAdi, inputKontrol, out var belgeTemp, out var serviceResult);
+
                 if (serviceResult.resultCode != "AE00000")
                 {
                     _gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
@@ -634,14 +630,7 @@ namespace QNBFinansGIB.Utils
                 // Burada VKN ve ERP Kodu önemlidir
                 var input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
 
-                var belgeTemp = new GIBEArsiv.belge
-                {
-                    belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL,
-                    belgeFormatiSpecified = true,
-                    belgeIcerigi = File.ReadAllBytes(dosyaAdi)
-                };
-                var serviceResult = new GIBEArsiv.earsivServiceResult();
-                var temp = _gibEArsivService.faturaSorgula(input, out serviceResult);
+                var temp = EArsivFaturaSorgula(dosyaAdi, input, out var belgeTemp, out var serviceResult);
                 if (temp != null)
                     return temp.belgeIcerigi;
                 else
@@ -673,6 +662,29 @@ namespace QNBFinansGIB.Utils
             _gibEArsivService.CookieContainer = _gibUserService.CookieContainer;
 
             _gibUserService.wsLogin(GIBKullaniciAdi, GIBSifre, GIBVKN);
+        }
+        
+        /// <summary>
+        /// E-Arşiv Fatura servisine belli bir input ve dosya adı ile
+        /// Talepte bulunarak işlem yapmak için hazırlanan metottur
+        /// </summary>
+        /// <param name="dosyaAdi">Dosya Adı Bilgisi</param>
+        /// <param name="inputKontrol">İnput Metin Bilgisi</param>
+        /// <param name="belgeTemp">Temp Belge Bilgisi</param>
+        /// <param name="serviceResult">Servis Sonucu Bilgisi</param>
+        /// <returns></returns>
+        private static belge EArsivFaturaSorgula(string dosyaAdi, string inputKontrol, out belge belgeTemp,
+            out earsivServiceResult serviceResult)
+        {
+            belgeTemp = new GIBEArsiv.belge
+            {
+                belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL,
+                belgeFormatiSpecified = true,
+                belgeIcerigi = File.ReadAllBytes(dosyaAdi)
+            };
+            serviceResult = new GIBEArsiv.earsivServiceResult();
+            var temp = _gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
+            return temp;
         }
         
         #endregion
