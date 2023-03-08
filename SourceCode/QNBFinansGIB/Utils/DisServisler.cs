@@ -8,6 +8,7 @@ using System.Text;
 using QNBFinansGIB.GIBEArsiv;
 using QNBFinansGIB.GIBEFatura;
 using belge = QNBFinansGIB.GIBEArsiv.belge;
+using eFaturaKullanici = QNBFinansGIB.GIBEFatura.eFaturaKullanici;
 
 namespace QNBFinansGIB.Utils
 {
@@ -103,20 +104,7 @@ namespace QNBFinansGIB.Utils
                 foreach (var item in list)
                 {
                     var sb = new StringBuilder();
-                    if (!string.IsNullOrEmpty(item.kayitZamani))
-                    {
-                        sb.Append(item.kayitZamani.Substring(6, 2));
-                        sb.Append("-");
-                        sb.Append(item.kayitZamani.Substring(4, 2));
-                        sb.Append("-");
-                        sb.Append(item.kayitZamani.Substring(0, 4));
-                        sb.Append(" ");
-                        sb.Append(item.kayitZamani.Substring(8, 2));
-                        sb.Append(":");
-                        sb.Append(item.kayitZamani.Substring(10, 2));
-                        sb.Append(":");
-                        sb.Append(item.kayitZamani.Substring(12, 2));
-                    }
+                    TarihBilgisiDuzenle(item, sb);
                     if (sb.ToString().Length > 0)
                         vergiKimlikNoListesi.Add(item.vergiTcKimlikNo + " - " + item.unvan + " - Kayıt Zamanı: " + sb.ToString());
                     // vergiKimlikNoListesi.Add(item.vergiTcKimlikNo + " - " + item.unvan + " - " + item.kayitZamani);
@@ -131,6 +119,31 @@ namespace QNBFinansGIB.Utils
             finally
             {
                 _gibUserService.logout();
+            }
+        }
+
+        /// <summary>
+        /// Servisten gelen bilgideki tarih bilgisi sıralı olmadığı için
+        /// Buna göre tarih bilgisinin olması gereken hale getirilmesi için
+        /// Hazırlanmış bir metottur.
+        /// </summary>
+        /// <param name="item">Servistne dönen kullanıcı bilgisi</param>
+        /// <param name="sb">String Builder Bilgisi</param>
+        private static void TarihBilgisiDuzenle(eFaturaKullanici item, StringBuilder sb)
+        {
+            if (!string.IsNullOrEmpty(item.kayitZamani))
+            {
+                sb.Append(item.kayitZamani.Substring(6, 2));
+                sb.Append("-");
+                sb.Append(item.kayitZamani.Substring(4, 2));
+                sb.Append("-");
+                sb.Append(item.kayitZamani.Substring(0, 4));
+                sb.Append(" ");
+                sb.Append(item.kayitZamani.Substring(8, 2));
+                sb.Append(":");
+                sb.Append(item.kayitZamani.Substring(10, 2));
+                sb.Append(":");
+                sb.Append(item.kayitZamani.Substring(12, 2));
             }
         }
 
