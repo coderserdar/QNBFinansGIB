@@ -23,22 +23,22 @@ namespace QNBFinansGIB
         /// <summary>
         /// Giden Fatura Listesi
         /// </summary>
-        private List<GidenFaturaDTO> gidenFaturaListesi = new List<GidenFaturaDTO>();
+        private readonly List<GidenFaturaDTO> gidenFaturaListesi = new List<GidenFaturaDTO>();
 
         /// <summary>
         /// Giden Fatura Detay Listesi
         /// </summary>
-        private List<GidenFaturaDetayDTO> gidenFaturaDetayListesi = new List<GidenFaturaDetayDTO>();
+        private readonly List<GidenFaturaDetayDTO> gidenFaturaDetayListesi = new List<GidenFaturaDetayDTO>();
 
         /// <summary>
         /// Müstahsil Makbuzu Listesi
         /// </summary>
-        private List<MustahsilMakbuzuDTO> mustahsilMakbuzuListesi = new List<MustahsilMakbuzuDTO>();
+        private readonly List<MustahsilMakbuzuDTO> mustahsilMakbuzuListesi = new List<MustahsilMakbuzuDTO>();
 
         /// <summary>
         /// Müstahsil Makbuzu Detay Listesi
         /// </summary>
-        private List<MustahsilMakbuzuDetayDTO> mustahsilMakbuzuDetayListesi = new List<MustahsilMakbuzuDetayDTO>();
+        private readonly List<MustahsilMakbuzuDetayDTO> mustahsilMakbuzuDetayListesi = new List<MustahsilMakbuzuDetayDTO>();
 
         #endregion
 
@@ -754,7 +754,7 @@ namespace QNBFinansGIB
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty((gidenFatura.GercekKisiTcKimlikNo)))
+                    if (!string.IsNullOrEmpty(gidenFatura.GercekKisiTcKimlikNo))
                     {
                         var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.GercekKisiTcKimlikNo);
                         dosyaAdi = kullaniciMi
@@ -808,7 +808,7 @@ namespace QNBFinansGIB
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty((gidenFatura.GercekKisiTcKimlikNo)))
+                    if (!string.IsNullOrEmpty(gidenFatura.GercekKisiTcKimlikNo))
                     {
                         kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.GercekKisiTcKimlikNo);
                         dosya = kullaniciMi
@@ -875,7 +875,7 @@ namespace QNBFinansGIB
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty((gidenFatura.GercekKisiTcKimlikNo)))
+                    if (!string.IsNullOrEmpty(gidenFatura.GercekKisiTcKimlikNo))
                     {
                         var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.GercekKisiTcKimlikNo);
                         sonuc = kullaniciMi ? EFaturaXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi) : EArsivXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
@@ -902,14 +902,7 @@ namespace QNBFinansGIB
         {
             #region E-Fatura Mükelleflerinin Fatura Id Bilgilerinin Temini
 
-            var gidenFaturaIdListesi = new List<string>();
-            foreach (var item in gidenFaturaListesi)
-            {
-                if (string.IsNullOrEmpty(item.VergiNo)) continue;
-                var kullaniciMi = DisServisler.EFaturaKullanicisiMi(item.VergiNo);
-                if (kullaniciMi)
-                    gidenFaturaIdListesi.Add(item.GidenFaturaId);
-            }
+            var gidenFaturaIdListesi = (from item in gidenFaturaListesi where !string.IsNullOrEmpty(item.VergiNo) let kullaniciMi = DisServisler.EFaturaKullanicisiMi(item.VergiNo) where kullaniciMi select item.GidenFaturaId).ToList();
 
             #endregion
 
@@ -978,11 +971,8 @@ namespace QNBFinansGIB
         {
             lbEFaturaKullaniciListesi.Items.Clear();
             var vergiKimlikNoListesi = DisServisler.EFaturaKullaniciListesi(dtpFaturaTarihi.Value);
-            foreach (var item in vergiKimlikNoListesi)
-            {
-                if (!string.IsNullOrEmpty(item))
-                    lbEFaturaKullaniciListesi.Items.Add(item);
-            }
+            foreach (var item in vergiKimlikNoListesi.Where(item => !string.IsNullOrEmpty(item)))
+                lbEFaturaKullaniciListesi.Items.Add(item);
 
             MessageBox.Show(vergiKimlikNoListesi.Count + " adet e-fatura mükellef kaydı bulundu",
                 MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1007,7 +997,7 @@ namespace QNBFinansGIB
 
                     var ad = Guid.NewGuid().ToString();
                     var dosyaAdi = klasorAdi + "/" + ad + ".txt";
-                    StreamWriter dosyaKaydi = new StreamWriter(dosyaAdi);
+                    var dosyaKaydi = new StreamWriter(dosyaAdi);
                     foreach (var item in lbEFaturaKullaniciListesi.Items)
                         dosyaKaydi.WriteLine(item.ToString());
                     dosyaKaydi.Close();
@@ -1341,10 +1331,9 @@ namespace QNBFinansGIB
         /// <returns>Dosya Adı Bilgisi</returns>
         private static byte[] EArsivXMLOlusturVeOnIzlemeYap(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesiTemp, string klasorAdi, out string dosyaAdi)
         {
-            byte[] dosya;
             dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
                 klasorAdi, true);
-            dosya = DisServisler.EArsivOnIzleme(gidenFatura, dosyaAdi);
+            var dosya = DisServisler.EArsivOnIzleme(gidenFatura, dosyaAdi);
             return dosya;
         }
         
@@ -1359,15 +1348,12 @@ namespace QNBFinansGIB
         /// <returns>Dosya Adı Bilgisi</returns>
         private static string EFaturaXMLOlusturVeServiseGonder(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesiTemp, string klasorAdi, out string dosyaAdi)
         {
-            string sonuc;
             dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
                 klasorAdi);
-            sonuc = DisServisler.EFaturaGonder(gidenFatura, dosyaAdi, gidenFatura.BelgeOid);
-            if (sonuc != MesajSabitler.IslemBasarisiz)
-            {
-                if (sonuc.Length <= 20)
-                    gidenFatura.BelgeOid = sonuc;
-            }
+            var sonuc = DisServisler.EFaturaGonder(gidenFatura, dosyaAdi, gidenFatura.BelgeOid);
+            if (sonuc == MesajSabitler.IslemBasarisiz) return sonuc;
+            if (sonuc.Length <= 20)
+                gidenFatura.BelgeOid = sonuc;
 
             return sonuc;
         }
@@ -1383,10 +1369,9 @@ namespace QNBFinansGIB
         /// <returns>Dosya Adı Bilgisi</returns>
         private static string EArsivXMLOlusturVeServiseGonder(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesiTemp, string klasorAdi, out string dosyaAdi)
         {
-            string sonuc;
             dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
                 klasorAdi, false);
-            sonuc = DisServisler.EArsivGonder(gidenFatura, dosyaAdi);
+            var sonuc = DisServisler.EArsivGonder(gidenFatura, dosyaAdi);
             return sonuc;
         }
 

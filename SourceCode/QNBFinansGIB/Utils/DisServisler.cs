@@ -47,11 +47,11 @@ namespace QNBFinansGIB.Utils
         /// <summary>
         /// GİB E-Fatura Servis istemcisi
         /// </summary>
-        private static GIBEFatura.connectorService _gibEFaturaService = new GIBEFatura.connectorService();
+        private static connectorService _gibEFaturaService = new connectorService();
         /// <summary>
         /// GİB E-Arşiv Servis istemcisi
         /// </summary>
-        private static GIBEArsiv.EarsivWebService _gibEArsivService = new GIBEArsiv.EarsivWebService();
+        private static EarsivWebService _gibEArsivService = new EarsivWebService();
         /// <summary>
         /// GİB E-Arşiv Servis istemcisi
         /// </summary>
@@ -106,7 +106,7 @@ namespace QNBFinansGIB.Utils
                     var sb = new StringBuilder();
                     TarihBilgisiDuzenle(item, sb);
                     if (sb.ToString().Length > 0)
-                        vergiKimlikNoListesi.Add(item.vergiTcKimlikNo + " - " + item.unvan + " - Kayıt Zamanı: " + sb.ToString());
+                        vergiKimlikNoListesi.Add(item.vergiTcKimlikNo + " - " + item.unvan + " - Kayıt Zamanı: " + sb);
                     // vergiKimlikNoListesi.Add(item.vergiTcKimlikNo + " - " + item.unvan + " - " + item.kayitZamani);
                 }
 
@@ -131,20 +131,18 @@ namespace QNBFinansGIB.Utils
         /// <param name="sb">String Builder Bilgisi</param>
         private static void TarihBilgisiDuzenle(eFaturaKullanici item, StringBuilder sb)
         {
-            if (!string.IsNullOrEmpty(item.kayitZamani))
-            {
-                sb.Append(item.kayitZamani.Substring(6, 2));
-                sb.Append("-");
-                sb.Append(item.kayitZamani.Substring(4, 2));
-                sb.Append("-");
-                sb.Append(item.kayitZamani.Substring(0, 4));
-                sb.Append(" ");
-                sb.Append(item.kayitZamani.Substring(8, 2));
-                sb.Append(":");
-                sb.Append(item.kayitZamani.Substring(10, 2));
-                sb.Append(":");
-                sb.Append(item.kayitZamani.Substring(12, 2));
-            }
+            if (string.IsNullOrEmpty(item.kayitZamani)) return;
+            sb.Append(item.kayitZamani.Substring(6, 2));
+            sb.Append("-");
+            sb.Append(item.kayitZamani.Substring(4, 2));
+            sb.Append("-");
+            sb.Append(item.kayitZamani.Substring(0, 4));
+            sb.Append(" ");
+            sb.Append(item.kayitZamani.Substring(8, 2));
+            sb.Append(":");
+            sb.Append(item.kayitZamani.Substring(10, 2));
+            sb.Append(":");
+            sb.Append(item.kayitZamani.Substring(12, 2));
         }
 
         /// <summary>
@@ -162,7 +160,7 @@ namespace QNBFinansGIB.Utils
 
                 EFaturaServisineBaglan();
 
-                var parametreler = new GIBEFatura.gidenBelgeParametreleri
+                var parametreler = new gidenBelgeParametreleri
                 {
                     vergiTcKimlikNo = "3250566851",
                     belgeTuru = "FATURA_UBL",
@@ -198,7 +196,7 @@ namespace QNBFinansGIB.Utils
             {
                 EFaturaServisineBaglan();
 
-                var parametreler = new GIBEFatura.gidenBelgeleriListeleParametreleri
+                var parametreler = new gidenBelgeleriListeleParametreleri
                 {
                     vkn = "3250566851",
                     belgeTuru = "FATURA_UBL",
@@ -238,7 +236,7 @@ namespace QNBFinansGIB.Utils
             {
                 EFaturaServisineBaglan();
 
-                var parametreler = new GIBEFatura.gidenBelgeParametreleri
+                var parametreler = new gidenBelgeParametreleri
                 {
                     vergiTcKimlikNo = "3250566851",
                     belgeTuru = "FATURA_UBL",
@@ -512,7 +510,7 @@ namespace QNBFinansGIB.Utils
         private static void EFaturaServisineBaglan()
         {
             _gibUserService = new GIBUserService.userService();
-            _gibEFaturaService = new GIBEFatura.connectorService();
+            _gibEFaturaService = new connectorService();
 
             _gibUserService.CookieContainer = new System.Net.CookieContainer();
             _gibEFaturaService.CookieContainer = _gibUserService.CookieContainer;
@@ -560,12 +558,12 @@ namespace QNBFinansGIB.Utils
 
                 var inputKontrol = "{\"faturaUuid\":\"" + gidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
-                // var fatura = new GIBEArsiv.belge
+                // var fatura = new belge
                 // {
-                //     belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL,
+                //     belgeFormati = belgeFormatiEnum.UBL,
                 //     belgeFormatiSpecified = true
                 // };
-                var serviceResult = new GIBEArsiv.earsivServiceResult();
+                var serviceResult = new earsivServiceResult();
                 _gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode == "AE00000")
                     uygunMu = false;
@@ -669,7 +667,7 @@ namespace QNBFinansGIB.Utils
         private static void EArsivServisineBaglan()
         {
             _gibUserService = new GIBUserService.userService();
-            _gibEArsivService = new GIBEArsiv.EarsivWebService();
+            _gibEArsivService = new EarsivWebService();
 
             _gibUserService.CookieContainer = new System.Net.CookieContainer();
             _gibEArsivService.CookieContainer = _gibUserService.CookieContainer;
@@ -689,13 +687,13 @@ namespace QNBFinansGIB.Utils
         private static belge EArsivFaturaSorgula(string dosyaAdi, string inputKontrol, out belge belgeTemp,
             out earsivServiceResult serviceResult)
         {
-            belgeTemp = new GIBEArsiv.belge
+            belgeTemp = new belge
             {
-                belgeFormati = GIBEArsiv.belgeFormatiEnum.UBL,
+                belgeFormati = belgeFormatiEnum.UBL,
                 belgeFormatiSpecified = true,
                 belgeIcerigi = File.ReadAllBytes(dosyaAdi)
             };
-            serviceResult = new GIBEArsiv.earsivServiceResult();
+            serviceResult = new earsivServiceResult();
             var temp = _gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
             return temp;
         }

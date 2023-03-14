@@ -765,7 +765,6 @@ namespace QNBFinansGIB.Utils
 
             #endregion
 
-            XmlAttribute currencyId;
             FaturaGenelTutarDuzenle(gidenFatura, doc, xmlnscac, xmlnscbc, root, true);
 
             var sayac = 1;
@@ -795,7 +794,7 @@ namespace QNBFinansGIB.Utils
                 invoiceLine.AppendChild(invoicedQuantity);
                 var lineExtensionAmountDetail = doc.CreateElement("cbc", "LineExtensionAmount", xmlnscbc.Value);
                 lineExtensionAmountDetail.RemoveAllAttributes();
-                currencyId = doc.CreateAttribute("currencyID");
+                var currencyId = doc.CreateAttribute("currencyID");
                 currencyId.Value = "TRY";
                 lineExtensionAmountDetail.Attributes.Append(currencyId);
                 lineExtensionAmountDetail.InnerText = Decimal
@@ -949,7 +948,7 @@ namespace QNBFinansGIB.Utils
                     taxSubTotal.AppendChild(taxAmount2);
                     percent = doc.CreateElement("cbc", "Percent", xmlnscbc.Value);
                     percent.InnerText = Decimal
-                        .Round((decimal) 2, 2, MidpointRounding.AwayFromZero)
+                        .Round(2, 2, MidpointRounding.AwayFromZero)
                         .ToString("N1").Replace(",", ".");
                     taxSubTotal.AppendChild(percent);
                     taxCategory = doc.CreateElement("cac", "TaxCategory", xmlnscac.Value);
@@ -1188,17 +1187,10 @@ namespace QNBFinansGIB.Utils
 
                 EArsivBankaBilgileriDuzenle(gidenFatura, doc, xmlnscac, xmlnscbc, root);
 
-                int sayac;
-
                 EArsivVergiVeDigerAlanlarDuzenle(gidenFatura, gidenFaturaDetayListesi, doc, xmlnscac, xmlnscbc,
                     kodFaturaGrupTuruKod, kodSatisTuruKod, root);
 
-                sayac = 1;
-                // Her bir fatura detayı için hazırlanan bölümdür
-                foreach (var item in gidenFaturaDetayListesi)
-                {
-                    sayac = EArsivFaturaDetaylariDuzenle(gidenFatura, item, doc, xmlnscac, xmlnscbc, sayac, root);
-                }
+                var sayac = gidenFaturaDetayListesi.Aggregate(1, (current, item) => EArsivFaturaDetaylariDuzenle(gidenFatura, item, doc, xmlnscac, xmlnscbc, current, root));
 
                 #endregion
 
@@ -1241,27 +1233,8 @@ namespace QNBFinansGIB.Utils
 
                 #region Standart ve Faturaya Bağlı Bilgiler
 
-                XmlElement partyIdentification,
-                    postalAddress,
-                    streetName,
-                    buildingNumber,
-                    citySubdivisionName,
-                    cityName,
-                    postalZone,
-                    country,
-                    countryName,
-                    party,
-                    webSiteUri,
-                    postalAddressId,
-                    partyTaxScheme,
-                    taxScheme,
-                    taxSchemeName,
-                    contact,
-                    telephone,
-                    telefax,
-                    electronicMail,
-                    partyName,
-                    partyNameReal;
+                XmlElement partyIdentification, postalAddress, streetName, buildingNumber, citySubdivisionName, cityName, postalZone, country, countryName, party, webSiteUri, postalAddressId, partyTaxScheme, taxScheme, taxSchemeName, contact, telephone, telefax, electronicMail, partyName, partyNameReal;
+                
                 EArsivStandartImzaVeFirmaBilgisiDuzenle(gidenFatura, gidenFaturaDetayListesi, root, doc,
                     kodSatisTuruKod, kodFaturaTuruKod, kodFaturaGrupTuruKod, out var xmlnscac, out var xmlnscbc);
 
@@ -1502,12 +1475,7 @@ namespace QNBFinansGIB.Utils
                 EArsivVergiVeDigerAlanlarDuzenle(gidenFatura, gidenFaturaDetayListesi, doc, xmlnscac, xmlnscbc,
                     kodFaturaGrupTuruKod, kodSatisTuruKod, root);
 
-                sayac = 1;
-                // Her bir fatura detayı için hazırlanan bölümdür
-                foreach (var item in gidenFaturaDetayListesi)
-                {
-                    sayac = EArsivFaturaDetaylariDuzenle(gidenFatura, item, doc, xmlnscac, xmlnscbc, sayac, root);
-                }
+                sayac = gidenFaturaDetayListesi.Aggregate(1, (current, item) => EArsivFaturaDetaylariDuzenle(gidenFatura, item, doc, xmlnscac, xmlnscbc, current, root));
 
                 #endregion
 
@@ -1758,7 +1726,7 @@ namespace QNBFinansGIB.Utils
         {
             #region TaxTotal
 
-            var sayac = 1;
+            const int sayac = 1;
             foreach (var item in faturaKdvListesi)
             {
                 // Burada vergi bilgileri yer almaktadır
@@ -1893,8 +1861,7 @@ namespace QNBFinansGIB.Utils
                     faturaKdvListesi = faturaKdvListesi.OrderBy(j => j.KdvOran).ToList();
             }
 
-            if (gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi) > 0 &&
-                gidenFatura.DuzenlemeTarihi?.Year >= 2023)
+            if (!(gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi) > 0) || !(gidenFatura.DuzenlemeTarihi?.Year >= 2023)) return;
             {
                 var faturaKdv = new FaturaKdvDTO
                 {
@@ -2364,7 +2331,6 @@ namespace QNBFinansGIB.Utils
             XmlDocument doc,
             XmlAttribute xmlnscac, XmlAttribute xmlnscbc, int sayac, XmlElement root)
         {
-            XmlAttribute currencyId;
             var detayBilgisi = item.BosluklariKaldir();
 
             #region InvoiceLine
@@ -2388,7 +2354,7 @@ namespace QNBFinansGIB.Utils
             invoiceLine.AppendChild(invoicedQuantity);
             var lineExtensionAmountDetail = doc.CreateElement("cbc", "LineExtensionAmount", xmlnscbc.Value);
             lineExtensionAmountDetail.RemoveAllAttributes();
-            currencyId = doc.CreateAttribute("currencyID");
+            var currencyId = doc.CreateAttribute("currencyID");
             currencyId.Value = "TRY";
             lineExtensionAmountDetail.Attributes.Append(currencyId);
             lineExtensionAmountDetail.InnerText = Decimal
@@ -2523,7 +2489,7 @@ namespace QNBFinansGIB.Utils
                 taxSubTotal.AppendChild(taxAmount2);
                 percent = doc.CreateElement("cbc", "Percent", xmlnscbc.Value);
                 percent.InnerText = Decimal
-                    .Round((decimal) 2, 2, MidpointRounding.AwayFromZero).ToString("N1")
+                    .Round(2, 2, MidpointRounding.AwayFromZero).ToString("N1")
                     .Replace(",", ".");
                 taxSubTotal.AppendChild(percent);
                 taxCategory = doc.CreateElement("cac", "TaxCategory", xmlnscac.Value);
