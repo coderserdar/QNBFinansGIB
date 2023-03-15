@@ -745,27 +745,11 @@ namespace QNBFinansGIB
                 #region XML Oluşturma
 
                 var dosyaAdi = "";
-                if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
-                {
-                    var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
-                    dosyaAdi = kullaniciMi 
-                        ? YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi) 
-                        : YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, true);
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(gidenFatura.GercekKisiTcKimlikNo))
-                    {
-                        var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.GercekKisiTcKimlikNo);
-                        dosyaAdi = kullaniciMi 
-                            ? YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi) 
-                            : YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi,
-                                true);
-                    }
-                    else
-                        dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
-                            klasorAdi, false);
-                }
+                var kullaniciMi = EFaturaKullanicisiMi(gidenFatura);
+                dosyaAdi = kullaniciMi 
+                    ? YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi) 
+                    : YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi,
+                        true);
 
                 MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.",
                     MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -794,26 +778,10 @@ namespace QNBFinansGIB
                 var dosyaAdi = "";
                 var geriDonus = new GeriDonus {Tip = 0};
                 var dosya = new byte[1];
-                var kullaniciMi = false;
-                if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
-                {
-                    kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
-                    dosya = kullaniciMi 
-                        ? EFaturaXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi, out geriDonus, dosya) 
-                        : EArsivXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(gidenFatura.GercekKisiTcKimlikNo))
-                    {
-                        kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.GercekKisiTcKimlikNo);
-                        dosya = kullaniciMi 
-                            ? EFaturaXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi, out geriDonus, dosya) 
-                            : EArsivXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
-                    }
-                    else
-                        dosya = EArsivXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
-                }
+                var kullaniciMi = EFaturaKullanicisiMi(gidenFatura);
+                dosya = kullaniciMi 
+                    ? EFaturaXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi, out geriDonus, dosya) 
+                    : EArsivXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
 
                 FaturaDosyaOnizlemeYap(dosya, dosyaAdi, kullaniciMi, gidenFatura, geriDonus);
 
@@ -839,25 +807,10 @@ namespace QNBFinansGIB
 
                 var dosyaAdi = "";
                 var sonuc = "";
-                if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
-                {
-                    var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
-                    sonuc = kullaniciMi 
-                        ? EFaturaXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi) 
-                        : EArsivXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(gidenFatura.GercekKisiTcKimlikNo))
-                    {
-                        var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.GercekKisiTcKimlikNo);
-                        sonuc = kullaniciMi 
-                            ? EFaturaXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi) 
-                            : EArsivXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
-                    }
-                    else
-                        sonuc = EArsivXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
-                }
+                var kullaniciMi = EFaturaKullanicisiMi(gidenFatura);
+                sonuc = kullaniciMi 
+                    ? EFaturaXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi) 
+                    : EArsivXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
 
                 IslemSonucuMesajiHazirla(sonuc, dosyaAdi);
 
@@ -975,24 +928,6 @@ namespace QNBFinansGIB
                         MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-        }
-
-        /// <summary>
-        /// Burada oluşan E-Fatura Kullanıcı Listesini
-        /// TXT Dosyasına kaydetmek için
-        /// Gerekli işlemlerin gerçekleştirildiği kod blokları bulunmaktadır
-        /// </summary>
-        /// <param name="klasorAdi">Dosyanın kaydedileceği klasör adı</param>
-        /// <returns>Dosyanın adı</returns>
-        private string EFaturaKullaniciListesiniTXTFormatindaKaydet(string klasorAdi)
-        {
-            var ad = Guid.NewGuid().ToString();
-            var dosyaAdi = klasorAdi + "/" + ad + ".txt";
-            var dosyaKaydi = new StreamWriter(dosyaAdi);
-            foreach (var item in lbEFaturaKullaniciListesi.Items)
-                dosyaKaydi.WriteLine(item.ToString());
-            dosyaKaydi.Close();
-            return dosyaAdi;
         }
 
         /// <summary>
@@ -1153,6 +1088,46 @@ namespace QNBFinansGIB
         #endregion
 
         #region Diğer Yardımcı Metotlar
+        
+        /// <summary>
+        /// Faturadaki bilgiler kontrol edilerek
+        /// Vergi No veya TC Kimlik No üzerinden
+        /// Söz konusu mükellefin E-Fatura
+        /// Mükellefi olup olmadığının kontrol edildiği metottur.
+        /// </summary>
+        /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
+        /// <returns>Şahsın E-Fatura Mükellefi Olup Olmadığı Bilgisi</returns>
+        private static bool EFaturaKullanicisiMi(GidenFaturaDTO gidenFatura)
+        {
+            var kullaniciMi = false;
+            if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
+                kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
+            else
+            {
+                if (!string.IsNullOrEmpty(gidenFatura.GercekKisiTcKimlikNo))
+                    kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.GercekKisiTcKimlikNo);
+            }
+
+            return kullaniciMi;
+        }
+        
+        /// <summary>
+        /// Burada oluşan E-Fatura Kullanıcı Listesini
+        /// TXT Dosyasına kaydetmek için
+        /// Gerekli işlemlerin gerçekleştirildiği kod blokları bulunmaktadır
+        /// </summary>
+        /// <param name="klasorAdi">Dosyanın kaydedileceği klasör adı</param>
+        /// <returns>Dosyanın adı</returns>
+        private string EFaturaKullaniciListesiniTXTFormatindaKaydet(string klasorAdi)
+        {
+            var ad = Guid.NewGuid().ToString();
+            var dosyaAdi = klasorAdi + "/" + ad + ".txt";
+            var dosyaKaydi = new StreamWriter(dosyaAdi);
+            foreach (var item in lbEFaturaKullaniciListesi.Items)
+                dosyaKaydi.WriteLine(item.ToString());
+            dosyaKaydi.Close();
+            return dosyaAdi;
+        }
         
         /// <summary>
         /// E-Fatura veya E-Arşiv Faturası önizlemesi yapılırken
