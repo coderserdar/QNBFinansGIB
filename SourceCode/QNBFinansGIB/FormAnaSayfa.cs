@@ -74,7 +74,7 @@ namespace QNBFinansGIB
 
             var gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "1",
+                GidenFaturaId = "11",
                 AltBirimAd = "  A Birimi    ",
                 TuzelKisiAd = "Deneme Şirketi - 1",
                 VergiNo = "53602329864",
@@ -100,7 +100,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "2",
+                GidenFaturaId = "21",
                 AltBirimAd = "B Birimi    ",
                 TuzelKisiAd = "  Deneme Şirketi - 2",
                 VergiNo = "9250936109",
@@ -126,7 +126,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "3",
+                GidenFaturaId = "31",
                 AltBirimAd = "B Birimi    ",
                 TuzelKisiAd = "  Deneme Şirketi - 3",
                 VergiNo = "5240018140",
@@ -151,7 +151,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "4",
+                GidenFaturaId = "41",
                 AltBirimAd = "B Birimi    ",
                 TuzelKisiAd = "Deneme Şirketi - 4",
                 VergiNo = "6940116151",
@@ -176,7 +176,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "5",
+                GidenFaturaId = "51",
                 AltBirimAd = "B Birimi    ",
                 TuzelKisiAd = "Deneme Şirketi - 3",
                 VergiNo = "20101516422",
@@ -200,7 +200,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "6",
+                GidenFaturaId = "61",
                 AltBirimAd = "B Birimi    ",
                 GercekKisiTcKimlikNo = "11738150028",
                 GercekKisiAd = "Adnan",
@@ -226,7 +226,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "7",
+                GidenFaturaId = "71",
                 AltBirimAd = "B Birimi    ",
                 GercekKisiTcKimlikNo = "20077290692",
                 GercekKisiAd = "Mehmet Emin",
@@ -256,7 +256,7 @@ namespace QNBFinansGIB
 
             var gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "7",
+                GidenFaturaId = "71",
                 BirimFiyat = (decimal) 0.1234,
                 Miktar = 1000,
                 KdvOran = 0,
@@ -278,7 +278,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "7",
+                GidenFaturaId = "71",
                 BirimFiyat = (decimal) 0.1,
                 Miktar = 10000,
                 KdvOran = 18,
@@ -300,7 +300,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "1",
+                GidenFaturaId = "11",
                 BirimFiyat = (decimal) 0.1,
                 Miktar = 10000,
                 KdvOran = 18,
@@ -322,7 +322,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "7",
+                GidenFaturaId = "71",
                 BirimFiyat = (decimal) 0.1234,
                 Miktar = 1000,
                 KdvOran = 1,
@@ -338,7 +338,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "2",
+                GidenFaturaId = "21",
                 BirimFiyat = (decimal) 0.1234,
                 Miktar = 1000,
                 KdvOran = 1,
@@ -354,7 +354,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "3",
+                GidenFaturaId = "31",
                 BirimFiyat = (decimal) 0.124,
                 Miktar = 5000,
                 KdvOran = 8,
@@ -370,7 +370,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "1",
+                GidenFaturaId = "11",
                 BirimFiyat = 500,
                 Miktar = 120,
                 KdvOran = 18,
