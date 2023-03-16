@@ -38,6 +38,8 @@ namespace QNBFinansGIB.Utils
             #region Standart Bilgiler
 
             root.RemoveAllAttributes();
+            
+            #region İlk Bilgiler
             // var locationAttribute = "xsi:schemaLocation";
             var location = doc.CreateAttribute("xsi", "schemaLocation",
                 "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2");
@@ -73,18 +75,13 @@ namespace QNBFinansGIB.Utils
             extUbl.AppendChild(extUbl2);
 
             root.AppendChild(extUbl);
+            #endregion
 
             TemelBilgileriDuzenle("TEMELFATURA", gidenFatura, gidenFaturaDetayListesi, root, doc, kodSatisTuruKod, kodFaturaTuruKod, xmlnscbc);
 
             IrsaliyeBilgisiDuzenle(gidenFatura, gidenFaturaDetayListesi, root, doc, kodFaturaTuruKod, kodFaturaGrupTuruKod, xmlnscbc);
 
-            var documentCurrencyCode = doc.CreateElement("cbc", "DocumentCurrencyCode", xmlnscbc.Value);
-            documentCurrencyCode.InnerText = "TRY";
-            root.AppendChild(documentCurrencyCode);
-
-            var lineCountNumeric = doc.CreateElement("cbc", "LineCountNumeric", xmlnscbc.Value);
-            lineCountNumeric.InnerText = gidenFaturaDetayListesi.Count.ToString();
-            root.AppendChild(lineCountNumeric);
+            ParaBirimiVeKayitSayisiDuzenle(gidenFaturaDetayListesi.Count, root, doc, xmlnscbc);
 
             #region AdditionalDocumentReference
 
@@ -167,131 +164,67 @@ namespace QNBFinansGIB.Utils
             #endregion
 
             #endregion
+           
+            FaturaMakbuzImzaBilgisiDuzenle(root, doc, xmlnscac, xmlnscbc);
 
-            // Faturaya ilişkin imza, adres vb. bilgiler yer almaktadır
+            FaturaKesenFirmaBilgisiDuzenle(gidenFatura, root, doc, xmlnscac, xmlnscbc);
 
-            #region Signature
+            // Bu kısımda fatura kesilen firma bilgileri yer almaktadır
 
-            var signature = doc.CreateElement("cac", "Signature", xmlnscac.Value);
-            var signatureIdAttr = doc.CreateAttribute("schemeID");
-            signatureIdAttr.Value = "VKN_TCKN";
-            var signatureId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            signatureId.Attributes.Append(signatureIdAttr);
-            signatureId.InnerText = "3250566851";
-            signature.AppendChild(signatureId);
-            var signatoryParty = doc.CreateElement("cac", "SignatoryParty", xmlnscac.Value);
+            #region AccountingCustomerParty
+
+            var accountingCustomerParty = doc.CreateElement("cac", "AccountingCustomerParty", xmlnscac.Value);
+            var party = doc.CreateElement("cac", "Party", xmlnscac.Value);
+            var webSiteUri = doc.CreateElement("cbc", "WebsiteURI", xmlnscbc.Value);
+            party.AppendChild(webSiteUri);
+            var accountingCustomerPartyIdAttr = doc.CreateAttribute("schemeID");
+            accountingCustomerPartyIdAttr.Value = "TCKN";
+            if (!string.IsNullOrEmpty(gidenFatura.VergiNo) && gidenFatura.VergiNo.Length == 10)
+                accountingCustomerPartyIdAttr.Value = "VKN";
             var partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
-            var signatureIdAttr2 = doc.CreateAttribute("schemeID");
-            signatureIdAttr2.Value = "VKN";
-            var signaturePartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            signaturePartyId.Attributes.Append(signatureIdAttr2);
-            signaturePartyId.InnerText = "3250566851";
-            partyIdentification.AppendChild(signaturePartyId);
-            signatoryParty.AppendChild(partyIdentification);
+            var accountingCustomerPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            accountingCustomerPartyPartyId.Attributes.Append(accountingCustomerPartyIdAttr);
+            accountingCustomerPartyPartyId.InnerText = gidenFatura.VergiNo;
+            partyIdentification.AppendChild(accountingCustomerPartyPartyId);
+            party.AppendChild(partyIdentification);
+
+            if (!string.IsNullOrEmpty(gidenFatura.VergiNo) && gidenFatura.VergiNo.Length == 10)
+            {
+                var partyName = doc.CreateElement("cac", "PartyName", xmlnscac.Value);
+                var partyNameReal = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+                partyNameReal.InnerText = gidenFatura.TuzelKisiAd;
+                partyName.AppendChild(partyNameReal);
+                party.AppendChild(partyName);
+            }
 
             #region Postal Address
 
             var postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
+            var postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            postalAddressId.InnerText = gidenFatura.VergiNo;
+            postalAddress.AppendChild(postalAddressId);
+            var room = doc.CreateElement("cbc", "Room", xmlnscbc.Value);
+            postalAddress.AppendChild(room);
             var streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
-            streetName.InnerText = "Mithatpaşa Caddesi";
+            if (!string.IsNullOrEmpty(gidenFatura.Adres))
+                streetName.InnerText = gidenFatura.Adres;
             postalAddress.AppendChild(streetName);
             var buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
-            buildingNumber.InnerText = "14";
+            //buildingNumber.InnerText = "";
             postalAddress.AppendChild(buildingNumber);
             var citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
-            citySubdivisionName.InnerText = "Çankaya";
+            if (!string.IsNullOrEmpty(gidenFatura.IlceAd))
+                citySubdivisionName.InnerText = gidenFatura.IlceAd;
             postalAddress.AppendChild(citySubdivisionName);
             var cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
-            cityName.InnerText = "Ankara";
+            if (!string.IsNullOrEmpty(gidenFatura.IlAd))
+                cityName.InnerText = gidenFatura.IlAd;
             postalAddress.AppendChild(cityName);
             var postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
-            postalZone.InnerText = "06100";
+            //postalZone.InnerText = "";
             postalAddress.AppendChild(postalZone);
             var country = doc.CreateElement("cac", "Country", xmlnscac.Value);
             var countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            countryName.InnerText = "Türkiye";
-            country.AppendChild(countryName);
-            postalAddress.AppendChild(country);
-            signatoryParty.AppendChild(postalAddress);
-            signature.AppendChild(signatoryParty);
-
-            #endregion
-
-            var digitalSignatureAttachment = doc.CreateElement("cac", "DigitalSignatureAttachment", xmlnscac.Value);
-            var externalReference = doc.CreateElement("cac", "ExternalReference", xmlnscac.Value);
-            var uri = doc.CreateElement("cbc", "URI", xmlnscbc.Value);
-            uri.InnerText = "#Signature";
-            externalReference.AppendChild(uri);
-            digitalSignatureAttachment.AppendChild(externalReference);
-            signature.AppendChild(digitalSignatureAttachment);
-
-            root.AppendChild(signature);
-
-            #endregion
-
-            // Burada sabit değerler verilmekte olup, Faturayı kesen kuruma veya firmaya ait bilgiler
-            // yer almaktadır. Bu kısımda örnek olarak TÜRKŞEKER Fabrikaları Genel Müdürlüğü bilgileri
-            // kullanılmıştır. Ancak değiştirip test edilebilir.
-
-            #region AccountingSupplierParty
-
-            var accountingSupplierParty = doc.CreateElement("cac", "AccountingSupplierParty", xmlnscac.Value);
-            var party = doc.CreateElement("cac", "Party", xmlnscac.Value);
-            var webSiteUri = doc.CreateElement("cbc", "WebsiteURI", xmlnscbc.Value);
-            webSiteUri.InnerText = "https://www.turkseker.gov.tr";
-            party.AppendChild(webSiteUri);
-            var accountingSupplierPartyIdAttr = doc.CreateAttribute("schemeID");
-            accountingSupplierPartyIdAttr.Value = "VKN_TCKN";
-            partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
-            var accountingSupplierPartyIdAttr2 = doc.CreateAttribute("schemeID");
-            accountingSupplierPartyIdAttr2.Value = "VKN";
-            var accountingSupplierPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            accountingSupplierPartyPartyId.Attributes.Append(accountingSupplierPartyIdAttr2);
-            accountingSupplierPartyPartyId.InnerText = "3250566851";
-            partyIdentification.AppendChild(accountingSupplierPartyPartyId);
-            party.AppendChild(partyIdentification);
-
-            if (!string.IsNullOrEmpty(gidenFatura.AltBirimAd))
-            {
-                partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
-                accountingSupplierPartyIdAttr2 = doc.CreateAttribute("schemeID");
-                accountingSupplierPartyIdAttr2.Value = "SUBENO";
-                accountingSupplierPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                accountingSupplierPartyPartyId.Attributes.Append(accountingSupplierPartyIdAttr2);
-                accountingSupplierPartyPartyId.InnerText = gidenFatura.AltBirimAd;
-                partyIdentification.AppendChild(accountingSupplierPartyPartyId);
-                party.AppendChild(partyIdentification);
-            }
-
-            var partyName = doc.CreateElement("cac", "PartyName", xmlnscac.Value);
-            var partyNameReal = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            partyNameReal.InnerText = "TÜRKİYE ŞEKER FABRİKALARI A.Ş.";
-            partyName.AppendChild(partyNameReal);
-            party.AppendChild(partyName);
-
-            #region Postal Address
-
-            postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
-            var postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            postalAddressId.InnerText = "3250566851";
-            postalAddress.AppendChild(postalAddressId);
-            streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
-            streetName.InnerText = "Mithatpaşa Caddesi";
-            postalAddress.AppendChild(streetName);
-            buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
-            buildingNumber.InnerText = "14";
-            postalAddress.AppendChild(buildingNumber);
-            citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
-            citySubdivisionName.InnerText = "Çankaya";
-            postalAddress.AppendChild(citySubdivisionName);
-            cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
-            cityName.InnerText = "Ankara";
-            postalAddress.AppendChild(cityName);
-            postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
-            postalZone.InnerText = "06100";
-            postalAddress.AppendChild(postalZone);
-            country = doc.CreateElement("cac", "Country", xmlnscac.Value);
-            countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
             countryName.InnerText = "Türkiye";
             country.AppendChild(countryName);
             postalAddress.AppendChild(country);
@@ -302,103 +235,14 @@ namespace QNBFinansGIB.Utils
             var partyTaxScheme = doc.CreateElement("cac", "PartyTaxScheme", xmlnscac.Value);
             var taxScheme = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
             var taxSchemeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            taxSchemeName.InnerText = "Ankara Kurumlar";
-            taxScheme.AppendChild(taxSchemeName);
-            partyTaxScheme.AppendChild(taxScheme);
-            party.AppendChild(partyTaxScheme);
-
-            var contact = doc.CreateElement("cac", "Contact", xmlnscac.Value);
-            var telephone = doc.CreateElement("cbc", "Telephone", xmlnscbc.Value);
-            telephone.InnerText = "(312) 4585500";
-            contact.AppendChild(telephone);
-            var telefax = doc.CreateElement("cbc", "Telefax", xmlnscbc.Value);
-            telefax.InnerText = "(312) 4585800";
-            contact.AppendChild(telefax);
-            var electronicMail = doc.CreateElement("cbc", "ElectronicMail", xmlnscbc.Value);
-            electronicMail.InnerText = "maliisler@turkseker.gov.tr";
-            contact.AppendChild(electronicMail);
-            party.AppendChild(contact);
-
-            accountingSupplierParty.AppendChild(party);
-
-            root.AppendChild(accountingSupplierParty);
-
-            #endregion
-
-            // Bu kısımda fatura kesilen firma bilgileri yer almaktadır
-
-            #region AccountingCustomerParty
-
-            var accountingCustomerParty = doc.CreateElement("cac", "AccountingCustomerParty", xmlnscac.Value);
-            party = doc.CreateElement("cac", "Party", xmlnscac.Value);
-            webSiteUri = doc.CreateElement("cbc", "WebsiteURI", xmlnscbc.Value);
-            party.AppendChild(webSiteUri);
-            var accountingCustomerPartyIdAttr = doc.CreateAttribute("schemeID");
-            accountingCustomerPartyIdAttr.Value = "TCKN";
-            if (!string.IsNullOrEmpty(gidenFatura.VergiNo) && gidenFatura.VergiNo.Length == 10)
-                accountingCustomerPartyIdAttr.Value = "VKN";
-            partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
-            var accountingCustomerPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            accountingCustomerPartyPartyId.Attributes.Append(accountingCustomerPartyIdAttr);
-            accountingCustomerPartyPartyId.InnerText = gidenFatura.VergiNo;
-            partyIdentification.AppendChild(accountingCustomerPartyPartyId);
-            party.AppendChild(partyIdentification);
-
-            if (!string.IsNullOrEmpty(gidenFatura.VergiNo) && gidenFatura.VergiNo.Length == 10)
-            {
-                partyName = doc.CreateElement("cac", "PartyName", xmlnscac.Value);
-                partyNameReal = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                partyNameReal.InnerText = gidenFatura.TuzelKisiAd;
-                partyName.AppendChild(partyNameReal);
-                party.AppendChild(partyName);
-            }
-
-            #region Postal Address
-
-            postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
-            postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            postalAddressId.InnerText = gidenFatura.VergiNo;
-            postalAddress.AppendChild(postalAddressId);
-            var room = doc.CreateElement("cbc", "Room", xmlnscbc.Value);
-            postalAddress.AppendChild(room);
-            streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
-            if (!string.IsNullOrEmpty(gidenFatura.Adres))
-                streetName.InnerText = gidenFatura.Adres;
-            postalAddress.AppendChild(streetName);
-            buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
-            //buildingNumber.InnerText = "";
-            postalAddress.AppendChild(buildingNumber);
-            citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
-            if (!string.IsNullOrEmpty(gidenFatura.IlceAd))
-                citySubdivisionName.InnerText = gidenFatura.IlceAd;
-            postalAddress.AppendChild(citySubdivisionName);
-            cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
-            if (!string.IsNullOrEmpty(gidenFatura.IlAd))
-                cityName.InnerText = gidenFatura.IlAd;
-            postalAddress.AppendChild(cityName);
-            postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
-            //postalZone.InnerText = "";
-            postalAddress.AppendChild(postalZone);
-            country = doc.CreateElement("cac", "Country", xmlnscac.Value);
-            countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            countryName.InnerText = "Türkiye";
-            country.AppendChild(countryName);
-            postalAddress.AppendChild(country);
-            party.AppendChild(postalAddress);
-
-            #endregion
-
-            partyTaxScheme = doc.CreateElement("cac", "PartyTaxScheme", xmlnscac.Value);
-            taxScheme = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
-            taxSchemeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
             if (!string.IsNullOrEmpty(gidenFatura.VergiDairesi))
                 taxSchemeName.InnerText = gidenFatura.VergiDairesi;
             taxScheme.AppendChild(taxSchemeName);
             partyTaxScheme.AppendChild(taxScheme);
             party.AppendChild(partyTaxScheme);
 
-            contact = doc.CreateElement("cac", "Contact", xmlnscac.Value);
-            electronicMail = doc.CreateElement("cbc", "ElectronicMail", xmlnscbc.Value);
+            var contact = doc.CreateElement("cac", "Contact", xmlnscac.Value);
+            var electronicMail = doc.CreateElement("cbc", "ElectronicMail", xmlnscbc.Value);
             if (!string.IsNullOrEmpty(gidenFatura.EPostaAdresi))
                 electronicMail.InnerText = gidenFatura.EPostaAdresi;
             contact.AppendChild(electronicMail);
@@ -456,8 +300,8 @@ namespace QNBFinansGIB.Utils
 
                     if (gidenFatura.VergiNo.Length == 10)
                     {
-                        partyName = doc.CreateElement("cac", "PartyName", xmlnscac.Value);
-                        partyNameReal = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+                        var partyName = doc.CreateElement("cac", "PartyName", xmlnscac.Value);
+                        var partyNameReal = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
                         partyNameReal.InnerText = gidenFatura.TuzelKisiAd;
                         partyName.AppendChild(partyNameReal);
                         party.AppendChild(partyName);
@@ -644,6 +488,7 @@ namespace QNBFinansGIB.Utils
 
             FaturaGenelTutarDuzenle(gidenFatura, doc, xmlnscac, xmlnscbc, root, true);
 
+            #region Fatura Detayları Üzerinden Verileri Doldurma
             var sayac = 1;
             // Her bir fatura detayı için hazırlanan bölümdür
             foreach (var item in gidenFaturaDetayListesi)
@@ -893,6 +738,7 @@ namespace QNBFinansGIB.Utils
 
                 sayac++;
             }
+            #endregion
 
             #endregion
 
@@ -991,6 +837,7 @@ namespace QNBFinansGIB.Utils
 
             root.RemoveAllAttributes();
 
+            #region İlk Alanlar
             // var locationAttribute = "xsi:schemaLocation";
             var location = doc.CreateAttribute("xsi", "schemaLocation",
                 "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2");
@@ -1034,6 +881,7 @@ namespace QNBFinansGIB.Utils
             extUbl.AppendChild(extUbl2);
 
             root.AppendChild(extUbl);
+            #endregion
 
             TemelBilgileriDuzenle("EARSIVFATURA", gidenFatura, gidenFaturaDetayListesi, root, doc, kodSatisTuruKod, kodFaturaTuruKod, xmlnscbc);
 
@@ -1043,13 +891,7 @@ namespace QNBFinansGIB.Utils
             sendType.InnerText = "Gönderim Şekli: ELEKTRONIK";
             root.AppendChild(sendType);
 
-            var documentCurrencyCode = doc.CreateElement("cbc", "DocumentCurrencyCode", xmlnscbc.Value);
-            documentCurrencyCode.InnerText = "TRY";
-            root.AppendChild(documentCurrencyCode);
-
-            var lineCountNumeric = doc.CreateElement("cbc", "LineCountNumeric", xmlnscbc.Value);
-            lineCountNumeric.InnerText = gidenFaturaDetayListesi.Count.ToString();
-            root.AppendChild(lineCountNumeric);
+            ParaBirimiVeKayitSayisiDuzenle(gidenFaturaDetayListesi.Count, root, doc, xmlnscbc);
 
             #region Açıklama Satırı
 
@@ -1140,68 +982,25 @@ namespace QNBFinansGIB.Utils
             #endregion
 
             #endregion
+          
+            FaturaMakbuzImzaBilgisiDuzenle(root, doc, xmlnscac, xmlnscbc);
 
-            // Faturaya ilişkin imza, adres vb. bilgiler yer almaktadır
+            FaturaKesenFirmaBilgisiDuzenle(gidenFatura, root, doc, xmlnscac, xmlnscbc);
+        }
 
-            #region Signature
-
-            var signature = doc.CreateElement("cac", "Signature", xmlnscac.Value);
-            var signatureIdAttr = doc.CreateAttribute("schemeID");
-            signatureIdAttr.Value = "VKN_TCKN";
-            var signatureId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            signatureId.Attributes.Append(signatureIdAttr);
-            signatureId.InnerText = "3250566851";
-            signature.AppendChild(signatureId);
-            var signatoryParty = doc.CreateElement("cac", "SignatoryParty", xmlnscac.Value);
-            var partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
-            var signatureIdAttr2 = doc.CreateAttribute("schemeID");
-            signatureIdAttr2.Value = "VKN";
-            var signaturePartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            signaturePartyId.Attributes.Append(signatureIdAttr2);
-            signaturePartyId.InnerText = "3250566851";
-            partyIdentification.AppendChild(signaturePartyId);
-            signatoryParty.AppendChild(partyIdentification);
-
-            #region Postal Address
-
-            var postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
-            var streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
-            streetName.InnerText = "Mithatpaşa Caddesi";
-            postalAddress.AppendChild(streetName);
-            var buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
-            buildingNumber.InnerText = "14";
-            postalAddress.AppendChild(buildingNumber);
-            var citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
-            citySubdivisionName.InnerText = "Çankaya";
-            postalAddress.AppendChild(citySubdivisionName);
-            var cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
-            cityName.InnerText = "Ankara";
-            postalAddress.AppendChild(cityName);
-            var postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
-            postalZone.InnerText = "06100";
-            postalAddress.AppendChild(postalZone);
-            var country = doc.CreateElement("cac", "Country", xmlnscac.Value);
-            var countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            countryName.InnerText = "Türkiye";
-            country.AppendChild(countryName);
-            postalAddress.AppendChild(country);
-            signatoryParty.AppendChild(postalAddress);
-            signature.AppendChild(signatoryParty);
-
-            #endregion
-
-            var digitalSignatureAttachment = doc.CreateElement("cac", "DigitalSignatureAttachment", xmlnscac.Value);
-            var externalReference = doc.CreateElement("cac", "ExternalReference", xmlnscac.Value);
-            var uri = doc.CreateElement("cbc", "URI", xmlnscbc.Value);
-            uri.InnerText = "#Signature";
-            externalReference.AppendChild(uri);
-            digitalSignatureAttachment.AppendChild(externalReference);
-            signature.AppendChild(digitalSignatureAttachment);
-
-            root.AppendChild(signature);
-
-            #endregion
-
+        /// <summary>
+        /// E-Fatura ve E-Arşiv tarafında
+        /// Fatura kesen firma bilgileri aynı olduğu için
+        /// Bu bilgilerin tek bir yerden girilebilmesi adına
+        /// Gerekli işlemlerin gerçekleştirildiği metottur.
+        /// </summary>
+        /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
+        /// <param name="root">XML Ana Eleman Bilgisi</param>
+        /// <param name="doc">XML Dokümanı Bilgisi</param>
+        /// <param name="xmlnscac">XML Attribute Bilgisi</param>
+        /// <param name="xmlnscbc">XML Attribute Bilgisi</param>
+        private static void FaturaKesenFirmaBilgisiDuzenle(GidenFaturaDTO gidenFatura, XmlElement root, XmlDocument doc, XmlAttribute xmlnscac, XmlAttribute xmlnscbc)
+        {
             // Burada sabit değerler verilmekte olup, Faturayı kesen kuruma veya firmaya ait bilgiler
             // yer almaktadır. Bu kısımda örnek olarak TÜRKŞEKER Fabrikaları Genel Müdürlüğü bilgileri
             // kullanılmıştır. Ancak değiştirip test edilebilir.
@@ -1215,7 +1014,7 @@ namespace QNBFinansGIB.Utils
             party.AppendChild(webSiteUri);
             var accountingSupplierPartyIdAttr = doc.CreateAttribute("schemeID");
             accountingSupplierPartyIdAttr.Value = "VKN_TCKN";
-            partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
+            var partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
             var accountingSupplierPartyIdAttr2 = doc.CreateAttribute("schemeID");
             accountingSupplierPartyIdAttr2.Value = "VKN";
             var accountingSupplierPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
@@ -1244,27 +1043,27 @@ namespace QNBFinansGIB.Utils
 
             #region Postal Address
 
-            postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
+            var postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
             var postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
             postalAddressId.InnerText = "3250566851";
             postalAddress.AppendChild(postalAddressId);
-            streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
+            var streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
             streetName.InnerText = "Mithatpaşa Caddesi";
             postalAddress.AppendChild(streetName);
-            buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
+            var buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
             buildingNumber.InnerText = "14";
             postalAddress.AppendChild(buildingNumber);
-            citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
+            var citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
             citySubdivisionName.InnerText = "Çankaya";
             postalAddress.AppendChild(citySubdivisionName);
-            cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
+            var cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
             cityName.InnerText = "Ankara";
             postalAddress.AppendChild(cityName);
-            postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
+            var postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
             postalZone.InnerText = "06100";
             postalAddress.AppendChild(postalZone);
-            country = doc.CreateElement("cac", "Country", xmlnscac.Value);
-            countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+            var country = doc.CreateElement("cac", "Country", xmlnscac.Value);
+            var countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
             countryName.InnerText = "Türkiye";
             country.AppendChild(countryName);
             postalAddress.AppendChild(country);
@@ -2517,13 +2316,7 @@ namespace QNBFinansGIB.Utils
             sendType.InnerText = "Gönderim Şekli: ELEKTRONIK";
             root.AppendChild(sendType);
 
-            var documentCurrencyCode = doc.CreateElement("cbc", "DocumentCurrencyCode", xmlnscbc.Value);
-            documentCurrencyCode.InnerText = "TRY";
-            root.AppendChild(documentCurrencyCode);
-
-            var lineCountNumeric = doc.CreateElement("cbc", "LineCountNumeric", xmlnscbc.Value);
-            lineCountNumeric.InnerText = mustahsilMakbuzuDetayListesi.Count.ToString();
-            root.AppendChild(lineCountNumeric);
+            ParaBirimiVeKayitSayisiDuzenle(mustahsilMakbuzuDetayListesi.Count, root, doc, xmlnscbc);
 
             #region AdditionalDocumentReference
 
@@ -2559,66 +2352,7 @@ namespace QNBFinansGIB.Utils
 
             #endregion
 
-            // Faturaya ilişkin imza, adres vb. bilgiler yer almaktadır
-
-            #region Signature
-
-            var signature = doc.CreateElement("cac", "Signature", xmlnscac.Value);
-            var signatureIdAttr = doc.CreateAttribute("schemeID");
-            signatureIdAttr.Value = "VKN_TCKN";
-            var signatureId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            signatureId.Attributes.Append(signatureIdAttr);
-            signatureId.InnerText = "3250566851";
-            signature.AppendChild(signatureId);
-            var signatoryParty = doc.CreateElement("cac", "SignatoryParty", xmlnscac.Value);
-            var partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
-            var signatureIdAttr2 = doc.CreateAttribute("schemeID");
-            signatureIdAttr2.Value = "VKN";
-            var signaturePartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            signaturePartyId.Attributes.Append(signatureIdAttr2);
-            signaturePartyId.InnerText = "3250566851";
-            partyIdentification.AppendChild(signaturePartyId);
-            signatoryParty.AppendChild(partyIdentification);
-
-            #region Postal Address
-
-            var postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
-            var streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
-            streetName.InnerText = "Mithatpaşa Caddesi";
-            postalAddress.AppendChild(streetName);
-            var buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
-            buildingNumber.InnerText = "14";
-            postalAddress.AppendChild(buildingNumber);
-            var citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
-            citySubdivisionName.InnerText = "Çankaya";
-            postalAddress.AppendChild(citySubdivisionName);
-            var cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
-            cityName.InnerText = "Ankara";
-            postalAddress.AppendChild(cityName);
-            var postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
-            postalZone.InnerText = "06100";
-            postalAddress.AppendChild(postalZone);
-            var country = doc.CreateElement("cac", "Country", xmlnscac.Value);
-            var countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            countryName.InnerText = "Türkiye";
-            country.AppendChild(countryName);
-            postalAddress.AppendChild(country);
-            signatoryParty.AppendChild(postalAddress);
-            signature.AppendChild(signatoryParty);
-
-            #endregion
-
-            var digitalSignatureAttachment = doc.CreateElement("cac", "DigitalSignatureAttachment", xmlnscac.Value);
-            var externalReference = doc.CreateElement("cac", "ExternalReference", xmlnscac.Value);
-            var uri = doc.CreateElement("cbc", "URI", xmlnscbc.Value);
-            uri.InnerText = "#Signature";
-            externalReference.AppendChild(uri);
-            digitalSignatureAttachment.AppendChild(externalReference);
-            signature.AppendChild(digitalSignatureAttachment);
-
-            root.AppendChild(signature);
-
-            #endregion
+            FaturaMakbuzImzaBilgisiDuzenle(root, doc, xmlnscac, xmlnscbc);
 
             // Burada sabit değerler verilmekte olup, Makbuzu kesen kuruma veya firmaya ait bilgiler
             // yer almaktadır. Bu kısımda örnek olarak TÜRKŞEKER Fabrikaları Genel Müdürlüğü bilgileri
@@ -2633,7 +2367,7 @@ namespace QNBFinansGIB.Utils
             party.AppendChild(webSiteUri);
             var accountingSupplierPartyIdAttr = doc.CreateAttribute("schemeID");
             accountingSupplierPartyIdAttr.Value = "VKN_TCKN";
-            partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
+            var partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
             var accountingSupplierPartyIdAttr2 = doc.CreateAttribute("schemeID");
             accountingSupplierPartyIdAttr2.Value = "VKN";
             var accountingSupplierPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
@@ -2662,27 +2396,27 @@ namespace QNBFinansGIB.Utils
 
             #region Postal Address
 
-            postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
+            var postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
             var postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
             postalAddressId.InnerText = "3250566851";
             postalAddress.AppendChild(postalAddressId);
-            streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
+            var streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
             streetName.InnerText = "Mithatpaşa Caddesi";
             postalAddress.AppendChild(streetName);
-            buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
+            var buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
             buildingNumber.InnerText = "14";
             postalAddress.AppendChild(buildingNumber);
-            citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
+            var citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
             citySubdivisionName.InnerText = "Çankaya";
             postalAddress.AppendChild(citySubdivisionName);
-            cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
+            var cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
             cityName.InnerText = "Ankara";
             postalAddress.AppendChild(cityName);
-            postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
+            var postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
             postalZone.InnerText = "06100";
             postalAddress.AppendChild(postalZone);
-            country = doc.CreateElement("cac", "Country", xmlnscac.Value);
-            countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+            var country = doc.CreateElement("cac", "Country", xmlnscac.Value);
+            var countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
             countryName.InnerText = "Türkiye";
             country.AppendChild(countryName);
             postalAddress.AppendChild(country);
@@ -3051,6 +2785,7 @@ namespace QNBFinansGIB.Utils
 
             #endregion
 
+            #region Makbuz Detayları Üzerinden Verileri Doldurma
             var sayac = 1;
             // Her bir makbuz detayı için hazırlanan bölümdür
             foreach (var item in mustahsilMakbuzuDetayListesi)
@@ -3168,6 +2903,7 @@ namespace QNBFinansGIB.Utils
 
                 sayac++;
             }
+            #endregion
 
             #endregion
 
@@ -3196,6 +2932,100 @@ namespace QNBFinansGIB.Utils
             #endregion
 
             return fileName;
+        }
+        
+        /// <summary>
+        /// E-Müstahsil, E-Fatura ve E-Arşiv tarafında
+        /// Ana elemanlar arasında Para Birimi ve Kayıt Sayısı Bilgilerinin
+        /// Düzenlenmesi için gerekli işlemlerin gerçekleştirildiği metottur.
+        /// </summary>
+        /// <param name="kayitSayisi">Kayıt Sayısı Bilgisi</param>
+        /// <param name="root">XML Ana Eleman Bilgisi</param>
+        /// <param name="doc">XML Doküman Bilgisi</param>
+        /// <param name="xmlnscbc">XML Attribute Bilgisi</param>
+        private static void ParaBirimiVeKayitSayisiDuzenle(int kayitSayisi, XmlElement root, XmlDocument doc, XmlAttribute xmlnscbc)
+        {
+            var documentCurrencyCode = doc.CreateElement("cbc", "DocumentCurrencyCode", xmlnscbc.Value);
+            documentCurrencyCode.InnerText = "TRY";
+            root.AppendChild(documentCurrencyCode);
+
+            var lineCountNumeric = doc.CreateElement("cbc", "LineCountNumeric", xmlnscbc.Value);
+            lineCountNumeric.InnerText = kayitSayisi.ToString();
+            root.AppendChild(lineCountNumeric);
+        }
+        
+        /// <summary>
+        /// E-Fatura ve E-Arşiv tarafında
+        /// Faturanın imza bilgileri aynı olduğu için
+        /// Tek bir metot içerisinde ele alınması için
+        /// Gerekli işlemlerin gerçekleştirildiği metottur.
+        /// </summary>
+        /// <param name="root">XML Ana Eleman Bilgisi</param>
+        /// <param name="doc">XML Dokümanı Bilgisi</param>
+        /// <param name="xmlnscac">XML Attribute Bilgisi</param>
+        /// <param name="xmlnscbc">XML Attribute Bilgisi</param>
+        private static void FaturaMakbuzImzaBilgisiDuzenle(XmlElement root, XmlDocument doc, XmlAttribute xmlnscac, XmlAttribute xmlnscbc)
+        {
+            // Faturaya ilişkin imza, adres vb. bilgiler yer almaktadır
+
+            #region Signature
+
+            var signature = doc.CreateElement("cac", "Signature", xmlnscac.Value);
+            var signatureIdAttr = doc.CreateAttribute("schemeID");
+            signatureIdAttr.Value = "VKN_TCKN";
+            var signatureId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            signatureId.Attributes.Append(signatureIdAttr);
+            signatureId.InnerText = "3250566851";
+            signature.AppendChild(signatureId);
+            var signatoryParty = doc.CreateElement("cac", "SignatoryParty", xmlnscac.Value);
+            var partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
+            var signatureIdAttr2 = doc.CreateAttribute("schemeID");
+            signatureIdAttr2.Value = "VKN";
+            var signaturePartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            signaturePartyId.Attributes.Append(signatureIdAttr2);
+            signaturePartyId.InnerText = "3250566851";
+            partyIdentification.AppendChild(signaturePartyId);
+            signatoryParty.AppendChild(partyIdentification);
+
+            #region Postal Address
+
+            var postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
+            var streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
+            streetName.InnerText = "Mithatpaşa Caddesi";
+            postalAddress.AppendChild(streetName);
+            var buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
+            buildingNumber.InnerText = "14";
+            postalAddress.AppendChild(buildingNumber);
+            var citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
+            citySubdivisionName.InnerText = "Çankaya";
+            postalAddress.AppendChild(citySubdivisionName);
+            var cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
+            cityName.InnerText = "Ankara";
+            postalAddress.AppendChild(cityName);
+            var postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
+            postalZone.InnerText = "06100";
+            postalAddress.AppendChild(postalZone);
+            var country = doc.CreateElement("cac", "Country", xmlnscac.Value);
+            var countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+            countryName.InnerText = "Türkiye";
+            country.AppendChild(countryName);
+            postalAddress.AppendChild(country);
+            signatoryParty.AppendChild(postalAddress);
+            signature.AppendChild(signatoryParty);
+
+            #endregion
+
+            var digitalSignatureAttachment = doc.CreateElement("cac", "DigitalSignatureAttachment", xmlnscac.Value);
+            var externalReference = doc.CreateElement("cac", "ExternalReference", xmlnscac.Value);
+            var uri = doc.CreateElement("cbc", "URI", xmlnscbc.Value);
+            uri.InnerText = "#Signature";
+            externalReference.AppendChild(uri);
+            digitalSignatureAttachment.AppendChild(externalReference);
+            signature.AppendChild(digitalSignatureAttachment);
+
+            root.AppendChild(signature);
+
+            #endregion
         }
     }
 }

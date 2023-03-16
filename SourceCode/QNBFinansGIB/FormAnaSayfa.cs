@@ -745,8 +745,8 @@ namespace QNBFinansGIB
                 #region XML Oluşturma
 
                 var dosyaAdi = "";
-                var kullaniciMi = EFaturaKullanicisiMi(gidenFatura);
-                dosyaAdi = kullaniciMi 
+                var eFaturaKullanicisiMi = EFaturaKullanicisiMi(gidenFatura);
+                dosyaAdi = eFaturaKullanicisiMi 
                     ? YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi) 
                     : YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi,
                         true);
@@ -778,12 +778,12 @@ namespace QNBFinansGIB
                 var dosyaAdi = "";
                 var geriDonus = new GeriDonus {Tip = 0};
                 var dosya = new byte[1];
-                var kullaniciMi = EFaturaKullanicisiMi(gidenFatura);
-                dosya = kullaniciMi 
+                var eFaturaKullanicisiMi = EFaturaKullanicisiMi(gidenFatura);
+                dosya = eFaturaKullanicisiMi 
                     ? EFaturaXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi, out geriDonus, dosya) 
                     : EArsivXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
 
-                FaturaDosyaOnizlemeYap(dosya, dosyaAdi, kullaniciMi, gidenFatura, geriDonus);
+                FaturaDosyaOnizlemeYap(dosya, dosyaAdi, eFaturaKullanicisiMi, gidenFatura, geriDonus);
 
                 #endregion
             }
@@ -807,8 +807,8 @@ namespace QNBFinansGIB
 
                 var dosyaAdi = "";
                 var sonuc = "";
-                var kullaniciMi = EFaturaKullanicisiMi(gidenFatura);
-                sonuc = kullaniciMi 
+                var eFaturaKullanicisiMi = EFaturaKullanicisiMi(gidenFatura);
+                sonuc = eFaturaKullanicisiMi 
                     ? EFaturaXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi) 
                     : EArsivXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
 
@@ -830,7 +830,7 @@ namespace QNBFinansGIB
         {
             #region E-Fatura Mükelleflerinin Fatura Id Bilgilerinin Temini
 
-            var gidenFaturaIdListesi = (from item in gidenFaturaListesi where !string.IsNullOrEmpty(item.VergiNo) let kullaniciMi = DisServisler.EFaturaKullanicisiMi(item.VergiNo) where kullaniciMi select item.GidenFaturaId).ToList();
+            var gidenFaturaIdListesi = (from item in gidenFaturaListesi where !string.IsNullOrEmpty(item.VergiNo) let eFaturaKullanicisiMi = DisServisler.EFaturaKullanicisiMi(item.VergiNo) where eFaturaKullanicisiMi select item.GidenFaturaId).ToList();
 
             #endregion
 
@@ -867,8 +867,8 @@ namespace QNBFinansGIB
 
             if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
             {
-                var kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
-                var sonuc = kullaniciMi
+                var eFaturaKullanicisiMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
+                var sonuc = eFaturaKullanicisiMi
                     ? DisServisler.EFaturaSilmeyeUygunMu(gidenFatura.GidenFaturaId)
                     : DisServisler.EArsivSilmeyeUygunMu(gidenFatura.GidenFaturaId);
 
@@ -1099,16 +1099,16 @@ namespace QNBFinansGIB
         /// <returns>Şahsın E-Fatura Mükellefi Olup Olmadığı Bilgisi</returns>
         private static bool EFaturaKullanicisiMi(GidenFaturaDTO gidenFatura)
         {
-            var kullaniciMi = false;
+            var eFaturaKullanicisiMi = false;
             if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
-                kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
+                eFaturaKullanicisiMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
             else
             {
                 if (!string.IsNullOrEmpty(gidenFatura.GercekKisiTcKimlikNo))
-                    kullaniciMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.GercekKisiTcKimlikNo);
+                    eFaturaKullanicisiMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.GercekKisiTcKimlikNo);
             }
 
-            return kullaniciMi;
+            return eFaturaKullanicisiMi;
         }
         
         /// <summary>
@@ -1136,16 +1136,16 @@ namespace QNBFinansGIB
         /// </summary>
         /// <param name="dosya">Servisten Dönen Byte Dizisi</param>
         /// <param name="dosyaAdi">Hedef Dosya Adı</param>
-        /// <param name="kullaniciMi">E-Fatura Kullanıcısı Olup Olmadığı Bilgisi</param>
+        /// <param name="eFaturaKullanicisiMi">E-Fatura Kullanıcısı Olup Olmadığı Bilgisi</param>
         /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
         /// <param name="geriDonus">Servisten Gelen geri Dönüş Bilgisi</param>
-        private static void FaturaDosyaOnizlemeYap(byte[] dosya, string dosyaAdi, bool kullaniciMi, GidenFaturaDTO gidenFatura, GeriDonus geriDonus)
+        private static void FaturaDosyaOnizlemeYap(byte[] dosya, string dosyaAdi, bool eFaturaKullanicisiMi, GidenFaturaDTO gidenFatura, GeriDonus geriDonus)
         {
             if (dosya != null && dosya.Length > 1)
             {
                 var dosyaAdiTemp = dosyaAdi.Replace("xml", "pdf");
                 
-                if (kullaniciMi && !string.IsNullOrEmpty(gidenFatura.BelgeOid))
+                if (eFaturaKullanicisiMi && !string.IsNullOrEmpty(gidenFatura.BelgeOid))
                     dosya = ZipDosyasindanPdfCikar(dosya);
                 if (geriDonus != null && geriDonus.Tip == 1)
                     dosya = ZipDosyasindanPdfCikar(dosya);
