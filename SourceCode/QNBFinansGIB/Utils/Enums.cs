@@ -1,10 +1,26 @@
-﻿namespace QNBFinansGIB.Utils
+﻿using System;
+
+namespace QNBFinansGIB.Utils
 {
     /// <summary>
     /// Satış Türü Bilgilerinin Bulunduğu Enum sınıfı
     /// </summary>
     public static class Enums
     {
+        [Flags]
+        public enum BelgeTur
+        {
+            EFatura,
+            EArsiv
+        }
+        
+        [Flags]
+        public enum LetterCase
+        {
+            Lower,
+            Upper
+        }
+        
         /// <summary>
         /// Faturadaki Satış Türlerinin Kodlarının Bulunduğu enum bilgisi
         /// Burada İhraç Kayıtlı ise XML içerisinde bazı yapısal değişiklikler gerçekleştirildiği için

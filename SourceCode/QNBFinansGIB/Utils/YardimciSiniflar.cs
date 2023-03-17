@@ -25,7 +25,7 @@ namespace QNBFinansGIB.Utils
         /// <returns>Kaydedilen Dosyanın Bilgisayardaki Adresi</returns>
         public static string EFaturaXMLOlustur(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesi, string aktarilacakKlasorAdi)
         {
-            var doc = FaturaXMLDokumaniIlkHaliOlustur(true, ref gidenFatura, out var root, out var kodSatisTuruKod, out var kodFaturaTuruKod, out var kodFaturaGrupTuruKod);
+            var doc = FaturaXMLDokumaniIlkHaliOlustur(BelgeTur.EFatura, ref gidenFatura, out var root, out var kodSatisTuruKod, out var kodFaturaTuruKod, out var kodFaturaGrupTuruKod);
 
             if (string.IsNullOrEmpty(gidenFatura.VergiNo) && !string.IsNullOrEmpty(gidenFatura.GercekKisiTcKimlikNo))
                 gidenFatura.VergiNo = gidenFatura.GercekKisiTcKimlikNo;
@@ -758,7 +758,7 @@ namespace QNBFinansGIB.Utils
         /// <returns>Kaydedilen Dosyanın Bilgisayardaki Adresi</returns>
         public static string EArsivXMLOlustur(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesi, string aktarilacakKlasorAdi, bool tuzelKisilikMi)
         {
-            var doc = FaturaXMLDokumaniIlkHaliOlustur(false, ref gidenFatura, out var root, out var kodSatisTuruKod, out var kodFaturaTuruKod, out var kodFaturaGrupTuruKod);
+            var doc = FaturaXMLDokumaniIlkHaliOlustur(BelgeTur.EArsiv, ref gidenFatura, out var root, out var kodSatisTuruKod, out var kodFaturaTuruKod, out var kodFaturaGrupTuruKod);
             
             EArsivStandartImzaVeFirmaBilgisiDuzenle(gidenFatura, gidenFaturaDetayListesi, root, doc,
                 kodSatisTuruKod, kodFaturaTuruKod, kodFaturaGrupTuruKod, out var xmlnscac, out var xmlnscbc);
@@ -779,6 +779,712 @@ namespace QNBFinansGIB.Utils
 
             return XMLDosyasiniKaydet(gidenFatura.GidenFaturaId, aktarilacakKlasorAdi, doc);
         }
+        
+        /// <summary>
+        /// Müstahsil Makbuzu Bilgisi Üzerinden E-Müstahsil Sistemine Göndermek İçin
+        /// XML Dosyası Oluşturmaya yarayan metottur
+        /// </summary>
+        /// <param name="mustahsilMakbuzu">Müstahsil Makbuzu Bilgisi</param>
+        /// <param name="mustahsilMakbuzuDetayListesi">Müstahsil Makbuzu Detay Bilgisi</param>
+        /// <param name="aktarilacakKlasorAdi">Oluşturulan Dosyanın Aktarılacağı Klasör</param>
+        public static string EMustahsilXMLOlustur(MustahsilMakbuzuDTO mustahsilMakbuzu, List<MustahsilMakbuzuDetayDTO> mustahsilMakbuzuDetayListesi, string aktarilacakKlasorAdi)
+        {
+            var doc = new XmlDocument();
+            var declaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
+            var root = doc.DocumentElement;
+            doc.InsertBefore(declaration, root);
+            doc.AppendChild(
+                doc.CreateProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"general.xslt\""));
+
+            root = doc.CreateElement("CreditNote");
+
+            mustahsilMakbuzu = mustahsilMakbuzu.BosluklariKaldir();
+
+            var kodMakbuzGrupTuruKod = mustahsilMakbuzu.MakbuzGrupTuruKod ?? 0;
+
+            #region Standart ve Müstahsil Makbuzuna Bağlı Bilgiler
+
+            // Makbuzun türü, kesilme tarihi, UBL Versiyon Numarası, GİB Numarası gibi bilgiler
+            // yer almaktadır
+
+            #region Standart Bilgiler
+
+            root.RemoveAllAttributes();
+            // var locationAttribute = "xsi:schemaLocation";
+            var location = doc.CreateAttribute("xsi", "schemaLocation",
+                "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2");
+            location.Value =
+                "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2 ../xsdrt/maindoc/UBL-CreditNote-2.1.xsd";
+            var xmlns = doc.CreateAttribute("xmlns");
+            xmlns.Value = "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2";
+            var xmlnsn4 = doc.CreateAttribute("xmlns:n4");
+            xmlnsn4.Value = "http://www.altova.com/samplexml/other-namespace";
+            var xmlnsxsi = doc.CreateAttribute("xmlns:xsi");
+            xmlnsxsi.Value = "http://www.w3.org/2001/XMLSchema-instance";
+            var xmlnscac = doc.CreateAttribute("xmlns:cac");
+            xmlnscac.Value = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2";
+            var xmlnscbc = doc.CreateAttribute("xmlns:cbc");
+            xmlnscbc.Value = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2";
+            var xmlnsext = doc.CreateAttribute("xmlns:ext");
+            xmlnsext.Value = "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2";
+            root.Attributes.Append(location);
+            root.Attributes.Append(xmlns);
+            root.Attributes.Append(xmlnsn4);
+            root.Attributes.Append(xmlnsxsi);
+            root.Attributes.Append(xmlnscac);
+            root.Attributes.Append(xmlnscbc);
+            root.Attributes.Append(xmlnsext);
+            var extUbl = doc.CreateElement("ext", "UBLExtensions", xmlnsext.Value);
+            var extUbl2 = doc.CreateElement("ext", "UBLExtension", xmlnsext.Value);
+            var extUbl3 = doc.CreateElement("ext", "ExtensionContent", xmlnsext.Value);
+            var extUbl4 = doc.CreateElement("n4", "auto-generated_for_wildcard", xmlnsn4.Value);
+            extUbl3.AppendChild(extUbl4);
+            extUbl2.AppendChild(extUbl3);
+            extUbl.AppendChild(extUbl2);
+
+            root.AppendChild(extUbl);
+
+            var versionId = doc.CreateElement("cbc", "UBLVersionID", xmlnscbc.Value);
+            versionId.InnerText = "2.1";
+            root.AppendChild(versionId);
+
+            var customizationId = doc.CreateElement("cbc", "CustomizationID", xmlnscbc.Value);
+            customizationId.InnerText = "TR1.2.1";
+            root.AppendChild(customizationId);
+
+            var profileId = doc.CreateElement("cbc", "ProfileID", xmlnscbc.Value);
+            profileId.InnerText = "EARSIVBELGE";
+            root.AppendChild(profileId);
+
+            var id = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            if (!string.IsNullOrEmpty(mustahsilMakbuzu.MustahsilMakbuzuNo))
+                id.InnerText = mustahsilMakbuzu.MustahsilMakbuzuNo;
+            else
+                id.InnerText = "ABC" + mustahsilMakbuzu.MustahsilMakbuzuTarihi?.Year +
+                               DateTime.UtcNow.Ticks.ToString().Substring(0, 9);
+            root.AppendChild(id);
+
+            var copyIndicator = doc.CreateElement("cbc", "CopyIndicator", xmlnscbc.Value);
+            copyIndicator.InnerText = "false";
+            root.AppendChild(copyIndicator);
+
+            var mustahsilMakbuzuId = doc.CreateElement("cbc", "UUID", xmlnscbc.Value);
+            mustahsilMakbuzuId.InnerText = mustahsilMakbuzu.MustahsilMakbuzuId.Length == 36
+                ? mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper()
+                : Guid.NewGuid().ToString().ToUpper();
+            root.AppendChild(mustahsilMakbuzuId);
+
+            var issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
+            issueDate.InnerText = mustahsilMakbuzu.MustahsilMakbuzuTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+            root.AppendChild(issueDate);
+
+            var issueTime = doc.CreateElement("cbc", "IssueTime", xmlnscbc.Value);
+            issueTime.InnerText = mustahsilMakbuzu.MustahsilMakbuzuTarihi?.ToString("HH:mm:ss") ?? string.Empty;
+            root.AppendChild(issueTime);
+
+            var creditNoteTypeCode = doc.CreateElement("cbc", "CreditNoteTypeCode", xmlnscbc.Value);
+            creditNoteTypeCode.InnerText = "MUSTAHSILMAKBUZ";
+            root.AppendChild(creditNoteTypeCode);
+
+            var sendType = doc.CreateElement("cbc", "Note", xmlnscbc.Value);
+            sendType.InnerText = "Gönderim Şekli: ELEKTRONIK";
+            root.AppendChild(sendType);
+
+            ParaBirimiVeKayitSayisiDuzenle(mustahsilMakbuzuDetayListesi.Count, root, doc, xmlnscbc);
+
+            #region AdditionalDocumentReference
+
+            var additionalDocumentReference = doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
+            var additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            additionalDocumentReferenceId.InnerText = mustahsilMakbuzu.MustahsilMakbuzuId.Length == 36
+                ? mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper()
+                : Guid.NewGuid().ToString().ToUpper();
+            additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
+            issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
+            issueDate.InnerText = mustahsilMakbuzu.MustahsilMakbuzuTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+            additionalDocumentReference.AppendChild(issueDate);
+            var documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
+            documentType.InnerText = "XSLT";
+            additionalDocumentReference.AppendChild(documentType);
+            var attachment = doc.CreateElement("cac", "Attachment", xmlnscac.Value);
+            var embeddedDocumentBinaryObject = doc.CreateElement("cbc", "EmbeddedDocumentBinaryObject", xmlnscbc.Value);
+            var characterSetCode = doc.CreateAttribute("characterSetCode");
+            characterSetCode.Value = "UTF-8";
+            var encodingCode = doc.CreateAttribute("encodingCode");
+            encodingCode.Value = "Base64";
+            var mimeCode = doc.CreateAttribute("mimeCode");
+            mimeCode.Value = "application/xml";
+            embeddedDocumentBinaryObject.Attributes.Append(characterSetCode);
+            embeddedDocumentBinaryObject.Attributes.Append(encodingCode);
+            embeddedDocumentBinaryObject.Attributes.Append(mimeCode);
+            attachment.AppendChild(embeddedDocumentBinaryObject);
+            additionalDocumentReference.AppendChild(attachment);
+
+            root.AppendChild(additionalDocumentReference);
+
+            #endregion
+
+            #endregion
+
+            FaturaMakbuzImzaBilgisiDuzenle(root, doc, xmlnscac, xmlnscbc);
+
+            // Burada sabit değerler verilmekte olup, Makbuzu kesen kuruma veya firmaya ait bilgiler
+            // yer almaktadır. Bu kısımda örnek olarak TÜRKŞEKER Fabrikaları Genel Müdürlüğü bilgileri
+            // kullanılmıştır. Ancak değiştirip test edilebilir.
+
+            #region AccountingSupplierParty
+
+            var accountingSupplierParty = doc.CreateElement("cac", "AccountingSupplierParty", xmlnscac.Value);
+            var party = doc.CreateElement("cac", "Party", xmlnscac.Value);
+            var webSiteUri = doc.CreateElement("cbc", "WebsiteURI", xmlnscbc.Value);
+            webSiteUri.InnerText = "https://www.turkseker.gov.tr";
+            party.AppendChild(webSiteUri);
+            var accountingSupplierPartyIdAttr = doc.CreateAttribute("schemeID");
+            accountingSupplierPartyIdAttr.Value = "VKN_TCKN";
+            var partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
+            var accountingSupplierPartyIdAttr2 = doc.CreateAttribute("schemeID");
+            accountingSupplierPartyIdAttr2.Value = "VKN";
+            var accountingSupplierPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            accountingSupplierPartyPartyId.Attributes.Append(accountingSupplierPartyIdAttr2);
+            accountingSupplierPartyPartyId.InnerText = "3250566851";
+            partyIdentification.AppendChild(accountingSupplierPartyPartyId);
+            party.AppendChild(partyIdentification);
+
+            if (!string.IsNullOrEmpty(mustahsilMakbuzu.AltBirimAd))
+            {
+                partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
+                accountingSupplierPartyIdAttr2 = doc.CreateAttribute("schemeID");
+                accountingSupplierPartyIdAttr2.Value = "SUBENO";
+                accountingSupplierPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+                accountingSupplierPartyPartyId.Attributes.Append(accountingSupplierPartyIdAttr2);
+                accountingSupplierPartyPartyId.InnerText = mustahsilMakbuzu.AltBirimAd;
+                partyIdentification.AppendChild(accountingSupplierPartyPartyId);
+                party.AppendChild(partyIdentification);
+            }
+
+            var partyName = doc.CreateElement("cac", "PartyName", xmlnscac.Value);
+            var partyNameReal = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+            partyNameReal.InnerText = "TÜRKİYE ŞEKER FABRİKALARI A.Ş.";
+            partyName.AppendChild(partyNameReal);
+            party.AppendChild(partyName);
+
+            #region Postal Address
+
+            var postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
+            var postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            postalAddressId.InnerText = "3250566851";
+            postalAddress.AppendChild(postalAddressId);
+            var streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
+            streetName.InnerText = "Mithatpaşa Caddesi";
+            postalAddress.AppendChild(streetName);
+            var buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
+            buildingNumber.InnerText = "14";
+            postalAddress.AppendChild(buildingNumber);
+            var citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
+            citySubdivisionName.InnerText = "Çankaya";
+            postalAddress.AppendChild(citySubdivisionName);
+            var cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
+            cityName.InnerText = "Ankara";
+            postalAddress.AppendChild(cityName);
+            var postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
+            postalZone.InnerText = "06100";
+            postalAddress.AppendChild(postalZone);
+            var country = doc.CreateElement("cac", "Country", xmlnscac.Value);
+            var countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+            countryName.InnerText = "Türkiye";
+            country.AppendChild(countryName);
+            postalAddress.AppendChild(country);
+            party.AppendChild(postalAddress);
+
+            #endregion
+
+            var partyTaxScheme = doc.CreateElement("cac", "PartyTaxScheme", xmlnscac.Value);
+            var taxScheme = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
+            var taxSchemeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+            taxSchemeName.InnerText = "Ankara Kurumlar";
+            taxScheme.AppendChild(taxSchemeName);
+            partyTaxScheme.AppendChild(taxScheme);
+            party.AppendChild(partyTaxScheme);
+
+            var contact = doc.CreateElement("cac", "Contact", xmlnscac.Value);
+            var telephone = doc.CreateElement("cbc", "Telephone", xmlnscbc.Value);
+            telephone.InnerText = "(312) 4585500";
+            contact.AppendChild(telephone);
+            var telefax = doc.CreateElement("cbc", "Telefax", xmlnscbc.Value);
+            telefax.InnerText = "(312) 4585800";
+            contact.AppendChild(telefax);
+            var electronicMail = doc.CreateElement("cbc", "ElectronicMail", xmlnscbc.Value);
+            electronicMail.InnerText = "maliisler@turkseker.gov.tr";
+            contact.AppendChild(electronicMail);
+            party.AppendChild(contact);
+
+            accountingSupplierParty.AppendChild(party);
+
+            root.AppendChild(accountingSupplierParty);
+
+            #endregion
+
+            // Bu kısımda makbuz kesilen firma bilgileri yer almaktadır
+
+            #region AccountingCustomerParty
+
+            var accountingCustomerParty = doc.CreateElement("cac", "AccountingCustomerParty", xmlnscac.Value);
+            party = doc.CreateElement("cac", "Party", xmlnscac.Value);
+            webSiteUri = doc.CreateElement("cbc", "WebsiteURI", xmlnscbc.Value);
+            party.AppendChild(webSiteUri);
+            var accountingCustomerPartyIdAttr = doc.CreateAttribute("schemeID");
+            accountingCustomerPartyIdAttr.Value = "TCKN";
+            if (mustahsilMakbuzu.VergiNo.Length == 10)
+                accountingCustomerPartyIdAttr.Value = "VKN";
+            partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
+            var accountingCustomerPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            accountingCustomerPartyPartyId.Attributes.Append(accountingCustomerPartyIdAttr);
+            accountingCustomerPartyPartyId.InnerText = mustahsilMakbuzu.VergiNo;
+            partyIdentification.AppendChild(accountingCustomerPartyPartyId);
+            party.AppendChild(partyIdentification);
+
+            if (mustahsilMakbuzu.VergiNo.Length == 10)
+            {
+                partyName = doc.CreateElement("cac", "PartyName", xmlnscac.Value);
+                partyNameReal = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+                partyNameReal.InnerText = mustahsilMakbuzu.TuzelKisiAd;
+                partyName.AppendChild(partyNameReal);
+                party.AppendChild(partyName);
+            }
+
+            #region Postal Address
+
+            postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
+            postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            postalAddressId.InnerText = mustahsilMakbuzu.VergiNo;
+            postalAddress.AppendChild(postalAddressId);
+            var room = doc.CreateElement("cbc", "Room", xmlnscbc.Value);
+            postalAddress.AppendChild(room);
+            streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
+            if (!string.IsNullOrEmpty(mustahsilMakbuzu.Adres))
+                streetName.InnerText = mustahsilMakbuzu.Adres;
+            postalAddress.AppendChild(streetName);
+            buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
+            //buildingNumber.InnerText = "";
+            postalAddress.AppendChild(buildingNumber);
+            citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
+            if (!string.IsNullOrEmpty(mustahsilMakbuzu.IlceAd))
+                citySubdivisionName.InnerText = mustahsilMakbuzu.IlceAd;
+            postalAddress.AppendChild(citySubdivisionName);
+            cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
+            if (!string.IsNullOrEmpty(mustahsilMakbuzu.IlAd))
+                cityName.InnerText = mustahsilMakbuzu.IlAd;
+            postalAddress.AppendChild(cityName);
+            postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
+            //postalZone.InnerText = "";
+            postalAddress.AppendChild(postalZone);
+            country = doc.CreateElement("cac", "Country", xmlnscac.Value);
+            countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+            countryName.InnerText = "Türkiye";
+            country.AppendChild(countryName);
+            postalAddress.AppendChild(country);
+            party.AppendChild(postalAddress);
+
+            #endregion
+
+            partyTaxScheme = doc.CreateElement("cac", "PartyTaxScheme", xmlnscac.Value);
+            taxScheme = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
+            taxSchemeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+            if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiDairesi))
+                taxSchemeName.InnerText = mustahsilMakbuzu.VergiDairesi;
+            taxScheme.AppendChild(taxSchemeName);
+            partyTaxScheme.AppendChild(taxScheme);
+            party.AppendChild(partyTaxScheme);
+
+            contact = doc.CreateElement("cac", "Contact", xmlnscac.Value);
+            electronicMail = doc.CreateElement("cbc", "ElectronicMail", xmlnscbc.Value);
+            if (!string.IsNullOrEmpty(mustahsilMakbuzu.EPostaAdresi))
+                electronicMail.InnerText = mustahsilMakbuzu.EPostaAdresi;
+            contact.AppendChild(electronicMail);
+            party.AppendChild(contact);
+
+            if (mustahsilMakbuzu.VergiNo.Length == 11)
+            {
+                var liste = mustahsilMakbuzu.TuzelKisiAd.Split(' ').ToList();
+                if (liste.Count >= 1)
+                {
+                    var person = doc.CreateElement("cac", "Person", xmlnscac.Value);
+                    var firstName = doc.CreateElement("cbc", "FirstName", xmlnscbc.Value);
+                    firstName.InnerText = liste[0];
+                    person.AppendChild(firstName);
+                    var surname = liste[0];
+                    if (liste.Count > 1)
+                        surname = mustahsilMakbuzu.TuzelKisiAd.Substring(liste[0].Length + 1);
+                    var familyName = doc.CreateElement("cbc", "FamilyName", xmlnscbc.Value);
+                    familyName.InnerText = surname;
+                    //familyName.InnerText = liste[1];
+                    person.AppendChild(familyName);
+                    party.AppendChild(person);
+                }
+            }
+
+            accountingCustomerParty.AppendChild(party);
+
+            root.AppendChild(accountingCustomerParty);
+
+            #endregion
+
+            if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
+            {
+                if (mustahsilMakbuzu.VergiNo.Length == 10)
+                {
+                    // Bu kısımda makbuz kesilen firma bilgileri yer almaktadır (Eğer sadece Tüzel Kişilikse, şahıs şirketleri için bu yapılmamaktadır)
+
+                    #region BuyerCustomerParty
+
+                    var buyerCustomerParty = doc.CreateElement("cac", "BuyerCustomerParty", xmlnscac.Value);
+                    party = doc.CreateElement("cac", "Party", xmlnscac.Value);
+                    webSiteUri = doc.CreateElement("cbc", "WebsiteURI", xmlnscbc.Value);
+                    party.AppendChild(webSiteUri);
+                    var buyerCustomerPartyIdAttr = doc.CreateAttribute("schemeID");
+                    buyerCustomerPartyIdAttr.Value = "VKN";
+                    partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
+                    var buyerCustomerPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+                    buyerCustomerPartyPartyId.Attributes.Append(buyerCustomerPartyIdAttr);
+                    buyerCustomerPartyPartyId.InnerText = mustahsilMakbuzu.VergiNo;
+                    partyIdentification.AppendChild(buyerCustomerPartyPartyId);
+                    party.AppendChild(partyIdentification);
+
+                    if (mustahsilMakbuzu.VergiNo.Length == 10)
+                    {
+                        partyName = doc.CreateElement("cac", "PartyName", xmlnscac.Value);
+                        partyNameReal = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+                        partyNameReal.InnerText = mustahsilMakbuzu.TuzelKisiAd;
+                        partyName.AppendChild(partyNameReal);
+                        party.AppendChild(partyName);
+                    }
+
+                    #region Postal Address
+
+                    postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
+                    postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+                    postalAddressId.InnerText = mustahsilMakbuzu.VergiNo;
+                    postalAddress.AppendChild(postalAddressId);
+                    room = doc.CreateElement("cbc", "Room", xmlnscbc.Value);
+                    postalAddress.AppendChild(room);
+                    streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
+                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.Adres))
+                        streetName.InnerText = mustahsilMakbuzu.Adres;
+                    postalAddress.AppendChild(streetName);
+                    buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
+                    //buildingNumber.InnerText = "";
+                    postalAddress.AppendChild(buildingNumber);
+                    citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
+                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.IlceAd))
+                        citySubdivisionName.InnerText = mustahsilMakbuzu.IlceAd;
+                    postalAddress.AppendChild(citySubdivisionName);
+                    cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
+                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.IlAd))
+                        cityName.InnerText = mustahsilMakbuzu.IlAd;
+                    postalAddress.AppendChild(cityName);
+                    postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
+                    //postalZone.InnerText = "";
+                    postalAddress.AppendChild(postalZone);
+                    country = doc.CreateElement("cac", "Country", xmlnscac.Value);
+                    countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+                    countryName.InnerText = "Türkiye";
+                    country.AppendChild(countryName);
+                    postalAddress.AppendChild(country);
+                    party.AppendChild(postalAddress);
+
+                    #endregion
+
+                    partyTaxScheme = doc.CreateElement("cac", "PartyTaxScheme", xmlnscac.Value);
+                    taxScheme = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
+                    taxSchemeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiDairesi))
+                        taxSchemeName.InnerText = mustahsilMakbuzu.VergiDairesi;
+                    taxScheme.AppendChild(taxSchemeName);
+                    partyTaxScheme.AppendChild(taxScheme);
+                    party.AppendChild(partyTaxScheme);
+
+                    contact = doc.CreateElement("cac", "Contact", xmlnscac.Value);
+                    electronicMail = doc.CreateElement("cbc", "ElectronicMail", xmlnscbc.Value);
+                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.EPostaAdresi))
+                        electronicMail.InnerText = mustahsilMakbuzu.EPostaAdresi;
+                    contact.AppendChild(electronicMail);
+                    party.AppendChild(contact);
+
+                    if (mustahsilMakbuzu.VergiNo.Length == 11)
+                    {
+                        var liste = mustahsilMakbuzu.TuzelKisiAd.Split(' ').ToList();
+                        if (liste.Count >= 1)
+                        {
+                            var person = doc.CreateElement("cac", "Person", xmlnscac.Value);
+                            var firstName = doc.CreateElement("cbc", "FirstName", xmlnscbc.Value);
+                            firstName.InnerText = liste[0];
+                            person.AppendChild(firstName);
+                            var surname = liste[0];
+                            if (liste.Count > 1)
+                                surname = mustahsilMakbuzu.TuzelKisiAd.Substring(liste[0].Length + 1);
+                            var familyName = doc.CreateElement("cbc", "FamilyName", xmlnscbc.Value);
+                            familyName.InnerText = surname;
+                            //familyName.InnerText = liste[1];
+                            person.AppendChild(familyName);
+                            party.AppendChild(person);
+                        }
+                    }
+
+                    buyerCustomerParty.AppendChild(party);
+
+                    root.AppendChild(buyerCustomerParty);
+
+                    #endregion
+                }
+            }
+
+            // Burada vergi bilgileri yer almaktadır
+
+            #region TaxTotal
+
+            var taxTotal = doc.CreateElement("cac", "TaxTotal", xmlnscac.Value);
+            var currencyId = doc.CreateAttribute("currencyID");
+            currencyId.Value = "TRY";
+            var taxAmount = doc.CreateElement("cbc", "TaxAmount", xmlnscbc.Value);
+            taxAmount.RemoveAllAttributes();
+            taxAmount.Attributes.Append(currencyId);
+            taxAmount.InnerText = Decimal
+                .Round((decimal) mustahsilMakbuzu.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString()
+                .Replace(",", ".");
+            taxTotal.AppendChild(taxAmount);
+            var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xmlnscac.Value);
+            var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xmlnscbc.Value);
+            taxableAmount.RemoveAllAttributes();
+            currencyId = doc.CreateAttribute("currencyID");
+            currencyId.Value = "TRY";
+            taxableAmount.Attributes.Append(currencyId);
+            taxableAmount.InnerText = Decimal
+                .Round((decimal) mustahsilMakbuzu.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
+                .Replace(",", ".");
+            taxSubTotal.AppendChild(taxableAmount);
+            var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xmlnscbc.Value);
+            taxAmount2.RemoveAllAttributes();
+            currencyId = doc.CreateAttribute("currencyID");
+            currencyId.Value = "TRY";
+            taxAmount2.Attributes.Append(currencyId);
+            taxAmount2.InnerText = Decimal
+                .Round((decimal) mustahsilMakbuzu.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString()
+                .Replace(",", ".");
+            taxSubTotal.AppendChild(taxAmount2);
+            var percent = doc.CreateElement("cbc", "Percent", xmlnscbc.Value);
+            percent.InnerText = mustahsilMakbuzu.NetTutar != 0
+                ? Decimal.Round(((decimal) mustahsilMakbuzu.GelirVergisi * 100) / (decimal) mustahsilMakbuzu.NetTutar,
+                    0, MidpointRounding.AwayFromZero).ToString()
+                : "0";
+            taxSubTotal.AppendChild(percent);
+            var taxCategory = doc.CreateElement("cac", "TaxCategory", xmlnscac.Value);
+            if (mustahsilMakbuzu.GelirVergisi == 0)
+            {
+                if (kodMakbuzGrupTuruKod == FaturaMakbuzGrupTur.Kuspe.GetHashCode())
+                {
+                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xmlnscbc.Value);
+                    taxExemptionReasonCode.InnerText = "325";
+                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xmlnscbc.Value);
+                    taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
+                    taxCategory.AppendChild(taxExemptionReasonCode);
+                    taxCategory.AppendChild(taxExemptionReason);
+                }
+                else
+                {
+                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xmlnscbc.Value);
+                    taxExemptionReasonCode.InnerText = "350";
+                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xmlnscbc.Value);
+                    taxExemptionReason.InnerText = "Diğerleri";
+                    taxCategory.AppendChild(taxExemptionReasonCode);
+                    taxCategory.AppendChild(taxExemptionReason);
+                }
+            }
+
+            var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
+            var taxName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+            taxName.InnerText = "GV STOPAJI";
+            taxScheme2.AppendChild(taxName);
+            var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
+            taxTypeCode.InnerText = "0003";
+            taxScheme2.AppendChild(taxTypeCode);
+            taxCategory.AppendChild(taxScheme2);
+            taxSubTotal.AppendChild(taxCategory);
+            taxTotal.AppendChild(taxSubTotal);
+            root.AppendChild(taxTotal);
+
+            #endregion
+
+            // Gelir Vergisi, Net Tutar ve Toplam Tutar bilgileri yer almaktadır
+
+            #region LegalMonetaryTotal
+
+            var legalMonetaryTotal = doc.CreateElement("cac", "LegalMonetaryTotal", xmlnscac.Value);
+            var lineExtensionAmount = doc.CreateElement("cbc", "LineExtensionAmount", xmlnscbc.Value);
+            lineExtensionAmount.RemoveAllAttributes();
+            currencyId = doc.CreateAttribute("currencyID");
+            currencyId.Value = "TRY";
+            lineExtensionAmount.Attributes.Append(currencyId);
+            lineExtensionAmount.InnerText = Decimal
+                .Round((decimal) mustahsilMakbuzu.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
+                .Replace(",", ".");
+            legalMonetaryTotal.AppendChild(lineExtensionAmount);
+            var taxExclusiveAmount = doc.CreateElement("cbc", "TaxExclusiveAmount", xmlnscbc.Value);
+            taxExclusiveAmount.RemoveAllAttributes();
+            currencyId = doc.CreateAttribute("currencyID");
+            currencyId.Value = "TRY";
+            taxExclusiveAmount.Attributes.Append(currencyId);
+            taxExclusiveAmount.InnerText = Decimal
+                .Round((decimal) mustahsilMakbuzu.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
+                .Replace(",", ".");
+            legalMonetaryTotal.AppendChild(taxExclusiveAmount);
+            var taxInclusiveAmount = doc.CreateElement("cbc", "TaxInclusiveAmount", xmlnscbc.Value);
+            taxInclusiveAmount.RemoveAllAttributes();
+            currencyId = doc.CreateAttribute("currencyID");
+            currencyId.Value = "TRY";
+            taxInclusiveAmount.Attributes.Append(currencyId);
+            taxInclusiveAmount.InnerText = Decimal
+                .Round((decimal) mustahsilMakbuzu.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
+                .Replace(",", ".");
+            legalMonetaryTotal.AppendChild(taxInclusiveAmount);
+            var payableAmount = doc.CreateElement("cbc", "PayableAmount", xmlnscbc.Value);
+            payableAmount.RemoveAllAttributes();
+            currencyId = doc.CreateAttribute("currencyID");
+            currencyId.Value = "TRY";
+            payableAmount.Attributes.Append(currencyId);
+            payableAmount.InnerText = Decimal
+                .Round((decimal) mustahsilMakbuzu.NetTutar - (decimal) mustahsilMakbuzu.GelirVergisi, 2,
+                    MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
+            legalMonetaryTotal.AppendChild(payableAmount);
+            root.AppendChild(legalMonetaryTotal);
+
+            #endregion
+
+            #region Makbuz Detayları Üzerinden Verileri Doldurma
+            var sayac = 1;
+            // Her bir makbuz detayı için hazırlanan bölümdür
+            foreach (var item in mustahsilMakbuzuDetayListesi)
+            {
+                var detayBilgisi = item.BosluklariKaldir();
+
+                #region CreditNoteLine
+
+                #region MetaData
+
+                var creditNoteLine = doc.CreateElement("cac", "CreditNoteLine", xmlnscac.Value);
+                var creditNoteLineId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+                creditNoteLineId.InnerText = sayac.ToString();
+                creditNoteLine.AppendChild(creditNoteLineId);
+                var quantity = doc.CreateAttribute("unitCode");
+                quantity.Value = "KGM";
+                var creditedQuantity = doc.CreateElement("cbc", "CreditedQuantity", xmlnscbc.Value);
+                creditedQuantity.RemoveAllAttributes();
+                creditedQuantity.Attributes.Append(quantity);
+                creditedQuantity.InnerText = Decimal
+                    .Round((decimal) detayBilgisi.Miktar, 2, MidpointRounding.AwayFromZero).ToString()
+                    .Replace(",", ".");
+                creditNoteLine.AppendChild(creditedQuantity);
+                var lineExtensionAmountDetail = doc.CreateElement("cbc", "LineExtensionAmount", xmlnscbc.Value);
+                lineExtensionAmountDetail.RemoveAllAttributes();
+                currencyId = doc.CreateAttribute("currencyID");
+                currencyId.Value = "TRY";
+                lineExtensionAmountDetail.Attributes.Append(currencyId);
+                lineExtensionAmountDetail.InnerText = Decimal
+                    .Round((decimal) detayBilgisi.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
+                    .Replace(",", ".");
+                creditNoteLine.AppendChild(lineExtensionAmountDetail);
+
+                #endregion
+
+                #region TaxTotal
+
+                taxTotal = doc.CreateElement("cac", "TaxTotal", xmlnscac.Value);
+                currencyId = doc.CreateAttribute("currencyID");
+                currencyId.Value = "TRY";
+                taxAmount = doc.CreateElement("cbc", "TaxAmount", xmlnscbc.Value);
+                taxAmount.RemoveAllAttributes();
+                taxAmount.Attributes.Append(currencyId);
+                taxAmount.InnerText = Decimal
+                    .Round((decimal) detayBilgisi.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString()
+                    .Replace(",", ".");
+                taxTotal.AppendChild(taxAmount);
+                taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xmlnscac.Value);
+                taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xmlnscbc.Value);
+                taxableAmount.RemoveAllAttributes();
+                currencyId = doc.CreateAttribute("currencyID");
+                currencyId.Value = "TRY";
+                taxableAmount.Attributes.Append(currencyId);
+                taxableAmount.InnerText = Decimal
+                    .Round((decimal) detayBilgisi.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
+                    .Replace(",", ".");
+                taxSubTotal.AppendChild(taxableAmount);
+                taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xmlnscbc.Value);
+                taxAmount2.RemoveAllAttributes();
+                currencyId = doc.CreateAttribute("currencyID");
+                currencyId.Value = "TRY";
+                taxAmount2.Attributes.Append(currencyId);
+                taxAmount2.InnerText = Decimal
+                    .Round((decimal) detayBilgisi.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString()
+                    .Replace(",", ".");
+                taxSubTotal.AppendChild(taxAmount2);
+                percent = doc.CreateElement("cbc", "Percent", xmlnscbc.Value);
+                percent.InnerText = "2";
+                taxSubTotal.AppendChild(percent);
+                taxCategory = doc.CreateElement("cac", "TaxCategory", xmlnscac.Value);
+                taxScheme2 = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
+                var taxTypeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+                taxTypeName.InnerText = "GV STOPAJI";
+                taxScheme2.AppendChild(taxTypeName);
+                taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
+                taxTypeCode.InnerText = "0003";
+                taxScheme2.AppendChild(taxTypeCode);
+                taxCategory.AppendChild(taxScheme2);
+                taxSubTotal.AppendChild(taxCategory);
+                taxTotal.AppendChild(taxSubTotal);
+                creditNoteLine.AppendChild(taxTotal);
+
+                #endregion
+
+                #region Item
+
+                var creditNoteItem = doc.CreateElement("cac", "Item", xmlnscac.Value);
+                var itemName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+                itemName.InnerText = detayBilgisi.IsinMahiyeti;
+                creditNoteItem.AppendChild(itemName);
+                creditNoteLine.AppendChild(creditNoteItem);
+
+                #endregion
+
+                #region Price
+
+                var price = doc.CreateElement("cac", "Price", xmlnscac.Value);
+                var priceAmount = doc.CreateElement("cbc", "PriceAmount", xmlnscbc.Value);
+                priceAmount.RemoveAllAttributes();
+                currencyId = doc.CreateAttribute("currencyID");
+                currencyId.Value = "TRY";
+                priceAmount.Attributes.Append(currencyId);
+                priceAmount.InnerText = detayBilgisi.BirimFiyat != null
+                    ? Decimal.Round((decimal) detayBilgisi.BirimFiyat, 4, MidpointRounding.AwayFromZero).ToString()
+                        .Replace(",", ".")
+                    : "0.00";
+                price.AppendChild(priceAmount);
+                creditNoteLine.AppendChild(price);
+
+                #endregion
+
+                root.AppendChild(creditNoteLine);
+
+                #endregion
+
+                sayac++;
+            }
+            #endregion
+
+            #endregion
+
+            doc.AppendChild(root);
+
+            return XMLDosyasiniKaydet(mustahsilMakbuzu.MustahsilMakbuzuId, aktarilacakKlasorAdi, doc);
+        }
 
         /// <summary>
         /// E-Fatura ve E-Arşiv tarafında
@@ -786,20 +1492,20 @@ namespace QNBFinansGIB.Utils
         /// Fatura ile ilgili temel değer atamalarının yapılması için
         /// Hazırlanmış metottur.
         /// </summary>
-        /// <param name="eFaturaMi">Faturanın E-Fatura Olup Olmadığı Bilgisi</param>
+        /// <param name="belgeTur">E-Fatura veya E-Arşiv Bilgisi</param>
         /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
         /// <param name="root">XML Ana Eleman Bilgisi</param>
         /// <param name="kodSatisTuruKod">Fatura Satış Türü Bilgisi</param>
         /// <param name="kodFaturaTuruKod">Fatura Türü Bilgisi</param>
         /// <param name="kodFaturaGrupTuruKod">Fatura Grup Türü Bilgisi</param>
         /// <returns>XML Dokümanı</returns>
-        private static XmlDocument FaturaXMLDokumaniIlkHaliOlustur(bool eFaturaMi, ref GidenFaturaDTO gidenFatura, out XmlElement root, out int kodSatisTuruKod, out int kodFaturaTuruKod, out int kodFaturaGrupTuruKod)
+        private static XmlDocument FaturaXMLDokumaniIlkHaliOlustur(BelgeTur belgeTur, ref GidenFaturaDTO gidenFatura, out XmlElement root, out int kodSatisTuruKod, out int kodFaturaTuruKod, out int kodFaturaGrupTuruKod)
         {
             var doc = new XmlDocument();
             var declaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
             root = doc.DocumentElement;
             doc.InsertBefore(declaration, root);
-            if (eFaturaMi)
+            if (belgeTur == BelgeTur.EFatura)
                 doc.AppendChild(doc.CreateProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"general.xslt\""));
             //doc.AppendChild(doc.CreateProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"general.xslt\""));
 
@@ -2204,712 +2910,6 @@ namespace QNBFinansGIB.Utils
             root.AppendChild(legalMonetaryTotal);
 
             #endregion
-        }
-
-        /// <summary>
-        /// Müstahsil Makbuzu Bilgisi Üzerinden E-Müstahsil Sistemine Göndermek İçin
-        /// XML Dosyası Oluşturmaya yarayan metottur
-        /// </summary>
-        /// <param name="mustahsilMakbuzu">Müstahsil Makbuzu Bilgisi</param>
-        /// <param name="mustahsilMakbuzuDetayListesi">Müstahsil Makbuzu Detay Bilgisi</param>
-        /// <param name="aktarilacakKlasorAdi">Oluşturulan Dosyanın Aktarılacağı Klasör</param>
-        public static string EMustahsilXMLOlustur(MustahsilMakbuzuDTO mustahsilMakbuzu, List<MustahsilMakbuzuDetayDTO> mustahsilMakbuzuDetayListesi, string aktarilacakKlasorAdi)
-        {
-            var doc = new XmlDocument();
-            var declaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
-            var root = doc.DocumentElement;
-            doc.InsertBefore(declaration, root);
-            doc.AppendChild(
-                doc.CreateProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"general.xslt\""));
-
-            root = doc.CreateElement("CreditNote");
-
-            mustahsilMakbuzu = mustahsilMakbuzu.BosluklariKaldir();
-
-            var kodMakbuzGrupTuruKod = mustahsilMakbuzu.MakbuzGrupTuruKod ?? 0;
-
-            #region Standart ve Müstahsil Makbuzuna Bağlı Bilgiler
-
-            // Makbuzun türü, kesilme tarihi, UBL Versiyon Numarası, GİB Numarası gibi bilgiler
-            // yer almaktadır
-
-            #region Standart Bilgiler
-
-            root.RemoveAllAttributes();
-            // var locationAttribute = "xsi:schemaLocation";
-            var location = doc.CreateAttribute("xsi", "schemaLocation",
-                "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2");
-            location.Value =
-                "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2 ../xsdrt/maindoc/UBL-CreditNote-2.1.xsd";
-            var xmlns = doc.CreateAttribute("xmlns");
-            xmlns.Value = "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2";
-            var xmlnsn4 = doc.CreateAttribute("xmlns:n4");
-            xmlnsn4.Value = "http://www.altova.com/samplexml/other-namespace";
-            var xmlnsxsi = doc.CreateAttribute("xmlns:xsi");
-            xmlnsxsi.Value = "http://www.w3.org/2001/XMLSchema-instance";
-            var xmlnscac = doc.CreateAttribute("xmlns:cac");
-            xmlnscac.Value = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2";
-            var xmlnscbc = doc.CreateAttribute("xmlns:cbc");
-            xmlnscbc.Value = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2";
-            var xmlnsext = doc.CreateAttribute("xmlns:ext");
-            xmlnsext.Value = "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2";
-            root.Attributes.Append(location);
-            root.Attributes.Append(xmlns);
-            root.Attributes.Append(xmlnsn4);
-            root.Attributes.Append(xmlnsxsi);
-            root.Attributes.Append(xmlnscac);
-            root.Attributes.Append(xmlnscbc);
-            root.Attributes.Append(xmlnsext);
-            var extUbl = doc.CreateElement("ext", "UBLExtensions", xmlnsext.Value);
-            var extUbl2 = doc.CreateElement("ext", "UBLExtension", xmlnsext.Value);
-            var extUbl3 = doc.CreateElement("ext", "ExtensionContent", xmlnsext.Value);
-            var extUbl4 = doc.CreateElement("n4", "auto-generated_for_wildcard", xmlnsn4.Value);
-            extUbl3.AppendChild(extUbl4);
-            extUbl2.AppendChild(extUbl3);
-            extUbl.AppendChild(extUbl2);
-
-            root.AppendChild(extUbl);
-
-            var versionId = doc.CreateElement("cbc", "UBLVersionID", xmlnscbc.Value);
-            versionId.InnerText = "2.1";
-            root.AppendChild(versionId);
-
-            var customizationId = doc.CreateElement("cbc", "CustomizationID", xmlnscbc.Value);
-            customizationId.InnerText = "TR1.2.1";
-            root.AppendChild(customizationId);
-
-            var profileId = doc.CreateElement("cbc", "ProfileID", xmlnscbc.Value);
-            profileId.InnerText = "EARSIVBELGE";
-            root.AppendChild(profileId);
-
-            var id = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            if (!string.IsNullOrEmpty(mustahsilMakbuzu.MustahsilMakbuzuNo))
-                id.InnerText = mustahsilMakbuzu.MustahsilMakbuzuNo;
-            else
-                id.InnerText = "ABC" + mustahsilMakbuzu.MustahsilMakbuzuTarihi?.Year +
-                               DateTime.UtcNow.Ticks.ToString().Substring(0, 9);
-            root.AppendChild(id);
-
-            var copyIndicator = doc.CreateElement("cbc", "CopyIndicator", xmlnscbc.Value);
-            copyIndicator.InnerText = "false";
-            root.AppendChild(copyIndicator);
-
-            var mustahsilMakbuzuId = doc.CreateElement("cbc", "UUID", xmlnscbc.Value);
-            mustahsilMakbuzuId.InnerText = mustahsilMakbuzu.MustahsilMakbuzuId.Length == 36
-                ? mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper()
-                : Guid.NewGuid().ToString().ToUpper();
-            root.AppendChild(mustahsilMakbuzuId);
-
-            var issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            issueDate.InnerText = mustahsilMakbuzu.MustahsilMakbuzuTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
-            root.AppendChild(issueDate);
-
-            var issueTime = doc.CreateElement("cbc", "IssueTime", xmlnscbc.Value);
-            issueTime.InnerText = mustahsilMakbuzu.MustahsilMakbuzuTarihi?.ToString("HH:mm:ss") ?? string.Empty;
-            root.AppendChild(issueTime);
-
-            var creditNoteTypeCode = doc.CreateElement("cbc", "CreditNoteTypeCode", xmlnscbc.Value);
-            creditNoteTypeCode.InnerText = "MUSTAHSILMAKBUZ";
-            root.AppendChild(creditNoteTypeCode);
-
-            var sendType = doc.CreateElement("cbc", "Note", xmlnscbc.Value);
-            sendType.InnerText = "Gönderim Şekli: ELEKTRONIK";
-            root.AppendChild(sendType);
-
-            ParaBirimiVeKayitSayisiDuzenle(mustahsilMakbuzuDetayListesi.Count, root, doc, xmlnscbc);
-
-            #region AdditionalDocumentReference
-
-            var additionalDocumentReference = doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
-            var additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            additionalDocumentReferenceId.InnerText = mustahsilMakbuzu.MustahsilMakbuzuId.Length == 36
-                ? mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper()
-                : Guid.NewGuid().ToString().ToUpper();
-            additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
-            issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            issueDate.InnerText = mustahsilMakbuzu.MustahsilMakbuzuTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
-            additionalDocumentReference.AppendChild(issueDate);
-            var documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
-            documentType.InnerText = "XSLT";
-            additionalDocumentReference.AppendChild(documentType);
-            var attachment = doc.CreateElement("cac", "Attachment", xmlnscac.Value);
-            var embeddedDocumentBinaryObject = doc.CreateElement("cbc", "EmbeddedDocumentBinaryObject", xmlnscbc.Value);
-            var characterSetCode = doc.CreateAttribute("characterSetCode");
-            characterSetCode.Value = "UTF-8";
-            var encodingCode = doc.CreateAttribute("encodingCode");
-            encodingCode.Value = "Base64";
-            var mimeCode = doc.CreateAttribute("mimeCode");
-            mimeCode.Value = "application/xml";
-            embeddedDocumentBinaryObject.Attributes.Append(characterSetCode);
-            embeddedDocumentBinaryObject.Attributes.Append(encodingCode);
-            embeddedDocumentBinaryObject.Attributes.Append(mimeCode);
-            attachment.AppendChild(embeddedDocumentBinaryObject);
-            additionalDocumentReference.AppendChild(attachment);
-
-            root.AppendChild(additionalDocumentReference);
-
-            #endregion
-
-            #endregion
-
-            FaturaMakbuzImzaBilgisiDuzenle(root, doc, xmlnscac, xmlnscbc);
-
-            // Burada sabit değerler verilmekte olup, Makbuzu kesen kuruma veya firmaya ait bilgiler
-            // yer almaktadır. Bu kısımda örnek olarak TÜRKŞEKER Fabrikaları Genel Müdürlüğü bilgileri
-            // kullanılmıştır. Ancak değiştirip test edilebilir.
-
-            #region AccountingSupplierParty
-
-            var accountingSupplierParty = doc.CreateElement("cac", "AccountingSupplierParty", xmlnscac.Value);
-            var party = doc.CreateElement("cac", "Party", xmlnscac.Value);
-            var webSiteUri = doc.CreateElement("cbc", "WebsiteURI", xmlnscbc.Value);
-            webSiteUri.InnerText = "https://www.turkseker.gov.tr";
-            party.AppendChild(webSiteUri);
-            var accountingSupplierPartyIdAttr = doc.CreateAttribute("schemeID");
-            accountingSupplierPartyIdAttr.Value = "VKN_TCKN";
-            var partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
-            var accountingSupplierPartyIdAttr2 = doc.CreateAttribute("schemeID");
-            accountingSupplierPartyIdAttr2.Value = "VKN";
-            var accountingSupplierPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            accountingSupplierPartyPartyId.Attributes.Append(accountingSupplierPartyIdAttr2);
-            accountingSupplierPartyPartyId.InnerText = "3250566851";
-            partyIdentification.AppendChild(accountingSupplierPartyPartyId);
-            party.AppendChild(partyIdentification);
-
-            if (!string.IsNullOrEmpty(mustahsilMakbuzu.AltBirimAd))
-            {
-                partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
-                accountingSupplierPartyIdAttr2 = doc.CreateAttribute("schemeID");
-                accountingSupplierPartyIdAttr2.Value = "SUBENO";
-                accountingSupplierPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                accountingSupplierPartyPartyId.Attributes.Append(accountingSupplierPartyIdAttr2);
-                accountingSupplierPartyPartyId.InnerText = mustahsilMakbuzu.AltBirimAd;
-                partyIdentification.AppendChild(accountingSupplierPartyPartyId);
-                party.AppendChild(partyIdentification);
-            }
-
-            var partyName = doc.CreateElement("cac", "PartyName", xmlnscac.Value);
-            var partyNameReal = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            partyNameReal.InnerText = "TÜRKİYE ŞEKER FABRİKALARI A.Ş.";
-            partyName.AppendChild(partyNameReal);
-            party.AppendChild(partyName);
-
-            #region Postal Address
-
-            var postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
-            var postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            postalAddressId.InnerText = "3250566851";
-            postalAddress.AppendChild(postalAddressId);
-            var streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
-            streetName.InnerText = "Mithatpaşa Caddesi";
-            postalAddress.AppendChild(streetName);
-            var buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
-            buildingNumber.InnerText = "14";
-            postalAddress.AppendChild(buildingNumber);
-            var citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
-            citySubdivisionName.InnerText = "Çankaya";
-            postalAddress.AppendChild(citySubdivisionName);
-            var cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
-            cityName.InnerText = "Ankara";
-            postalAddress.AppendChild(cityName);
-            var postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
-            postalZone.InnerText = "06100";
-            postalAddress.AppendChild(postalZone);
-            var country = doc.CreateElement("cac", "Country", xmlnscac.Value);
-            var countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            countryName.InnerText = "Türkiye";
-            country.AppendChild(countryName);
-            postalAddress.AppendChild(country);
-            party.AppendChild(postalAddress);
-
-            #endregion
-
-            var partyTaxScheme = doc.CreateElement("cac", "PartyTaxScheme", xmlnscac.Value);
-            var taxScheme = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
-            var taxSchemeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            taxSchemeName.InnerText = "Ankara Kurumlar";
-            taxScheme.AppendChild(taxSchemeName);
-            partyTaxScheme.AppendChild(taxScheme);
-            party.AppendChild(partyTaxScheme);
-
-            var contact = doc.CreateElement("cac", "Contact", xmlnscac.Value);
-            var telephone = doc.CreateElement("cbc", "Telephone", xmlnscbc.Value);
-            telephone.InnerText = "(312) 4585500";
-            contact.AppendChild(telephone);
-            var telefax = doc.CreateElement("cbc", "Telefax", xmlnscbc.Value);
-            telefax.InnerText = "(312) 4585800";
-            contact.AppendChild(telefax);
-            var electronicMail = doc.CreateElement("cbc", "ElectronicMail", xmlnscbc.Value);
-            electronicMail.InnerText = "maliisler@turkseker.gov.tr";
-            contact.AppendChild(electronicMail);
-            party.AppendChild(contact);
-
-            accountingSupplierParty.AppendChild(party);
-
-            root.AppendChild(accountingSupplierParty);
-
-            #endregion
-
-            // Bu kısımda makbuz kesilen firma bilgileri yer almaktadır
-
-            #region AccountingCustomerParty
-
-            var accountingCustomerParty = doc.CreateElement("cac", "AccountingCustomerParty", xmlnscac.Value);
-            party = doc.CreateElement("cac", "Party", xmlnscac.Value);
-            webSiteUri = doc.CreateElement("cbc", "WebsiteURI", xmlnscbc.Value);
-            party.AppendChild(webSiteUri);
-            var accountingCustomerPartyIdAttr = doc.CreateAttribute("schemeID");
-            accountingCustomerPartyIdAttr.Value = "TCKN";
-            if (mustahsilMakbuzu.VergiNo.Length == 10)
-                accountingCustomerPartyIdAttr.Value = "VKN";
-            partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
-            var accountingCustomerPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            accountingCustomerPartyPartyId.Attributes.Append(accountingCustomerPartyIdAttr);
-            accountingCustomerPartyPartyId.InnerText = mustahsilMakbuzu.VergiNo;
-            partyIdentification.AppendChild(accountingCustomerPartyPartyId);
-            party.AppendChild(partyIdentification);
-
-            if (mustahsilMakbuzu.VergiNo.Length == 10)
-            {
-                partyName = doc.CreateElement("cac", "PartyName", xmlnscac.Value);
-                partyNameReal = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                partyNameReal.InnerText = mustahsilMakbuzu.TuzelKisiAd;
-                partyName.AppendChild(partyNameReal);
-                party.AppendChild(partyName);
-            }
-
-            #region Postal Address
-
-            postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
-            postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            postalAddressId.InnerText = mustahsilMakbuzu.VergiNo;
-            postalAddress.AppendChild(postalAddressId);
-            var room = doc.CreateElement("cbc", "Room", xmlnscbc.Value);
-            postalAddress.AppendChild(room);
-            streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
-            if (!string.IsNullOrEmpty(mustahsilMakbuzu.Adres))
-                streetName.InnerText = mustahsilMakbuzu.Adres;
-            postalAddress.AppendChild(streetName);
-            buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
-            //buildingNumber.InnerText = "";
-            postalAddress.AppendChild(buildingNumber);
-            citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
-            if (!string.IsNullOrEmpty(mustahsilMakbuzu.IlceAd))
-                citySubdivisionName.InnerText = mustahsilMakbuzu.IlceAd;
-            postalAddress.AppendChild(citySubdivisionName);
-            cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
-            if (!string.IsNullOrEmpty(mustahsilMakbuzu.IlAd))
-                cityName.InnerText = mustahsilMakbuzu.IlAd;
-            postalAddress.AppendChild(cityName);
-            postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
-            //postalZone.InnerText = "";
-            postalAddress.AppendChild(postalZone);
-            country = doc.CreateElement("cac", "Country", xmlnscac.Value);
-            countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            countryName.InnerText = "Türkiye";
-            country.AppendChild(countryName);
-            postalAddress.AppendChild(country);
-            party.AppendChild(postalAddress);
-
-            #endregion
-
-            partyTaxScheme = doc.CreateElement("cac", "PartyTaxScheme", xmlnscac.Value);
-            taxScheme = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
-            taxSchemeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiDairesi))
-                taxSchemeName.InnerText = mustahsilMakbuzu.VergiDairesi;
-            taxScheme.AppendChild(taxSchemeName);
-            partyTaxScheme.AppendChild(taxScheme);
-            party.AppendChild(partyTaxScheme);
-
-            contact = doc.CreateElement("cac", "Contact", xmlnscac.Value);
-            electronicMail = doc.CreateElement("cbc", "ElectronicMail", xmlnscbc.Value);
-            if (!string.IsNullOrEmpty(mustahsilMakbuzu.EPostaAdresi))
-                electronicMail.InnerText = mustahsilMakbuzu.EPostaAdresi;
-            contact.AppendChild(electronicMail);
-            party.AppendChild(contact);
-
-            if (mustahsilMakbuzu.VergiNo.Length == 11)
-            {
-                var liste = mustahsilMakbuzu.TuzelKisiAd.Split(' ').ToList();
-                if (liste.Count >= 1)
-                {
-                    var person = doc.CreateElement("cac", "Person", xmlnscac.Value);
-                    var firstName = doc.CreateElement("cbc", "FirstName", xmlnscbc.Value);
-                    firstName.InnerText = liste[0];
-                    person.AppendChild(firstName);
-                    var surname = liste[0];
-                    if (liste.Count > 1)
-                        surname = mustahsilMakbuzu.TuzelKisiAd.Substring(liste[0].Length + 1);
-                    var familyName = doc.CreateElement("cbc", "FamilyName", xmlnscbc.Value);
-                    familyName.InnerText = surname;
-                    //familyName.InnerText = liste[1];
-                    person.AppendChild(familyName);
-                    party.AppendChild(person);
-                }
-            }
-
-            accountingCustomerParty.AppendChild(party);
-
-            root.AppendChild(accountingCustomerParty);
-
-            #endregion
-
-            if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
-            {
-                if (mustahsilMakbuzu.VergiNo.Length == 10)
-                {
-                    // Bu kısımda makbuz kesilen firma bilgileri yer almaktadır (Eğer sadece Tüzel Kişilikse, şahıs şirketleri için bu yapılmamaktadır)
-
-                    #region BuyerCustomerParty
-
-                    var buyerCustomerParty = doc.CreateElement("cac", "BuyerCustomerParty", xmlnscac.Value);
-                    party = doc.CreateElement("cac", "Party", xmlnscac.Value);
-                    webSiteUri = doc.CreateElement("cbc", "WebsiteURI", xmlnscbc.Value);
-                    party.AppendChild(webSiteUri);
-                    var buyerCustomerPartyIdAttr = doc.CreateAttribute("schemeID");
-                    buyerCustomerPartyIdAttr.Value = "VKN";
-                    partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
-                    var buyerCustomerPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                    buyerCustomerPartyPartyId.Attributes.Append(buyerCustomerPartyIdAttr);
-                    buyerCustomerPartyPartyId.InnerText = mustahsilMakbuzu.VergiNo;
-                    partyIdentification.AppendChild(buyerCustomerPartyPartyId);
-                    party.AppendChild(partyIdentification);
-
-                    if (mustahsilMakbuzu.VergiNo.Length == 10)
-                    {
-                        partyName = doc.CreateElement("cac", "PartyName", xmlnscac.Value);
-                        partyNameReal = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                        partyNameReal.InnerText = mustahsilMakbuzu.TuzelKisiAd;
-                        partyName.AppendChild(partyNameReal);
-                        party.AppendChild(partyName);
-                    }
-
-                    #region Postal Address
-
-                    postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
-                    postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                    postalAddressId.InnerText = mustahsilMakbuzu.VergiNo;
-                    postalAddress.AppendChild(postalAddressId);
-                    room = doc.CreateElement("cbc", "Room", xmlnscbc.Value);
-                    postalAddress.AppendChild(room);
-                    streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
-                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.Adres))
-                        streetName.InnerText = mustahsilMakbuzu.Adres;
-                    postalAddress.AppendChild(streetName);
-                    buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
-                    //buildingNumber.InnerText = "";
-                    postalAddress.AppendChild(buildingNumber);
-                    citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
-                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.IlceAd))
-                        citySubdivisionName.InnerText = mustahsilMakbuzu.IlceAd;
-                    postalAddress.AppendChild(citySubdivisionName);
-                    cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
-                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.IlAd))
-                        cityName.InnerText = mustahsilMakbuzu.IlAd;
-                    postalAddress.AppendChild(cityName);
-                    postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
-                    //postalZone.InnerText = "";
-                    postalAddress.AppendChild(postalZone);
-                    country = doc.CreateElement("cac", "Country", xmlnscac.Value);
-                    countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                    countryName.InnerText = "Türkiye";
-                    country.AppendChild(countryName);
-                    postalAddress.AppendChild(country);
-                    party.AppendChild(postalAddress);
-
-                    #endregion
-
-                    partyTaxScheme = doc.CreateElement("cac", "PartyTaxScheme", xmlnscac.Value);
-                    taxScheme = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
-                    taxSchemeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiDairesi))
-                        taxSchemeName.InnerText = mustahsilMakbuzu.VergiDairesi;
-                    taxScheme.AppendChild(taxSchemeName);
-                    partyTaxScheme.AppendChild(taxScheme);
-                    party.AppendChild(partyTaxScheme);
-
-                    contact = doc.CreateElement("cac", "Contact", xmlnscac.Value);
-                    electronicMail = doc.CreateElement("cbc", "ElectronicMail", xmlnscbc.Value);
-                    if (!string.IsNullOrEmpty(mustahsilMakbuzu.EPostaAdresi))
-                        electronicMail.InnerText = mustahsilMakbuzu.EPostaAdresi;
-                    contact.AppendChild(electronicMail);
-                    party.AppendChild(contact);
-
-                    if (mustahsilMakbuzu.VergiNo.Length == 11)
-                    {
-                        var liste = mustahsilMakbuzu.TuzelKisiAd.Split(' ').ToList();
-                        if (liste.Count >= 1)
-                        {
-                            var person = doc.CreateElement("cac", "Person", xmlnscac.Value);
-                            var firstName = doc.CreateElement("cbc", "FirstName", xmlnscbc.Value);
-                            firstName.InnerText = liste[0];
-                            person.AppendChild(firstName);
-                            var surname = liste[0];
-                            if (liste.Count > 1)
-                                surname = mustahsilMakbuzu.TuzelKisiAd.Substring(liste[0].Length + 1);
-                            var familyName = doc.CreateElement("cbc", "FamilyName", xmlnscbc.Value);
-                            familyName.InnerText = surname;
-                            //familyName.InnerText = liste[1];
-                            person.AppendChild(familyName);
-                            party.AppendChild(person);
-                        }
-                    }
-
-                    buyerCustomerParty.AppendChild(party);
-
-                    root.AppendChild(buyerCustomerParty);
-
-                    #endregion
-                }
-            }
-
-            // Burada vergi bilgileri yer almaktadır
-
-            #region TaxTotal
-
-            var taxTotal = doc.CreateElement("cac", "TaxTotal", xmlnscac.Value);
-            var currencyId = doc.CreateAttribute("currencyID");
-            currencyId.Value = "TRY";
-            var taxAmount = doc.CreateElement("cbc", "TaxAmount", xmlnscbc.Value);
-            taxAmount.RemoveAllAttributes();
-            taxAmount.Attributes.Append(currencyId);
-            taxAmount.InnerText = Decimal
-                .Round((decimal) mustahsilMakbuzu.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString()
-                .Replace(",", ".");
-            taxTotal.AppendChild(taxAmount);
-            var taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xmlnscac.Value);
-            var taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xmlnscbc.Value);
-            taxableAmount.RemoveAllAttributes();
-            currencyId = doc.CreateAttribute("currencyID");
-            currencyId.Value = "TRY";
-            taxableAmount.Attributes.Append(currencyId);
-            taxableAmount.InnerText = Decimal
-                .Round((decimal) mustahsilMakbuzu.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
-                .Replace(",", ".");
-            taxSubTotal.AppendChild(taxableAmount);
-            var taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xmlnscbc.Value);
-            taxAmount2.RemoveAllAttributes();
-            currencyId = doc.CreateAttribute("currencyID");
-            currencyId.Value = "TRY";
-            taxAmount2.Attributes.Append(currencyId);
-            taxAmount2.InnerText = Decimal
-                .Round((decimal) mustahsilMakbuzu.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString()
-                .Replace(",", ".");
-            taxSubTotal.AppendChild(taxAmount2);
-            var percent = doc.CreateElement("cbc", "Percent", xmlnscbc.Value);
-            percent.InnerText = mustahsilMakbuzu.NetTutar != 0
-                ? Decimal.Round(((decimal) mustahsilMakbuzu.GelirVergisi * 100) / (decimal) mustahsilMakbuzu.NetTutar,
-                    0, MidpointRounding.AwayFromZero).ToString()
-                : "0";
-            taxSubTotal.AppendChild(percent);
-            var taxCategory = doc.CreateElement("cac", "TaxCategory", xmlnscac.Value);
-            if (mustahsilMakbuzu.GelirVergisi == 0)
-            {
-                if (kodMakbuzGrupTuruKod == FaturaMakbuzGrupTur.Kuspe.GetHashCode())
-                {
-                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xmlnscbc.Value);
-                    taxExemptionReasonCode.InnerText = "325";
-                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xmlnscbc.Value);
-                    taxExemptionReason.InnerText = "13/ı Yem Teslimleri";
-                    taxCategory.AppendChild(taxExemptionReasonCode);
-                    taxCategory.AppendChild(taxExemptionReason);
-                }
-                else
-                {
-                    var taxExemptionReasonCode = doc.CreateElement("cbc", "TaxExemptionReasonCode", xmlnscbc.Value);
-                    taxExemptionReasonCode.InnerText = "350";
-                    var taxExemptionReason = doc.CreateElement("cbc", "TaxExemptionReason", xmlnscbc.Value);
-                    taxExemptionReason.InnerText = "Diğerleri";
-                    taxCategory.AppendChild(taxExemptionReasonCode);
-                    taxCategory.AppendChild(taxExemptionReason);
-                }
-            }
-
-            var taxScheme2 = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
-            var taxName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-            taxName.InnerText = "GV STOPAJI";
-            taxScheme2.AppendChild(taxName);
-            var taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
-            taxTypeCode.InnerText = "0003";
-            taxScheme2.AppendChild(taxTypeCode);
-            taxCategory.AppendChild(taxScheme2);
-            taxSubTotal.AppendChild(taxCategory);
-            taxTotal.AppendChild(taxSubTotal);
-            root.AppendChild(taxTotal);
-
-            #endregion
-
-            // Gelir Vergisi, Net Tutar ve Toplam Tutar bilgileri yer almaktadır
-
-            #region LegalMonetaryTotal
-
-            var legalMonetaryTotal = doc.CreateElement("cac", "LegalMonetaryTotal", xmlnscac.Value);
-            var lineExtensionAmount = doc.CreateElement("cbc", "LineExtensionAmount", xmlnscbc.Value);
-            lineExtensionAmount.RemoveAllAttributes();
-            currencyId = doc.CreateAttribute("currencyID");
-            currencyId.Value = "TRY";
-            lineExtensionAmount.Attributes.Append(currencyId);
-            lineExtensionAmount.InnerText = Decimal
-                .Round((decimal) mustahsilMakbuzu.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
-                .Replace(",", ".");
-            legalMonetaryTotal.AppendChild(lineExtensionAmount);
-            var taxExclusiveAmount = doc.CreateElement("cbc", "TaxExclusiveAmount", xmlnscbc.Value);
-            taxExclusiveAmount.RemoveAllAttributes();
-            currencyId = doc.CreateAttribute("currencyID");
-            currencyId.Value = "TRY";
-            taxExclusiveAmount.Attributes.Append(currencyId);
-            taxExclusiveAmount.InnerText = Decimal
-                .Round((decimal) mustahsilMakbuzu.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
-                .Replace(",", ".");
-            legalMonetaryTotal.AppendChild(taxExclusiveAmount);
-            var taxInclusiveAmount = doc.CreateElement("cbc", "TaxInclusiveAmount", xmlnscbc.Value);
-            taxInclusiveAmount.RemoveAllAttributes();
-            currencyId = doc.CreateAttribute("currencyID");
-            currencyId.Value = "TRY";
-            taxInclusiveAmount.Attributes.Append(currencyId);
-            taxInclusiveAmount.InnerText = Decimal
-                .Round((decimal) mustahsilMakbuzu.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
-                .Replace(",", ".");
-            legalMonetaryTotal.AppendChild(taxInclusiveAmount);
-            var payableAmount = doc.CreateElement("cbc", "PayableAmount", xmlnscbc.Value);
-            payableAmount.RemoveAllAttributes();
-            currencyId = doc.CreateAttribute("currencyID");
-            currencyId.Value = "TRY";
-            payableAmount.Attributes.Append(currencyId);
-            payableAmount.InnerText = Decimal
-                .Round((decimal) mustahsilMakbuzu.NetTutar - (decimal) mustahsilMakbuzu.GelirVergisi, 2,
-                    MidpointRounding.AwayFromZero).ToString().Replace(",", ".");
-            legalMonetaryTotal.AppendChild(payableAmount);
-            root.AppendChild(legalMonetaryTotal);
-
-            #endregion
-
-            #region Makbuz Detayları Üzerinden Verileri Doldurma
-            var sayac = 1;
-            // Her bir makbuz detayı için hazırlanan bölümdür
-            foreach (var item in mustahsilMakbuzuDetayListesi)
-            {
-                var detayBilgisi = item.BosluklariKaldir();
-
-                #region CreditNoteLine
-
-                #region MetaData
-
-                var creditNoteLine = doc.CreateElement("cac", "CreditNoteLine", xmlnscac.Value);
-                var creditNoteLineId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                creditNoteLineId.InnerText = sayac.ToString();
-                creditNoteLine.AppendChild(creditNoteLineId);
-                var quantity = doc.CreateAttribute("unitCode");
-                quantity.Value = "KGM";
-                var creditedQuantity = doc.CreateElement("cbc", "CreditedQuantity", xmlnscbc.Value);
-                creditedQuantity.RemoveAllAttributes();
-                creditedQuantity.Attributes.Append(quantity);
-                creditedQuantity.InnerText = Decimal
-                    .Round((decimal) detayBilgisi.Miktar, 2, MidpointRounding.AwayFromZero).ToString()
-                    .Replace(",", ".");
-                creditNoteLine.AppendChild(creditedQuantity);
-                var lineExtensionAmountDetail = doc.CreateElement("cbc", "LineExtensionAmount", xmlnscbc.Value);
-                lineExtensionAmountDetail.RemoveAllAttributes();
-                currencyId = doc.CreateAttribute("currencyID");
-                currencyId.Value = "TRY";
-                lineExtensionAmountDetail.Attributes.Append(currencyId);
-                lineExtensionAmountDetail.InnerText = Decimal
-                    .Round((decimal) detayBilgisi.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
-                    .Replace(",", ".");
-                creditNoteLine.AppendChild(lineExtensionAmountDetail);
-
-                #endregion
-
-                #region TaxTotal
-
-                taxTotal = doc.CreateElement("cac", "TaxTotal", xmlnscac.Value);
-                currencyId = doc.CreateAttribute("currencyID");
-                currencyId.Value = "TRY";
-                taxAmount = doc.CreateElement("cbc", "TaxAmount", xmlnscbc.Value);
-                taxAmount.RemoveAllAttributes();
-                taxAmount.Attributes.Append(currencyId);
-                taxAmount.InnerText = Decimal
-                    .Round((decimal) detayBilgisi.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString()
-                    .Replace(",", ".");
-                taxTotal.AppendChild(taxAmount);
-                taxSubTotal = doc.CreateElement("cac", "TaxSubtotal", xmlnscac.Value);
-                taxableAmount = doc.CreateElement("cbc", "TaxableAmount", xmlnscbc.Value);
-                taxableAmount.RemoveAllAttributes();
-                currencyId = doc.CreateAttribute("currencyID");
-                currencyId.Value = "TRY";
-                taxableAmount.Attributes.Append(currencyId);
-                taxableAmount.InnerText = Decimal
-                    .Round((decimal) detayBilgisi.NetTutar, 2, MidpointRounding.AwayFromZero).ToString()
-                    .Replace(",", ".");
-                taxSubTotal.AppendChild(taxableAmount);
-                taxAmount2 = doc.CreateElement("cbc", "TaxAmount", xmlnscbc.Value);
-                taxAmount2.RemoveAllAttributes();
-                currencyId = doc.CreateAttribute("currencyID");
-                currencyId.Value = "TRY";
-                taxAmount2.Attributes.Append(currencyId);
-                taxAmount2.InnerText = Decimal
-                    .Round((decimal) detayBilgisi.GelirVergisi, 2, MidpointRounding.AwayFromZero).ToString()
-                    .Replace(",", ".");
-                taxSubTotal.AppendChild(taxAmount2);
-                percent = doc.CreateElement("cbc", "Percent", xmlnscbc.Value);
-                percent.InnerText = "2";
-                taxSubTotal.AppendChild(percent);
-                taxCategory = doc.CreateElement("cac", "TaxCategory", xmlnscac.Value);
-                taxScheme2 = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
-                var taxTypeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                taxTypeName.InnerText = "GV STOPAJI";
-                taxScheme2.AppendChild(taxTypeName);
-                taxTypeCode = doc.CreateElement("cbc", "TaxTypeCode", xmlnscbc.Value);
-                taxTypeCode.InnerText = "0003";
-                taxScheme2.AppendChild(taxTypeCode);
-                taxCategory.AppendChild(taxScheme2);
-                taxSubTotal.AppendChild(taxCategory);
-                taxTotal.AppendChild(taxSubTotal);
-                creditNoteLine.AppendChild(taxTotal);
-
-                #endregion
-
-                #region Item
-
-                var creditNoteItem = doc.CreateElement("cac", "Item", xmlnscac.Value);
-                var itemName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
-                itemName.InnerText = detayBilgisi.IsinMahiyeti;
-                creditNoteItem.AppendChild(itemName);
-                creditNoteLine.AppendChild(creditNoteItem);
-
-                #endregion
-
-                #region Price
-
-                var price = doc.CreateElement("cac", "Price", xmlnscac.Value);
-                var priceAmount = doc.CreateElement("cbc", "PriceAmount", xmlnscbc.Value);
-                priceAmount.RemoveAllAttributes();
-                currencyId = doc.CreateAttribute("currencyID");
-                currencyId.Value = "TRY";
-                priceAmount.Attributes.Append(currencyId);
-                priceAmount.InnerText = detayBilgisi.BirimFiyat != null
-                    ? Decimal.Round((decimal) detayBilgisi.BirimFiyat, 4, MidpointRounding.AwayFromZero).ToString()
-                        .Replace(",", ".")
-                    : "0.00";
-                price.AppendChild(priceAmount);
-                creditNoteLine.AppendChild(price);
-
-                #endregion
-
-                root.AppendChild(creditNoteLine);
-
-                #endregion
-
-                sayac++;
-            }
-            #endregion
-
-            #endregion
-
-            doc.AppendChild(root);
-
-            return XMLDosyasiniKaydet(mustahsilMakbuzu.MustahsilMakbuzuId, aktarilacakKlasorAdi, doc);
         }
 
         /// <summary>

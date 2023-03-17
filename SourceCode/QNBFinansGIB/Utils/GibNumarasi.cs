@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using QNBFinansGIB.DTO;
+using static QNBFinansGIB.Utils.Enums;
 
 namespace QNBFinansGIB.Utils
 {
@@ -10,15 +10,15 @@ namespace QNBFinansGIB.Utils
     public static class GibNumarasi
     {
         /// <summary>
-        /// Fatura nesnesi üzerinden rastgele GİB numarası oluşturulması için
+        /// Fatura veya Makbuz nesnesi üzerinden rastgele GİB numarası oluşturulması için
         /// Gerekli metottur
         /// </summary>
-        /// <param name="gidenFatura">Giden Fatura Nesnesi</param>
+        /// <param name="belgeTarihi">Belge Tarihi Bilgisi</param>
         /// <returns>GİB Numarası</returns>
-        public static string RastgeleGibNumarasiOlusturFaturadan(GidenFaturaDTO gidenFatura)
+        public static string RastgeleGibNumarasiOlustur(DateTime? belgeTarihi)
         {
-            var baslangicMetni = RastgeleMetinOlustur(3, false);
-            var islemTarihi = gidenFatura.DuzenlemeTarihi ?? DateTime.Now;
+            var baslangicMetni = RastgeleMetinOlustur(3, LetterCase.Lower);
+            var islemTarihi = belgeTarihi ?? DateTime.Now;
             // maksimum 9 haneli olacağı için böyle bir güncelleme yapıldı
             var faturaSayisi = new Random().Next(999999999);
             var stringBuilder = new StringBuilder();
@@ -27,45 +27,26 @@ namespace QNBFinansGIB.Utils
             stringBuilder.Append(faturaSayisi.ToString().PadLeft(9, '0'));
             return stringBuilder.ToString();
         }
-        
-        /// <summary>
-        /// Müstahsil Makbuzu nesnesi üzerinden rastgele GİB numarası oluşturulması için
-        /// Gerekli metottur
-        /// </summary>
-        /// <param name="mustahsilMakbuzu">Müstahsil Makbuzu Nesnesi</param>
-        /// <returns>GİB Numarası</returns>
-        public static string RastgeleGibNumarasiOlusturMakbuzdan(MustahsilMakbuzuDTO mustahsilMakbuzu)
-        {
-            var baslangicMetni = RastgeleMetinOlustur(3, false);
-            var islemTarihi = mustahsilMakbuzu.MustahsilMakbuzuTarihi ?? DateTime.Now;
-            // maksimum 9 haneli olacağı için böyle bir güncelleme yapıldı
-            var faturaSayisi = new Random().Next(999999999);
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append(baslangicMetni);
-            stringBuilder.Append(islemTarihi.Year.ToString());
-            stringBuilder.Append(faturaSayisi.ToString().PadLeft(9, '0'));
-            return stringBuilder.ToString();
-        }
-        
+    
         /// <summary>
         /// Girilen boyut ve yazı türüne göre
         /// Rastgele metin oluşturulması için hazırlanan bir metottur
         /// </summary>
         /// <param name="size">İstenen metnin boyutu</param>
-        /// <param name="lowerCase">Yazı Tipi (Büyük Harf mi, Küçük Harf Mi)</param>
+        /// <param name="letterCase">Yazı Tipi (Büyük Harf mi, Küçük Harf Mi)</param>
         /// <returns>Rastgele Metin Bilgisi</returns>
-        private static string RastgeleMetinOlustur(int size, bool lowerCase)  
+        private static string RastgeleMetinOlustur(int size, Enums.LetterCase letterCase)  
         {  
             var builder = new StringBuilder(size);
             var random = new Random();
-            var offset = lowerCase ? 'a' : 'A';  
+            var offset = letterCase == LetterCase.Lower ? 'a' : 'A';  
             const int lettersOffset = 26; // A...Z or a..z: length=26  
             for (var i = 0; i < size; i++)  
             {  
                 var @char = (char)random.Next(offset, offset + lettersOffset);  
                 builder.Append(@char);  
             }  
-            return lowerCase ? builder.ToString().ToLower() : builder.ToString();  
+            return letterCase == LetterCase.Lower ? builder.ToString().ToLower() : builder.ToString();  
         }  
     }
 }

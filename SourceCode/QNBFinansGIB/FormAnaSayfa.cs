@@ -95,7 +95,7 @@ namespace QNBFinansGIB
                 KonaklamaVergisi = 0,
                 Aciklama = "Deneme amaçlı eklenmiştir"
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -121,7 +121,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -146,7 +146,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -171,7 +171,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -195,7 +195,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -221,7 +221,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -247,7 +247,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlusturFaturadan(gidenFatura);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             #endregion
@@ -473,7 +473,7 @@ namespace QNBFinansGIB
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlusturMakbuzdan(mustahsilMakbuzu);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
@@ -494,7 +494,7 @@ namespace QNBFinansGIB
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlusturMakbuzdan(mustahsilMakbuzu);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
@@ -515,7 +515,7 @@ namespace QNBFinansGIB
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlusturMakbuzdan(mustahsilMakbuzu);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
@@ -536,7 +536,7 @@ namespace QNBFinansGIB
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlusturMakbuzdan(mustahsilMakbuzu);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
@@ -556,7 +556,7 @@ namespace QNBFinansGIB
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlusturMakbuzdan(mustahsilMakbuzu);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
@@ -575,7 +575,7 @@ namespace QNBFinansGIB
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlusturMakbuzdan(mustahsilMakbuzu);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             #endregion
@@ -696,8 +696,8 @@ namespace QNBFinansGIB
         private static void listBox_MeasureItem(object sender, MeasureItemEventArgs e)
         {
             if (!(sender is ListBox listBox)) return;
-            e.ItemHeight = (int) e.Graphics
-                .MeasureString(listBox.Items[e.Index].ToString(), listBox.Font, listBox.Width).Height;
+            if (listBox.Items.Count > 0)
+                e.ItemHeight = (int) e.Graphics.MeasureString(listBox.Items[e.Index].ToString(), listBox.Font, listBox.Width).Height;
         }
 
         /// <summary>
@@ -711,7 +711,8 @@ namespace QNBFinansGIB
             if (!(sender is ListBox listBox)) return;
             e.DrawBackground();
             e.DrawFocusRectangle();
-            e.Graphics.DrawString(listBox.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds);
+            if (listBox.Items.Count > 0)
+                e.Graphics.DrawString(listBox.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds);
         }
 
         /// <summary>
@@ -721,8 +722,7 @@ namespace QNBFinansGIB
         /// <param name="e">Event Arguments</param>
         private void frmAnaSayfa_FormClosed(object sender, FormClosedEventArgs e)
         {
-            MessageBox.Show("Programı kullandığınız için teşekkürler", MesajSabitler.MesajBasligi, MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            MessageBox.Show("Programı kullandığınız için teşekkürler", MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
             Application.Exit();
         }
 
