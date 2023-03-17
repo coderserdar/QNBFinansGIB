@@ -761,8 +761,8 @@ namespace QNBFinansGIB.Utils
                     belgeFormatiSpecified = true,
                     belgeIcerigi = File.ReadAllBytes(dosyaAdi)
                 };
-                var serviceResult = new GIBEMustahsil.earsivServiceResult();
-                _gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out serviceResult);
+                
+                _gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out var serviceResult);
                 if (serviceResult.resultCode != "AE00000")
                     _gibEMustahsilService.mustahsilMakbuzOlustur(input, belgeTemp, out serviceResult);
                 else
