@@ -744,9 +744,8 @@ namespace QNBFinansGIB
 
                 #region XML Oluşturma
 
-                var dosyaAdi = "";
                 var eFaturaKullanicisiMi = EFaturaKullanicisiMi(gidenFatura);
-                dosyaAdi = eFaturaKullanicisiMi 
+                var dosyaAdi = eFaturaKullanicisiMi 
                     ? YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi) 
                     : YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi,
                         true);
@@ -775,12 +774,11 @@ namespace QNBFinansGIB
 
                 #region XML Oluşturma ve Servis Önizlemesi
 
-                var dosyaAdi = "";
                 var geriDonus = new GeriDonus {Tip = 0};
                 var dosya = new byte[1];
                 var eFaturaKullanicisiMi = EFaturaKullanicisiMi(gidenFatura);
                 dosya = eFaturaKullanicisiMi 
-                    ? EFaturaXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi, out geriDonus, dosya) 
+                    ? EFaturaXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out var dosyaAdi, out geriDonus, dosya) 
                     : EArsivXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
 
                 var belgeTur = eFaturaKullanicisiMi ? BelgeTur.EFatura : BelgeTur.EArsiv;
@@ -807,11 +805,9 @@ namespace QNBFinansGIB
 
                 #region XML Oluşturma ve Servise Gönderme
 
-                var dosyaAdi = "";
-                var sonuc = "";
                 var eFaturaKullanicisiMi = EFaturaKullanicisiMi(gidenFatura);
-                sonuc = eFaturaKullanicisiMi 
-                    ? EFaturaXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi) 
+                var sonuc = eFaturaKullanicisiMi 
+                    ? EFaturaXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out var dosyaAdi) 
                     : EArsivXMLOlusturVeServiseGonder(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
 
                 IslemSonucuMesajiHazirla(sonuc, dosyaAdi);

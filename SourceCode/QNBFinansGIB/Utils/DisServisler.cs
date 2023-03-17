@@ -430,26 +430,26 @@ namespace QNBFinansGIB.Utils
                 eFaturaGonder = sonucMesaji;
                 return;
             }
-            else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
+
+            if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
             {
                 eFaturaGonder = "Tekrar Gönder";
                 return;
             }
-            else if (Sabitler.TekrarGonderilebilecekKodListesi.All(j => j != gibYanitKodu) && gibYanitKodu <= 1200 && gibYanitKodu >= 1100)
+
+            if (Sabitler.TekrarGonderilebilecekKodListesi.All(j => j != gibYanitKodu) && gibYanitKodu <= 1200 && gibYanitKodu >= 1100)
             {
                 eFaturaGonder = MesajSabitler.IslemBasarisiz;
                 return;
             }
-            else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
+
+            if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
             {
                 eFaturaGonder = MesajSabitler.IslemBasarisiz;
                 return;
             }
-            else
-            {
-                eFaturaGonder = sonucMesaji;
-                return;
-            }
+
+            eFaturaGonder = sonucMesaji;
         }
 
         /// <summary>
@@ -571,8 +571,7 @@ namespace QNBFinansGIB.Utils
                 //     belgeFormati = belgeFormatiEnum.UBL,
                 //     belgeFormatiSpecified = true
                 // };
-                var serviceResult = new earsivServiceResult();
-                _gibEArsivService.faturaSorgula(inputKontrol, out serviceResult);
+                _gibEArsivService.faturaSorgula(inputKontrol, out var serviceResult);
                 if (serviceResult.resultCode == "AE00000")
                     uygunMu = false;
 
@@ -607,9 +606,7 @@ namespace QNBFinansGIB.Utils
                 var temp = EArsivFaturaSorgula(dosyaAdi, inputKontrol, out var belgeTemp, out var serviceResult);
 
                 if (serviceResult.resultCode != "AE00000")
-                {
                     _gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
-                }
                 else
                     return MesajSabitler.IslemBasarili;
 
@@ -649,12 +646,12 @@ namespace QNBFinansGIB.Utils
                 // Burada VKN ve ERP Kodu önemlidir
                 var input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
 
-                var temp = EArsivFaturaSorgula(dosyaAdi, input, out var belgeTemp, out var serviceResult);
+                var temp = EArsivFaturaSorgula(dosyaAdi, input, out var belgeTemp, out _);
                 if (temp != null)
                     return temp.belgeIcerigi;
                 else
                 {
-                    temp = _gibEArsivService.faturaOnizleme(input, belgeTemp, out serviceResult);
+                    temp = _gibEArsivService.faturaOnizleme(input, belgeTemp, out _);
                     return temp?.belgeIcerigi;
                 }
             }
@@ -727,9 +724,7 @@ namespace QNBFinansGIB.Utils
 
                 var inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
 
-                var serviceResult = new GIBEMustahsil.earsivServiceResult();
-
-                _gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out serviceResult);
+                _gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out var serviceResult);
                 if (serviceResult.resultCode == "AE00000")
                     uygunMu = false;
 
@@ -769,9 +764,7 @@ namespace QNBFinansGIB.Utils
                 var serviceResult = new GIBEMustahsil.earsivServiceResult();
                 _gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out serviceResult);
                 if (serviceResult.resultCode != "AE00000")
-                {
                     _gibEMustahsilService.mustahsilMakbuzOlustur(input, belgeTemp, out serviceResult);
-                }
                 else
                     return MesajSabitler.IslemBasarili;
 
@@ -810,13 +803,12 @@ namespace QNBFinansGIB.Utils
                     belgeFormatiSpecified = true,
                     belgeIcerigi = File.ReadAllBytes(dosyaAdi)
                 };
-                var serviceResult = new GIBEMustahsil.earsivServiceResult();
-                var temp = _gibEMustahsilService.mustahsilMakbuzSorgula(input, out serviceResult);
+                var temp = _gibEMustahsilService.mustahsilMakbuzSorgula(input, out _);
                 if (temp != null)
                     return temp.belgeIcerigi;
                 else
                 {
-                    temp = _gibEMustahsilService.mustahsilMakbuzOnizleme(input, belgeTemp, out serviceResult);
+                    temp = _gibEMustahsilService.mustahsilMakbuzOnizleme(input, belgeTemp, out _);
                     return temp?.belgeIcerigi;
                 }
             }

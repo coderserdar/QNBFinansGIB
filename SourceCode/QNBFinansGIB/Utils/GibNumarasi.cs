@@ -35,7 +35,7 @@ namespace QNBFinansGIB.Utils
         /// <param name="size">İstenen metnin boyutu</param>
         /// <param name="letterCase">Yazı Tipi (Büyük Harf mi, Küçük Harf Mi)</param>
         /// <returns>Rastgele Metin Bilgisi</returns>
-        private static string RastgeleMetinOlustur(int size, Enums.LetterCase letterCase)  
+        private static string RastgeleMetinOlustur(int size, LetterCase letterCase)  
         {  
             var builder = new StringBuilder(size);
             var random = new Random();
