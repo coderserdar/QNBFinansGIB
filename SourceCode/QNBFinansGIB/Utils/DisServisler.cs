@@ -248,58 +248,18 @@ namespace QNBFinansGIB.Utils
                 parametreler.mimeType = "application/xml";
                 parametreler.erpKodu = GIBERPKodu;
 
-                var sonucMesaji = string.Empty;
-
+                string sonucMesaji;
                 try
                 {
                     var belgeDurumEsas = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
                     if (belgeDurumEsas.durum != 1 && belgeDurumEsas.durum != 3)
                     {
-                        #region Belge Oid Durumuna Göre Evrak Gönderme
-                        if (!string.IsNullOrEmpty(belgeOid))
-                        {
-                            if (belgeOid != "Tekrar Gönder")
-                                sonucMesaji = _gibEFaturaService.belgeGonderExt(parametreler);
-                            else
-                            {
-                                var yenidenGonderDurum = false;
-                                //var ettnDizi = new string[1];
-                                //ettnDizi[0] = parametreler.belgeNo;
-                                //while (yenidenGonderDurum == false)
-                                //{
-                                //    yenidenGonderDurum = _gibEFaturaService.belgeleriTekrarGonder(parametreler.vergiTcKimlikNo, ettnDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
-                                //}
-                                var belgeOidDizi = new string[1];
-                                belgeOidDizi[0] = belgeOid;
-                                while (yenidenGonderDurum == false)
-                                {
-                                    yenidenGonderDurum = _gibEFaturaService.belgeleriTekrarGonderBelgeOid(parametreler.vergiTcKimlikNo, belgeOidDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
-                                }
-                                sonucMesaji = belgeOid;
-                            }
-                        }
-                        else
-                            sonucMesaji = _gibEFaturaService.belgeGonderExt(parametreler);
-                        #endregion
+                        BelgeOidDurumunaGoreEvrakGonder(belgeOid, parametreler, out sonucMesaji);
 
                         #region Belge Durumu Kontrolü
 
                         if (sonucMesaji.Length > 20) return sonucMesaji;
-                        // önemli not: buradaki metotta Belge Oid'ye göre kontrol yapılıyor
-                        //var belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
-                        //var durum = belgeDurum.durum;
-                        //while (durum == 1)
-                        //{
-                        //    belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
-                        //    durum = belgeDurum.durum;
-                        //}
-                        var belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
-                        var durum = belgeDurum.durum;
-                        while (durum == 1)
-                        {
-                            belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
-                            durum = belgeDurum.durum;
-                        }
+                        var durum = ServistenBelgeDurumuGetir(parametreler, out var belgeDurum);
                         switch (durum)
                         {
                             case 2:
@@ -316,17 +276,8 @@ namespace QNBFinansGIB.Utils
                                         return sonucMesaji;
                                     case 3:
                                     {
-                                        var gibYanitKodu = belgeDurum.gonderimCevabiKodu;
-                                        if (gibYanitKodu > 1300)
-                                            return sonucMesaji;
-                                        else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
-                                            return "Tekrar Gönder";
-                                        else if (Sabitler.TekrarGonderilebilecekKodListesi.All(j => j != gibYanitKodu) && gibYanitKodu <= 1200 && gibYanitKodu >= 1100)
-                                            return MesajSabitler.IslemBasarisiz;
-                                        else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
-                                            return MesajSabitler.IslemBasarisiz;
-                                        else
-                                            return sonucMesaji;
+                                        GibYanitKodunaGoreSonucGetir(belgeDurum, sonucMesaji, out var eFaturaGonder);
+                                        return eFaturaGonder;
                                     }
                                 }
 
@@ -351,51 +302,12 @@ namespace QNBFinansGIB.Utils
                 }
                 catch (Exception)
                 {
-                    #region Belge Oid Durumuna Göre Evrak Gönderme
-                    if (!string.IsNullOrEmpty(belgeOid))
-                    {
-                        if (belgeOid != "Tekrar Gönder")
-                            sonucMesaji = _gibEFaturaService.belgeGonderExt(parametreler);
-                        else
-                        {
-                            var yenidenGonderDurum = false;
-                            //var ettnDizi = new string[1];
-                            //ettnDizi[0] = parametreler.belgeNo;
-                            //while (yenidenGonderDurum == false)
-                            //{
-                            //    yenidenGonderDurum = _gibEFaturaService.belgeleriTekrarGonder(parametreler.vergiTcKimlikNo, ettnDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
-                            //}
-                            var belgeOidDizi = new string[1];
-                            belgeOidDizi[0] = belgeOid;
-                            while (yenidenGonderDurum == false)
-                            {
-                                yenidenGonderDurum = _gibEFaturaService.belgeleriTekrarGonderBelgeOid(parametreler.vergiTcKimlikNo, belgeOidDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
-                            }
-                            sonucMesaji = belgeOid;
-                        }
-                    }
-                    else
-                        sonucMesaji = _gibEFaturaService.belgeGonderExt(parametreler);
-                    #endregion
+                    BelgeOidDurumunaGoreEvrakGonder(belgeOid, parametreler, out sonucMesaji);
 
                     #region Belge Durumu Kontrolü
 
                     if (sonucMesaji.Length > 20) return sonucMesaji;
-                    // önemli not: buradaki metotta Belge Oid'ye göre kontrol yapılıyor
-                    //var belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
-                    //var durum = belgeDurum.durum;
-                    //while (durum == 1)
-                    //{
-                    //    belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
-                    //    durum = belgeDurum.durum;
-                    //}
-                    var belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
-                    var durum = belgeDurum.durum;
-                    while (durum == 1)
-                    {
-                        belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
-                        durum = belgeDurum.durum;
-                    }
+                    var durum = ServistenBelgeDurumuGetir(parametreler, out var belgeDurum);
                     switch (durum)
                     {
                         case 2:
@@ -412,17 +324,8 @@ namespace QNBFinansGIB.Utils
                                     return sonucMesaji;
                                 case 3:
                                 {
-                                    var gibYanitKodu = belgeDurum.gonderimCevabiKodu;
-                                    if (gibYanitKodu > 1300)
-                                        return sonucMesaji;
-                                    else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
-                                        return "Tekrar Gönder";
-                                    else if (Sabitler.TekrarGonderilebilecekKodListesi.All(j => j != gibYanitKodu) && gibYanitKodu <= 1200 && gibYanitKodu >= 1100)
-                                        return MesajSabitler.IslemBasarisiz;
-                                    else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
-                                        return MesajSabitler.IslemBasarisiz;
-                                    else
-                                        return sonucMesaji;
+                                    GibYanitKodunaGoreSonucGetir(belgeDurum, sonucMesaji, out var eFaturaGonder);
+                                    return eFaturaGonder;
                                 }
                             }
 
@@ -441,6 +344,111 @@ namespace QNBFinansGIB.Utils
             finally
             {
                 _gibUserService.logout();
+            }
+        }
+
+        /// <summary>
+        /// Belge Oid numarasına göre servisten gerekli kontrollerin yapıldığı
+        /// Ve sonucun gösterildiği metottur.
+        /// </summary>
+        /// <param name="belgeOid">Belge Oid Numarası</param>
+        /// <param name="parametreler">Servis Parametreleri</param>
+        /// <param name="sonucMesaji">Sonuç Mesajı</param>
+        private static void BelgeOidDurumunaGoreEvrakGonder(string belgeOid, gidenBelgeParametreleri parametreler, out string sonucMesaji)
+        {
+            #region Belge Oid Durumuna Göre Evrak Gönderme
+
+            if (!string.IsNullOrEmpty(belgeOid))
+            {
+                if (belgeOid != "Tekrar Gönder")
+                    sonucMesaji = _gibEFaturaService.belgeGonderExt(parametreler);
+                else
+                {
+                    var yenidenGonderDurum = false;
+                    //var ettnDizi = new string[1];
+                    //ettnDizi[0] = parametreler.belgeNo;
+                    //while (yenidenGonderDurum == false)
+                    //{
+                    //    yenidenGonderDurum = _gibEFaturaService.belgeleriTekrarGonder(parametreler.vergiTcKimlikNo, ettnDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
+                    //}
+                    var belgeOidDizi = new string[1];
+                    belgeOidDizi[0] = belgeOid;
+                    while (yenidenGonderDurum == false)
+                    {
+                        yenidenGonderDurum = _gibEFaturaService.belgeleriTekrarGonderBelgeOid(parametreler.vergiTcKimlikNo, belgeOidDizi, parametreler.belgeTuru, parametreler.alanEtiket, parametreler.gonderenEtiket);
+                    }
+
+                    sonucMesaji = belgeOid;
+                }
+            }
+            else
+                sonucMesaji = _gibEFaturaService.belgeGonderExt(parametreler);
+
+            #endregion
+        }
+        
+        /// <summary>
+        /// Servisten belgenin gönderilme durumunun getirilmesi için
+        /// Hazırlanmış olan metottur.
+        /// </summary>
+        /// <param name="parametreler">Servis Parametreleri</param>
+        /// <param name="belgeDurum">Belge Durum Bilgisi</param>
+        /// <returns>Durum Kodu</returns>
+        private static int ServistenBelgeDurumuGetir(gidenBelgeParametreleri parametreler, out gidenBelgeDurum belgeDurum)
+        {
+            // önemli not: buradaki metotta Belge Oid'ye göre kontrol yapılıyor
+            //var belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+            //var durum = belgeDurum.durum;
+            //while (durum == 1)
+            //{
+            //    belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgula(parametreler.vergiTcKimlikNo, sonucMesaji);
+            //    durum = belgeDurum.durum;
+            //}
+            belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+            var durum = belgeDurum.durum;
+            while (durum == 1)
+            {
+                belgeDurum = _gibEFaturaService.gidenBelgeDurumSorgulaYerelBelgeNo(parametreler.vergiTcKimlikNo, parametreler.belgeNo);
+                durum = belgeDurum.durum;
+            }
+
+            return durum;
+        }
+        
+        /// <summary>
+        /// GİB'den gele yanıt koduna göre
+        /// Sonuç oluşturan ve gösteren metottur.
+        /// </summary>
+        /// <param name="belgeDurum">Belge Durum Bilgisi</param>
+        /// <param name="sonucMesaji">Sonuç Mesajı Bilgisi</param>
+        /// <param name="eFaturaGonder">Servisten gelecek sonuç bilgisi</param>
+        private static void GibYanitKodunaGoreSonucGetir(gidenBelgeDurum belgeDurum, string sonucMesaji, out string eFaturaGonder)
+        {
+            var gibYanitKodu = belgeDurum.gonderimCevabiKodu;
+            if (gibYanitKodu > 1300)
+            {
+                eFaturaGonder = sonucMesaji;
+                return;
+            }
+            else if (Sabitler.TekrarGonderilebilecekKodListesi.Any(j => j == gibYanitKodu))
+            {
+                eFaturaGonder = "Tekrar Gönder";
+                return;
+            }
+            else if (Sabitler.TekrarGonderilebilecekKodListesi.All(j => j != gibYanitKodu) && gibYanitKodu <= 1200 && gibYanitKodu >= 1100)
+            {
+                eFaturaGonder = MesajSabitler.IslemBasarisiz;
+                return;
+            }
+            else if (gibYanitKodu == 1210 || gibYanitKodu == 1120)
+            {
+                eFaturaGonder = MesajSabitler.IslemBasarisiz;
+                return;
+            }
+            else
+            {
+                eFaturaGonder = sonucMesaji;
+                return;
             }
         }
 
