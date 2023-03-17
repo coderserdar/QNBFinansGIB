@@ -783,7 +783,9 @@ namespace QNBFinansGIB
                     ? EFaturaXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi, out geriDonus, dosya) 
                     : EArsivXMLOlusturVeOnIzlemeYap(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi, out dosyaAdi);
 
-                FaturaDosyaOnizlemeYap(dosya, dosyaAdi, eFaturaKullanicisiMi, gidenFatura, geriDonus);
+                var belgeTur = eFaturaKullanicisiMi ? BelgeTur.EFatura : BelgeTur.EArsiv;
+                
+                FaturaDosyaOnizlemeYap(dosya, dosyaAdi, belgeTur, gidenFatura, geriDonus);
 
                 #endregion
             }
@@ -1136,16 +1138,16 @@ namespace QNBFinansGIB
         /// </summary>
         /// <param name="dosya">Servisten Dönen Byte Dizisi</param>
         /// <param name="dosyaAdi">Hedef Dosya Adı</param>
-        /// <param name="eFaturaKullanicisiMi">E-Fatura Kullanıcısı Olup Olmadığı Bilgisi</param>
+        /// <param name="belgeTur">Belge Türü Bilgisi</param>
         /// <param name="gidenFatura">Giden Fatura Bilgisi</param>
         /// <param name="geriDonus">Servisten Gelen geri Dönüş Bilgisi</param>
-        private static void FaturaDosyaOnizlemeYap(byte[] dosya, string dosyaAdi, bool eFaturaKullanicisiMi, GidenFaturaDTO gidenFatura, GeriDonus geriDonus)
+        private static void FaturaDosyaOnizlemeYap(byte[] dosya, string dosyaAdi, BelgeTur belgeTur, GidenFaturaDTO gidenFatura, GeriDonus geriDonus)
         {
             if (dosya != null && dosya.Length > 1)
             {
                 var dosyaAdiTemp = dosyaAdi.Replace("xml", "pdf");
                 
-                if (eFaturaKullanicisiMi && !string.IsNullOrEmpty(gidenFatura.BelgeOid))
+                if (belgeTur == BelgeTur.EFatura && !string.IsNullOrEmpty(gidenFatura.BelgeOid))
                     dosya = ZipDosyasindanPdfCikar(dosya);
                 if (geriDonus != null && geriDonus.Tip == 1)
                     dosya = ZipDosyasindanPdfCikar(dosya);
