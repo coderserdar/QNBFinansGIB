@@ -41,5 +41,26 @@
         /// E-Posta Adresi Bilgisi
         /// </summary>
         public string EPostaAdresi { get; set; }
+        
+        
+        /// <summary>
+        /// Faks No Bilgisi
+        /// </summary>
+        public string FaksNo;
+
+        /// <summary>
+        /// İBAN No Bilgisi
+        /// </summary>
+        public string IbanNo;
+
+        /// <summary>
+        /// Banka Ad Bilgisi
+        /// </summary>
+        public string BankaAd;
+
+        /// <summary>
+        /// Banka Şube Bilgisi
+        /// </summary>
+        public string BankaSube;
     }
 }

@@ -6,7 +6,7 @@ namespace QNBFinansGIB.DTO
     /// Giden Fatura Ana Nesnesinde Olması Gereken Alanlarla oluşturulan sınıftır
     /// Burada firma, iletişim, banka, fatura toplam tutarı vb. bilgiler bulunmaktadır
     /// </summary>
-    public class GidenFaturaDTO
+    public class GidenFaturaDTO : OrtakVerilerDTO
     {
         /// <summary>
         /// Giden Fatura Id Bilgisi
@@ -66,67 +66,10 @@ namespace QNBFinansGIB.DTO
         public string CepTelefonNo;
         #endregion
 
-        #region Tüzel Kişi Bilgileri
-        /// <summary>
-        /// Tüzel Kişi Ad Bilgisi
-        /// </summary>
-        public string TuzelKisiAd;
-
-        /// <summary>
-        /// Vergi Numarası Bilgisi
-        /// </summary>
-        public string VergiNo;
-
-        /// <summary>
-        /// Vergi Dairesi Bilgisi
-        /// </summary>
-        public string VergiDairesi;
-
-        /// <summary>
-        /// İl Ad Bilgisi
-        /// </summary>
-        public string IlAd;
-
-        /// <summary>
-        /// İlçe Ad Bilgisi
-        /// </summary>
-        public string IlceAd;
-
-        /// <summary>
-        /// Adres Bilgisi
-        /// </summary>
-        public string Adres;
-
-        /// <summary>
-        /// E-Posta Adresi Bilgisi
-        /// </summary>
-        public string EPostaAdresi;
-
         /// <summary>
         /// Telefon No Bilgisi
         /// </summary>
         public string TelefonNo;
-
-        /// <summary>
-        /// Faks No Bilgisi
-        /// </summary>
-        public string FaksNo;
-
-        /// <summary>
-        /// İBAN No Bilgisi
-        /// </summary>
-        public string IbanNo;
-
-        /// <summary>
-        /// Banka Ad Bilgisi
-        /// </summary>
-        public string BankaAd;
-
-        /// <summary>
-        /// Banka Şube Bilgisi
-        /// </summary>
-        public string BankaSube;
-        #endregion
 
         /// <summary>
         /// Düzenleme Tarihi Bilgisi
