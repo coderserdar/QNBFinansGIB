@@ -13,12 +13,12 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Giden Fatura Id Bilgisi
         /// </summary>
-        public string GidenFaturaId { get; set; }
+        public string GidenFaturaId;
 
         /// <summary>
         /// Fatura Detayındaki Ürün Türü Bilgisi
         /// </summary>
-        public string FaturaUrunTuru { get; set; }
+        public string FaturaUrunTuru;
 
         /// <summary>
         /// İskonto Oran Bilgisi
@@ -28,12 +28,12 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Plaka No Bilgisi
         /// </summary>
-        public string PlakaNo { get; set; }
+        public string PlakaNo;
 
         /// <summary>
         /// İrsaliye No Bilgisi
         /// </summary>
-        public string IrsaliyeNo { get; set; }
+        public string IrsaliyeNo;
 
         /// <summary>
         /// Tonaj Bilgisi
@@ -43,7 +43,7 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Sevk İrsaliyesi No Bilgisi
         /// </summary>
-        public string SevkIrsaliyesiNo { get; set; }
+        public string SevkIrsaliyesiNo;
 
         /// <summary>
         /// Sevk İrsaliye Tarihi Bilgisi
@@ -83,12 +83,12 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Malzeme Fatura Açıklaması Bilgisi
         /// </summary>
-        public string MalzemeFaturaAciklamasi { get; set; }
+        public string MalzemeFaturaAciklamasi;
 
         /// <summary>
         /// GİB Kısaltma Bilgisi (Malzemenin Ölçü Birimi, GİB tarafında Kilogram KGM olarak adlandırılmaktadır)
         /// </summary>
-        public string GibKisaltma { get; set; }
+        public string GibKisaltma;
 
         /// <summary>
         /// KDV Oran Bilgisi

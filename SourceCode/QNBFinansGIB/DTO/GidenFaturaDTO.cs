@@ -11,12 +11,12 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Giden Fatura Id Bilgisi
         /// </summary>
-        public string GidenFaturaId { get; set; }
+        public string GidenFaturaId;
 
         /// <summary>
         /// Fatura Kesen Birimin Alt Şube Bilgisi
         /// </summary>
-        public string AltBirimAd { get; set; }
+        public string AltBirimAd;
 
         /// <summary>
         /// Satış Türü Kod Bilgisi
@@ -36,7 +36,7 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Fatura Açıklama Bilgisi
         /// </summary>
-        public string Aciklama { get; set; }
+        public string Aciklama;
 
         #region Gerçek Kişi Bilgileri
 
@@ -70,78 +70,78 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Tüzel Kişi Ad Bilgisi
         /// </summary>
-        public string TuzelKisiAd { get; set; }
+        public string TuzelKisiAd;
 
         /// <summary>
         /// Vergi Numarası Bilgisi
         /// </summary>
-        public string VergiNo { get; set; }
+        public string VergiNo;
 
         /// <summary>
         /// Vergi Dairesi Bilgisi
         /// </summary>
-        public string VergiDairesi { get; set; }
+        public string VergiDairesi;
 
         /// <summary>
         /// İl Ad Bilgisi
         /// </summary>
-        public string IlAd { get; set; }
+        public string IlAd;
 
         /// <summary>
         /// İlçe Ad Bilgisi
         /// </summary>
-        public string IlceAd { get; set; }
+        public string IlceAd;
 
         /// <summary>
         /// Adres Bilgisi
         /// </summary>
-        public string Adres { get; set; }
+        public string Adres;
 
         /// <summary>
         /// E-Posta Adresi Bilgisi
         /// </summary>
-        public string EPostaAdresi { get; set; }
+        public string EPostaAdresi;
 
         /// <summary>
         /// Telefon No Bilgisi
         /// </summary>
-        public string TelefonNo { get; set; }
+        public string TelefonNo;
 
         /// <summary>
         /// Faks No Bilgisi
         /// </summary>
-        public string FaksNo { get; set; }
+        public string FaksNo;
 
         /// <summary>
         /// İBAN No Bilgisi
         /// </summary>
-        public string IbanNo { get; set; }
+        public string IbanNo;
 
         /// <summary>
         /// Banka Ad Bilgisi
         /// </summary>
-        public string BankaAd { get; set; }
+        public string BankaAd;
 
         /// <summary>
         /// Banka Şube Bilgisi
         /// </summary>
-        public string BankaSube { get; set; }
+        public string BankaSube;
         #endregion
 
         /// <summary>
         /// Düzenleme Tarihi Bilgisi
         /// </summary>
-        public DateTime? DuzenlemeTarihi { get; set; }
+        public DateTime? DuzenlemeTarihi;
 
         /// <summary>
         /// GİB Numarası Bilgisi
         /// </summary>
-        public string GibNumarasi { get; set; }
+        public string GibNumarasi;
 
         /// <summary>
         /// Belge Oid Id alanı
         /// </summary>
-        public string BelgeOid { get; set; }
+        public string BelgeOid;
 
         /// <summary>
         /// KDV Hariç Tutar Bilgisi

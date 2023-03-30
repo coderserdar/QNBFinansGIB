@@ -44,6 +44,6 @@
         /// <summary>
         /// GİB Kısaltma Bilgisi (Malzemenin Ölçü Birimi, GİB tarafında Kilogram KGM olarak adlandırılmaktadır)
         /// </summary>
-        public string GibKisaltma { get; set; }
+        public string GibKisaltma;
     }
 }
