@@ -17,5 +17,9 @@
         /// İşlem Mesajlarının Kutusunda Gösterilecek Başlık Mesaj Bilgisi
         /// </summary>
         public const string MesajBasligi = "QNB Finans GİB Servis Uygulaması";
+        /// <summary>
+        /// QNB Servislerinden Gelen Başarılı Mesaj Kod Bilgisi
+        /// </summary>
+        public const string ServisIslemiBasariKodu = "AE00000";
     }
 }

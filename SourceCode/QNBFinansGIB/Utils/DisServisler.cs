@@ -572,7 +572,7 @@ namespace QNBFinansGIB.Utils
                 //     belgeFormatiSpecified = true
                 // };
                 _gibEArsivService.faturaSorgula(inputKontrol, out var serviceResult);
-                if (serviceResult.resultCode == "AE00000")
+                if (serviceResult.resultCode == MesajSabitler.ServisIslemiBasariKodu)
                     uygunMu = false;
 
                 return uygunMu;
@@ -605,16 +605,16 @@ namespace QNBFinansGIB.Utils
 
                 var temp = EArsivFaturaSorgula(dosyaAdi, inputKontrol, out var belgeTemp, out var serviceResult);
 
-                if (serviceResult.resultCode != "AE00000")
+                if (serviceResult.resultCode != MesajSabitler.ServisIslemiBasariKodu)
                     _gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
                 else
                     return MesajSabitler.IslemBasarili;
 
-                return serviceResult.resultCode != "AE00000" ? MesajSabitler.IslemBasarisiz : MesajSabitler.IslemBasarili;
+                return serviceResult.resultCode != MesajSabitler.ServisIslemiBasariKodu ? MesajSabitler.IslemBasarisiz : MesajSabitler.IslemBasarili;
 
                 //var belge = _gibEArsivService.faturaOlustur(input, belgeTemp, out serviceResult);
 
-                //if (serviceResult.resultCode != "AE00000")
+                //if (serviceResult.resultCode != MesajSabitler.ServisIslemiBasariKodu)
                 //    return MesajSabitler.IslemBasarisiz;
                 //else
                 //    return MesajSabitler.IslemBasarili;
@@ -725,7 +725,7 @@ namespace QNBFinansGIB.Utils
                 var inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
 
                 _gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out var serviceResult);
-                if (serviceResult.resultCode == "AE00000")
+                if (serviceResult.resultCode == MesajSabitler.ServisIslemiBasariKodu)
                     uygunMu = false;
 
                 return uygunMu;
@@ -763,12 +763,12 @@ namespace QNBFinansGIB.Utils
                 };
                 
                 _gibEMustahsilService.mustahsilMakbuzSorgula(inputKontrol, out var serviceResult);
-                if (serviceResult.resultCode != "AE00000")
+                if (serviceResult.resultCode != MesajSabitler.ServisIslemiBasariKodu)
                     _gibEMustahsilService.mustahsilMakbuzOlustur(input, belgeTemp, out serviceResult);
                 else
                     return MesajSabitler.IslemBasarili;
 
-                return serviceResult.resultCode != "AE00000" ? MesajSabitler.IslemBasarisiz : MesajSabitler.IslemBasarili;
+                return serviceResult.resultCode != MesajSabitler.ServisIslemiBasariKodu ? MesajSabitler.IslemBasarisiz : MesajSabitler.IslemBasarili;
             }
             catch (Exception ex)
             {

@@ -20,7 +20,7 @@ namespace QNBFinansGIB.Utils
             var baslangicMetni = RastgeleMetinOlustur(3, LetterCase.Lower);
             var islemTarihi = belgeTarihi ?? DateTime.Now;
             // maksimum 9 haneli olacağı için böyle bir güncelleme yapıldı
-            var faturaSayisi = new Random().Next(999999999);
+            var faturaSayisi = new Random().Next(Sabitler.MaksimumFaturaNumarasi);
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(baslangicMetni);
             stringBuilder.Append(islemTarihi.Year.ToString());
@@ -32,16 +32,16 @@ namespace QNBFinansGIB.Utils
         /// Girilen boyut ve yazı türüne göre
         /// Rastgele metin oluşturulması için hazırlanan bir metottur
         /// </summary>
-        /// <param name="size">İstenen metnin boyutu</param>
+        /// <param name="boyut">İstenen metnin boyutu</param>
         /// <param name="letterCase">Yazı Tipi (Büyük Harf mi, Küçük Harf Mi)</param>
         /// <returns>Rastgele Metin Bilgisi</returns>
-        private static string RastgeleMetinOlustur(int size, LetterCase letterCase)  
+        private static string RastgeleMetinOlustur(int boyut, LetterCase letterCase)  
         {  
-            var builder = new StringBuilder(size);
+            var builder = new StringBuilder(boyut);
             var random = new Random();
             var offset = letterCase == LetterCase.Lower ? 'a' : 'A';  
-            const int lettersOffset = 26; // A...Z or a..z: length=26  
-            for (var i = 0; i < size; i++)  
+            const int lettersOffset = 26;
+            for (var i = 0; i < boyut; i++)  
             {  
                 var @char = (char)random.Next(offset, offset + lettersOffset);  
                 builder.Append(@char);  
