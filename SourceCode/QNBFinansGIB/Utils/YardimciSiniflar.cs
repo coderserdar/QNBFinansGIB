@@ -2591,37 +2591,35 @@ namespace QNBFinansGIB.Utils
         /// <param name="root">XML Ana Eleman Bilgisi</param>
         private static void EFaturaBankaBilgileriDuzenle(GidenFaturaDTO gidenFatura, XmlDocument doc, XmlAttribute xmlnscac, XmlAttribute xmlnscbc, XmlElement root)
         {
-            if (!string.IsNullOrEmpty(gidenFatura.BankaAd))
-            {
-                // Eğer Banka bilgileri mevcutsa burada banka bilgileri yer almaktadır
+            if (string.IsNullOrEmpty(gidenFatura.BankaAd)) return;
+            // Eğer Banka bilgileri mevcutsa burada banka bilgileri yer almaktadır
 
-                #region PaymentMeans
+            #region PaymentMeans
 
-                var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xmlnscac.Value);
-                var paymentMeansCode = doc.CreateElement("cbc", "PaymentMeansCode", xmlnscbc.Value);
-                //paymentMeansCode.InnerText = "1";
+            var paymentMeans = doc.CreateElement("cac", "PaymentMeans", xmlnscac.Value);
+            var paymentMeansCode = doc.CreateElement("cbc", "PaymentMeansCode", xmlnscbc.Value);
+            //paymentMeansCode.InnerText = "1";
 
-                // Burada 1 verildiği zaman Sözleşme Kapsamında yazıyor metinde
-                // ZZZ ise Diğer anlamında geliyor
-                paymentMeansCode.InnerText = "ZZZ";
-                paymentMeans.AppendChild(paymentMeansCode);
-                var payeeFinancialAccount = doc.CreateElement("cac", "PayeeFinancialAccount", xmlnscac.Value);
-                var payeeFinancialAccountId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-                if (!string.IsNullOrEmpty(gidenFatura.IbanNo))
-                    payeeFinancialAccountId.InnerText = gidenFatura.IbanNo;
-                payeeFinancialAccount.AppendChild(payeeFinancialAccountId);
-                var currencyCode = doc.CreateElement("cbc", "CurrencyCode", xmlnscbc.Value);
-                currencyCode.InnerText = "TRY";
-                payeeFinancialAccount.AppendChild(currencyCode);
-                var paymentNote = doc.CreateElement("cbc", "PaymentNote", xmlnscbc.Value);
-                if (!string.IsNullOrEmpty(gidenFatura.BankaAd) && !string.IsNullOrEmpty(gidenFatura.BankaSube))
-                    paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
-                payeeFinancialAccount.AppendChild(paymentNote);
-                paymentMeans.AppendChild(payeeFinancialAccount);
-                root.AppendChild(paymentMeans);
+            // Burada 1 verildiği zaman Sözleşme Kapsamında yazıyor metinde
+            // ZZZ ise Diğer anlamında geliyor
+            paymentMeansCode.InnerText = "ZZZ";
+            paymentMeans.AppendChild(paymentMeansCode);
+            var payeeFinancialAccount = doc.CreateElement("cac", "PayeeFinancialAccount", xmlnscac.Value);
+            var payeeFinancialAccountId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            if (!string.IsNullOrEmpty(gidenFatura.IbanNo))
+                payeeFinancialAccountId.InnerText = gidenFatura.IbanNo;
+            payeeFinancialAccount.AppendChild(payeeFinancialAccountId);
+            var currencyCode = doc.CreateElement("cbc", "CurrencyCode", xmlnscbc.Value);
+            currencyCode.InnerText = "TRY";
+            payeeFinancialAccount.AppendChild(currencyCode);
+            var paymentNote = doc.CreateElement("cbc", "PaymentNote", xmlnscbc.Value);
+            if (!string.IsNullOrEmpty(gidenFatura.BankaAd) && !string.IsNullOrEmpty(gidenFatura.BankaSube))
+                paymentNote.InnerText = gidenFatura.BankaAd + " - " + gidenFatura.BankaSube;
+            payeeFinancialAccount.AppendChild(paymentNote);
+            paymentMeans.AppendChild(payeeFinancialAccount);
+            root.AppendChild(paymentMeans);
 
-                #endregion
-            }
+            #endregion
         }
         
         /// <summary>
