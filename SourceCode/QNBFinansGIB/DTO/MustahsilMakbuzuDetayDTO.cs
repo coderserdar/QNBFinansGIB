@@ -4,27 +4,17 @@
     /// Müstahsil Makbuzu Detay Nesnesinde olması gereken alanlarla oluşturulan sınıftır
     /// Tutarlar, ürün adı, miktar, birim fiyat gibi bilgiler bulunmaktadır
     /// </summary>
-    public class MustahsilMakbuzuDetayDTO
+    public class MustahsilMakbuzuDetayDTO : OrtakDetayVerilerDTO
     {
         /// <summary>
         /// Müstahsil Makbuzu Id Bilgisi
         /// </summary>
-        public string MustahsilMakbuzuId { get; set; }
+        public string MustahsilMakbuzuId;
 
         /// <summary>
         /// İşin Mahiyeti Bilgisi
         /// </summary>
-        public string IsinMahiyeti { get; set; }
-
-        /// <summary>
-        /// Birim Fiyat Bilgisi
-        /// </summary>
-        public decimal? BirimFiyat;
-
-        /// <summary>
-        /// Miktar Bilgisi
-        /// </summary>
-        public decimal? Miktar;
+        public string IsinMahiyeti;
 
         /// <summary>
         /// Gelir Vergisi Bilgisi
@@ -40,10 +30,5 @@
         /// Toplam Tutar Bilgisi
         /// </summary>
         public decimal? ToplamTutar;
-
-        /// <summary>
-        /// GİB Kısaltma Bilgisi (Malzemenin Ölçü Birimi, GİB tarafında Kilogram KGM olarak adlandırılmaktadır)
-        /// </summary>
-        public string GibKisaltma;
     }
 }

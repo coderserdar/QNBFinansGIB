@@ -52,6 +52,7 @@
     <Compile Include="DTO\GidenFaturaDetayDTO.cs" />
     <Compile Include="DTO\MustahsilMakbuzuDTO.cs" />
     <Compile Include="DTO\GidenFaturaDTO.cs" />
+    <Compile Include="DTO\OrtakDetayVerilerDTO.cs" />
     <Compile Include="DTO\OrtakVerilerDTO.cs" />
     <Compile Include="FormAnaSayfa.cs">
       <SubType>Form</SubType>
