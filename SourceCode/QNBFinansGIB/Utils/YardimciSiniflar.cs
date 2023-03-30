@@ -90,13 +90,13 @@ namespace QNBFinansGIB.Utils
             additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
             additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
             var issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+            issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
             additionalDocumentReference.AppendChild(issueDate);
             var documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
             documentType.InnerText = "XSLT";
             additionalDocumentReference.AppendChild(documentType);
             issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd");
+            issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd");
             additionalDocumentReference.AppendChild(issueDate);
             documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
             documentType.InnerText = "XSLT";
@@ -142,7 +142,7 @@ namespace QNBFinansGIB.Utils
             additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
             additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
             issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+            issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
             additionalDocumentReference.AppendChild(issueDate);
             documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
             documentType.InnerText = "XSLT";
@@ -462,7 +462,7 @@ namespace QNBFinansGIB.Utils
                 taxAmount.Attributes.Append(currencyId);
                 taxAmount.InnerText = Decimal.Round((decimal) detayBilgisi.KdvTutari, 2, MidpointRounding.AwayFromZero)
                     .ToString().Replace(",", ".");
-                if (item.KonaklamaVergisi > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
+                if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi?.Year >= 2023)
                     taxAmount.InnerText = Decimal
                         .Round((decimal) detayBilgisi.KdvTutari + (decimal) detayBilgisi.KonaklamaVergisi, 2,
                             MidpointRounding.AwayFromZero)
@@ -524,7 +524,7 @@ namespace QNBFinansGIB.Utils
                 taxCategory.AppendChild(taxScheme2);
                 taxSubTotal.AppendChild(taxCategory);
                 taxTotal.AppendChild(taxSubTotal);
-                if (item.KonaklamaVergisi > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
+                if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi?.Year >= 2023)
                 {
                     #region TaxSubTotal (Konaklama Vergisi İçin)
 
@@ -739,7 +739,7 @@ namespace QNBFinansGIB.Utils
             if (!string.IsNullOrEmpty(mustahsilMakbuzu.MustahsilMakbuzuNo))
                 id.InnerText = mustahsilMakbuzu.MustahsilMakbuzuNo;
             else
-                id.InnerText = "ABC" + mustahsilMakbuzu.MustahsilMakbuzuTarihi?.Year +
+                id.InnerText = "ABC" + mustahsilMakbuzu.IslemTarihi?.Year +
                                DateTime.UtcNow.Ticks.ToString().Substring(0, 9);
             root.AppendChild(id);
 
@@ -754,11 +754,11 @@ namespace QNBFinansGIB.Utils
             root.AppendChild(mustahsilMakbuzuId);
 
             var issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            issueDate.InnerText = mustahsilMakbuzu.MustahsilMakbuzuTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+            issueDate.InnerText = mustahsilMakbuzu.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
             root.AppendChild(issueDate);
 
             var issueTime = doc.CreateElement("cbc", "IssueTime", xmlnscbc.Value);
-            issueTime.InnerText = mustahsilMakbuzu.MustahsilMakbuzuTarihi?.ToString("HH:mm:ss") ?? string.Empty;
+            issueTime.InnerText = mustahsilMakbuzu.IslemTarihi?.ToString("HH:mm:ss") ?? string.Empty;
             root.AppendChild(issueTime);
 
             var creditNoteTypeCode = doc.CreateElement("cbc", "CreditNoteTypeCode", xmlnscbc.Value);
@@ -780,7 +780,7 @@ namespace QNBFinansGIB.Utils
                 : Guid.NewGuid().ToString().ToUpper();
             additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
             issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            issueDate.InnerText = mustahsilMakbuzu.MustahsilMakbuzuTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+            issueDate.InnerText = mustahsilMakbuzu.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
             additionalDocumentReference.AppendChild(issueDate);
             var documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
             documentType.InnerText = "XSLT";
@@ -1512,13 +1512,13 @@ namespace QNBFinansGIB.Utils
             // additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
             // additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
             // issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            // issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+            // issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
             // additionalDocumentReference.AppendChild(issueDate);
             // var documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
             // documentType.InnerText = "XSLT";
             // additionalDocumentReference.AppendChild(documentType);
             // issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            // issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd");
+            // issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd");
             // additionalDocumentReference.AppendChild(issueDate);
             // documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
             // documentType.InnerText = "XSLT";
@@ -1567,7 +1567,7 @@ namespace QNBFinansGIB.Utils
             // additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
             // additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
             // issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            // issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+            // issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
             // additionalDocumentReference.AppendChild(issueDate);
             // documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
             // documentType.InnerText = "XSLT";
@@ -1738,7 +1738,7 @@ namespace QNBFinansGIB.Utils
             if (!string.IsNullOrEmpty(gidenFatura.GibNumarasi))
                 id.InnerText = gidenFatura.GibNumarasi;
             else
-                id.InnerText = "ABC" + gidenFatura.DuzenlemeTarihi?.Year +
+                id.InnerText = "ABC" + gidenFatura.IslemTarihi?.Year +
                                DateTime.UtcNow.Ticks.ToString().Substring(0, 9);
             root.AppendChild(id);
 
@@ -1753,11 +1753,11 @@ namespace QNBFinansGIB.Utils
             root.AppendChild(gidenFaturaId);
 
             var issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            issueDate.InnerText = gidenFatura.DuzenlemeTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+            issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
             root.AppendChild(issueDate);
 
             var issueTime = doc.CreateElement("cbc", "IssueTime", xmlnscbc.Value);
-            issueTime.InnerText = gidenFatura.DuzenlemeTarihi?.ToString("HH:mm:ss") ?? string.Empty;
+            issueTime.InnerText = gidenFatura.IslemTarihi?.ToString("HH:mm:ss") ?? string.Empty;
             root.AppendChild(issueTime);
 
             var invoiceTypeCode = doc.CreateElement("cbc", "InvoiceTypeCode", xmlnscbc.Value);
@@ -2443,7 +2443,7 @@ namespace QNBFinansGIB.Utils
             taxAmount.InnerText = Decimal
                 .Round((decimal) detayBilgisi.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString()
                 .Replace(",", ".");
-            if (item.KonaklamaVergisi > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
+            if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi?.Year >= 2023)
                 taxAmount.InnerText = Decimal
                     .Round((decimal) detayBilgisi.KdvTutari + (decimal) detayBilgisi.KonaklamaVergisi, 2,
                         MidpointRounding.AwayFromZero).ToString()
@@ -2485,7 +2485,7 @@ namespace QNBFinansGIB.Utils
             taxCategory.AppendChild(taxScheme2);
             taxSubTotal.AppendChild(taxCategory);
             taxTotal.AppendChild(taxSubTotal);
-            if (item.KonaklamaVergisi > 0 && gidenFatura.DuzenlemeTarihi?.Year >= 2023)
+            if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi?.Year >= 2023)
             {
                 #region TaxSubTotal (Konaklama Vergisi İçin)
 
@@ -2659,7 +2659,7 @@ namespace QNBFinansGIB.Utils
                     faturaKdvListesi = faturaKdvListesi.OrderBy(j => j.KdvOran).ToList();
             }
 
-            if (!(gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi) > 0) || !(gidenFatura.DuzenlemeTarihi?.Year >= 2023)) return;
+            if (!(gidenFaturaDetayListesi.Sum(j => j.KonaklamaVergisi) > 0) || !(gidenFatura.IslemTarihi?.Year >= 2023)) return;
             {
                 var faturaKdv = new FaturaKdvDTO
                 {

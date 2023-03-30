@@ -1,4 +1,6 @@
-﻿namespace QNBFinansGIB.DTO
+﻿using System;
+
+namespace QNBFinansGIB.DTO
 {
     /// <summary>
     /// Müstahsil Makbuzu ve E-Fatura kısmında
@@ -7,6 +9,11 @@
     /// </summary>
     public class OrtakVerilerDTO
     {
+        /// <summary>
+        /// Müstahsil Makbuzu veya Fatura Düzenleme Tarihi Bilgisi
+        /// </summary>
+        public DateTime? IslemTarihi;
+        
         /// <summary>
         /// Tüzel Kişi Ad Bilgisi
         /// </summary>

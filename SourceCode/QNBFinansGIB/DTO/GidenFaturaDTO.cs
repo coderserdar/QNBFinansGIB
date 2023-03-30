@@ -72,11 +72,6 @@ namespace QNBFinansGIB.DTO
         public string TelefonNo;
 
         /// <summary>
-        /// Düzenleme Tarihi Bilgisi
-        /// </summary>
-        public DateTime? DuzenlemeTarihi;
-
-        /// <summary>
         /// GİB Numarası Bilgisi
         /// </summary>
         public string GibNumarasi;

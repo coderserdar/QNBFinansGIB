@@ -24,11 +24,6 @@ namespace QNBFinansGIB.DTO
         public string MustahsilMakbuzuNo;
 
         /// <summary>
-        /// Müstahsil Makbuzu Tarihi Bilgisi
-        /// </summary>
-        public DateTime? MustahsilMakbuzuTarihi;
-
-        /// <summary>
         /// Net Tutar Bilgisi
         /// </summary>
         public decimal? NetTutar;

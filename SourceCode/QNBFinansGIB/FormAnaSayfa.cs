@@ -84,7 +84,7 @@ namespace QNBFinansGIB
                 BankaAd = "Türkiye İş Bankası",
                 BankaSube = "Kızılay",
                 IbanNo = "TR130006297372542652383131",
-                DuzenlemeTarihi = new DateTime(2022, 1, 13),
+                IslemTarihi = new DateTime(2022, 1, 13),
                 IlAd = "Ankara",
                 IlceAd = "Çankaya",
                 SatisTuruKod = SatisTur.Hesaben.GetHashCode(),
@@ -95,7 +95,7 @@ namespace QNBFinansGIB
                 KonaklamaVergisi = 0,
                 Aciklama = "Deneme amaçlı eklenmiştir"
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.IslemTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -110,7 +110,7 @@ namespace QNBFinansGIB
                 BankaAd = "Vakıflar Bankası",
                 BankaSube = "Kızılay",
                 IbanNo = "TR530006291586775935345942",
-                DuzenlemeTarihi = new DateTime(2022, 1, 1),
+                IslemTarihi = new DateTime(2022, 1, 1),
                 IlAd = "Ankara",
                 IlceAd = "Etimesgut",
                 SatisTuruKod = SatisTur.Pesin.GetHashCode(),
@@ -121,7 +121,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.IslemTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -136,7 +136,7 @@ namespace QNBFinansGIB
                 BankaAd = "Vakıf Katılım Bankası",
                 BankaSube = "Kızılay",
                 IbanNo = "TR830006214925976839299642",
-                DuzenlemeTarihi = new DateTime(2023, 1, 11),
+                IslemTarihi = new DateTime(2023, 1, 11),
                 IlAd = "Ankara",
                 IlceAd = "Etimesgut",
                 SatisTuruKod = SatisTur.ImalatciIhracatci.GetHashCode(),
@@ -146,7 +146,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.IslemTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -161,7 +161,7 @@ namespace QNBFinansGIB
                 BankaAd = "Kuveyt Tür",
                 BankaSube = "Kızılay",
                 IbanNo = "TR350006267645192879857714",
-                DuzenlemeTarihi = new DateTime(2022, 1, 31),
+                IslemTarihi = new DateTime(2022, 1, 31),
                 IlAd = "Ankara",
                 IlceAd = "Çubuk",
                 SatisTuruKod = SatisTur.IhracKayitli.GetHashCode(),
@@ -171,7 +171,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.IslemTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -186,7 +186,7 @@ namespace QNBFinansGIB
                 BankaAd = "Enpara.Com Bankadan Güzeli",
                 BankaSube = "Karakusunlar Şube",
                 IbanNo = "TR630006295412435711171488",
-                DuzenlemeTarihi = new DateTime(2022, 2, 1),
+                IslemTarihi = new DateTime(2022, 2, 1),
                 IlAd = "Ankara",
                 IlceAd = "Pursaklar",
                 SatisTuruKod = SatisTur.Vadeli.GetHashCode(),
@@ -195,7 +195,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.IslemTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -211,7 +211,7 @@ namespace QNBFinansGIB
                 BankaAd = "Halkbank",
                 BankaSube = "Etimesgut Şube",
                 IbanNo = "TR540006234114125194267726",
-                DuzenlemeTarihi = new DateTime(2022, 2, 2),
+                IslemTarihi = new DateTime(2022, 2, 2),
                 IlAd = "Konya",
                 IlceAd = "Beyşehir",
                 SatisTuruKod = SatisTur.RafFiyatGarantili.GetHashCode(),
@@ -221,7 +221,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.IslemTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             gidenFatura = new GidenFaturaDTO
@@ -237,7 +237,7 @@ namespace QNBFinansGIB
                 BankaAd = "Bank Mellat",
                 BankaSube = "Yenimahalle Şube",
                 IbanNo = "TR410006276748779926367358",
-                DuzenlemeTarihi = new DateTime(2022, 1, 25),
+                IslemTarihi = new DateTime(2022, 1, 25),
                 IlAd = "Ağrı",
                 IlceAd = "Patnos",
                 SatisTuruKod = SatisTur.IstirakeSatilan.GetHashCode(),
@@ -247,7 +247,7 @@ namespace QNBFinansGIB
                 FaturaTutari = 0,
                 KonaklamaVergisi = 0
             };
-            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.DuzenlemeTarihi);
+            gidenFatura.GibNumarasi = GibNumarasi.RastgeleGibNumarasiOlustur(gidenFatura.IslemTarihi);
             gidenFaturaListesi.Add(gidenFatura);
 
             #endregion
@@ -442,7 +442,7 @@ namespace QNBFinansGIB
                 BankaAd = "Türkiye İş Bankası",
                 BankaSube = "Kızılay",
                 IbanNo = "TR130006297372542652383131",
-                MustahsilMakbuzuTarihi = new DateTime(2022, 4, 13),
+                IslemTarihi = new DateTime(2022, 4, 13),
                 IlAd = "Ankara",
                 IlceAd = "Çankaya",
                 MustahsilMakbuzuNo = "MLT2022000010998",
@@ -465,7 +465,7 @@ namespace QNBFinansGIB
                 BankaAd = "Vakıflar Bankası",
                 BankaSube = "Kızılay",
                 IbanNo = "TR530006291586775935345942",
-                MustahsilMakbuzuTarihi = new DateTime(2022, 4, 1),
+                IslemTarihi = new DateTime(2022, 4, 1),
                 IlAd = "Ankara",
                 IlceAd = "Etimesgut",
                 MakbuzGrupTuruKod = FaturaMakbuzGrupTur.Personel.GetHashCode(),
@@ -473,7 +473,7 @@ namespace QNBFinansGIB
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.IslemTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
@@ -487,14 +487,14 @@ namespace QNBFinansGIB
                 BankaAd = "Vakıf Katılım Bankası",
                 BankaSube = "Kızılay",
                 IbanNo = "TR830006214925976839299642",
-                MustahsilMakbuzuTarihi = new DateTime(2022, 4, 11),
+                IslemTarihi = new DateTime(2022, 4, 11),
                 IlAd = "Ankara",
                 IlceAd = "Etimesgut",
                 NetTutar = 0,
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.IslemTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
@@ -508,14 +508,14 @@ namespace QNBFinansGIB
                 BankaAd = "Kuveyt Tür",
                 BankaSube = "Kızılay",
                 IbanNo = "TR350006267645192879857714",
-                MustahsilMakbuzuTarihi = new DateTime(2022, 4, 3),
+                IslemTarihi = new DateTime(2022, 4, 3),
                 IlAd = "Ankara",
                 IlceAd = "Çubuk",
                 NetTutar = 0,
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.IslemTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
@@ -529,14 +529,14 @@ namespace QNBFinansGIB
                 BankaAd = "Enpara.Com Bankadan Güzeli",
                 BankaSube = "Karakusunlar Şube",
                 IbanNo = "TR630006295412435711171488",
-                MustahsilMakbuzuTarihi = new DateTime(2022, 4, 1),
+                IslemTarihi = new DateTime(2022, 4, 1),
                 IlAd = "Ankara",
                 IlceAd = "Pursaklar",
                 NetTutar = 0,
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.IslemTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
@@ -549,14 +549,14 @@ namespace QNBFinansGIB
                 BankaAd = "Halkbank",
                 BankaSube = "Etimesgut Şube",
                 IbanNo = "TR540006234114125194267726",
-                MustahsilMakbuzuTarihi = new DateTime(2022, 4, 2),
+                IslemTarihi = new DateTime(2022, 4, 2),
                 IlAd = "Konya",
                 IlceAd = "Beyşehir",
                 NetTutar = 0,
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.IslemTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
@@ -568,14 +568,14 @@ namespace QNBFinansGIB
                 BankaAd = "Bank Mellat",
                 BankaSube = "Yenimahalle Şube",
                 IbanNo = "TR410006276748779926367358",
-                MustahsilMakbuzuTarihi = new DateTime(2022, 4, 25),
+                IslemTarihi = new DateTime(2022, 4, 25),
                 IlAd = "Ağrı",
                 IlceAd = "Patnos",
                 NetTutar = 0,
                 GelirVergisi = 0,
                 MustahsilMakbuzuTutari = 0
             };
-            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.MustahsilMakbuzuTarihi);
+            mustahsilMakbuzu.MustahsilMakbuzuNo = GibNumarasi.RastgeleGibNumarasiOlustur(mustahsilMakbuzu.IslemTarihi);
             mustahsilMakbuzuListesi.Add(mustahsilMakbuzu);
 
             #endregion
