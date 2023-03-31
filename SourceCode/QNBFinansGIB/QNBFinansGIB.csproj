@@ -69,7 +69,7 @@
     <Compile Include="Utils\Sabitler.cs" />
     <Compile Include="Utils\Enums.cs" />
     <Compile Include="Utils\GeriDonus.cs" />
-    <Compile Include="Utils\YardimciSiniflar.cs" />
+    <Compile Include="Utils\XMLIslemleri.cs" />
     <Compile Include="Web References\GIBEArsiv\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

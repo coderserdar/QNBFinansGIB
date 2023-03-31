@@ -746,8 +746,8 @@ namespace QNBFinansGIB
 
                 var eFaturaKullanicisiMi = EFaturaKullanicisiMi(gidenFatura);
                 var dosyaAdi = eFaturaKullanicisiMi 
-                    ? YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi) 
-                    : YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi,
+                    ? XMLIslemleri.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi) 
+                    : XMLIslemleri.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp, klasorAdi,
                         true);
 
                 MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.",
@@ -964,7 +964,7 @@ namespace QNBFinansGIB
 
                 if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
                 {
-                    var dosyaAdi = YardimciSiniflar.EMustahsilXMLOlustur(mustahsilMakbuzu,
+                    var dosyaAdi = XMLIslemleri.EMustahsilXMLOlustur(mustahsilMakbuzu,
                         mustahsilMakbuzuDetayListesiTemp, klasorAdi);
                     MessageBox.Show(dosyaAdi + " adresinde gerekli XML dosyası oluşturulmuştur.",
                         MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1000,7 +1000,7 @@ namespace QNBFinansGIB
                 var dosya = new byte[1];
                 if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
                 {
-                    dosyaAdi = YardimciSiniflar.EMustahsilXMLOlustur(mustahsilMakbuzu, mustahsilMakbuzuDetayListesiTemp,
+                    dosyaAdi = XMLIslemleri.EMustahsilXMLOlustur(mustahsilMakbuzu, mustahsilMakbuzuDetayListesiTemp,
                         klasorAdi);
                     dosya = DisServisler.EMustahsilOnIzleme(mustahsilMakbuzu, dosyaAdi);
                 }
@@ -1036,7 +1036,7 @@ namespace QNBFinansGIB
                 var sonuc = "";
                 if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
                 {
-                    dosyaAdi = YardimciSiniflar.EMustahsilXMLOlustur(mustahsilMakbuzu, mustahsilMakbuzuDetayListesiTemp,
+                    dosyaAdi = XMLIslemleri.EMustahsilXMLOlustur(mustahsilMakbuzu, mustahsilMakbuzuDetayListesiTemp,
                         klasorAdi);
                     sonuc = DisServisler.EMustahsilGonder(mustahsilMakbuzu, dosyaAdi);
                 }
@@ -1317,7 +1317,7 @@ namespace QNBFinansGIB
         /// <returns>Dosya Bilgisi</returns>
         private static byte[] EFaturaXMLOlusturVeOnIzlemeYap(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesiTemp, string klasorAdi, out string dosyaAdi, out GeriDonus geriDonus, byte[] dosya)
         {
-            dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
+            dosyaAdi = XMLIslemleri.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
                 klasorAdi);
             geriDonus = DisServisler.EFaturaOnIzleme(gidenFatura, dosyaAdi);
             if (geriDonus != null)
@@ -1336,7 +1336,7 @@ namespace QNBFinansGIB
         /// <returns>Dosya Adı Bilgisi</returns>
         private static byte[] EArsivXMLOlusturVeOnIzlemeYap(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesiTemp, string klasorAdi, out string dosyaAdi)
         {
-            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
+            dosyaAdi = XMLIslemleri.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
                 klasorAdi, true);
             var dosya = DisServisler.EArsivOnIzleme(gidenFatura, dosyaAdi);
             return dosya;
@@ -1353,7 +1353,7 @@ namespace QNBFinansGIB
         /// <returns>Dosya Adı Bilgisi</returns>
         private static string EFaturaXMLOlusturVeServiseGonder(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesiTemp, string klasorAdi, out string dosyaAdi)
         {
-            dosyaAdi = YardimciSiniflar.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
+            dosyaAdi = XMLIslemleri.EFaturaXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
                 klasorAdi);
             var sonuc = DisServisler.EFaturaGonder(gidenFatura, dosyaAdi, gidenFatura.BelgeOid);
             if (sonuc == MesajSabitler.IslemBasarisiz) return sonuc;
@@ -1374,7 +1374,7 @@ namespace QNBFinansGIB
         /// <returns>Dosya Adı Bilgisi</returns>
         private static string EArsivXMLOlusturVeServiseGonder(GidenFaturaDTO gidenFatura, List<GidenFaturaDetayDTO> gidenFaturaDetayListesiTemp, string klasorAdi, out string dosyaAdi)
         {
-            dosyaAdi = YardimciSiniflar.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
+            dosyaAdi = XMLIslemleri.EArsivXMLOlustur(gidenFatura, gidenFaturaDetayListesiTemp,
                 klasorAdi, false);
             var sonuc = DisServisler.EArsivGonder(gidenFatura, dosyaAdi);
             return sonuc;

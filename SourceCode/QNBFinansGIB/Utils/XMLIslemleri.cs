@@ -13,7 +13,7 @@ namespace QNBFinansGIB.Utils
     /// QNB Finans GİB Web Servislerine gönderilecek XML dosyalarının hazırlanması ile ilgili
     /// Metotların bulunduğu yardımcı sınıftır.
     /// </summary>
-    public static class YardimciSiniflar
+    public static class XMLIslemleri
     {
         /// <summary>
         /// Giden Fatura Bilgisi Üzerinden E-Fatura Sistemine Göndermek İçin
