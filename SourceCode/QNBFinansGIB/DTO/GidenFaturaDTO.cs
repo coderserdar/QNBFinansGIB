@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace QNBFinansGIB.DTO
+﻿namespace QNBFinansGIB.DTO
 {
     /// <summary>
     /// Giden Fatura Ana Nesnesinde Olması Gereken Alanlarla oluşturulan sınıftır
