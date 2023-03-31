@@ -17,38 +17,37 @@ namespace QNBFinansGIB.DTO
         /// <summary>
         /// Tüzel Kişi Ad Bilgisi
         /// </summary>
-        public string TuzelKisiAd { get; set; }
+        public string TuzelKisiAd;
 
         /// <summary>
         /// Vergi Numarası Bilgisi
         /// </summary>
-        public string VergiNo { get; set; }
+        public string VergiNo;
 
         /// <summary>
         /// Vergi Dairesi Bilgisi
         /// </summary>
-        public string VergiDairesi { get; set; }
+        public string VergiDairesi;
 
         /// <summary>
         /// İl Ad Bilgisi
         /// </summary>
-        public string IlAd { get; set; }
+        public string IlAd;
 
         /// <summary>
         /// İlçe Ad Bilgisi
         /// </summary>
-        public string IlceAd { get; set; }
+        public string IlceAd;
 
         /// <summary>
         /// Adres Bilgisi
         /// </summary>
-        public string Adres { get; set; }
+        public string Adres;
 
         /// <summary>
         /// E-Posta Adresi Bilgisi
         /// </summary>
-        public string EPostaAdresi { get; set; }
-        
+        public string EPostaAdresi;
         
         /// <summary>
         /// Faks No Bilgisi
