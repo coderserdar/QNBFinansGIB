@@ -462,7 +462,7 @@ namespace QNBFinansGIB.Utils
                 taxAmount.Attributes.Append(currencyId);
                 taxAmount.InnerText = Decimal.Round((decimal) detayBilgisi.KdvTutari, 2, MidpointRounding.AwayFromZero)
                     .ToString().Replace(",", ".");
-                if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi?.Year >= 2023)
+                if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi >= Sabitler.KonaklamaVergiKontrolTarihi)
                     taxAmount.InnerText = Decimal
                         .Round((decimal) detayBilgisi.KdvTutari + (decimal) detayBilgisi.KonaklamaVergisi, 2,
                             MidpointRounding.AwayFromZero)
@@ -524,7 +524,7 @@ namespace QNBFinansGIB.Utils
                 taxCategory.AppendChild(taxScheme2);
                 taxSubTotal.AppendChild(taxCategory);
                 taxTotal.AppendChild(taxSubTotal);
-                if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi?.Year >= 2023)
+                if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi >= Sabitler.KonaklamaVergiKontrolTarihi)
                 {
                     #region TaxSubTotal (Konaklama Vergisi İçin)
 
@@ -2443,7 +2443,7 @@ namespace QNBFinansGIB.Utils
             taxAmount.InnerText = Decimal
                 .Round((decimal) detayBilgisi.KdvTutari, 2, MidpointRounding.AwayFromZero).ToString()
                 .Replace(",", ".");
-            if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi?.Year >= 2023)
+            if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi >= Sabitler.KonaklamaVergiKontrolTarihi)
                 taxAmount.InnerText = Decimal
                     .Round((decimal) detayBilgisi.KdvTutari + (decimal) detayBilgisi.KonaklamaVergisi, 2,
                         MidpointRounding.AwayFromZero).ToString()
@@ -2485,7 +2485,7 @@ namespace QNBFinansGIB.Utils
             taxCategory.AppendChild(taxScheme2);
             taxSubTotal.AppendChild(taxCategory);
             taxTotal.AppendChild(taxSubTotal);
-            if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi?.Year >= 2023)
+            if (item.KonaklamaVergisi > 0 && gidenFatura.IslemTarihi >= Sabitler.KonaklamaVergiKontrolTarihi)
             {
                 #region TaxSubTotal (Konaklama Vergisi İçin)
 
