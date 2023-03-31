@@ -743,31 +743,15 @@ namespace QNBFinansGIB.Utils
                                DateTime.UtcNow.Ticks.ToString().Substring(0, 9);
             root.AppendChild(id);
 
-            var copyIndicator = doc.CreateElement("cbc", "CopyIndicator", xmlnscbc.Value);
-            copyIndicator.InnerText = "false";
-            root.AppendChild(copyIndicator);
+            IndicatorVeUuidBilgisiDuzenle(mustahsilMakbuzu.Id, root, doc, xmlnscbc);
 
-            var mustahsilMakbuzuId = doc.CreateElement("cbc", "UUID", xmlnscbc.Value);
-            mustahsilMakbuzuId.InnerText = mustahsilMakbuzu.Id.Length == 36
-                ? mustahsilMakbuzu.Id.ToUpper()
-                : Guid.NewGuid().ToString().ToUpper();
-            root.AppendChild(mustahsilMakbuzuId);
-
-            var issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            issueDate.InnerText = mustahsilMakbuzu.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
-            root.AppendChild(issueDate);
-
-            var issueTime = doc.CreateElement("cbc", "IssueTime", xmlnscbc.Value);
-            issueTime.InnerText = mustahsilMakbuzu.IslemTarihi?.ToString("HH:mm:ss") ?? string.Empty;
-            root.AppendChild(issueTime);
+            TarihSaatDuzenle(mustahsilMakbuzu.IslemTarihi, root, doc, xmlnscbc);
 
             var creditNoteTypeCode = doc.CreateElement("cbc", "CreditNoteTypeCode", xmlnscbc.Value);
             creditNoteTypeCode.InnerText = "MUSTAHSILMAKBUZ";
             root.AppendChild(creditNoteTypeCode);
 
-            var sendType = doc.CreateElement("cbc", "Note", xmlnscbc.Value);
-            sendType.InnerText = "Gönderim Şekli: ELEKTRONIK";
-            root.AppendChild(sendType);
+            GonderimSekliBilgisiDuzenle(root, doc, xmlnscbc);
 
             ParaBirimiVeKayitSayisiDuzenle(mustahsilMakbuzuDetayListesi.Count, root, doc, xmlnscbc);
 
@@ -779,7 +763,7 @@ namespace QNBFinansGIB.Utils
                 ? mustahsilMakbuzu.Id.ToUpper()
                 : Guid.NewGuid().ToString().ToUpper();
             additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
-            issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
+            var issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
             issueDate.InnerText = mustahsilMakbuzu.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
             additionalDocumentReference.AppendChild(issueDate);
             var documentType = doc.CreateElement("cbc", "DocumentType", xmlnscbc.Value);
@@ -1496,9 +1480,7 @@ namespace QNBFinansGIB.Utils
 
             IrsaliyeBilgisiDuzenle(gidenFatura, gidenFaturaDetayListesi, root, doc, kodFaturaTuruKod, kodFaturaGrupTuruKod, xmlnscbc);
 
-            var sendType = doc.CreateElement("cbc", "Note", xmlnscbc.Value);
-            sendType.InnerText = "Gönderim Şekli: ELEKTRONIK";
-            root.AppendChild(sendType);
+            GonderimSekliBilgisiDuzenle(root, doc, xmlnscbc);
 
             ParaBirimiVeKayitSayisiDuzenle(gidenFaturaDetayListesi.Count, root, doc, xmlnscbc);
 
@@ -1595,6 +1577,21 @@ namespace QNBFinansGIB.Utils
             FaturaMakbuzImzaBilgisiDuzenle(root, doc, xmlnscac, xmlnscbc);
 
             FaturaKesenFirmaBilgisiDuzenle(gidenFatura, root, doc, xmlnscac, xmlnscbc);
+        }
+
+        /// <summary>
+        /// E-Fatura ve Müstahsil Makbuzu tarafında
+        /// Gönderim Şekli bilgileri düzenlenmesi için
+        /// Gerekli bilgilerin düzenlendiği bir metottur.
+        /// </summary>
+        /// <param name="root">XML Ana Eleman Bilgisi</param>
+        /// <param name="doc">XML Doküman Bilgisi</param>
+        /// <param name="xmlnscbc">XML Attribute Bilgisi</param>
+        private static void GonderimSekliBilgisiDuzenle(XmlElement root, XmlDocument doc, XmlAttribute xmlnscbc)
+        {
+            var sendType = doc.CreateElement("cbc", "Note", xmlnscbc.Value);
+            sendType.InnerText = "Gönderim Şekli: ELEKTRONIK";
+            root.AppendChild(sendType);
         }
 
         /// <summary>
@@ -1742,23 +1739,9 @@ namespace QNBFinansGIB.Utils
                                DateTime.UtcNow.Ticks.ToString().Substring(0, 9);
             root.AppendChild(id);
 
-            var copyIndicator = doc.CreateElement("cbc", "CopyIndicator", xmlnscbc.Value);
-            copyIndicator.InnerText = "false";
-            root.AppendChild(copyIndicator);
+            IndicatorVeUuidBilgisiDuzenle(gidenFatura.Id, root, doc, xmlnscbc);
 
-            var gidenFaturaId = doc.CreateElement("cbc", "UUID", xmlnscbc.Value);
-            gidenFaturaId.InnerText = gidenFatura.Id.Length == 36
-                ? gidenFatura.Id.ToUpper()
-                : Guid.NewGuid().ToString().ToUpper();
-            root.AppendChild(gidenFaturaId);
-
-            var issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
-            issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
-            root.AppendChild(issueDate);
-
-            var issueTime = doc.CreateElement("cbc", "IssueTime", xmlnscbc.Value);
-            issueTime.InnerText = gidenFatura.IslemTarihi?.ToString("HH:mm:ss") ?? string.Empty;
-            root.AppendChild(issueTime);
+            TarihSaatDuzenle(gidenFatura.IslemTarihi, root, doc, xmlnscbc);
 
             var invoiceTypeCode = doc.CreateElement("cbc", "InvoiceTypeCode", xmlnscbc.Value);
             invoiceTypeCode.InnerText = "SATIS";
@@ -1769,6 +1752,48 @@ namespace QNBFinansGIB.Utils
             if (kodFaturaTuruKod == FaturaTur.Iade.GetHashCode())
                 invoiceTypeCode.InnerText = "IADE";
             root.AppendChild(invoiceTypeCode);
+        }
+
+        /// <summary>
+        /// E-Fatura ve Müstahsil Makbuzu tarafında
+        /// Copy Indicator ve UUID bilgileri düzenlenmesi için
+        /// Gerekli bilgilerin düzenlendiği bir metottur.
+        /// </summary>
+        /// <param name="id">Fatura veya Makbuz Id Bilgisi</param>
+        /// <param name="root">XML Ana Eleman Bilgisi</param>
+        /// <param name="doc">XML Doküman Bilgisi</param>
+        /// <param name="xmlnscbc">XML Attribute Bilgisi</param>
+        private static void IndicatorVeUuidBilgisiDuzenle(string id, XmlElement root, XmlDocument doc, XmlAttribute xmlnscbc)
+        {
+            var copyIndicator = doc.CreateElement("cbc", "CopyIndicator", xmlnscbc.Value);
+            copyIndicator.InnerText = "false";
+            root.AppendChild(copyIndicator);
+
+            var nesneId = doc.CreateElement("cbc", "UUID", xmlnscbc.Value);
+            nesneId.InnerText = id.Length == 36
+                ? id.ToUpper()
+                : Guid.NewGuid().ToString().ToUpper();
+            root.AppendChild(nesneId);
+        }
+
+        /// <summary>
+        /// E-Fatura ve Müstahsil Makbuzu tarafında
+        /// Tarih ve saat bilgileri düzenlenmesi için
+        /// Gerekli bilgilerin düzenlendiği bir metottur.
+        /// </summary>
+        /// <param name="islemTarihi">Fatura veya Makbuz İşlem Tarihi Bilgisi</param>
+        /// <param name="root">XML Ana Eleman Bilgisi</param>
+        /// <param name="doc">XML Doküman Bilgisi</param>
+        /// <param name="xmlnscbc">XML Attribute Bilgisi</param>
+        private static void TarihSaatDuzenle(DateTime? islemTarihi, XmlElement root, XmlDocument doc, XmlAttribute xmlnscbc)
+        {
+            var issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
+            issueDate.InnerText = islemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
+            root.AppendChild(issueDate);
+
+            var issueTime = doc.CreateElement("cbc", "IssueTime", xmlnscbc.Value);
+            issueTime.InnerText = islemTarihi?.ToString("HH:mm:ss") ?? string.Empty;
+            root.AppendChild(issueTime);
         }
 
         /// <summary>
