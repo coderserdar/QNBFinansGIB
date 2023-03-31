@@ -74,7 +74,7 @@ namespace QNBFinansGIB
 
             var gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "11",
+                Id = "11",
                 AltBirimAd = "  A Birimi    ",
                 TuzelKisiAd = "Deneme Şirketi - 1",
                 VergiNo = "53602329864",
@@ -100,7 +100,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "21",
+                Id = "21",
                 AltBirimAd = "B Birimi    ",
                 TuzelKisiAd = "  Deneme Şirketi - 2",
                 VergiNo = "9250936109",
@@ -126,7 +126,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "31",
+                Id = "31",
                 AltBirimAd = "B Birimi    ",
                 TuzelKisiAd = "  Deneme Şirketi - 3",
                 VergiNo = "5240018140",
@@ -151,7 +151,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "41",
+                Id = "41",
                 AltBirimAd = "B Birimi    ",
                 TuzelKisiAd = "Deneme Şirketi - 4",
                 VergiNo = "6940116151",
@@ -176,7 +176,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "51",
+                Id = "51",
                 AltBirimAd = "B Birimi    ",
                 TuzelKisiAd = "Deneme Şirketi - 3",
                 VergiNo = "20101516422",
@@ -200,7 +200,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "61",
+                Id = "61",
                 AltBirimAd = "B Birimi    ",
                 GercekKisiTcKimlikNo = "11738150028",
                 GercekKisiAd = "Adnan",
@@ -226,7 +226,7 @@ namespace QNBFinansGIB
 
             gidenFatura = new GidenFaturaDTO
             {
-                GidenFaturaId = "71",
+                Id = "71",
                 AltBirimAd = "B Birimi    ",
                 GercekKisiTcKimlikNo = "20077290692",
                 GercekKisiAd = "Mehmet Emin",
@@ -256,7 +256,7 @@ namespace QNBFinansGIB
 
             var gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "71",
+                AnaNesneId = "71",
                 BirimFiyat = (decimal) 0.1234,
                 Miktar = 1000,
                 KdvOran = 0,
@@ -278,7 +278,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "71",
+                AnaNesneId = "71",
                 BirimFiyat = (decimal) 0.1,
                 Miktar = 10000,
                 KdvOran = 18,
@@ -300,7 +300,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "11",
+                AnaNesneId = "11",
                 BirimFiyat = (decimal) 0.1,
                 Miktar = 10000,
                 KdvOran = 18,
@@ -322,7 +322,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "71",
+                AnaNesneId = "71",
                 BirimFiyat = (decimal) 0.1234,
                 Miktar = 1000,
                 KdvOran = 1,
@@ -338,7 +338,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "21",
+                AnaNesneId = "21",
                 BirimFiyat = (decimal) 0.1234,
                 Miktar = 1000,
                 KdvOran = 1,
@@ -354,7 +354,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "31",
+                AnaNesneId = "31",
                 BirimFiyat = (decimal) 0.124,
                 Miktar = 5000,
                 KdvOran = 8,
@@ -370,7 +370,7 @@ namespace QNBFinansGIB
 
             gidenFaturaDetay = new GidenFaturaDetayDTO
             {
-                GidenFaturaId = "11",
+                AnaNesneId = "11",
                 BirimFiyat = 500,
                 Miktar = 120,
                 KdvOran = 18,
@@ -390,10 +390,10 @@ namespace QNBFinansGIB
 
             foreach (var item in gidenFaturaListesi)
             {
-                if (gidenFaturaDetayListesi.Any(j => j.GidenFaturaId == item.GidenFaturaId))
+                if (gidenFaturaDetayListesi.Any(j => j.AnaNesneId == item.Id))
                 {
                     var gidenFaturaDetayListesiTemp = gidenFaturaDetayListesi
-                        .Where(j => j.GidenFaturaId == item.GidenFaturaId).ToList();
+                        .Where(j => j.AnaNesneId == item.Id).ToList();
                     item.KdvHaricTutar = gidenFaturaDetayListesiTemp.Sum(j => j.KdvHaricTutar);
                     item.KdvTutari = gidenFaturaDetayListesiTemp.Sum(j => j.KdvTutari);
                     item.KonaklamaVergisi = gidenFaturaDetayListesiTemp.Sum(j => j.KonaklamaVergisi);
@@ -403,7 +403,7 @@ namespace QNBFinansGIB
                 {
                     gidenFaturaDetay = new GidenFaturaDetayDTO
                     {
-                        GidenFaturaId = item.GidenFaturaId,
+                        AnaNesneId = item.Id,
                         BirimFiyat = (decimal) 1.5,
                         Miktar = 1000,
                         KdvOran = 0,
@@ -412,7 +412,7 @@ namespace QNBFinansGIB
                         KdvTutari = 0,
                         KonaklamaVergisi = 30,
                         GibKisaltma = "MTR",
-                        FaturaUrunTuru = "Misafirhane " + item.GidenFaturaId
+                        FaturaUrunTuru = "Misafirhane " + item.Id
                     };
                     item.KdvHaricTutar = gidenFaturaDetay.KdvHaricTutar;
                     item.KdvTutari = gidenFaturaDetay.KdvTutari;
@@ -432,7 +432,7 @@ namespace QNBFinansGIB
 
             var mustahsilMakbuzu = new MustahsilMakbuzuDTO
             {
-                MustahsilMakbuzuId = "1",
+                Id = "1",
                 AltBirimAd = "A Birimi",
                 TuzelKisiAd = "Deneme Şirketi - 1",
                 VergiNo = "53602329864",
@@ -455,7 +455,7 @@ namespace QNBFinansGIB
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
             {
-                MustahsilMakbuzuId = "2",
+                Id = "2",
                 AltBirimAd = "B Birimi",
                 TuzelKisiAd = "Deneme Şirketi - 2",
                 VergiNo = "9250936109",
@@ -478,7 +478,7 @@ namespace QNBFinansGIB
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
             {
-                MustahsilMakbuzuId = "c3da32c1-c0f1-4061-8234-ec09f83804fa",
+                Id = "c3da32c1-c0f1-4061-8234-ec09f83804fa",
                 TuzelKisiAd = "Deneme Şirketi - 3",
                 VergiNo = "5240018140",
                 VergiDairesi = "ANKARA",
@@ -499,7 +499,7 @@ namespace QNBFinansGIB
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
             {
-                MustahsilMakbuzuId = "4",
+                Id = "4",
                 TuzelKisiAd = "Deneme Şirketi - 4",
                 VergiNo = "6940116151",
                 VergiDairesi = "ANKARA",
@@ -520,7 +520,7 @@ namespace QNBFinansGIB
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
             {
-                MustahsilMakbuzuId = "5",
+                Id = "5",
                 TuzelKisiAd = "Deneme Şirketi - 3",
                 VergiNo = "20101516422",
                 VergiDairesi = "ANKARA",
@@ -541,7 +541,7 @@ namespace QNBFinansGIB
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
             {
-                MustahsilMakbuzuId = "6",
+                Id = "6",
                 VergiNo = "52270709114",
                 TuzelKisiAd = "Adnan Şenses",
                 EPostaAdresi = "adnansenses@mynet.com",
@@ -561,7 +561,7 @@ namespace QNBFinansGIB
 
             mustahsilMakbuzu = new MustahsilMakbuzuDTO
             {
-                MustahsilMakbuzuId = "7",
+                Id = "7",
                 VergiNo = "20077290692",
                 TuzelKisiAd = "Mehmet Emin",
                 EPostaAdresi = "memo@yahoo.com",
@@ -584,7 +584,7 @@ namespace QNBFinansGIB
 
             var mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
             {
-                MustahsilMakbuzuId = "7",
+                AnaNesneId = "7",
                 BirimFiyat = (decimal) 0.1234,
                 Miktar = 1000,
                 NetTutar = 1234,
@@ -596,7 +596,7 @@ namespace QNBFinansGIB
 
             mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
             {
-                MustahsilMakbuzuId = "7",
+                AnaNesneId = "7",
                 BirimFiyat = (decimal) 0.1234,
                 Miktar = 1000,
                 NetTutar = 1234,
@@ -609,7 +609,7 @@ namespace QNBFinansGIB
 
             mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
             {
-                MustahsilMakbuzuId = "2",
+                AnaNesneId = "2",
                 BirimFiyat = (decimal) 0.1234,
                 Miktar = 1000,
                 NetTutar = 1234,
@@ -622,7 +622,7 @@ namespace QNBFinansGIB
 
             mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
             {
-                MustahsilMakbuzuId = "3",
+                AnaNesneId = "3",
                 BirimFiyat = (decimal) 0.124,
                 Miktar = 5000,
                 NetTutar = 6020,
@@ -635,7 +635,7 @@ namespace QNBFinansGIB
 
             mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
             {
-                MustahsilMakbuzuId = "1",
+                AnaNesneId = "1",
                 BirimFiyat = 500,
                 Miktar = 120,
                 NetTutar = 60000,
@@ -652,10 +652,10 @@ namespace QNBFinansGIB
 
             foreach (var item in mustahsilMakbuzuListesi)
             {
-                if (mustahsilMakbuzuDetayListesi.Any(j => j.MustahsilMakbuzuId == item.MustahsilMakbuzuId))
+                if (mustahsilMakbuzuDetayListesi.Any(j => j.AnaNesneId == item.Id))
                 {
                     var mustahsilMakbuzuDetayListesiTemp = mustahsilMakbuzuDetayListesi
-                        .Where(j => j.MustahsilMakbuzuId == item.MustahsilMakbuzuId).ToList();
+                        .Where(j => j.AnaNesneId == item.Id).ToList();
                     item.NetTutar = mustahsilMakbuzuDetayListesiTemp.Sum(j => j.NetTutar);
                     item.GelirVergisi = mustahsilMakbuzuDetayListesiTemp.Sum(j => j.GelirVergisi);
                     item.MustahsilMakbuzuTutari = item.NetTutar + item.GelirVergisi;
@@ -664,14 +664,14 @@ namespace QNBFinansGIB
                 {
                     mustahsilMakbuzuDetay = new MustahsilMakbuzuDetayDTO
                     {
-                        MustahsilMakbuzuId = item.MustahsilMakbuzuId,
+                        AnaNesneId = item.Id,
                         BirimFiyat = (decimal) 1.5,
                         Miktar = 1000,
                         NetTutar = 1500,
                         GelirVergisi = 0,
                         ToplamTutar = 1500,
                         GibKisaltma = "MTR",
-                        IsinMahiyeti = "Deneme " + item.MustahsilMakbuzuId
+                        IsinMahiyeti = "Deneme " + item.Id
                     };
                     item.NetTutar = mustahsilMakbuzuDetay.NetTutar;
                     item.GelirVergisi = mustahsilMakbuzuDetay.GelirVergisi;
@@ -828,7 +828,7 @@ namespace QNBFinansGIB
         {
             #region E-Fatura Mükelleflerinin Fatura Id Bilgilerinin Temini
 
-            var gidenFaturaIdListesi = (from item in gidenFaturaListesi where !string.IsNullOrEmpty(item.VergiNo) let eFaturaKullanicisiMi = DisServisler.EFaturaKullanicisiMi(item.VergiNo) where eFaturaKullanicisiMi select item.GidenFaturaId).ToList();
+            var gidenFaturaIdListesi = (from item in gidenFaturaListesi where !string.IsNullOrEmpty(item.VergiNo) let eFaturaKullanicisiMi = DisServisler.EFaturaKullanicisiMi(item.VergiNo) where eFaturaKullanicisiMi select item.Id).ToList();
 
             #endregion
 
@@ -867,15 +867,15 @@ namespace QNBFinansGIB
             {
                 var eFaturaKullanicisiMi = DisServisler.EFaturaKullanicisiMi(gidenFatura.VergiNo);
                 var sonuc = eFaturaKullanicisiMi
-                    ? DisServisler.EFaturaSilmeyeUygunMu(gidenFatura.GidenFaturaId)
-                    : DisServisler.EArsivSilmeyeUygunMu(gidenFatura.GidenFaturaId);
+                    ? DisServisler.EFaturaSilmeyeUygunMu(gidenFatura.Id)
+                    : DisServisler.EArsivSilmeyeUygunMu(gidenFatura.Id);
 
                 if (sonuc)
-                    MessageBox.Show(gidenFatura.GidenFaturaId + " yerel belge numaralı fatura silinebilir",
+                    MessageBox.Show(gidenFatura.Id + " yerel belge numaralı fatura silinebilir",
                         MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
                     MessageBox.Show(
-                        gidenFatura.GidenFaturaId +
+                        gidenFatura.Id +
                         " yerel belge numaralı fatura GİB servislerine gönderildiği, onaylandığı veya onay beklediği için silinemez",
                         MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1065,14 +1065,14 @@ namespace QNBFinansGIB
 
             if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
             {
-                var sonuc = DisServisler.EMustahsilSilmeyeUygunMu(mustahsilMakbuzu.MustahsilMakbuzuId);
+                var sonuc = DisServisler.EMustahsilSilmeyeUygunMu(mustahsilMakbuzu.Id);
 
                 if (sonuc)
-                    MessageBox.Show(mustahsilMakbuzu.MustahsilMakbuzuId + " yerel belge numaralı makbuz silinebilir",
+                    MessageBox.Show(mustahsilMakbuzu.Id + " yerel belge numaralı makbuz silinebilir",
                         MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
                     MessageBox.Show(
-                        mustahsilMakbuzu.MustahsilMakbuzuId +
+                        mustahsilMakbuzu.Id +
                         " yerel belge numaralı makbuz GİB servislerine gönderildiği, onaylandığı veya onay beklediği için silinemez",
                         MesajSabitler.MesajBasligi, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1229,9 +1229,9 @@ namespace QNBFinansGIB
             gidenFatura = gidenFaturaListesi[index];
             gidenFaturaDetayListesiTemp = new List<GidenFaturaDetayDTO>();
             var dto = gidenFatura;
-            if (gidenFaturaDetayListesi.Any(j => j.GidenFaturaId == dto.GidenFaturaId))
+            if (gidenFaturaDetayListesi.Any(j => j.AnaNesneId == dto.Id))
                 gidenFaturaDetayListesiTemp =
-                    gidenFaturaDetayListesi.Where(j => j.GidenFaturaId == dto.GidenFaturaId).ToList();
+                    gidenFaturaDetayListesi.Where(j => j.AnaNesneId == dto.Id).ToList();
         }
 
         /// <summary>
@@ -1249,9 +1249,9 @@ namespace QNBFinansGIB
             mustahsilMakbuzu = mustahsilMakbuzuListesi[index];
             mustahsilMakbuzuDetayListesiTemp = new List<MustahsilMakbuzuDetayDTO>();
             var dto = mustahsilMakbuzu;
-            if (mustahsilMakbuzuDetayListesi.Any(j => j.MustahsilMakbuzuId == dto.MustahsilMakbuzuId))
+            if (mustahsilMakbuzuDetayListesi.Any(j => j.AnaNesneId == dto.Id))
                 mustahsilMakbuzuDetayListesiTemp = mustahsilMakbuzuDetayListesi
-                    .Where(j => j.MustahsilMakbuzuId == dto.MustahsilMakbuzuId).ToList();
+                    .Where(j => j.AnaNesneId == dto.Id).ToList();
         }
 
         /// <summary>

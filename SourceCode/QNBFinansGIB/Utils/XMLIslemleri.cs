@@ -87,7 +87,7 @@ namespace QNBFinansGIB.Utils
 
             var additionalDocumentReference = doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
             var additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
+            additionalDocumentReferenceId.InnerText = gidenFatura.Id;
             additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
             var issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
             issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
@@ -139,7 +139,7 @@ namespace QNBFinansGIB.Utils
 
             additionalDocumentReference = doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
             additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
+            additionalDocumentReferenceId.InnerText = gidenFatura.Id;
             additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
             issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
             issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
@@ -623,7 +623,7 @@ namespace QNBFinansGIB.Utils
 
             doc.AppendChild(root);
 
-            return XMLDosyasiniKaydet(gidenFatura.GidenFaturaId, aktarilacakKlasorAdi, doc);
+            return XMLDosyasiniKaydet(gidenFatura.Id, aktarilacakKlasorAdi, doc);
         }
 
         /// <summary>
@@ -656,7 +656,7 @@ namespace QNBFinansGIB.Utils
             
             doc.AppendChild(root);
 
-            return XMLDosyasiniKaydet(gidenFatura.GidenFaturaId, aktarilacakKlasorAdi, doc);
+            return XMLDosyasiniKaydet(gidenFatura.Id, aktarilacakKlasorAdi, doc);
         }
         
         /// <summary>
@@ -748,8 +748,8 @@ namespace QNBFinansGIB.Utils
             root.AppendChild(copyIndicator);
 
             var mustahsilMakbuzuId = doc.CreateElement("cbc", "UUID", xmlnscbc.Value);
-            mustahsilMakbuzuId.InnerText = mustahsilMakbuzu.MustahsilMakbuzuId.Length == 36
-                ? mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper()
+            mustahsilMakbuzuId.InnerText = mustahsilMakbuzu.Id.Length == 36
+                ? mustahsilMakbuzu.Id.ToUpper()
                 : Guid.NewGuid().ToString().ToUpper();
             root.AppendChild(mustahsilMakbuzuId);
 
@@ -775,8 +775,8 @@ namespace QNBFinansGIB.Utils
 
             var additionalDocumentReference = doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
             var additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            additionalDocumentReferenceId.InnerText = mustahsilMakbuzu.MustahsilMakbuzuId.Length == 36
-                ? mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper()
+            additionalDocumentReferenceId.InnerText = mustahsilMakbuzu.Id.Length == 36
+                ? mustahsilMakbuzu.Id.ToUpper()
                 : Guid.NewGuid().ToString().ToUpper();
             additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
             issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
@@ -1271,7 +1271,7 @@ namespace QNBFinansGIB.Utils
 
             doc.AppendChild(root);
 
-            return XMLDosyasiniKaydet(mustahsilMakbuzu.MustahsilMakbuzuId, aktarilacakKlasorAdi, doc);
+            return XMLDosyasiniKaydet(mustahsilMakbuzu.Id, aktarilacakKlasorAdi, doc);
         }
 
         /// <summary>
@@ -1509,7 +1509,7 @@ namespace QNBFinansGIB.Utils
             // var additionalDocumentReference =
             //     doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
             // var additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            // additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
+            // additionalDocumentReferenceId.InnerText = gidenFatura.Id;
             // additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
             // issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
             // issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
@@ -1564,7 +1564,7 @@ namespace QNBFinansGIB.Utils
             //
             // additionalDocumentReference = doc.CreateElement("cac", "AdditionalDocumentReference", xmlnscac.Value);
             // additionalDocumentReferenceId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
-            // additionalDocumentReferenceId.InnerText = gidenFatura.GidenFaturaId;
+            // additionalDocumentReferenceId.InnerText = gidenFatura.Id;
             // additionalDocumentReference.AppendChild(additionalDocumentReferenceId);
             // issueDate = doc.CreateElement("cbc", "IssueDate", xmlnscbc.Value);
             // issueDate.InnerText = gidenFatura.IslemTarihi?.Date.ToString("yyyy-MM-dd") ?? string.Empty;
@@ -1747,8 +1747,8 @@ namespace QNBFinansGIB.Utils
             root.AppendChild(copyIndicator);
 
             var gidenFaturaId = doc.CreateElement("cbc", "UUID", xmlnscbc.Value);
-            gidenFaturaId.InnerText = gidenFatura.GidenFaturaId.Length == 36
-                ? gidenFatura.GidenFaturaId.ToUpper()
+            gidenFaturaId.InnerText = gidenFatura.Id.Length == 36
+                ? gidenFatura.Id.ToUpper()
                 : Guid.NewGuid().ToString().ToUpper();
             root.AppendChild(gidenFaturaId);
 

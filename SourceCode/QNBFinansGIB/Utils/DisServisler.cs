@@ -240,7 +240,7 @@ namespace QNBFinansGIB.Utils
                 {
                     vergiTcKimlikNo = "3250566851",
                     belgeTuru = "FATURA_UBL",
-                    belgeNo = gidenFatura.GidenFaturaId,
+                    belgeNo = gidenFatura.Id,
                     belgeVersiyon = "1.0",
                     veri = File.ReadAllBytes(dosyaAdi)
                 };
@@ -599,9 +599,9 @@ namespace QNBFinansGIB.Utils
             {
                 EArsivServisineBaglan();
 
-                var input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
-                //string inputKontrol = "{\"vkn\":\"3250566851\",\"donenBelgeFormati\":\"9\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\"";
-                var inputKontrol = "{\"faturaUuid\":\"" + gidenFatura.GidenFaturaId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
+                var input = "{\"islemId\":\"" + gidenFatura.Id + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
+                //string inputKontrol = "{\"vkn\":\"3250566851\",\"donenBelgeFormati\":\"9\",\"faturaUuid\":\"" + gidenFatura.Id + "\"";
+                var inputKontrol = "{\"faturaUuid\":\"" + gidenFatura.Id + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"9\"}";
 
                 var temp = EArsivFaturaSorgula(dosyaAdi, inputKontrol, out var belgeTemp, out var serviceResult);
 
@@ -644,7 +644,7 @@ namespace QNBFinansGIB.Utils
                 EArsivServisineBaglan();
 
                 // Burada VKN ve ERP Kodu önemlidir
-                var input = "{\"islemId\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"faturaUuid\":\"" + gidenFatura.GidenFaturaId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
+                var input = "{\"islemId\":\"" + gidenFatura.Id.ToUpper() + "\",\"faturaUuid\":\"" + gidenFatura.Id.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
 
                 var temp = EArsivFaturaSorgula(dosyaAdi, input, out var belgeTemp, out _);
                 if (temp != null)
@@ -752,8 +752,8 @@ namespace QNBFinansGIB.Utils
             {
                 EMustahsilServisineBaglan();
 
-                var input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
-                var inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
+                var input = "{\"islemId\":\"" + mustahsilMakbuzu.Id + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
+                var inputKontrol = "{\"islemId\":\"" + mustahsilMakbuzu.Id.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.Id.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\"}";
 
                 var belgeTemp = new GIBEMustahsil.belge
                 {
@@ -795,7 +795,7 @@ namespace QNBFinansGIB.Utils
                 EMustahsilServisineBaglan();
 
                 // Burada VKN ve ERP Kodu önemlidir
-                var input = "{\"islemId\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.MustahsilMakbuzuId.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
+                var input = "{\"islemId\":\"" + mustahsilMakbuzu.Id.ToUpper() + "\",\"uuid\":\"" + mustahsilMakbuzu.Id.ToUpper() + "\",\"vkn\":\"3250566851\",\"sube\":\"DFLT\",\"kasa\":\"DFLT\",\"erpKodu\":\"TSF30125\",\"donenBelgeFormati\":\"3\"}"; // Buradaki 3 PDF
 
                 var belgeTemp = new GIBEMustahsil.belge
                 {

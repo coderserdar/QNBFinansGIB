@@ -8,6 +8,11 @@
     public class OrtakDetayVerilerDTO
     {
         /// <summary>
+        /// Giden Fatura veya Müstahsil Makbuzu Id Bilgisi
+        /// </summary>
+        public string AnaNesneId;
+        
+        /// <summary>
         /// Birim Fiyat Bilgisi
         /// </summary>
         public decimal? BirimFiyat;

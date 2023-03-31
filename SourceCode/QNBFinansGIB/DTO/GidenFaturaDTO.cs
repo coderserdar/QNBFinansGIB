@@ -8,10 +8,10 @@ namespace QNBFinansGIB.DTO
     /// </summary>
     public class GidenFaturaDTO : OrtakVerilerDTO
     {
-        /// <summary>
-        /// Giden Fatura Id Bilgisi
-        /// </summary>
-        public string GidenFaturaId;
+        // /// <summary>
+        // /// Giden Fatura Id Bilgisi
+        // /// </summary>
+        // public string GidenFaturaId;
 
         /// <summary>
         /// Fatura Kesen Birimin Alt Şube Bilgisi

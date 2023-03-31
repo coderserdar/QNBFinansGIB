@@ -10,6 +10,11 @@ namespace QNBFinansGIB.DTO
     public class OrtakVerilerDTO
     {
         /// <summary>
+        /// Giden Fatura veya Müstahsil Makbuzu Id Bilgisi
+        /// </summary>
+        public string Id;
+        
+        /// <summary>
         /// Müstahsil Makbuzu veya Fatura Düzenleme Tarihi Bilgisi
         /// </summary>
         public DateTime? IslemTarihi;

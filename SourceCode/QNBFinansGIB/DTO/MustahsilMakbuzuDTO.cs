@@ -8,10 +8,10 @@ namespace QNBFinansGIB.DTO
     /// </summary>
     public class MustahsilMakbuzuDTO : OrtakVerilerDTO
     {
-        /// <summary>
-        /// Müstahsil Makbuzu Id Bilgisi
-        /// </summary>
-        public string MustahsilMakbuzuId;
+        // /// <summary>
+        // /// Müstahsil Makbuzu Id Bilgisi
+        // /// </summary>
+        // public string MustahsilMakbuzuId;
 
         /// <summary>
         /// Makbuz Kesen Birimin Alt Şube Bilgisi

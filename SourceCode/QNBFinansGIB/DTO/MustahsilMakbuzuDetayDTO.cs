@@ -6,10 +6,10 @@
     /// </summary>
     public class MustahsilMakbuzuDetayDTO : OrtakDetayVerilerDTO
     {
-        /// <summary>
-        /// Müstahsil Makbuzu Id Bilgisi
-        /// </summary>
-        public string MustahsilMakbuzuId;
+        // /// <summary>
+        // /// Müstahsil Makbuzu Id Bilgisi
+        // /// </summary>
+        // public string MustahsilMakbuzuId;
 
         /// <summary>
         /// İşin Mahiyeti Bilgisi
