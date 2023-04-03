@@ -470,36 +470,19 @@ namespace QNBFinansGIB.Utils
         /// <param name="root">XML Ana Eleman Bilgisi</param>
         private static void EMustahsilMakbuzKesilenFirmaBilgisiDuzenle(MustahsilMakbuzuDTO mustahsilMakbuzu, XmlDocument doc, XmlAttribute xmlnscac, XmlAttribute xmlnscbc, XmlElement root)
         {
-            XmlElement party;
-            XmlElement webSiteUri;
-            XmlElement partyIdentification;
-            XmlElement postalAddress;
-            XmlElement postalAddressId;
-            XmlElement streetName;
-            XmlElement buildingNumber;
-            XmlElement citySubdivisionName;
-            XmlElement cityName;
-            XmlElement postalZone;
-            XmlElement country;
-            XmlElement countryName;
-            XmlElement partyTaxScheme;
-            XmlElement taxScheme;
-            XmlElement taxSchemeName;
-            XmlElement contact;
-            XmlElement electronicMail;
             // Bu kısımda makbuz kesilen firma bilgileri yer almaktadır
 
             #region AccountingCustomerParty
 
             var accountingCustomerParty = doc.CreateElement("cac", "AccountingCustomerParty", xmlnscac.Value);
-            party = doc.CreateElement("cac", "Party", xmlnscac.Value);
-            webSiteUri = doc.CreateElement("cbc", "WebsiteURI", xmlnscbc.Value);
+            var party = doc.CreateElement("cac", "Party", xmlnscac.Value);
+            var webSiteUri = doc.CreateElement("cbc", "WebsiteURI", xmlnscbc.Value);
             party.AppendChild(webSiteUri);
             var accountingCustomerPartyIdAttr = doc.CreateAttribute("schemeID");
             accountingCustomerPartyIdAttr.Value = "TCKN";
             if (mustahsilMakbuzu.VergiNo.Length == 10)
                 accountingCustomerPartyIdAttr.Value = "VKN";
-            partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
+            var partyIdentification = doc.CreateElement("cac", "PartyIdentification", xmlnscac.Value);
             var accountingCustomerPartyPartyId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
             accountingCustomerPartyPartyId.Attributes.Append(accountingCustomerPartyIdAttr);
             accountingCustomerPartyPartyId.InnerText = mustahsilMakbuzu.VergiNo;
@@ -517,32 +500,32 @@ namespace QNBFinansGIB.Utils
 
             #region Postal Address
 
-            postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
-            postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
+            var postalAddress = doc.CreateElement("cac", "PostalAddress", xmlnscac.Value);
+            var postalAddressId = doc.CreateElement("cbc", "ID", xmlnscbc.Value);
             postalAddressId.InnerText = mustahsilMakbuzu.VergiNo;
             postalAddress.AppendChild(postalAddressId);
             var room = doc.CreateElement("cbc", "Room", xmlnscbc.Value);
             postalAddress.AppendChild(room);
-            streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
+            var streetName = doc.CreateElement("cbc", "StreetName", xmlnscbc.Value);
             if (!string.IsNullOrEmpty(mustahsilMakbuzu.Adres))
                 streetName.InnerText = mustahsilMakbuzu.Adres;
             postalAddress.AppendChild(streetName);
-            buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
+            var buildingNumber = doc.CreateElement("cbc", "BuildingNumber", xmlnscbc.Value);
             //buildingNumber.InnerText = "";
             postalAddress.AppendChild(buildingNumber);
-            citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
+            var citySubdivisionName = doc.CreateElement("cbc", "CitySubdivisionName", xmlnscbc.Value);
             if (!string.IsNullOrEmpty(mustahsilMakbuzu.IlceAd))
                 citySubdivisionName.InnerText = mustahsilMakbuzu.IlceAd;
             postalAddress.AppendChild(citySubdivisionName);
-            cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
+            var cityName = doc.CreateElement("cbc", "CityName", xmlnscbc.Value);
             if (!string.IsNullOrEmpty(mustahsilMakbuzu.IlAd))
                 cityName.InnerText = mustahsilMakbuzu.IlAd;
             postalAddress.AppendChild(cityName);
-            postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
+            var postalZone = doc.CreateElement("cbc", "PostalZone", xmlnscbc.Value);
             //postalZone.InnerText = "";
             postalAddress.AppendChild(postalZone);
-            country = doc.CreateElement("cac", "Country", xmlnscac.Value);
-            countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+            var country = doc.CreateElement("cac", "Country", xmlnscac.Value);
+            var countryName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
             countryName.InnerText = "Türkiye";
             country.AppendChild(countryName);
             postalAddress.AppendChild(country);
@@ -550,17 +533,17 @@ namespace QNBFinansGIB.Utils
 
             #endregion
 
-            partyTaxScheme = doc.CreateElement("cac", "PartyTaxScheme", xmlnscac.Value);
-            taxScheme = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
-            taxSchemeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
+            var partyTaxScheme = doc.CreateElement("cac", "PartyTaxScheme", xmlnscac.Value);
+            var taxScheme = doc.CreateElement("cac", "TaxScheme", xmlnscac.Value);
+            var taxSchemeName = doc.CreateElement("cbc", "Name", xmlnscbc.Value);
             if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiDairesi))
                 taxSchemeName.InnerText = mustahsilMakbuzu.VergiDairesi;
             taxScheme.AppendChild(taxSchemeName);
             partyTaxScheme.AppendChild(taxScheme);
             party.AppendChild(partyTaxScheme);
 
-            contact = doc.CreateElement("cac", "Contact", xmlnscac.Value);
-            electronicMail = doc.CreateElement("cbc", "ElectronicMail", xmlnscbc.Value);
+            var contact = doc.CreateElement("cac", "Contact", xmlnscac.Value);
+            var electronicMail = doc.CreateElement("cbc", "ElectronicMail", xmlnscbc.Value);
             if (!string.IsNullOrEmpty(mustahsilMakbuzu.EPostaAdresi))
                 electronicMail.InnerText = mustahsilMakbuzu.EPostaAdresi;
             contact.AppendChild(electronicMail);
@@ -605,23 +588,19 @@ namespace QNBFinansGIB.Utils
         /// <param name="root">XML Ana Eleman Bilgisi</param>
         private static void EMustahsilMakbuzKesilenKisiBilgisiDuzenle(MustahsilMakbuzuDTO mustahsilMakbuzu, XmlDocument doc, XmlAttribute xmlnscac, XmlAttribute xmlnscbc, XmlElement root)
         {
-            if (!string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo))
+            if (string.IsNullOrEmpty(mustahsilMakbuzu.VergiNo)) return;
+            if (mustahsilMakbuzu.VergiNo.Length != 10) return;
+            var ortakVeriler = new OrtakVerilerDTO
             {
-                if (mustahsilMakbuzu.VergiNo.Length == 10)
-                {
-                    var ortakVeriler = new OrtakVerilerDTO
-                    {
-                        Adres = mustahsilMakbuzu.Adres,
-                        IlAd = mustahsilMakbuzu.IlAd,
-                        IlceAd = mustahsilMakbuzu.IlceAd,
-                        VergiDairesi = mustahsilMakbuzu.VergiDairesi,
-                        VergiNo = mustahsilMakbuzu.VergiNo,
-                        EPostaAdresi = mustahsilMakbuzu.EPostaAdresi,
-                        TuzelKisiAd = mustahsilMakbuzu.TuzelKisiAd
-                    };
-                    FaturaMakbuzKesilenKisiBilgisiDuzenle(ortakVeriler, doc, xmlnscac, xmlnscbc, root);
-                }
-            }
+                Adres = mustahsilMakbuzu.Adres,
+                IlAd = mustahsilMakbuzu.IlAd,
+                IlceAd = mustahsilMakbuzu.IlceAd,
+                VergiDairesi = mustahsilMakbuzu.VergiDairesi,
+                VergiNo = mustahsilMakbuzu.VergiNo,
+                EPostaAdresi = mustahsilMakbuzu.EPostaAdresi,
+                TuzelKisiAd = mustahsilMakbuzu.TuzelKisiAd
+            };
+            FaturaMakbuzKesilenKisiBilgisiDuzenle(ortakVeriler, doc, xmlnscac, xmlnscbc, root);
         }
         
         /// <summary>
