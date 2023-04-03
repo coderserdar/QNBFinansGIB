@@ -1039,23 +1039,19 @@ namespace QNBFinansGIB.Utils
         /// <param name="root">XML Ana Eleman Bilgisi</param>
         private static void FaturaKesilenKisiBilgisiDuzenle(GidenFaturaDTO gidenFatura, XmlDocument doc, XmlAttribute xmlnscac, XmlAttribute xmlnscbc, XmlElement root)
         {
-            if (!string.IsNullOrEmpty(gidenFatura.VergiNo))
+            if (string.IsNullOrEmpty(gidenFatura.VergiNo)) return;
+            if (gidenFatura.VergiNo.Length != 10) return;
+            var ortakVeriler = new OrtakVerilerDTO
             {
-                if (gidenFatura.VergiNo.Length == 10)
-                {
-                    var ortakVeriler = new OrtakVerilerDTO
-                    {
-                        Adres = gidenFatura.Adres,
-                        IlAd = gidenFatura.IlAd,
-                        IlceAd = gidenFatura.IlceAd,
-                        VergiDairesi = gidenFatura.VergiDairesi,
-                        VergiNo = gidenFatura.VergiNo,
-                        EPostaAdresi = gidenFatura.EPostaAdresi,
-                        TuzelKisiAd = gidenFatura.TuzelKisiAd
-                    };
-                    FaturaMakbuzKesilenKisiBilgisiDuzenle(ortakVeriler, doc, xmlnscac, xmlnscbc, root);
-                }
-            }
+                Adres = gidenFatura.Adres,
+                IlAd = gidenFatura.IlAd,
+                IlceAd = gidenFatura.IlceAd,
+                VergiDairesi = gidenFatura.VergiDairesi,
+                VergiNo = gidenFatura.VergiNo,
+                EPostaAdresi = gidenFatura.EPostaAdresi,
+                TuzelKisiAd = gidenFatura.TuzelKisiAd
+            };
+            FaturaMakbuzKesilenKisiBilgisiDuzenle(ortakVeriler, doc, xmlnscac, xmlnscbc, root);
         }
         
         /// <summary>
