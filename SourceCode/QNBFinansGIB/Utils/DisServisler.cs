@@ -105,9 +105,10 @@ namespace QNBFinansGIB.Utils
                 {
                     var sb = new StringBuilder();
                     TarihBilgisiDuzenle(item, sb);
-                    if (sb.ToString().Length > 0)
-                        vergiKimlikNoListesi.Add(item.vergiTcKimlikNo + " - " + item.unvan + " - Kayıt Zamanı: " + sb);
-                    // vergiKimlikNoListesi.Add(item.vergiTcKimlikNo + " - " + item.unvan + " - " + item.kayitZamani);
+                    if (sb.ToString().Length <= 0) continue;
+                    var eklenecekKayit = item.vergiTcKimlikNo + " - " + item.unvan + " - Kayıt Zamanı: " + sb;
+                    if (vergiKimlikNoListesi.All(j => j != eklenecekKayit))
+                        vergiKimlikNoListesi.Add(eklenecekKayit);
                 }
 
                 return vergiKimlikNoListesi;
